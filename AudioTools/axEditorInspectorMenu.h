@@ -16,19 +16,6 @@ namespace editor {
 		
 		void OnPaint(ax::GC gc);
 	};
-	
-	class MenuAttribute : public ax::Window::Backbone {
-	public:
-		MenuAttribute(const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct);
-		
-	private:
-		std::string _name;
-		std::string _value;
-		ax::Font _font;
-		
-		void OnPaint(ax::GC gc);
-	};
-
 
 	class InspectorMenu : public ax::Window::Backbone {
 	public:
@@ -40,8 +27,6 @@ namespace editor {
 	private:
 		ax::Window* _selected_handle;
 		ax::Font _font;
-		ax::StringVector _info_txt;
-		ax::StringPairVector _info_pair_txt;
 	
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnPyoCallback);
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnWidgetUpdate);

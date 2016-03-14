@@ -33,7 +33,7 @@ namespace editor {
 	public:
 		Loader(ax::Window* win);
 		
-		void OpenLayout(const std::string& path, bool clear = false);
+		std::string OpenLayout(const std::string& path, bool clear = false);
 
 		void SetupExistingWidget(ax::Window* widget, const std::string& builder_name, const std::string& pyo_fct = "");
 		

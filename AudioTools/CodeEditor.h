@@ -14,6 +14,12 @@
 class CodeEditor : public ax::Window::Backbone {
 public:
 	CodeEditor(const ax::Rect& rect);
+	
+	bool OpenFile(const std::string& path);
+	void SaveFile(const std::string& path);
+
+	
+	std::string GetScriptPath() const;
 
 private:
 	const int TOP_BAR_HEIGHT = 20;

@@ -17,12 +17,12 @@ namespace editor {
 	{
 	}
 
-	void Loader::OpenLayout(const std::string& path, bool clear)
+	std::string Loader::OpenLayout(const std::string& path, bool clear)
 	{
 		ax::Print("LAYEOUT :", path);
 
 		if (path.empty()) {
-			return;
+			return "";
 		}
 
 		if (clear) {
@@ -33,20 +33,20 @@ namespace editor {
 
 		if (!xml.Parse()) {
 			ax::Error("parsing widget menu.");
-			return;
+			return "";
 		}
 
 		ax::Xml::Node top_node = xml.GetNode("Layout");
 
 		if (!top_node.IsValid()) {
 			ax::Error("Loader not layout node.");
-			return;
+			return "";
 		}
 
+		std::string script_path;
+		
 		try {
-			std::string color_str = top_node.GetAttribute("bg_color");
-			ax::Color color = ax::Xml::StringToColor(color_str);
-			ax::Print("Layout color :", color_str);
+			script_path = top_node.GetAttribute("script");
 		}
 		catch (ax::Xml::Exception& err) {
 			//						ax::Error("No pyo node.", err.what());
@@ -105,6 +105,8 @@ namespace editor {
 		catch (ax::Xml::Exception& err) {
 			ax::Error("Widget menu xml", err.what());
 		}
+		
+		return script_path;
 	}
 
 	void Loader::SetupExistingWidget(
@@ -259,13 +261,43 @@ namespace editor {
 		});
 
 		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([win, m_right_down](const ax::Point& pos) {
+			if(ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+				win->Hide();
+				ax::Window* parent = win->node.GetParent();
+				
+				if (parent == nullptr) {
+					return;
+				}
+				
+					auto& children = parent->node.GetChildren();
+					ax::Window::Ptr current_win;
+				
+					int index = -1;
+					for (int i = 0; i < children.size(); i++) {
+						if (children[i]->GetId() == win->GetId()) {
+							current_win = children[i];
+							index = i;
+							break;
+						}
+					}
+				
+					if(current_win && index != -1) {
+						win->event.UnGrabMouse();
+						ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
+						children.erase(children.begin() + index);
+					}
+				
+				
+					return;
+				}
+			
 			ax::Print("RIGHT DOWN");
 			//				if (win->event.IsGrabbed()) {
 			//					win->event.UnGrabMouse();
 			//				}
 			//
-			win->Hide();
-			win->DeleteWindow();
+			
+//			win->DeleteWindow();
 
 			if (m_right_down) {
 				m_right_down(pos);
@@ -292,6 +324,8 @@ namespace editor {
 				gc.DrawRectangleContour(rect.GetInteriorRect(ax::Point(2, 2)));
 			}
 		});
+		
+		
 	}
 
 	void Loader::SetupPyoComponent(ax::Window* win, const std::string& fct_name)

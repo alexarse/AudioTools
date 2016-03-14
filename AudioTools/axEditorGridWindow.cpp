@@ -73,13 +73,14 @@ namespace editor {
 		return nullptr;
 	}
 
-	void GridWindow::SaveLayout(const std::string& path)
+	void GridWindow::SaveLayout(const std::string& path, const std::string& script_path)
 	{
 		std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
 
 		Xml xml;
 		Xml::Node layout = xml.CreateNode("Layout");
 		xml.AddMainNode(layout);
+		layout.AddAttribute("script", script_path);
 
 		ax::Print("Childen size :", children.size());
 
@@ -136,10 +137,10 @@ namespace editor {
 		xml.Save(path);
 	}
 
-	void GridWindow::OpenLayout(const std::string& path)
+	std::string GridWindow::OpenLayout(const std::string& path)
 	{
 		ax::editor::Loader loader(win);
-		loader.OpenLayout(path, true);
+		return loader.OpenLayout(path, true);
 	}
 
 	void GridWindow::SetBackgroundColor(const ax::Color& color)

@@ -48,6 +48,7 @@ public:
 	std::string GetFilePath() const;
 	
 	void SaveFile(const std::string& path);
+	void SaveCurrentFile();
 	
 	bool OpenFile(const std::string& path);
 

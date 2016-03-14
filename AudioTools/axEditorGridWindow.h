@@ -22,9 +22,9 @@ namespace editor {
 		/// Set number of pixels between each grid lines.
 		void SetGridSpace(const int& space);
 
-		void SaveLayout(const std::string& path);
+		void SaveLayout(const std::string& path, const std::string& script_path);
 
-		void OpenLayout(const std::string& path);
+		std::string OpenLayout(const std::string& path);
 		
 		void SetBackgroundColor(const ax::Color& color);
 		

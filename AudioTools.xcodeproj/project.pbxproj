@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C055FAB1C947DA8004527C3 /* atMenuAttribute.cpp */; };
 		7CF1D8341C9207DE00AAAC01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */; };
 		7CF1D83F1C9207F400AAAC01 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CF1D83E1C9207F400AAAC01 /* MainMenu.xib */; };
 		7CF1D84D1C9208A500AAAC01 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8451C9208A500AAAC01 /* Python.framework */; };
@@ -119,6 +120,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C055FAB1C947DA8004527C3 /* atMenuAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuAttribute.cpp; sourceTree = "<group>"; };
+		7C055FAC1C947DA8004527C3 /* atMenuAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atMenuAttribute.h; sourceTree = "<group>"; };
 		7CF1D82A1C9207DD00AAAC01 /* AudioTools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioTools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CF1D8381C9207DE00AAAC01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -362,6 +365,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C055FAA1C947D78004527C3 /* InspectorMenu */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1D8721C921DCC00AAAC01 /* axEditorInspectorMenu.h */,
+				7CF1D8851C921DDF00AAAC01 /* axEditorInspectorMenu.cpp */,
+				7C055FAB1C947DA8004527C3 /* atMenuAttribute.cpp */,
+				7C055FAC1C947DA8004527C3 /* atMenuAttribute.h */,
+			);
+			name = InspectorMenu;
+			sourceTree = "<group>";
+		};
 		7CF1D8211C9207DD00AAAC01 = {
 			isa = PBXGroup;
 			children = (
@@ -394,9 +408,10 @@
 		7CF1D82C1C9207DD00AAAC01 /* AudioTools */ = {
 			isa = PBXGroup;
 			children = (
+				7C055FAA1C947D78004527C3 /* InspectorMenu */,
 				7CF1D9CF1C938FC400AAAC01 /* pyo */,
 				7CF1D9CE1C938C5700AAAC01 /* old */,
-				7CF1D8DB1C93801B00AAAC01 /* TextEditor */,
+				7CF1D8DB1C93801B00AAAC01 /* CodeEditor */,
 				7CF1D8AC1C921DF800AAAC01 /* main.cpp */,
 				7CF1D9D01C944C8500AAAC01 /* atCommon.h */,
 				7CF1D86E1C921DBB00AAAC01 /* include */,
@@ -413,7 +428,6 @@
 			children = (
 				7CF1D8701C921DCC00AAAC01 /* axEditor.h */,
 				7CF1D8711C921DCC00AAAC01 /* axEditorGridWindow.h */,
-				7CF1D8721C921DCC00AAAC01 /* axEditorInspectorMenu.h */,
 				7CF1D8731C921DCC00AAAC01 /* axEditorLoader.h */,
 				7CF1D8741C921DCC00AAAC01 /* axEditorMainWindow.h */,
 				7CF1D8751C921DCC00AAAC01 /* axEditorStatusBar.h */,
@@ -431,7 +445,6 @@
 				7CF1D8821C921DDF00AAAC01 /* axEditor.cpp */,
 				7CF1D8831C921DDF00AAAC01 /* axEditorAttributes.cpp */,
 				7CF1D8841C921DDF00AAAC01 /* axEditorGridWindow.cpp */,
-				7CF1D8851C921DDF00AAAC01 /* axEditorInspectorMenu.cpp */,
 				7CF1D8861C921DDF00AAAC01 /* axEditorLoader.cpp */,
 				7CF1D8871C921DDF00AAAC01 /* axEditorMainWindow.cpp */,
 				7CF1D8881C921DDF00AAAC01 /* axEditorSelector.cpp */,
@@ -445,7 +458,7 @@
 			name = source;
 			sourceTree = "<group>";
 		};
-		7CF1D8DB1C93801B00AAAC01 /* TextEditor */ = {
+		7CF1D8DB1C93801B00AAAC01 /* CodeEditor */ = {
 			isa = PBXGroup;
 			children = (
 				7CF1D8801C921DCC00AAAC01 /* TextEditor.h */,
@@ -455,7 +468,7 @@
 				7CF1D8961C921DDF00AAAC01 /* TextEditorLogic.cpp */,
 				7CF1D8771C921DCC00AAAC01 /* CodeEditor.h */,
 			);
-			name = TextEditor;
+			name = CodeEditor;
 			sourceTree = "<group>";
 		};
 		7CF1D8DC1C93807D00AAAC01 /* axFrameworks */ = {
@@ -793,6 +806,7 @@
 			files = (
 				7CF1D8B61C921DF800AAAC01 /* Pyo.cpp in Sources */,
 				7CF1D96E1C93816300AAAC01 /* axVar.cpp in Sources */,
+				7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */,
 				7CF1D96D1C93816300AAAC01 /* axString.cpp in Sources */,
 				7CF1D9C11C93819500AAAC01 /* axKeyboardManager.cpp in Sources */,
 				7CF1D9CD1C9381A900AAAC01 /* axXml.cpp in Sources */,

@@ -25,7 +25,6 @@ CodeEditor::CodeEditor(const ax::Rect& rect)
 	
 	_txt_editor->OpenFile("scripts/simple_saw.py");
 	_file_path = _txt_editor->GetFilePath();
-//	"scripts/simple_saw.py"
 
 	ax::Button::Info btn_info;
 	btn_info.normal = ax::Color(0.0, 0.0);
@@ -41,6 +40,24 @@ CodeEditor::CodeEditor(const ax::Rect& rect)
 			ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
 	_save_btn = save_btn.get();
 	win->node.Add(save_btn);
+}
+
+bool CodeEditor::OpenFile(const std::string& path)
+{
+	bool err = _txt_editor->OpenFile(path);
+	_file_path = path;
+	win->Update();
+	return err;
+}
+
+void CodeEditor::SaveFile(const std::string& path)
+{
+	_txt_editor->SaveFile(path);
+}
+
+std::string CodeEditor::GetScriptPath() const
+{
+	return _file_path;
 }
 
 void CodeEditor::OnSaveButton(const ax::Button::Msg& msg)
@@ -62,11 +79,11 @@ void CodeEditor::OnPaint(ax::GC gc)
 	gc.DrawRectangle(rect);
 
 	ax::Rect top_bar_rect(0, 0, rect.size.x, TOP_BAR_HEIGHT);
-	gc.SetColor(ax::Color(180, 180, 180));
+	gc.SetColor(ax::Color(0.45));
 	gc.DrawRectangle(top_bar_rect);
 	gc.DrawRectangleContour(top_bar_rect);
 	gc.DrawRectangleContour(rect);
 	
-	gc.SetColor(ax::Color(0.0));
+	gc.SetColor(ax::Color(1.0));
 	gc.DrawString(_font, _file_path, ax::Point(5, 2));
 }

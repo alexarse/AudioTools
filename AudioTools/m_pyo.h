@@ -264,14 +264,19 @@ inline int pyo_is_server_started(PyThreadState *interp) {
 inline int pyo_exec_file(PyThreadState *interp, const char *file, char *msg, int add) {
     int err = 0;
     PyEval_AcquireThread(interp);
-    sprintf(msg, "import os\n_ok_ = os.path.isfile('./%s')", file);
+	
+	sprintf(msg, "import os\n_ok_ = os.path.isfile('./%s')", file);
     PyRun_SimpleString(msg);
-    sprintf(msg, "if not _ok_:\n    _ok_ = os.path.isfile('%s')", file);
+	
+	sprintf(msg, "if not _ok_:\n    _ok_ = os.path.isfile('%s')", file);
     PyRun_SimpleString(msg);
+	
 	PyObject* module = PyImport_AddModule("__main__");
     PyObject* obj = PyObject_GetAttrString(module, "_ok_");
-    int ok = (int)PyInt_AsLong(obj);
-    if (ok) {
+	
+	int ok = (int) PyInt_AsLong(obj);
+	
+	if (ok) {
         sprintf(msg, "try:\n    execfile('./%s')\nexcept:\n    execfile('%s')",
                 file, file);
         if (!add) {
@@ -280,8 +285,10 @@ inline int pyo_exec_file(PyThreadState *interp, const char *file, char *msg, int
         }
         PyRun_SimpleString(msg);
     }
-    else
+    else {
         err = 1;
+	}
+	
     PyEval_ReleaseThread(interp);
     return err;
 }

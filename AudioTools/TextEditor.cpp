@@ -118,6 +118,11 @@ void TextEditor::SaveFile(const std::string& path)
 	_logic.SaveFile(path);
 }
 
+void TextEditor::SaveCurrentFile()
+{
+	_logic.SaveFile(_logic.GetFilePath());
+}
+
 bool TextEditor::OpenFile(const std::string& path)
 {
 	bool err = _logic.OpenFile(path);
@@ -127,6 +132,8 @@ bool TextEditor::OpenFile(const std::string& path)
 	// Scrollbar is use without window handle, it behave just like a slider.
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
 	_scrollBar->UpdateWindowSize(ax::Size(rect.size.x, h_size));
+	win->Update();
+	_scrollPanel->Update();
 	
 	return err;
 }

@@ -42,6 +42,7 @@ private:
 	//	std::shared_ptr<StatusBar> _statusBar;
 	static const int STATUS_BAR_HEIGHT = 30;
 	static const int INSPECTOR_MENU_WIDTH = 250;
+	static const int WIDGET_MENU_DROPPED_WIDTH = 85;
 	static const int WIDGET_MENU_WIDTH = 250;
 	static const int BOTTOM_BAR_HEIGHT = 18;
 	
@@ -71,6 +72,7 @@ private:
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveLayout);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenLayout);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnViewLayout);
+	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
 	axEVENT_DECLARATION(ax::Button::Msg, OnBackToEditor);
 	
 	axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleLeftPanel);
@@ -83,6 +85,8 @@ private:
 	
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::Window*>, OnSelectWidget);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnUnSelectAllWidget);
+	
+	axEVENT_DECLARATION(ax::Button::Msg, OnSmallerLeftMenu);
 	
 	void OnCreateDraggingWidget(const ax::Event::SimpleMsg<ObjMsg>& msg);
 	void OnDraggingWidget(const ax::Event::SimpleMsg<ax::Point>& msg);

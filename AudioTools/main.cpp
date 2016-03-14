@@ -9,52 +9,60 @@
 #include "axTextBox.h"
 
 //#include "axScript.h"
-#include "axMidiCore.h"
-
-#include "PyoAudio.h"
+//#include "axMidiCore.h"
+//
+//#include "PyoAudio.h"
 #include "axEditor.h"
 
-class Midi : public ax::midi::Core {
-public:
-	Midi(PyoAudio* audio)
-		: _audio(audio)
-	{
-		
-	}
-	
-	virtual void OnMidiNoteOn(const ax::midi::Note& msg)
-	{
-		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
-		ax::Print("ON", msg.GetNote(), msg.GetVelocity());
-	}
-	
-	virtual void OnMidiNoteOff(const ax::midi::Note& msg)
-	{
-		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
-		ax::Print("OFF", msg.GetNote(), msg.GetVelocity());
-	}
-	
-private:
-	PyoAudio* _audio;
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 
-};
+//class Midi : public ax::midi::Core {
+//public:
+//	Midi(PyoAudio* audio)
+//		: _audio(audio)
+//	{
+//		
+//	}
+//	
+//	virtual void OnMidiNoteOn(const ax::midi::Note& msg)
+//	{
+//		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
+//		ax::Print("ON", msg.GetNote(), msg.GetVelocity());
+//	}
+//	
+//	virtual void OnMidiNoteOff(const ax::midi::Note& msg)
+//	{
+//		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
+//		ax::Print("OFF", msg.GetNote(), msg.GetVelocity());
+//	}
+//	
+//private:
+//	PyoAudio* _audio;
+//
+//};
 
 int main()
 {
-	char cwd[1024];
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		fprintf(stdout, "Current working dir: %s\n", cwd);
-	else
-		perror("getcwd() error");
+//	struct passwd *pw = getpwuid(getuid());
+//	const char* homedir = pw->pw_dir;
+//	ax::Print("Home dir :", homedir);
+//	
+//	std::string path(homedir + std::string("/Library/Application Support/AudioTools"));
+//	
+//	if(chdir(path.c_str()) == -1) {
+//		ax::Error("Could not set current directory : ", path, ".");
+//	}
 	
-	PyoAudio* audio = PyoAudio::GetInstance();
-	audio->InitAudio();
-	audio->StartAudio();
 	
-	Midi* midi = new Midi(audio);
 	
 	ax::editor::App* app = ax::editor::App::Create();
-	ax::Print(ax::App::GetInstance().GetAppDirectory());
+//	PyoAudio* audio = PyoAudio::GetInstance();
+//	audio->InitAudio();
+//	audio->StartAudio();
+//	
+//	Midi* midi = new Midi(audio);
 	return app->MainLoop();
 
 	//	ax::App& app(ax::App::GetInstance());

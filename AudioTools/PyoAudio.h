@@ -25,6 +25,8 @@ public:
 		pyo_add_midi_event(_pyo, status, byte1, byte2);
 	}
 	
+	void ReloadScript(const std::string& path);
+	
 protected:
 	static PyoAudio* _global_audio;
 
@@ -32,6 +34,8 @@ protected:
 
 	virtual int CoreCallbackAudio(
 		const float* input, float* output, unsigned long frameCount);
+	
+	void CreateServer(float sr, int bufsize, int chnls);
 
 private:
 	PyThreadState* _pyo;

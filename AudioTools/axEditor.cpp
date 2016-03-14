@@ -4,6 +4,39 @@
 #include "atCommon.h"
 //#include "mdiApplicationManager.hpp"
 #include <unistd.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+
+
+#include "axMidiCore.h"
+#include "PyoAudio.h"
+
+class Midi : public ax::midi::Core {
+public:
+	Midi(PyoAudio* audio)
+	: _audio(audio)
+	{
+		
+	}
+	
+	virtual void OnMidiNoteOn(const ax::midi::Note& msg)
+	{
+		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
+		ax::Print("ON", msg.GetNote(), msg.GetVelocity());
+	}
+	
+	virtual void OnMidiNoteOff(const ax::midi::Note& msg)
+	{
+		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
+		ax::Print("OFF", msg.GetNote(), msg.GetVelocity());
+	}
+	
+private:
+	PyoAudio* _audio;
+	
+};
+
 namespace ax {
 namespace editor {
 	std::unique_ptr<App> App::_instance = nullptr;
@@ -51,11 +84,22 @@ namespace editor {
 
 		ax::Print("User name :", usr_name);
 
-		std::string path(std::string("/Users/") + usr_name + std::string("/Library/Application Support/AudioTools"));
+		struct passwd *pw = getpwuid(getuid());
+		const char* homedir = pw->pw_dir;
+		ax::Print("Home dir :", homedir);
+		
+		std::string path(homedir + std::string("/Library/Application Support/AudioTools"));
 
 		if(chdir(path.c_str()) == -1) {
-			ax::Error("Could not set current directory.");
+			ax::Error("Could not set current directory : ", path, ".");
 		}
+		
+		
+		PyoAudio* audio = PyoAudio::GetInstance();
+		audio->InitAudio();
+		audio->StartAudio();
+		
+		Midi* midi = new Midi(audio);
 		
 		ax::App::GetInstance().MainLoop();
 		return 0;

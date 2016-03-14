@@ -29,6 +29,8 @@
 
 #include "atCommon.h"
 
+#include "PyoAudio.h"
+
 namespace ax {
 namespace editor {
 	MainWindow::MainWindow(const ax::Rect& rect)
@@ -43,10 +45,14 @@ namespace editor {
 		ax::Rect top_menu_rect(0, 0, rect.size.x, 30);
 		_statusBar = new StatusBar(top_menu_rect);
 		win->node.Add(std::shared_ptr<ax::Window::Backbone>(_statusBar));
+		
+		_statusBar->SetLayoutFilePath("default.xml");
+		
 
 		ax::Window* sb_win = _statusBar->GetWindow();
 		sb_win->AddConnection(StatusBar::SAVE_LAYOUT, GetOnSaveLayout());
 		sb_win->AddConnection(StatusBar::OPEN_LAYOUT, GetOnOpenLayout());
+		sb_win->AddConnection(StatusBar::RELOAD_SCRIPT, GetOnReloadScript());
 
 		sb_win->AddConnection(StatusBar::TOGGLE_LEFT_PANEL, GetOnToggleLeftPanel());
 		sb_win->AddConnection(StatusBar::TOGGLE_BOTTOM_PANEL, GetOnToggleBottomPanel());
@@ -54,10 +60,12 @@ namespace editor {
 
 		sb_win->AddConnection(StatusBar::VIEW_LAYOUT, GetOnViewLayout());
 
-		// Create widget menu.
+		// Create widget menu. // 75
 		ax::Rect widget_menu_rect(0, 30, WIDGET_MENU_WIDTH, rect.size.y - 30 - 18);
 		_widgetMenu = ax::shared<WidgetMenu>(widget_menu_rect);
 		win->node.Add(_widgetMenu);
+
+		_widgetMenu->GetWindow()->AddConnection(WidgetMenu::SMALLER_MENU, GetOnSmallerLeftMenu());
 
 		// Create info menu.
 		ax::Rect info_rect(
@@ -100,30 +108,12 @@ namespace editor {
 														n->Update();
 													}
 												}));
+	}
 
-		//		win->event.OnGlobalClick =
-		//		ax::WFunc<ax::Window::Event::GlobalClick>(
-		//					[win](const ax::Window::Event::GlobalClick& msg) {
-		//						using GClick = ax::Window::Event::GlobalClick;
-		//
-		//						if (msg.type == GClick::RIGHT_CLICK_DOWN
-		//							|| msg.type == GClick::LEFT_CLICK_DOWN) {
-		//
-		//							ax::App& app = ax::App::GetInstance();
-		//							auto man = app.GetWindowManager();
-		//							auto popup = app.GetPopupManager();
-		//							auto menu =
-		// popup->GetWindowTree()->GetTopLevel();
-		//
-		//							man->RemoveGlobalClickListener(win.get());
-		//							menu->backbone = nullptr;
-		//
-		//							popup->GetWindowTree()->GetNodeVector().clear();
-		//							popup->SetPastWindow(nullptr);
-		//
-		//							win->Update();
-		//						}
-		//					});
+	void MainWindow::OnSmallerLeftMenu(const ax::Button::Msg& msg)
+	{
+		ax::Print("OnSmallerLeftMenu");
+		win->event.OnResize(win->dimension.GetSize());
 	}
 
 	void MainWindow::OnSelectWidget(const ax::Event::SimpleMsg<ax::Window*>& msg)
@@ -144,6 +134,16 @@ namespace editor {
 	{
 		ax::Print("REMOVE ALL");
 		_inspectorMenu->RemoveHandle();
+	}
+
+	void MainWindow::OnReloadScript(const ax::Event::SimpleMsg<int>& msg)
+	{
+		ax::Print("Reload script");
+
+		/// @todo Do this in another thread and add a feedback to user somehow.
+
+		_codeEditor->SaveFile(_codeEditor->GetScriptPath());
+		PyoAudio::GetInstance()->ReloadScript(_codeEditor->GetScriptPath());
 	}
 
 	void MainWindow::OnToggleLeftPanel(const ax::Toggle::Msg& msg)
@@ -190,13 +190,20 @@ namespace editor {
 
 	void MainWindow::OnSaveLayout(const ax::Event::StringMsg& msg)
 	{
-		_gridWindow->SaveLayout("layouts/" + msg.GetMsg());
+		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _codeEditor->GetScriptPath());
 	}
 
 	void MainWindow::OnOpenLayout(const ax::Event::StringMsg& msg)
 	{
 		if (!msg.GetMsg().empty()) {
-			_gridWindow->OpenLayout("layouts/" + msg.GetMsg());
+			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
+			
+			if(!script_path.empty()) {
+				ax::Print("Loading script :", script_path);
+				_statusBar->SetLayoutFilePath(msg.GetMsg());
+				_codeEditor->OpenFile(script_path);
+				PyoAudio::GetInstance()->ReloadScript(script_path);
+			}
 		}
 	}
 
@@ -478,12 +485,14 @@ namespace editor {
 
 		int grid_height = size.y - STATUS_BAR_HEIGHT - editor_height - BOTTOM_BAR_HEIGHT;
 
+		int widget_menu_width = _widgetMenu->GetWindow()->dimension.GetRect().size.x;
+
 		if (widget_menu && inspector) {
-			ax::Size widget_menu_size(WIDGET_MENU_WIDTH, size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
+			ax::Size widget_menu_size(widget_menu_width, size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
 			_widgetMenu->GetWindow()->dimension.SetSize(widget_menu_size);
 
-			ax::Rect grid_rect(WIDGET_MENU_WIDTH, STATUS_BAR_HEIGHT,
-				size.x - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH, grid_height);
+			ax::Rect grid_rect(widget_menu_width, STATUS_BAR_HEIGHT,
+				size.x - widget_menu_width - INSPECTOR_MENU_WIDTH, grid_height);
 			_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
 
 			ax::Rect info_rect(size.x - INSPECTOR_MENU_WIDTH, STATUS_BAR_HEIGHT, INSPECTOR_MENU_WIDTH,
@@ -491,16 +500,16 @@ namespace editor {
 			_inspectorMenu->GetWindow()->dimension.SetRect(info_rect);
 
 			if (code_editor) {
-				ax::Rect editor_rect(WIDGET_MENU_WIDTH + 1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
-					size.x - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH, editor_height);
+				ax::Rect editor_rect(widget_menu_width + 1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
+					size.x - widget_menu_width - INSPECTOR_MENU_WIDTH, editor_height);
 				_codeEditor->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}
 		else if (widget_menu) {
-			ax::Size widget_menu_size(WIDGET_MENU_WIDTH, size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
+			ax::Size widget_menu_size(widget_menu_width, size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
 			_widgetMenu->GetWindow()->dimension.SetSize(widget_menu_size);
 
-			ax::Rect grid_rect(WIDGET_MENU_WIDTH, STATUS_BAR_HEIGHT, size.x - WIDGET_MENU_WIDTH, grid_height);
+			ax::Rect grid_rect(widget_menu_width, STATUS_BAR_HEIGHT, size.x - widget_menu_width, grid_height);
 			_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
 
 			//			ax::Rect info_rect(size.x - INSPECTOR_MENU_WIDTH,
@@ -510,8 +519,8 @@ namespace editor {
 			//- 18);
 			//			_inspectorMenu->GetWindow()->dimension.SetRect(info_rect);
 			if (code_editor) {
-				ax::Rect editor_rect(WIDGET_MENU_WIDTH + 1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
-					size.x - WIDGET_MENU_WIDTH, editor_height);
+				ax::Rect editor_rect(widget_menu_width + 1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
+					size.x - widget_menu_width, editor_height);
 				_codeEditor->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}

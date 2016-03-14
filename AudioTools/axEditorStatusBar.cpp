@@ -12,12 +12,13 @@
 namespace ax {
 namespace editor {
 	StatusBar::StatusBar(const ax::Rect& rect)
+		: _font(0)
 	{
 		// Create window.
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &StatusBar::OnPaint);
 		win->event.OnResize = ax::WBind<ax::Size>(this, &StatusBar::OnResize);
-
+		
 		// Transparent toggle with image.
 		ax::Toggle::Info tog_info;
 		tog_info.normal = ax::Color(0.0, 0.0);
@@ -75,28 +76,42 @@ namespace editor {
 		ax::Button::Info btn_info;
 		btn_info.normal = ax::Color(0.30);
 		btn_info.hover = ax::Color(0.34);
-		btn_info.clicking = ax::Color(0.32); /// Mouse clicking color.
+		btn_info.clicking = ax::Color(0.32);
 		btn_info.selected = ax::Color(0.30);
-		btn_info.contour = ax::Color(0.30); /// Contour color.
-		btn_info.font_color = ax::Color(1.0); /// Font color.
+		btn_info.contour = ax::Color(0.30);
+		btn_info.font_color = ax::Color(1.0);
 
 		auto open_menu = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnOpenLayout(), btn_info,
-			"resources/folder215.png", "", ax::Button::Flags::SINGLE_IMG);
+			"resources/folder.png", "", ax::Button::Flags::SINGLE_IMG);
 
 		win->node.Add(open_menu);
 
 		pos = open_menu->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
-		auto save_btn = ax::shared<ax::Button>(
-			ax::Rect(pos, ax::Size(60, 25)), GetOnSaveLayout(), btn_info, "", "Save");
+		auto save_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveLayout(), btn_info,
+			"resources/save.png", "", ax::Button::Flags::SINGLE_IMG);
 
 		win->node.Add(save_btn);
 
 		pos = save_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
-		auto view_btn = ax::shared<ax::Button>(
-			ax::Rect(pos, ax::Size(60, 25)), GetOnViewLayout(), btn_info, "", "View");
+
+		auto save_as_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveLayout(),
+			btn_info, "resources/save_as.png", "", ax::Button::Flags::SINGLE_IMG);
+
+		win->node.Add(save_as_btn);
+
+		pos = save_as_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+		auto view_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnViewLayout(), btn_info,
+			"resources/view.png", "", ax::Button::Flags::SINGLE_IMG);
 
 		win->node.Add(view_btn);
+
+		pos = view_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+
+		auto refresh_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnReload(), btn_info,
+			"resources/refresh.png", "", ax::Button::Flags::SINGLE_IMG);
+
+		win->node.Add(refresh_btn);
 
 		//------------------------------------------------------------------------------
 
@@ -141,6 +156,12 @@ namespace editor {
 	{
 		ax::Print("On view layout.");
 		win->PushEvent(VIEW_LAYOUT, new ax::Event::SimpleMsg<int>(0));
+	}
+
+	void StatusBar::OnReload(const ax::Button::Msg& msg)
+	{
+		ax::Print("On reload script.");
+		win->PushEvent(RELOAD_SCRIPT, new ax::Event::SimpleMsg<int>(0));
 	}
 
 	void StatusBar::OnToggleLeftPanel(const ax::Toggle::Msg& msg)
@@ -194,6 +215,12 @@ namespace editor {
 		gc.SetColor(ax::Color(0.30));
 		//	gc.SetColor(ax::Color(20, 58, 123));
 		gc.DrawRectangle(rect);
+		
+		if(!_layout_file_path.empty()) {
+			gc.SetColor(ax::Color(1.0));
+			gc.DrawStringAlignedCenter(_font, _layout_file_path, rect);
+		}
+		
 		//	gc.DrawRectangleColorFade(rect, ax::Color(0.26), ax::Color(0.28));
 		gc.SetColor(ax::Color(0.30));
 		gc.DrawRectangleContour(rect);
