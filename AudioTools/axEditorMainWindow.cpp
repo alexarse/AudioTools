@@ -265,6 +265,9 @@ namespace editor {
 		tmp_back_btn->GetWindow()->property.AddProperty("TemporaryBackButton");
 
 		main_win->node.Add(tmp_back_btn);
+		
+		_gridWindow->UnSelectAllWidgets();
+		_inspectorMenu->SetWidgetHandle(nullptr);
 	}
 
 	void MainWindow::OnBackToEditor(const ax::Button::Msg& msg)
