@@ -16,8 +16,7 @@ bool TextEditorLogic::OpenFile(const std::string& file_path)
 
 	std::ifstream t(file_path);
 
-	std::string file_str(
-		(std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+	std::string file_str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 
 	// Remove all tab for string.
 	ax::Utils::String::ReplaceCharWithString(file_str, '\t', "    ");
@@ -145,6 +144,15 @@ void TextEditorLogic::AddChar(const char& c)
 {
 	const char TAB = 9;
 
+	ax::Print("AddChar :", (int)c);
+	
+	// Insert char.
+	if (c == TAB) {
+		_file_data[_cursor_pos.y].insert(_cursor_pos.x, std::string("    "));
+		_cursor_pos.x += 4;
+		return;
+	}
+	
 	// Append at the end of the line.
 	if (_cursor_pos.x == _file_data[_cursor_pos.y].size()) {
 		//        if(c == TAB)
@@ -162,13 +170,7 @@ void TextEditorLogic::AddChar(const char& c)
 		return;
 	}
 
-	// Insert char.
-	//    if(c == TAB)
-	//    {
-	//        _file_data[_cursor_pos.y].insert(_cursor_pos.x, std::string(" "));
-	//        _cursor_pos.x += 4;
-	//        return;
-	//    }
+	
 
 	//	char cc = c;
 	_file_data[_cursor_pos.y].insert(_cursor_pos.x, 1, c);
@@ -180,8 +182,7 @@ void TextEditorLogic::Enter()
 {
 	// Append at the end of the line.
 	if (_cursor_pos.x == _file_data[_cursor_pos.y].size()) {
-		_file_data.insert(
-			_file_data.begin() + _cursor_pos.y + 1, std::string(""));
+		_file_data.insert(_file_data.begin() + _cursor_pos.y + 1, std::string(""));
 
 		_cursor_pos.x = 0;
 		_cursor_pos.y++;
@@ -210,8 +211,7 @@ void TextEditorLogic::Enter()
 void TextEditorLogic::Delete()
 {
 	// Nothing to do when delete on last char of last line.
-	if (_cursor_pos.x == _file_data[_cursor_pos.y].size()
-		&& _cursor_pos.y == _file_data.size() - 1) {
+	if (_cursor_pos.x == _file_data[_cursor_pos.y].size() && _cursor_pos.y == _file_data.size() - 1) {
 		return;
 	}
 
@@ -226,8 +226,7 @@ void TextEditorLogic::Delete()
 	}
 
 	// Remove char in middle of line.
-	_file_data[_cursor_pos.y].erase(
-		_file_data[_cursor_pos.y].begin() + _cursor_pos.x);
+	_file_data[_cursor_pos.y].erase(_file_data[_cursor_pos.y].begin() + _cursor_pos.x);
 }
 
 void TextEditorLogic::BackSpace()
@@ -266,7 +265,6 @@ void TextEditorLogic::BackSpace()
 	}
 
 	// Remove char in middle of line.
-	_file_data[_cursor_pos.y].erase(
-		_file_data[_cursor_pos.y].begin() + _cursor_pos.x - 1);
+	_file_data[_cursor_pos.y].erase(_file_data[_cursor_pos.y].begin() + _cursor_pos.x - 1);
 	_cursor_pos.x--;
 }
