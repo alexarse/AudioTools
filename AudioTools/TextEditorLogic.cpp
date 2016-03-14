@@ -64,6 +64,12 @@ ax::Point TextEditorLogic::GetCursorPosition() const
 	return _cursor_pos;
 }
 
+void TextEditorLogic::SetCursorPosition(const ax::Point& cursor_pos)
+{
+	/// @todo Check if position is valid.
+	_cursor_pos = cursor_pos;
+}
+
 void TextEditorLogic::MoveCursorRight()
 {
 	int x_pos = _cursor_pos.x + 1;

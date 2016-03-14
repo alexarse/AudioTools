@@ -24,6 +24,8 @@ public:
 	std::string GetFilePath() const;
 
 	ax::Point GetCursorPosition() const;
+	
+	void SetCursorPosition(const ax::Point& cursor_pos);
 
 	void MoveCursorRight();
 

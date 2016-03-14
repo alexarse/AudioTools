@@ -58,6 +58,7 @@ private:
 	TextEditorLogic _logic;
 	Info _info;
 	ax::Window* _scrollPanel;
+	bool _find_cursor_position_x = false;
 
 	std::vector<std::vector<int>> _next_pos_data;
 

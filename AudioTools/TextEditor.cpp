@@ -280,8 +280,79 @@ void TextEditor::OnKeyDeleteDown(const char& key)
 	_scrollPanel->Update();
 }
 
-void TextEditor::OnMouseLeftDown(const ax::Point& mouse_pos)
+void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 {
+	ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
+	
+	// Find new cursor line.
+	int line_index = mouse_pos.y / _line_height;
+	
+	ax::Print(line_index);
+	const ax::StringVector& data = _logic.GetFileData();
+	
+	if(line_index < data.size()) {
+		int actual_line_index = line_index + _file_start_index;
+		ax::Print("actualine : ", actual_line_index);
+		
+		// Find x cursor position.
+		
+		const std::string& text = data[line_index];
+		
+		std::vector<int> next_vec;
+		next_vec.reserve(text.size() + 1);
+		
+		ax::Point line_pos(25 + 4, 0);
+
+		if (_font) {
+			int x = line_pos.x;
+			next_vec.push_back(x);
+
+			// For all char in line.
+			for (int i = 0; i < text.size(); i++) {
+				_font.SetChar(text[i]);
+				next_vec.push_back(_font.GetNextPosition());
+			}
+		}
+		
+		if(next_vec.size() > 1) {
+			int cursor_index_x = -1;
+			
+			int sum_size_x = 0;
+			for(int i = 0; i < next_vec.size() - 1; i++) {
+				if(mouse_pos.x >= sum_size_x + next_vec[i] && mouse_pos.x < sum_size_x + next_vec[i] + next_vec[i + 1]) {
+					cursor_index_x = i;
+					break;
+				}
+				sum_size_x += next_vec[i];
+			}
+			
+			if(cursor_index_x == -1) {
+				ax::Print("go to last char of line");
+				_logic.SetCursorPosition(ax::Point(text.size(), actual_line_index));
+				_scrollPanel->Update();
+				return;
+			}
+			
+			if(cursor_index_x < text.size()) {
+				_logic.SetCursorPosition(ax::Point(cursor_index_x, actual_line_index));
+				_scrollPanel->Update();
+			}
+//			else {
+//				_logic.SetCursorPosition(ax::Point(text.size(), actual_line_index));
+//			}
+		}
+		
+		
+//		_next_pos_data.push_back(next_vec);
+//		std::string& line_str = _logic->
+//		void SetChar(const unsigned long& letter)
+	}
+	else {
+		//
+		ax::Print("go to last char");
+		_logic.SetCursorPosition(ax::Point(data[data.size() - 1].size(), data.size() - 1));
+		_scrollPanel->Update();
+	}
 }
 
 void TextEditor::OnMouseLeftUp(const ax::Point& mouse_pos)
