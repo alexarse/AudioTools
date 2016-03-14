@@ -66,23 +66,6 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	_scrollBar = scroll_bar.get();
 	
 	win->node.Add(scroll_bar);
-//	win->node.Add(_scrollBar = ax::ScrollBar::Ptr(new ax::ScrollBar(
-//					  ax::Rect(rect.size.x - 11, 0, 10, rect.size.y - 1),
-//					  scrollEvents, sInfo)));
-
-//	_logic.OpenFile("scripts/simple_saw.py");
-
-//	win->event.OnPaint = ax::WFunc<ax::GC>([&](ax::GC gc) {
-//		ax::Rect rect(win->dimension.GetDrawingRect());
-//		gc.SetColor(ax::Color(0.94));
-//		gc.DrawRectangle(rect);
-//
-//		gc.SetColor(ax::Color(0.2));
-//		gc.DrawString(_font, _logic.GetFilePath(), ax::Point(5, 1));
-//
-//		gc.SetColor(ax::Color(0.15));
-//		gc.DrawRectangleContour(rect);
-//	});
 
 	// Scrollbar is use without window handle, it behave just like a slider.
 	int h_size = (int)_logic.GetFileData().size() * _line_height;

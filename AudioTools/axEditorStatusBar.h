@@ -16,6 +16,7 @@ namespace editor {
 
 		enum : ax::Event::Id {
 			SAVE_LAYOUT,
+			SAVE_AS_LAYOUT,
 			OPEN_LAYOUT,
 			VIEW_LAYOUT,
 			RELOAD_SCRIPT,
@@ -38,6 +39,7 @@ namespace editor {
 		std::string _layout_file_path;
 		
 		axEVENT_DECLARATION(ax::Button::Msg, OnSaveLayout);
+		axEVENT_DECLARATION(ax::Button::Msg, OnSaveAsLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnOpenLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnViewLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnReload);

@@ -18,7 +18,7 @@ namespace editor {
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &StatusBar::OnPaint);
 		win->event.OnResize = ax::WBind<ax::Size>(this, &StatusBar::OnResize);
-		
+
 		// Transparent toggle with image.
 		ax::Toggle::Info tog_info;
 		tog_info.normal = ax::Color(0.0, 0.0);
@@ -95,12 +95,13 @@ namespace editor {
 
 		pos = save_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
-		auto save_as_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveLayout(),
+		auto save_as_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveAsLayout(),
 			btn_info, "resources/save_as.png", "", ax::Button::Flags::SINGLE_IMG);
 
 		win->node.Add(save_as_btn);
 
 		pos = save_as_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+
 		auto view_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnViewLayout(), btn_info,
 			"resources/view.png", "", ax::Button::Flags::SINGLE_IMG);
 
@@ -123,13 +124,20 @@ namespace editor {
 
 	void StatusBar::OnSaveLayout(const ax::Button::Msg& msg)
 	{
+		win->PushEvent(SAVE_LAYOUT, new ax::Event::StringMsg(_layout_file_path));
+	}
+
+	void StatusBar::OnSaveAsLayout(const ax::Button::Msg& msg)
+	{
 		ax::Size fsize = ax::App::GetInstance().GetFrameSize();
 		ax::Size size(300, 200);
 		ax::Point pos((fsize.x - size.x) / 2, (fsize.y - size.y) / 2);
 
-		auto save_dialog = ax::shared<SaveDialog>(ax::Rect(pos, size));
+		auto save_dialog = ax::shared<SaveDialog>(ax::Rect(pos, size), _layout_file_path);
+		
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
 			ax::Window::Ptr(save_dialog->GetWindow()));
+		
 		save_dialog->GetWindow()->backbone = save_dialog;
 
 		save_dialog->GetWindow()->AddConnection(SaveDialog::SAVE, GetOnSaveDialog());
@@ -215,12 +223,12 @@ namespace editor {
 		gc.SetColor(ax::Color(0.30));
 		//	gc.SetColor(ax::Color(20, 58, 123));
 		gc.DrawRectangle(rect);
-		
-		if(!_layout_file_path.empty()) {
+
+		if (!_layout_file_path.empty()) {
 			gc.SetColor(ax::Color(1.0));
 			gc.DrawStringAlignedCenter(_font, _layout_file_path, rect);
 		}
-		
+
 		//	gc.DrawRectangleColorFade(rect, ax::Color(0.26), ax::Color(0.28));
 		gc.SetColor(ax::Color(0.30));
 		gc.DrawRectangleContour(rect);

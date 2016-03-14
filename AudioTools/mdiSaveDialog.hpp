@@ -12,7 +12,7 @@ namespace editor {
 	 */
 	class SaveDialog : public ax::Window::Backbone {
 	public:
-		SaveDialog(const ax::Rect& rect);
+		SaveDialog(const ax::Rect& rect, const std::string& default_name = "");
 
 		virtual ~SaveDialog()
 		{

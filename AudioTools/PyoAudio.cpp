@@ -17,7 +17,7 @@ PyoAudio::PyoAudio()
 	CreateServer(44100, 1024, 2);
 
 	char msg[2048];
-	pyo_exec_file(_pyo, "scripts/simple_saw.py", msg, 1);
+	pyo_exec_file(_pyo, "scripts/default.py", msg, 1);
 }
 
 void PyoAudio::ReloadScript(const std::string& path)

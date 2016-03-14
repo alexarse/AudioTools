@@ -192,6 +192,11 @@ namespace editor {
 	{
 		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _codeEditor->GetScriptPath());
 	}
+	
+//	void MainWindow::OnSaveAsLayout(const ax::Event::StringMsg& msg)
+//	{
+//		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _codeEditor->GetScriptPath());
+//	}
 
 	void MainWindow::OnOpenLayout(const ax::Event::StringMsg& msg)
 	{

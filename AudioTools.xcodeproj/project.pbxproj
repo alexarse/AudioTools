@@ -461,12 +461,12 @@
 		7CF1D8DB1C93801B00AAAC01 /* CodeEditor */ = {
 			isa = PBXGroup;
 			children = (
-				7CF1D8801C921DCC00AAAC01 /* TextEditor.h */,
-				7CF1D8811C921DCC00AAAC01 /* TextEditorLogic.h */,
 				7CF1D88C1C921DDF00AAAC01 /* CodeEditor.cpp */,
-				7CF1D8951C921DDF00AAAC01 /* TextEditor.cpp */,
-				7CF1D8961C921DDF00AAAC01 /* TextEditorLogic.cpp */,
 				7CF1D8771C921DCC00AAAC01 /* CodeEditor.h */,
+				7CF1D8951C921DDF00AAAC01 /* TextEditor.cpp */,
+				7CF1D8801C921DCC00AAAC01 /* TextEditor.h */,
+				7CF1D8961C921DDF00AAAC01 /* TextEditorLogic.cpp */,
+				7CF1D8811C921DCC00AAAC01 /* TextEditorLogic.h */,
 			);
 			name = CodeEditor;
 			sourceTree = "<group>";

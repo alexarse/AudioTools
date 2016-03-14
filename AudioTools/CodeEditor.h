@@ -27,7 +27,10 @@ private:
 	TextEditor* _txt_editor;
 	std::string _file_path;
 	ax::Font _font;
+	ax::Button* _open_btn;
 	ax::Button* _save_btn;
+	
+	axEVENT_DECLARATION(ax::Button::Msg, OnOpenButton);
 	axEVENT_DECLARATION(ax::Button::Msg, OnSaveButton);
 	
 	void OnResize(const ax::Size& size);

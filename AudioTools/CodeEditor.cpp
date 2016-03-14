@@ -23,7 +23,8 @@ CodeEditor::CodeEditor(const ax::Rect& rect)
 
 	win->node.Add(txt_editor);
 	
-	_txt_editor->OpenFile("scripts/simple_saw.py");
+	// @todo Change this.
+	_txt_editor->OpenFile("scripts/default.py");
 	_file_path = _txt_editor->GetFilePath();
 
 	ax::Button::Info btn_info;
@@ -34,9 +35,19 @@ CodeEditor::CodeEditor(const ax::Rect& rect)
 	btn_info.contour = ax::Color(0.0, 0.0);
 	btn_info.font_color = ax::Color(0.0, 0.0);
 
+
+	auto open_btn
+	= ax::shared<ax::Button>(ax::Rect(rect.size.x - 50, 2, 17, 17),
+							 GetOnOpenButton(), btn_info, "resources/folder.png", "",
+							 ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
+	_open_btn = open_btn.get();
+	win->node.Add(open_btn);
+
+	ax::Point pos = _open_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+
 	auto save_btn
-		= ax::shared<ax::Button>(ax::Rect(rect.size.x - 25, 2, 17, 17),
-			GetOnSaveButton(), btn_info, "resources/save20.png", "",
+		= ax::shared<ax::Button>(ax::Rect(pos, ax::Size(17, 17)),
+			GetOnSaveButton(), btn_info, "resources/save.png", "",
 			ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
 	_save_btn = save_btn.get();
 	win->node.Add(save_btn);
@@ -60,6 +71,13 @@ std::string CodeEditor::GetScriptPath() const
 	return _file_path;
 }
 
+void CodeEditor::OnOpenButton(const ax::Button::Msg& msg)
+{
+	ax::Print("CodeEditor.cpp -> CodeEditor::OnOpenButton doesn't do anything yet.");
+//	_txt_editor->SaveFile(_txt_editor->GetFilePath());
+//	win->PushEvent(10020, new ax::Event::StringMsg("Save"));
+}
+
 void CodeEditor::OnSaveButton(const ax::Button::Msg& msg)
 {
 	_txt_editor->SaveFile(_txt_editor->GetFilePath());
@@ -68,7 +86,10 @@ void CodeEditor::OnSaveButton(const ax::Button::Msg& msg)
 
 void CodeEditor::OnResize(const ax::Size& size)
 {
-	_save_btn->GetWindow()->dimension.SetPosition(ax::Point(size.x - 25, 2));
+	_open_btn->GetWindow()->dimension.SetPosition(ax::Point(size.x - 50, 2));
+	
+	ax::Point pos = _open_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+	_save_btn->GetWindow()->dimension.SetPosition(pos);
 	_txt_editor->GetWindow()->dimension.SetSize(ax::Size(size.x, size.y - TOP_BAR_HEIGHT));
 }
 

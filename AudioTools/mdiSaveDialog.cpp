@@ -5,7 +5,7 @@
 
 namespace ax {
 namespace editor {
-	SaveDialog::SaveDialog(const ax::Rect& rect)
+	SaveDialog::SaveDialog(const ax::Rect& rect, const std::string& default_name)
 	{
 		// Create window.
 		win = ax::Window::Create(rect);
@@ -28,7 +28,7 @@ namespace editor {
 		txt_info.font_color = ax::Color(0.0);
 
 		_txtBox = ax::shared<ax::TextBox>(ax::Rect(10, 10, 200, 30),
-			ax::TextBox::Events(), txt_info, "", "default.xml");
+			ax::TextBox::Events(), txt_info, "", default_name);
 		win->node.Add(_txtBox);
 
 		auto save = ax::shared<ax::Button>(ax::Rect(10, 50, 60, 30),

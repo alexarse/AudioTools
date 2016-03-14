@@ -70,6 +70,7 @@ private:
 	bool _view_mode = false;
 	
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveLayout);
+//	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveAsLayout);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenLayout);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnViewLayout);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
