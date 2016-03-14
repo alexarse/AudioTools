@@ -9,6 +9,12 @@ CodeEditor::CodeEditor(const ax::Rect& rect)
 	win->event.OnPaint = ax::WBind<ax::GC>(this, &CodeEditor::OnPaint);
 	win->event.OnResize = ax::WBind<ax::Size>(this, &CodeEditor::OnResize);
 
+	win->event.OnMouseLeave = ax::WBind<ax::Point>(this, &CodeEditor::OnMouseLeave);
+	win->event.OnMouseMotion = ax::WBind<ax::Point>(this, &CodeEditor::OnMouseMotion);
+	win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &CodeEditor::OnMouseLeftDown);
+	win->event.OnMouseLeftDragging = ax::WBind<ax::Point>(this, &CodeEditor::OnMouseLeftDragging);
+	win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &CodeEditor::OnMouseLeftUp);
+
 	TextEditor::Info txt_info;
 	txt_info.bg_color = ax::Color(1.0);
 	txt_info.cursor_color = ax::Color(0.0);
@@ -53,6 +59,7 @@ CodeEditor::CodeEditor(const ax::Rect& rect)
 	win->node.Add(save_btn);
 }
 
+
 bool CodeEditor::OpenFile(const std::string& path)
 {
 	bool err = _txt_editor->OpenFile(path);
@@ -82,6 +89,112 @@ void CodeEditor::OnSaveButton(const ax::Button::Msg& msg)
 {
 	_txt_editor->SaveFile(_txt_editor->GetFilePath());
 	win->PushEvent(10020, new ax::Event::StringMsg("Save"));
+}
+
+void CodeEditor::OnMouseLeave(const ax::Point& pos)
+{
+	if(_has_resize_cursor) {
+		ax::App::GetInstance().SetCursor(0);
+		_has_resize_cursor = false;
+	}
+}
+
+void CodeEditor::OnMouseMotion(const ax::Point& pos)
+{
+	ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
+	
+	if(mouse_pos.y < 6) {
+		if(_has_resize_cursor == false) {
+			ax::App::GetInstance().SetCursor(1);
+			_has_resize_cursor = true;
+		}
+	}
+	else if(_has_resize_cursor) {
+		ax::App::GetInstance().SetCursor(0);
+		_has_resize_cursor = false;
+	}
+}
+
+void CodeEditor::OnMouseLeftDown(const ax::Point& pos)
+{
+	ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
+	
+	if(mouse_pos.y < 6) {
+		ax::App::GetInstance().SetCursor(1);
+		_delta_resize_click = pos;
+		_resize_click_old_rect = win->dimension.GetRect();
+		win->event.GrabMouse();
+		ax::Print("Resize editor.");
+	}
+}
+
+void CodeEditor::OnMouseLeftDragging(const ax::Point& pos)
+{
+	int delta_y = _delta_resize_click.y - pos.y;
+	
+	ax::Print("Resize editor delta :", delta_y);
+	
+	if(delta_y > 0) {
+		ax::Rect rect(win->dimension.GetRect());
+		rect.position.y -= delta_y;
+		rect.size.y += delta_y;
+		win->dimension.SetRect(rect);
+	}
+	else if(delta_y < 0) {
+		ax::Rect rect(win->dimension.GetRect());
+		rect.position.y -= delta_y;
+		rect.size.y += delta_y;
+		
+		if(rect.size.y < MINIMUM_HEIGHT) {
+			ax::Print("Minimum height");
+			int delta_pos_y = MINIMUM_HEIGHT - rect.size.y;
+			rect.size.y = MINIMUM_HEIGHT;
+			rect.position.y -= delta_pos_y;
+		}
+		
+		win->PushEvent(RESIZE, new ax::Event::SimpleMsg<int>(0));
+		win->dimension.SetRect(rect);
+	}
+	
+	_delta_resize_click = pos;
+
+	
+}
+
+void CodeEditor::OnMouseLeftUp(const ax::Point& pos)
+{
+	if(win->event.IsGrabbed()) {
+		int delta_y = _delta_resize_click.y - pos.y;
+
+		if(delta_y > 0) {
+			ax::Rect rect(win->dimension.GetRect());
+			rect.position.y -= delta_y;
+			rect.size.y += delta_y;
+			win->dimension.SetRect(rect);
+		}
+		else if(delta_y < 0) {
+			ax::Rect rect(win->dimension.GetRect());
+			rect.position.y -= delta_y;
+			rect.size.y += delta_y;
+			
+			if(rect.size.y < MINIMUM_HEIGHT) {
+				ax::Print("Minimum height");
+				int delta_pos_y = MINIMUM_HEIGHT - rect.size.y;
+				rect.size.y = MINIMUM_HEIGHT;
+				rect.position.y -= delta_pos_y;
+			}
+			
+			win->PushEvent(RESIZE, new ax::Event::SimpleMsg<int>(0));
+			win->dimension.SetRect(rect);
+		}
+		
+		win->event.UnGrabMouse();
+		
+		if(_has_resize_cursor) {
+			ax::App::GetInstance().SetCursor(0);
+			_has_resize_cursor = false;
+		}
+	}
 }
 
 void CodeEditor::OnResize(const ax::Size& size)

@@ -98,6 +98,8 @@ namespace editor {
 		win->AddConnection(8001, GetOnDraggingWidget());
 		win->AddConnection(8002, GetOnReleaseObjWidget());
 
+		_codeEditor->GetWindow()->AddConnection(CodeEditor::RESIZE, GetOnResizeCodeEditor());
+
 		/// @todo Add enum for events.
 		_codeEditor->GetWindow()->AddConnection(10020, ax::Event::Function([&](ax::Event::Msg* msg) {
 													ax::Print("Save");
@@ -134,6 +136,11 @@ namespace editor {
 	{
 		ax::Print("REMOVE ALL");
 		_inspectorMenu->RemoveHandle();
+	}
+	
+	void MainWindow::OnResizeCodeEditor(const ax::Event::SimpleMsg<int>& msg)
+	{
+		win->event.OnResize(win->dimension.GetSize());
 	}
 
 	void MainWindow::OnReloadScript(const ax::Event::SimpleMsg<int>& msg)

@@ -76,6 +76,7 @@ private:
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
 	axEVENT_DECLARATION(ax::Button::Msg, OnBackToEditor);
 	
+	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnResizeCodeEditor);
 	axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleLeftPanel);
 	axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleBottomPanel);
 	axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleRightPanel);
