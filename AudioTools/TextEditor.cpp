@@ -341,6 +341,12 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 //				_logic.SetCursorPosition(ax::Point(text.size(), actual_line_index));
 //			}
 		}
+		// No or one char in line.
+		else {
+			ax::Print("Line is empty");
+			_logic.SetCursorPosition(ax::Point(0, actual_line_index));
+			_scrollPanel->Update();
+		}
 		
 		
 //		_next_pos_data.push_back(next_vec);

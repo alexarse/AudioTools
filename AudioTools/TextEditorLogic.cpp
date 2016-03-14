@@ -155,26 +155,13 @@ void TextEditorLogic::AddChar(const char& c)
 	
 	// Append at the end of the line.
 	if (_cursor_pos.x == _file_data[_cursor_pos.y].size()) {
-		//        if(c == TAB)
-		//        {
-		//            _file_data[_cursor_pos.y].push_back(' ');
-		//            _file_data[_cursor_pos.y].push_back(' ');
-		//            _file_data[_cursor_pos.y].push_back(' ');
-		//            _file_data[_cursor_pos.y].push_back(' ');
-		//            _cursor_pos.x += 4;
-		//            return;
-		//        }
 
 		_file_data[_cursor_pos.y].push_back(c);
 		_cursor_pos.x++;
 		return;
 	}
 
-	
-
-	//	char cc = c;
 	_file_data[_cursor_pos.y].insert(_cursor_pos.x, 1, c);
-	//_file_data[_cursor_pos.y].insert(_cursor_pos.x, std::string(&cc));
 	_cursor_pos.x++;
 }
 
