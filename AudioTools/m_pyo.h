@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <Python/Python.h>
+#include "axUtils.h"
 
 #ifndef __m_pyo_h_
 
@@ -264,31 +265,26 @@ inline int pyo_is_server_started(PyThreadState *interp) {
 inline int pyo_exec_file(PyThreadState *interp, const char *file, char *msg, int add) {
     int err = 0;
     PyEval_AcquireThread(interp);
-	
-	sprintf(msg, "import os\n_ok_ = os.path.isfile('./%s')", file);
+    sprintf(msg, "import os\n_ok_ = os.path.isfile('./%s')", file);
     PyRun_SimpleString(msg);
-	
-	sprintf(msg, "if not _ok_:\n    _ok_ = os.path.isfile('%s')", file);
+    sprintf(msg, "if not _ok_:\n    _ok_ = os.path.isfile('%s')", file);
     PyRun_SimpleString(msg);
-	
 	PyObject* module = PyImport_AddModule("__main__");
     PyObject* obj = PyObject_GetAttrString(module, "_ok_");
 	
-	int ok = (int) PyInt_AsLong(obj);
-	
-	if (ok) {
-        sprintf(msg, "try:\n    execfile('./%s')\nexcept:\n    execfile('%s')",
-                file, file);
+	int ok = (int)PyInt_AsLong(obj);
+    if (ok) {
+        sprintf(msg, "try:\n\texecfile('./%s')\nexcept BaseException, _e_:\n\tprint str(_e_);",
+                file);
         if (!add) {
             PyRun_SimpleString("_s_.setServer()\n_s_.stop()\n_s_.shutdown()");
             PyRun_SimpleString("_s_.boot(newBuffer=False).start()");
         }
         PyRun_SimpleString(msg);
+		ax::Print("Last python file");
     }
-    else {
+    else
         err = 1;
-	}
-	
     PyEval_ReleaseThread(interp);
     return err;
 }

@@ -17,7 +17,11 @@ PyoAudio::PyoAudio()
 	CreateServer(44100, 1024, 2);
 
 	char msg[2048];
-	pyo_exec_file(_pyo, "scripts/default.py", msg, 1);
+	int err = pyo_exec_file(_pyo, "scripts/default.py", msg, 1);
+	
+	if(err) {
+		ax::Error("Load python script.");
+	}
 }
 
 void PyoAudio::ReloadScript(const std::string& path)
