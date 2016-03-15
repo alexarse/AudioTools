@@ -6,6 +6,7 @@
 #include "axKnob.h"
 #include "axLabel.h"
 #include "axPanel.h"
+#include "axSlider.h"
 #include "axToggle.h"
 #include "axWidgetLoader.h"
 #include "axWindowManager.h"
@@ -134,6 +135,11 @@ namespace editor {
 			SetupEditWidget(widget);
 			SetupPyoComponent(widget, pyo_fct);
 			SetupKnobPyoEvent(widget);
+		}
+		else if (builder_name == "Slider") {
+			SetupEditWidget(widget);
+			SetupPyoComponent(widget, pyo_fct);
+			SetupSliderPyoEvent(widget);
 		}
 		else if (builder_name == "Label") {
 			SetupEditWidget(widget);
@@ -385,6 +391,26 @@ namespace editor {
 								   }
 							   }
 						   }));
+	}
+	
+	void Loader::SetupSliderPyoEvent(ax::Window* win)
+	{
+		win->AddConnection(0, ax::Event::Function([win](ax::Event::Msg* msg) {
+			if (win->component.Has("pyo")) {
+				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
+				std::string fct_name = comp->GetFunctionName();
+				
+				if (!fct_name.empty()) {
+					ax::Slider::Msg* kmsg = static_cast<ax::Slider::Msg*>(msg);
+					double value = 1.0 - kmsg->GetValue();
+					std::string fct_call = fct_name + "(";
+					fct_call += std::to_string(value) + ");\n";
+					
+					PyoAudio* pyo = PyoAudio::GetInstance();
+					pyo->ProcessString(fct_call);
+				}
+			}
+		}));
 	}
 }
 }

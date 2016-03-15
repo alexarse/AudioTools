@@ -46,6 +46,7 @@ namespace editor {
 		void SetupButtonPyoEvent(ax::Window* win);
 		void SetupTogglePyoEvent(ax::Window* win);
 		void SetupKnobPyoEvent(ax::Window* win);
+		void SetupSliderPyoEvent(ax::Window* win);
 
 	};
 }
