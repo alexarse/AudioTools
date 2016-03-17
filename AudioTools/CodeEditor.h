@@ -42,6 +42,7 @@ private:
 	axEVENT_DECLARATION(ax::Button::Msg, OnOpenButton);
 	axEVENT_DECLARATION(ax::Button::Msg, OnSaveButton);
 	
+	
 	void OnMouseLeave(const ax::Point& pos);
 	void OnMouseMotion(const ax::Point& pos);
 	void OnMouseLeftDown(const ax::Point& pos);

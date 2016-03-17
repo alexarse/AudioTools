@@ -60,9 +60,12 @@ namespace editor {
 		bool _dropped_smaller = false;
 	
 		axEVENT_DECLARATION(ax::Button::Msg, OnSmallerMenu);
+		
 
-//		void SetSmall();
-
+//
+		void SetSmall();
+		void OnMouseEnter(const ax::Point& pos);
+		void OnScrollWheel(const ax::Point& delta);
 		void OnResize(const ax::Size& size);
 		void OnPaint(ax::GC gc);
 	};

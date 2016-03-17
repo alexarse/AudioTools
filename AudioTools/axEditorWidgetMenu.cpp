@@ -148,6 +148,8 @@ namespace editor {
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &WidgetMenu::OnPaint);
 		win->event.OnResize = ax::WBind<ax::Size>(this, &WidgetMenu::OnResize);
+		win->event.OnScrollWheel = ax::WBind<ax::Size>(this, &WidgetMenu::OnScrollWheel);
+		win->event.OnMouseEnter = ax::WBind<ax::Size>(this, &WidgetMenu::OnMouseEnter);
 
 		ax::Button::Info btn_info;
 		btn_info.normal = ax::Color(0.0, 0.0);
@@ -338,6 +340,23 @@ namespace editor {
 
 		_scrollBar->SetWindowHandle(_panel);
 		_scrollBar->UpdateWindowSize(ax::Size(rect.size.x, pos.y));
+		
+		win->event.GrabScroll();
+	}
+	
+	void WidgetMenu::OnMouseEnter(const ax::Point& pos)
+	{
+		win->event.GrabScroll();
+	}
+	
+	void WidgetMenu::OnScrollWheel(const ax::Point& delta)
+	{
+		ax::Print("WidgetMenu::OnScrollWheel", delta.x, delta.y);
+		ax::Size size = _panel->dimension.GetShownRect().size;
+		double scroll_value = delta.y / double(size.y) + _scrollBar->GetZeroToOneValue();
+		ax::Print(scroll_value);
+		
+		_scrollBar->SetZeroToOneValue(scroll_value);
 	}
 	
 //	void WidgetMenu::SetSmall()

@@ -16,36 +16,29 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 
 	win = ax::Window::Create(rect);
 	win->event.OnResize = ax::WBind<ax::Size>(this, &TextEditor::OnResize);
-
-	_scrollPanel = ax::Window::Create(
-		ax::Rect(0, 0, rect.size.x, rect.size.y));
+	win->event.OnScrollWheel = ax::WBind<ax::Point>(this, &TextEditor::OnScrollWheel);
+//	win->event.GrabScroll();
+	
+	_scrollPanel = ax::Window::Create(ax::Rect(0, 0, rect.size.x, rect.size.y));
 
 	_scrollPanel->property.AddProperty("BlockDrawing");
 
 	_scrollPanel->event.OnPaint = ax::WBind<ax::GC>(this, &TextEditor::OnPaint);
-	_scrollPanel->event.OnMouseEnter
-		= ax::WBind<ax::Point>(this, &TextEditor::OnMouseEnter);
-	_scrollPanel->event.OnMouseLeftDown
-		= ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftDown);
-	_scrollPanel->event.OnMouseLeftUp
-		= ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftUp);
-	_scrollPanel->event.OnLeftArrowDown
-		= ax::WBind<char>(this, &TextEditor::OnLeftArrowDown);
-	_scrollPanel->event.OnRightArrowDown
-		= ax::WBind<char>(this, &TextEditor::OnRightArrowDown);
-	_scrollPanel->event.OnUpArrowDown
-		= ax::WBind<char>(this, &TextEditor::OnUpArrowDown);
-	_scrollPanel->event.OnDownArrowDown
-		= ax::WBind<char>(this, &TextEditor::OnDownArrowDown);
-	_scrollPanel->event.OnKeyDown
-		= ax::WBind<char>(this, &TextEditor::OnKeyDown);
-	_scrollPanel->event.OnEnterDown
-		= ax::WBind<char>(this, &TextEditor::OnEnterDown);
-	_scrollPanel->event.OnKeyDeleteDown
-		= ax::WBind<char>(this, &TextEditor::OnKeyDeleteDown);
-	_scrollPanel->event.OnBackSpaceDown
-		= ax::WBind<char>(this, &TextEditor::OnBackSpaceDown);
-
+	_scrollPanel->event.OnMouseEnter = ax::WBind<ax::Point>(this, &TextEditor::OnMouseEnter);
+	_scrollPanel->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftDown);
+	_scrollPanel->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftUp);
+	_scrollPanel->event.OnLeftArrowDown = ax::WBind<char>(this, &TextEditor::OnLeftArrowDown);
+	_scrollPanel->event.OnRightArrowDown = ax::WBind<char>(this, &TextEditor::OnRightArrowDown);
+	_scrollPanel->event.OnUpArrowDown = ax::WBind<char>(this, &TextEditor::OnUpArrowDown);
+	_scrollPanel->event.OnDownArrowDown = ax::WBind<char>(this, &TextEditor::OnDownArrowDown);
+	_scrollPanel->event.OnKeyDown = ax::WBind<char>(this, &TextEditor::OnKeyDown);
+	_scrollPanel->event.OnEnterDown = ax::WBind<char>(this, &TextEditor::OnEnterDown);
+	_scrollPanel->event.OnKeyDeleteDown = ax::WBind<char>(this, &TextEditor::OnKeyDeleteDown);
+	_scrollPanel->event.OnBackSpaceDown = ax::WBind<char>(this, &TextEditor::OnBackSpaceDown);
+	
+	
+	
+	
 	win->node.Add(ax::Window::Ptr(_scrollPanel));
 
 	ax::ScrollBar::Info sInfo;
@@ -56,15 +49,15 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	sInfo.contour = ax::Color(0.0, 0.0);
 	sInfo.bg_top = ax::Color(0.8, 0.2);
 	sInfo.bg_bottom = ax::Color(0.82, 0.2);
-	
+
 	ax::ScrollBar::Events scrollEvents;
 	scrollEvents.value_change = GetOnScroll();
-	
-	auto scroll_bar = ax::shared<ax::ScrollBar>(ax::Rect(rect.size.x - 9, 0, 10, rect.size.y - 1),
-												scrollEvents, sInfo);
-	
+
+	auto scroll_bar
+		= ax::shared<ax::ScrollBar>(ax::Rect(rect.size.x - 9, 0, 10, rect.size.y - 1), scrollEvents, sInfo);
+
 	_scrollBar = scroll_bar.get();
-	
+
 	win->node.Add(scroll_bar);
 
 	// Scrollbar is use without window handle, it behave just like a slider.
@@ -93,7 +86,6 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	_key_words_cpp.insert("namespace");
 	_key_words_cpp.insert("new");
 	_key_words_cpp.insert("delete");
-
 }
 
 void TextEditor::SaveFile(const std::string& path)
@@ -109,15 +101,15 @@ void TextEditor::SaveCurrentFile()
 bool TextEditor::OpenFile(const std::string& path)
 {
 	bool err = _logic.OpenFile(path);
-	
+
 	ax::Rect rect = win->dimension.GetRect();
-	
+
 	// Scrollbar is use without window handle, it behave just like a slider.
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
 	_scrollBar->UpdateWindowSize(ax::Size(rect.size.x, h_size));
 	win->Update();
 	_scrollPanel->Update();
-	
+
 	return err;
 }
 
@@ -179,15 +171,15 @@ void TextEditor::MoveToCursorPosition()
 void TextEditor::OnResize(const ax::Size& size)
 {
 	_n_line_shown = size.y / _line_height;
-	
+
 	_scrollPanel->dimension.SetSize(size);
-	
+
 	ax::Rect scroll_rect(size.x - 9, 0, 10, size.y - 1);
 	_scrollBar->GetWindow()->dimension.SetRect(scroll_rect);
-	
+
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
 	_scrollBar->UpdateWindowSize(ax::Size(size.x, h_size));
-	
+
 	// Move scroll bar.
 	int diff = (int)_logic.GetFileData().size() - _n_line_shown;
 	double scroll_ratio = _file_start_index / double(diff);
@@ -208,6 +200,7 @@ void TextEditor::OnScroll(const ax::ScrollBar::Msg& msg)
 void TextEditor::OnMouseEnter(const ax::Point& mouse)
 {
 	_scrollPanel->event.GrabKey();
+	win->event.GrabScroll();
 }
 
 void TextEditor::OnLeftArrowDown(const char& key)
@@ -250,8 +243,7 @@ void TextEditor::OnEnterDown(const char& key)
 	_logic.Enter();
 
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
-	_scrollBar->UpdateWindowSize(
-		ax::Size(_scrollPanel->dimension.GetRect().size.x, h_size));
+	_scrollBar->UpdateWindowSize(ax::Size(_scrollPanel->dimension.GetRect().size.x, h_size));
 	MoveToCursorPosition();
 
 	_scrollPanel->Update();
@@ -261,8 +253,7 @@ void TextEditor::OnBackSpaceDown(const char& key)
 {
 	_logic.BackSpace();
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
-	_scrollBar->UpdateWindowSize(
-		ax::Size(_scrollPanel->dimension.GetRect().size.x, h_size));
+	_scrollBar->UpdateWindowSize(ax::Size(_scrollPanel->dimension.GetRect().size.x, h_size));
 	MoveToCursorPosition();
 
 	_scrollPanel->Update();
@@ -273,34 +264,43 @@ void TextEditor::OnKeyDeleteDown(const char& key)
 
 	_logic.Delete();
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
-	_scrollBar->UpdateWindowSize(
-		ax::Size(_scrollPanel->dimension.GetRect().size.x, h_size));
+	_scrollBar->UpdateWindowSize(ax::Size(_scrollPanel->dimension.GetRect().size.x, h_size));
 	MoveToCursorPosition();
 
 	_scrollPanel->Update();
 }
 
+void TextEditor::OnScrollWheel(const ax::Point& delta)
+{
+	ax::Print("TextEditor::OnScrollWheel", delta.x, delta.y);
+	ax::Size size = _scrollPanel->dimension.GetShownRect().size;
+	double scroll_value = (2.0 * delta.y) / double(size.y) + _scrollBar->GetZeroToOneValue();
+	ax::Print(scroll_value);
+
+	_scrollBar->SetZeroToOneValue(scroll_value);
+}
+
 void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 {
 	ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
-	
+
 	// Find new cursor line.
 	int line_index = mouse_pos.y / _line_height;
-	
+
 	ax::Print(line_index);
 	const ax::StringVector& data = _logic.GetFileData();
-	
-	if(line_index < data.size()) {
+
+	if (line_index < data.size()) {
 		int actual_line_index = line_index + _file_start_index;
 		ax::Print("actualine : ", actual_line_index);
-		
+
 		// Find x cursor position.
-		
+
 		const std::string& text = data[line_index];
-		
+
 		std::vector<int> next_vec;
 		next_vec.reserve(text.size() + 1);
-		
+
 		ax::Point line_pos(25 + 4, 0);
 
 		if (_font) {
@@ -313,33 +313,34 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 				next_vec.push_back(_font.GetNextPosition());
 			}
 		}
-		
-		if(next_vec.size() > 1) {
+
+		if (next_vec.size() > 1) {
 			int cursor_index_x = -1;
-			
+
 			int sum_size_x = 0;
-			for(int i = 0; i < next_vec.size() - 1; i++) {
-				if(mouse_pos.x >= sum_size_x + next_vec[i] && mouse_pos.x < sum_size_x + next_vec[i] + next_vec[i + 1]) {
+			for (int i = 0; i < next_vec.size() - 1; i++) {
+				if (mouse_pos.x >= sum_size_x + next_vec[i]
+					&& mouse_pos.x < sum_size_x + next_vec[i] + next_vec[i + 1]) {
 					cursor_index_x = i;
 					break;
 				}
 				sum_size_x += next_vec[i];
 			}
-			
-			if(cursor_index_x == -1) {
+
+			if (cursor_index_x == -1) {
 				ax::Print("go to last char of line");
 				_logic.SetCursorPosition(ax::Point(text.size(), actual_line_index));
 				_scrollPanel->Update();
 				return;
 			}
-			
-			if(cursor_index_x < text.size()) {
+
+			if (cursor_index_x < text.size()) {
 				_logic.SetCursorPosition(ax::Point(cursor_index_x, actual_line_index));
 				_scrollPanel->Update();
 			}
-//			else {
-//				_logic.SetCursorPosition(ax::Point(text.size(), actual_line_index));
-//			}
+			//			else {
+			//				_logic.SetCursorPosition(ax::Point(text.size(), actual_line_index));
+			//			}
 		}
 		// No or one char in line.
 		else {
@@ -347,11 +348,10 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 			_logic.SetCursorPosition(ax::Point(0, actual_line_index));
 			_scrollPanel->Update();
 		}
-		
-		
-//		_next_pos_data.push_back(next_vec);
-//		std::string& line_str = _logic->
-//		void SetChar(const unsigned long& letter)
+
+		//		_next_pos_data.push_back(next_vec);
+		//		std::string& line_str = _logic->
+		//		void SetChar(const unsigned long& letter)
 	}
 	else {
 		//
@@ -389,8 +389,8 @@ void TextEditor::OnMouseLeftUp(const ax::Point& mouse_pos)
 
 bool is_special(const char& x)
 {
-	return x == '(' || x == ')' || x == ':' || x == '[' || x == ']' || x == ','
-		|| x == ';' || x == '{' || x == '}' || x == '=';
+	return x == '(' || x == ')' || x == ':' || x == '[' || x == ']' || x == ',' || x == ';' || x == '{'
+		|| x == '}' || x == '=';
 }
 
 // bool is_number_char();
@@ -398,9 +398,7 @@ bool is_special(const char& x)
 std::string RemoveSpecialChar(const std::string& str)
 {
 	std::string r = str;
-	r.erase(std::remove_if(r.begin(), r.end(), [](char x) {
-				return is_special(x);
-			}), r.end());
+	r.erase(std::remove_if(r.begin(), r.end(), [](char x) { return is_special(x); }), r.end());
 
 	return r;
 }
@@ -428,7 +426,7 @@ void TextEditor::OnPaint(ax::GC gc)
 	gc.SetColor(_info.bg_color);
 	gc.DrawRectangle(rect);
 	gc.DrawRectangleContour(rect);
-	
+
 	// Draw line number background.
 	gc.SetColor(_info.line_number_bg_color);
 	gc.DrawRectangle(ax::Rect(0, 0, 25, rect.size.y));
@@ -462,30 +460,30 @@ void TextEditor::OnPaint(ax::GC gc)
 	const ax::StringVector& data = _logic.GetFileData();
 
 	// For all shown line in text.
-	for (int i = 0, k = _file_start_index; k < data.size() && i < _n_line_shown;
-		 i++, k++) {
-		
+	for (int i = 0, k = _file_start_index; k < data.size() && i < _n_line_shown; i++, k++) {
+
 		// Line.
 		const std::string& text = data[k];
 		std::vector<int> next_vec(text.size() + 1);
-		
+
 		// Draw string.
 		if (_font) {
 			int x = line_pos.x;
 
 			next_vec[0] = x;
-			
+
 			// Set text color.
 			gc.SetColor(_info.text_color);
-			
+
 			// For all char in line.
 			for (int i = 0; i < text.size(); i++) {
-				if(text[i] == '=') {
+				if (text[i] == '=') {
 					gc.SetColor(ax::Color(222, 69, 199));
-				} else {
+				}
+				else {
 					gc.SetColor(_info.text_color);
 				}
-				
+
 				x = gc.DrawChar(_font, text[i], ax::Point(x, line_pos.y)).x;
 				next_vec[i + 1] = x;
 			}

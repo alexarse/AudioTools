@@ -99,6 +99,8 @@ private:
 	void OnKeyDeleteDown(const char& key);
 
 	// Mouse events.
+	void OnScrollWheel(const ax::Point& delta);
+	
 	void OnMouseEnter(const ax::Point& mouse);
 
 	void OnMouseLeftDown(const ax::Point& mouse);

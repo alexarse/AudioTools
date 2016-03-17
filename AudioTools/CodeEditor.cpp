@@ -91,6 +91,8 @@ void CodeEditor::OnSaveButton(const ax::Button::Msg& msg)
 	win->PushEvent(10020, new ax::Event::StringMsg("Save"));
 }
 
+
+
 void CodeEditor::OnMouseLeave(const ax::Point& pos)
 {
 	if(_has_resize_cursor) {

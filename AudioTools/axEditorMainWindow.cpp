@@ -47,7 +47,7 @@ namespace editor {
 		win->node.Add(std::shared_ptr<ax::Window::Backbone>(_statusBar));
 		
 		_statusBar->SetLayoutFilePath("default.xml");
-		
+	
 
 		ax::Window* sb_win = _statusBar->GetWindow();
 		sb_win->AddConnection(StatusBar::SAVE_LAYOUT, GetOnSaveLayout());
@@ -59,6 +59,17 @@ namespace editor {
 		sb_win->AddConnection(StatusBar::TOGGLE_RIGHT_PANEL, GetOnToggleRightPanel());
 
 		sb_win->AddConnection(StatusBar::VIEW_LAYOUT, GetOnViewLayout());
+
+
+		// Create grid window.
+		ax::Rect grid_rect(WIDGET_MENU_WIDTH, 30, rect.size.x - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH,
+						   rect.size.y - 30 - 200 - 18);
+		win->node.Add(_gridWindow = ax::shared<GridWindow>(grid_rect));
+		
+		_gridWindow->GetWindow()->AddConnection(1234, GetOnSelectWidget());
+		_gridWindow->GetWindow()->AddConnection(GridWindow::UNSELECT_ALL, GetOnUnSelectAllWidget());
+
+
 
 		// Create widget menu. // 75
 		ax::Rect widget_menu_rect(0, 30, WIDGET_MENU_WIDTH, rect.size.y - 30 - 18);
@@ -72,13 +83,7 @@ namespace editor {
 			rect.size.x - INSPECTOR_MENU_WIDTH, 30, INSPECTOR_MENU_WIDTH, rect.size.y - 30 - 18);
 		win->node.Add(_inspectorMenu = ax::shared<InspectorMenu>(info_rect));
 
-		// Create grid window.
-		ax::Rect grid_rect(WIDGET_MENU_WIDTH, 30, rect.size.x - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH,
-			rect.size.y - 30 - 200 - 18);
-		win->node.Add(_gridWindow = ax::shared<GridWindow>(grid_rect));
-
-		_gridWindow->GetWindow()->AddConnection(1234, GetOnSelectWidget());
-		_gridWindow->GetWindow()->AddConnection(GridWindow::UNSELECT_ALL, GetOnUnSelectAllWidget());
+		
 
 		// Create code editor.
 		TextEditor::Info txt_info;
@@ -245,6 +250,7 @@ namespace editor {
 		_statusBar->GetWindow()->Hide();
 
 		_gridWindow->GetWindow()->dimension.SetPosition(ax::Point(0, 0));
+		_gridWindow->GetWindow()->dimension.SetSize(main_win->dimension.GetSize());
 		_view_mode = true;
 
 		ax::App::GetInstance().SetFrameSize(rect.size);
