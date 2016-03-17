@@ -71,18 +71,18 @@ namespace editor {
 		win->event.OnMouseLeftDragging = ax::WBind<ax::Point>(this, &WidgetMenuObj::OnMouseLeftDragging);
 		win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &WidgetMenuObj::OnMouseLeftUp);
 	}
-	
+
 	void WidgetMenuObj::HideText()
 	{
-		if(_show_text) {
+		if (_show_text) {
 			_show_text = false;
 			win->Update();
 		}
 	}
-	
+
 	void WidgetMenuObj::ShowText()
 	{
-		if(!_show_text) {
+		if (!_show_text) {
 			_show_text = true;
 			win->Update();
 		}
@@ -129,7 +129,7 @@ namespace editor {
 		ax::Point img_pos(5 + (65 - img_size.x) / 2, 5 + (rect.size.y - 8 - img_size.y) / 2);
 		gc.DrawImage(_img.get(), img_pos);
 
-		if(_show_text) {
+		if (_show_text) {
 			gc.SetColor(ax::Color(0.1));
 			gc.DrawString(_font, _title, ax::Point(75, 6));
 
@@ -164,7 +164,7 @@ namespace editor {
 
 		auto view_btn = ax::shared<ax::Button>(ax::Rect(ax::Point(5, 2), ax::Size(25, 25)),
 			GetOnSmallerMenu(), btn_info, "resources/menu.png", "", ax::Button::Flags::SINGLE_IMG);
-		
+
 		win->node.Add(view_btn);
 
 		// Create scrolling window.
@@ -199,13 +199,6 @@ namespace editor {
 					_panel->node.Add(sep);
 
 					pos = sep->GetWindow()->dimension.GetRect().GetNextPosDown(0);
-					//				->dimension.GetRect()
-					//				.GetNextPosDown(0);
-					//				pos =
-					//_panel->node.Add(ax::shared<WidgetMenuSeparator>(sep_rect,
-					// separator_name))
-					//						  ->dimension.GetRect()
-					//						  .GetNextPosDown(0);
 				}
 				else if (node_name == "widget") {
 					ax::Print("WIDGET");
@@ -219,23 +212,13 @@ namespace editor {
 					auto sep = ax::shared<WidgetMenuObj>(ax::Rect(pos, size), buider_name, file_path,
 						widget_label, widget_desc, widget_size, widget_img);
 					_panel->node.Add(sep);
-					
+
 					_objs.push_back(sep);
 
 					pos = sep->GetWindow()->dimension.GetRect().GetNextPosDown(0);
-					//				pos =
-					//_panel->node.Add(ax::shared<WidgetMenuObj>(ax::Rect(pos,
-					// size), buider_name, file_path,
-					//										   widget_label, widget_desc,
-					// widget_size, widget_img))
-					//						  ->dimension.GetRect()
-					//						  .GetNextPosDown(0);
 				}
 
-				//		ax::Xml::Node tm/p_node = node.GetNextSibling();
 				node = node.GetNextSibling();
-				//		node = tmp_node;
-				//		ax::Print(node.GetName());
 			}
 		}
 		catch (rapidxml::parse_error& err) {
@@ -244,85 +227,6 @@ namespace editor {
 		catch (ax::Xml::Exception& err) {
 			ax::Error("Widget menu xml", err.what());
 		}
-		//
-		//	// Read the xml file into a vector.
-		//	std::ifstream menu_file_path("resources/widget_menu.xml");
-		//	std::vector<char> xml_buffer(
-		//		(std::istreambuf_iterator<char>(menu_file_path)),
-		// std::istreambuf_iterator<char>());
-		//	xml_buffer.push_back('\0');
-		//
-		//	rapidxml::xml_document<> doc;
-		//
-		//	try {
-		//		// Parse the buffer using the xml file parsing library into doc.
-		//		doc.parse<0>(&xml_buffer[0]);
-		//
-		//		rapidxml::xml_node<>* root_node = doc.first_node("WidgetMenu");
-		//
-		//		if (root_node) {
-		//			rapidxml::xml_node<>* node = root_node->first_node();
-		//
-		//			while (node) {
-		//				std::string node_name(node->name(), node->name_size());
-		//
-		//				if (node_name == "separator") {
-		//					rapidxml::xml_attribute<>* att =
-		// node->first_attribute("name");
-		//					if (att) {
-		//						std::string separator_name(att->value(),
-		// att->value_size());
-		//						ax::Rect sep_rect(pos, separator_size);
-		//						pos =
-		//_panel->node.Add(ax::shared<WidgetMenuSeparator>(sep_rect,
-		// separator_name))
-		//								  ->dimension.GetRect()
-		//								  .GetNextPosDown(0);
-		//					}
-		//				}
-		//				else if (node_name == "widget") {
-		//					rapidxml::xml_attribute<>* att =
-		// node->first_attribute("builder");
-		//					std::string buider_name(att->value(),
-		// att->value_size());
-		//
-		//					att = node->first_attribute("file");
-		//					std::string file_path(att->value(),
-		// att->value_size());
-		//
-		//					att = node->first_attribute("label");
-		//					std::string widget_label(att->value(),
-		// att->value_size());
-		//
-		//					att = node->first_attribute("description");
-		//					std::string widget_desc(att->value(),
-		// att->value_size());
-		//
-		//					att = node->first_attribute("size");
-		//					std::string widget_size(att->value(),
-		// att->value_size());
-		//
-		//					att = node->first_attribute("img");
-		//					std::string widget_img(att->value(),
-		// att->value_size());
-		//
-		//					pos =
-		//_panel->node.Add(ax::shared<WidgetMenuObj>(ax::Rect(pos, size),
-		// buider_name,
-		//											   file_path, widget_label, widget_desc,
-		// widget_size,
-		// widget_img))
-		//							  ->dimension.GetRect()
-		//							  .GetNextPosDown(0);
-		//				}
-		//
-		//				node = node->next_sibling();
-		//			}
-		//		}
-		//	}
-		//	catch (rapidxml::parse_error err) {
-		//		ax::Error("Widget menu xml", err.what());
-		//	}
 
 		ax::ScrollBar::Info sInfo;
 		sInfo.normal = ax::Color(0.60);
@@ -343,84 +247,67 @@ namespace editor {
 
 		_scrollBar->SetWindowHandle(_panel);
 		_scrollBar->UpdateWindowSize(ax::Size(rect.size.x, pos.y));
-		
-		win->event.GrabScroll();
 	}
-	
+
 	void WidgetMenu::OnMouseEnter(const ax::Point& pos)
 	{
-		ax::Print("OnMouseEnter");
 		win->event.GrabScroll();
 	}
-	
+
 	void WidgetMenu::OnMouseEnterChild(const ax::Point& pos)
 	{
-		ax::Print("OnMouseEnterChild");
 		win->event.GrabScroll();
 	}
-	
+
 	void WidgetMenu::OnMouseLeave(const ax::Point& pos)
 	{
-		ax::Print("Mouse leave");
-		if(!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
+		if (!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
 			win->event.UnGrabScroll();
 		}
 	}
-	
+
 	void WidgetMenu::OnMouseLeaveChild(const ax::Point& pos)
 	{
-		ax::Print("OnMouseLeaveChild");
-		if(!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
-			ax::Print("Rect not inside");
+		if (!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
 			win->event.UnGrabScroll();
 		}
 	}
-	
+
 	void WidgetMenu::OnScrollWheel(const ax::Point& delta)
 	{
-		ax::Print("WidgetMenu::OnScrollWheel", delta.x, delta.y);
 		ax::Size size = _panel->dimension.GetShownRect().size;
 		double scroll_value = delta.y / double(size.y) + _scrollBar->GetZeroToOneValue();
-		ax::Print(scroll_value);
-		
+
 		_scrollBar->SetZeroToOneValue(scroll_value);
 	}
-	
-//	void WidgetMenu::SetSmall()
-//	{
-//		for(auto& n : _objs) {
-//			n->HideText();
-//		}
-//	}
-	
+
 	void WidgetMenu::OnSmallerMenu(const ax::Button::Msg& msg)
 	{
 		// Is already small -> going bigger.
-		if(_dropped_smaller) {
+		if (_dropped_smaller) {
 			win->dimension.SetSize(ax::Size(250, win->dimension.GetRect().size.y));
-			
-			for(auto& n : _objs) {
+
+			for (auto& n : _objs) {
 				n->ShowText();
 			}
-			
+
 			_dropped_smaller = false;
 			win->Update();
-		} else {
+		}
+		else {
 			win->dimension.SetSize(ax::Size(85, win->dimension.GetRect().size.y));
-			
-			for(auto& n : _objs) {
+
+			for (auto& n : _objs) {
 				n->HideText();
 			}
-			
+
 			_dropped_smaller = true;
 			win->Update();
 		}
-		
-		
-		
+
 		win->PushEvent(SMALLER_MENU, new ax::Button::Msg(msg));
 	}
-	
+
 	void WidgetMenu::OnResize(const ax::Size& size)
 	{
 		ax::Rect sRect(size.x - 9, 30, 10, size.y - 31);

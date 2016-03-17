@@ -16,17 +16,23 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 
 	win = ax::Window::Create(rect);
 	win->event.OnResize = ax::WBind<ax::Size>(this, &TextEditor::OnResize);
-	win->event.OnScrollWheel = ax::WBind<ax::Point>(this, &TextEditor::OnScrollWheel);
-//	win->event.GrabScroll();
-	
+
 	_scrollPanel = ax::Window::Create(ax::Rect(0, 0, rect.size.x, rect.size.y));
 
 	_scrollPanel->property.AddProperty("BlockDrawing");
 
 	_scrollPanel->event.OnPaint = ax::WBind<ax::GC>(this, &TextEditor::OnPaint);
+	
+	// Mouse events.
 	_scrollPanel->event.OnMouseEnter = ax::WBind<ax::Point>(this, &TextEditor::OnMouseEnter);
+	_scrollPanel->event.OnMouseEnterChild = ax::WBind<ax::Size>(this, &TextEditor::OnMouseEnterChild);
+	_scrollPanel->event.OnMouseLeave = ax::WBind<ax::Size>(this, &TextEditor::OnMouseLeave);
+	_scrollPanel->event.OnMouseLeaveChild = ax::WBind<ax::Size>(this, &TextEditor::OnMouseLeaveChild);
 	_scrollPanel->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftDown);
 	_scrollPanel->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftUp);
+	_scrollPanel->event.OnScrollWheel = ax::WBind<ax::Point>(this, &TextEditor::OnScrollWheel);
+	
+	// Keyboard events.
 	_scrollPanel->event.OnLeftArrowDown = ax::WBind<char>(this, &TextEditor::OnLeftArrowDown);
 	_scrollPanel->event.OnRightArrowDown = ax::WBind<char>(this, &TextEditor::OnRightArrowDown);
 	_scrollPanel->event.OnUpArrowDown = ax::WBind<char>(this, &TextEditor::OnUpArrowDown);
@@ -35,13 +41,7 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	_scrollPanel->event.OnEnterDown = ax::WBind<char>(this, &TextEditor::OnEnterDown);
 	_scrollPanel->event.OnKeyDeleteDown = ax::WBind<char>(this, &TextEditor::OnKeyDeleteDown);
 	_scrollPanel->event.OnBackSpaceDown = ax::WBind<char>(this, &TextEditor::OnBackSpaceDown);
-	
-	win->event.OnMouseEnterChild = ax::WBind<ax::Size>(this, &TextEditor::OnMouseEnterChild);
-	win->event.OnMouseLeave = ax::WBind<ax::Size>(this, &TextEditor::OnMouseLeave);
-	win->event.OnMouseLeaveChild = ax::WBind<ax::Size>(this, &TextEditor::OnMouseLeaveChild);
-	
-	
-	
+
 	win->node.Add(ax::Window::Ptr(_scrollPanel));
 
 	ax::ScrollBar::Info sInfo;
@@ -203,27 +203,25 @@ void TextEditor::OnScroll(const ax::ScrollBar::Msg& msg)
 void TextEditor::OnMouseEnter(const ax::Point& mouse)
 {
 	_scrollPanel->event.GrabKey();
-	win->event.GrabScroll();
+	_scrollPanel->event.GrabScroll();
 }
 
 void TextEditor::OnMouseLeave(const ax::Point& pos)
 {
-	if(!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
-		ax::Print("Rect not inside");
-		win->event.UnGrabScroll();
+	if (!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
+		_scrollPanel->event.UnGrabScroll();
 	}
 }
 
 void TextEditor::OnMouseEnterChild(const ax::Point& pos)
 {
-	win->event.GrabScroll();
+	_scrollPanel->event.GrabScroll();
 }
 
 void TextEditor::OnMouseLeaveChild(const ax::Point& pos)
 {
-	if(!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
-		ax::Print("Rect not inside");
-		win->event.UnGrabScroll();
+	if (!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
+		_scrollPanel->event.UnGrabScroll();
 	}
 }
 
@@ -296,11 +294,8 @@ void TextEditor::OnKeyDeleteDown(const char& key)
 
 void TextEditor::OnScrollWheel(const ax::Point& delta)
 {
-	ax::Print("TextEditor::OnScrollWheel", delta.x, delta.y);
 	ax::Size size = _scrollPanel->dimension.GetShownRect().size;
 	double scroll_value = (2.0 * delta.y) / double(size.y) + _scrollBar->GetZeroToOneValue();
-	ax::Print(scroll_value);
-
 	_scrollBar->SetZeroToOneValue(scroll_value);
 }
 
