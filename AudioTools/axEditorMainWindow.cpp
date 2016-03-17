@@ -274,6 +274,8 @@ namespace editor {
 		
 		_gridWindow->UnSelectAllWidgets();
 		_inspectorMenu->SetWidgetHandle(nullptr);
+		
+		ax::App::GetInstance().SetResizable(false);
 	}
 
 	void MainWindow::OnBackToEditor(const ax::Button::Msg& msg)
@@ -331,6 +333,8 @@ namespace editor {
 					  "from view mode.");
 		}
 
+
+		ax::App::GetInstance().SetResizable(true);
 		ax::App::GetInstance().SetFrameSize(_view_info.old_frame_size);
 	}
 
