@@ -140,6 +140,15 @@ void CodeEditor::OnMouseLeftDragging(const ax::Point& pos)
 		ax::Rect rect(win->dimension.GetRect());
 		rect.position.y -= delta_y;
 		rect.size.y += delta_y;
+		
+		
+		if(rect.position.y < 30) {
+			ax::Print("Maximum height");
+			int delta_pos_y = 30 - rect.position.y;
+			rect.size.y -= delta_pos_y;
+			rect.position.y = 30;
+		}
+		
 		win->dimension.SetRect(rect);
 	}
 	else if(delta_y < 0) {

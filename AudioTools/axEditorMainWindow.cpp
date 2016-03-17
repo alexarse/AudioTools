@@ -502,6 +502,9 @@ namespace editor {
 
 		if (code_editor) {
 			editor_height = _codeEditor->GetWindow()->dimension.GetSize().y;
+			if(editor_height > size.y - STATUS_BAR_HEIGHT ) {
+				editor_height = size.y - STATUS_BAR_HEIGHT;
+			}
 		}
 
 		int grid_height = size.y - STATUS_BAR_HEIGHT - editor_height - BOTTOM_BAR_HEIGHT;
