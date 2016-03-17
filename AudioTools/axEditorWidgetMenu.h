@@ -65,6 +65,9 @@ namespace editor {
 //
 		void SetSmall();
 		void OnMouseEnter(const ax::Point& pos);
+		void OnMouseLeave(const ax::Point& pos);
+		void OnMouseEnterChild(const ax::Point& pos);
+		void OnMouseLeaveChild(const ax::Point& pos);
 		void OnScrollWheel(const ax::Point& delta);
 		void OnResize(const ax::Size& size);
 		void OnPaint(ax::GC gc);

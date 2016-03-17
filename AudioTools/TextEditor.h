@@ -100,6 +100,9 @@ private:
 
 	// Mouse events.
 	void OnScrollWheel(const ax::Point& delta);
+	void OnMouseLeave(const ax::Point& pos);
+	void OnMouseEnterChild(const ax::Point& pos);
+	void OnMouseLeaveChild(const ax::Point& pos);
 	
 	void OnMouseEnter(const ax::Point& mouse);
 

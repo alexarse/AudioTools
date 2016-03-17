@@ -36,6 +36,9 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	_scrollPanel->event.OnKeyDeleteDown = ax::WBind<char>(this, &TextEditor::OnKeyDeleteDown);
 	_scrollPanel->event.OnBackSpaceDown = ax::WBind<char>(this, &TextEditor::OnBackSpaceDown);
 	
+	win->event.OnMouseEnterChild = ax::WBind<ax::Size>(this, &TextEditor::OnMouseEnterChild);
+	win->event.OnMouseLeave = ax::WBind<ax::Size>(this, &TextEditor::OnMouseLeave);
+	win->event.OnMouseLeaveChild = ax::WBind<ax::Size>(this, &TextEditor::OnMouseLeaveChild);
 	
 	
 	
@@ -201,6 +204,27 @@ void TextEditor::OnMouseEnter(const ax::Point& mouse)
 {
 	_scrollPanel->event.GrabKey();
 	win->event.GrabScroll();
+}
+
+void TextEditor::OnMouseLeave(const ax::Point& pos)
+{
+	if(!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
+		ax::Print("Rect not inside");
+		win->event.UnGrabScroll();
+	}
+}
+
+void TextEditor::OnMouseEnterChild(const ax::Point& pos)
+{
+	win->event.GrabScroll();
+}
+
+void TextEditor::OnMouseLeaveChild(const ax::Point& pos)
+{
+	if(!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
+		ax::Print("Rect not inside");
+		win->event.UnGrabScroll();
+	}
 }
 
 void TextEditor::OnLeftArrowDown(const char& key)

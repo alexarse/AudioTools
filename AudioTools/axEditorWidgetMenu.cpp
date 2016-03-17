@@ -150,6 +150,9 @@ namespace editor {
 		win->event.OnResize = ax::WBind<ax::Size>(this, &WidgetMenu::OnResize);
 		win->event.OnScrollWheel = ax::WBind<ax::Size>(this, &WidgetMenu::OnScrollWheel);
 		win->event.OnMouseEnter = ax::WBind<ax::Size>(this, &WidgetMenu::OnMouseEnter);
+		win->event.OnMouseEnterChild = ax::WBind<ax::Size>(this, &WidgetMenu::OnMouseEnterChild);
+		win->event.OnMouseLeave = ax::WBind<ax::Size>(this, &WidgetMenu::OnMouseLeave);
+		win->event.OnMouseLeaveChild = ax::WBind<ax::Size>(this, &WidgetMenu::OnMouseLeaveChild);
 
 		ax::Button::Info btn_info;
 		btn_info.normal = ax::Color(0.0, 0.0);
@@ -346,7 +349,31 @@ namespace editor {
 	
 	void WidgetMenu::OnMouseEnter(const ax::Point& pos)
 	{
+		ax::Print("OnMouseEnter");
 		win->event.GrabScroll();
+	}
+	
+	void WidgetMenu::OnMouseEnterChild(const ax::Point& pos)
+	{
+		ax::Print("OnMouseEnterChild");
+		win->event.GrabScroll();
+	}
+	
+	void WidgetMenu::OnMouseLeave(const ax::Point& pos)
+	{
+		ax::Print("Mouse leave");
+		if(!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
+			win->event.UnGrabScroll();
+		}
+	}
+	
+	void WidgetMenu::OnMouseLeaveChild(const ax::Point& pos)
+	{
+		ax::Print("OnMouseLeaveChild");
+		if(!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
+			ax::Print("Rect not inside");
+			win->event.UnGrabScroll();
+		}
 	}
 	
 	void WidgetMenu::OnScrollWheel(const ax::Point& delta)
