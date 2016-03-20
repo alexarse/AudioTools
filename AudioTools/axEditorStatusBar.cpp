@@ -53,6 +53,13 @@ namespace editor {
 
 		auto tog_right = ax::shared<ax::Toggle>(ax::Rect(pos, tog_size), GetOnToggleRightPanel(), tog_info);
 
+		// Volume meter.
+		ax::Rect volume_rect(rect.size.x - 165, 8, 50, 7);
+		win->node.Add(ax::shared<at::VolumeMeter>(volume_rect));
+		
+		volume_rect.position = volume_rect.GetNextPosDown(0);
+		win->node.Add(ax::shared<at::VolumeMeter>(volume_rect));
+
 		tog_left->SetSelected(true);
 		tog_middle->SetSelected(true);
 		tog_right->SetSelected(true);

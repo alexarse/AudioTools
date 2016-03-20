@@ -9,6 +9,7 @@
 #ifndef Audio_hpp
 #define Audio_hpp
 
+#include "axLib.h"
 #include "axAudio.h"
 //#include "axPython.h"
 #include "m_pyo.h"
@@ -38,6 +39,7 @@ protected:
 	void CreateServer(float sr, int bufsize, int chnls);
 
 private:
+	ax::Event::Object* _connected_obj;
 	PyThreadState* _pyo;
 	float* _output;
 	int _server_id;

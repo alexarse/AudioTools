@@ -4,6 +4,7 @@
 #include "axButton.h"
 #include "axLib.h"
 #include "axToggle.h"
+#include "atVolumeMeter.hpp"
 
 namespace ax {
 namespace editor {
