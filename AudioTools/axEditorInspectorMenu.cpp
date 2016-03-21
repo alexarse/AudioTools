@@ -106,6 +106,7 @@ namespace editor {
 			win->node.GetChildren().clear();
 		}
 		_selected_handle = nullptr;
+		win->Update();
 	}
 
 	void InspectorMenu::OnPyoCallback(const ax::Event::SimpleMsg<ax::StringPair>& msg)

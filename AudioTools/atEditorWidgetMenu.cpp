@@ -122,8 +122,6 @@ namespace editor {
 	void WidgetMenuObj::OnPaint(ax::GC gc)
 	{
 		ax::Rect rect(win->dimension.GetDrawingRect());
-		//	gc.SetColor(ax::Color(0.98));
-		//		gc.DrawRectangle(rect);
 		gc.DrawRectangleColorFade(rect, ax::Color(1.0), ax::Color(0.98));
 
 		ax::Size img_size(_img->GetSize());

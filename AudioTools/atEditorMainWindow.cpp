@@ -1,21 +1,18 @@
 #include "atEditorMainWindow.h"
 
-#include <OpenAX/WindowManager.h>
-#include <OpenAX/WindowTree.h>
-
 #include <OpenAX/Knob.h>
 #include <OpenAX/Label.h>
 #include <OpenAX/Panel.h>
 #include <OpenAX/ScrollBar.h>
 #include <OpenAX/Slider.h>
 #include <OpenAX/WidgetLoader.h>
+#include <OpenAX/WindowManager.h>
+#include <OpenAX/WindowTree.h>
 
 #include "CodeEditor.h"
-#include "atEditorLoader.h"
-
-#include "atCommon.h"
-
 #include "PyoAudio.h"
+#include "atCommon.h"
+#include "atEditorLoader.h"
 
 namespace at {
 namespace editor {
@@ -115,6 +112,9 @@ namespace editor {
 			selected_win->Update();
 			_inspectorMenu->SetWidgetHandle(selected_win);
 		}
+		else {
+			_inspectorMenu->SetWidgetHandle(nullptr);
+		}
 	}
 
 	void MainWindow::OnUnSelectAllWidget(const ax::Event::SimpleMsg<int>& msg)
@@ -184,11 +184,6 @@ namespace editor {
 	{
 		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _codeEditor->GetScriptPath());
 	}
-
-	//	void MainWindow::OnSaveAsLayout(const ax::Event::StringMsg& msg)
-	//	{
-	//		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _codeEditor->GetScriptPath());
-	//	}
 
 	void MainWindow::OnOpenLayout(const ax::Event::StringMsg& msg)
 	{
@@ -403,27 +398,15 @@ namespace editor {
 
 			// Is inside grid window.
 			/// @todo Add multiple layer search for deepest window.
-			//			std::vector<ax::Window::Ptr>& children(_gridWindow->GetWindow()->node.GetChildren());
-			//			ax::Window* FindMousePosition(const ax::Point& pos);
+			//		  std::vector<ax::Window::Ptr>& children(_gridWindow->GetWindow()->node.GetChildren());
+			//		  ax::Window* FindMousePosition(const ax::Point& pos);
 			ax::Window* hover_window
 				= ax::App::GetInstance().GetWindowManager()->GetWindowTree()->FindMousePosition(pos);
-
-			//			ax::Window::Ptr child_win = nullptr;
 
 			/// @todo Make sure this doesn't loop for ever.
 			while (!hover_window->property.HasProperty("AcceptWidget")) {
 				hover_window = hover_window->node.GetParent();
 			}
-
-			//			for (auto& n : children) {
-			//				if (n->property.HasProperty("AcceptWidget")) {
-			//					ax::Rect abs_rect(n->dimension.GetAbsoluteRect());
-			//
-			//					if (abs_rect.IsPointInside(pos)) {
-			//						child_win = n;
-			//					}
-			//				}
-			//			}
 
 			if (hover_window) {
 				ax::Print("FOUND WINDOW");
@@ -521,12 +504,6 @@ namespace editor {
 			ax::Rect grid_rect(widget_menu_width, STATUS_BAR_HEIGHT, size.x - widget_menu_width, grid_height);
 			_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
 
-			//			ax::Rect info_rect(size.x - INSPECTOR_MENU_WIDTH,
-			// STATUS_BAR_HEIGHT,
-			//							   INSPECTOR_MENU_WIDTH, size.y -
-			// STATUS_BAR_HEIGHT
-			//- 18);
-			//			_inspectorMenu->GetWindow()->dimension.SetRect(info_rect);
 			if (code_editor) {
 				ax::Rect editor_rect(widget_menu_width + 1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
 					size.x - widget_menu_width, editor_height);
@@ -534,11 +511,6 @@ namespace editor {
 			}
 		}
 		else if (inspector) {
-			//			ax::Size widget_menu_size(WIDGET_MENU_WIDTH, size.y - 30
-			//-
-			// 18);
-			//			_widgetMenu->GetWindow()->dimension.SetSize(widget_menu_size);
-
 			ax::Rect grid_rect(0, STATUS_BAR_HEIGHT, size.x - INSPECTOR_MENU_WIDTH, grid_height);
 			_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
 
@@ -565,7 +537,6 @@ namespace editor {
 
 	void MainWindow::OnPaint(ax::GC gc)
 	{
-		//		ax::Print("Main window draw");
 		ax::Rect rect(ax::Point(0, 0), win->dimension.GetSize());
 
 		gc.SetColor(ax::Color(0.3));

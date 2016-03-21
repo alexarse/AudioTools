@@ -51,11 +51,10 @@ namespace editor {
 		win->node.Add(v_meter_r);
 		_volumeMeterRight = v_meter_r.get();
 		
-		
+		// Connect volume meter event.
 		win->AddConnection(PyoAudio::Events::RMS_VALUE_CHANGE, GetOnAudioRmsValue());
 		PyoAudio::GetInstance()->SetConnectedObject(win);
 		
-
 		const ax::Size tog_size(25, 25);
 
 		// Left panel toggle.
@@ -198,13 +197,11 @@ namespace editor {
 
 	void StatusBar::OnSaveDialog(const ax::Event::StringMsg& msg)
 	{
-		ax::Print("Save dialog");
 		win->PushEvent(SAVE_LAYOUT, new ax::Event::StringMsg(msg));
 	}
 
 	void StatusBar::OnOpenDialog(const ax::Event::StringMsg& msg)
 	{
-		ax::Print("Open dialog :", msg.GetMsg());
 		win->PushEvent(OPEN_LAYOUT, new ax::Event::StringMsg(msg));
 	}
 
@@ -245,7 +242,6 @@ namespace editor {
 		ax::Rect rect(win->dimension.GetDrawingRect());
 
 		gc.SetColor(ax::Color(0.30));
-		//	gc.SetColor(ax::Color(20, 58, 123));
 		gc.DrawRectangle(rect);
 
 		if (!_layout_file_path.empty()) {
@@ -253,7 +249,6 @@ namespace editor {
 			gc.DrawStringAlignedCenter(_font, _layout_file_path, rect);
 		}
 
-		//	gc.DrawRectangleColorFade(rect, ax::Color(0.26), ax::Color(0.28));
 		gc.SetColor(ax::Color(0.30));
 		gc.DrawRectangleContour(rect);
 	}

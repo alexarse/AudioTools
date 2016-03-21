@@ -12,8 +12,6 @@ namespace editor {
 	public:
 		WidgetMenuSeparator(const ax::Rect& rect, const std::string& name);
 
-		
-
 	private:
 		ax::Font _font;
 		std::string _name;
@@ -54,7 +52,6 @@ namespace editor {
 		enum : ax::Event::Id { SMALLER_MENU };
 
 	private:
-//		std::shared_ptr<WidgetMenuObj> _objs; // Fuckup for now.
 		ax::Window* _panel;
 		ax::ScrollBar::Ptr _scrollBar;
 		std::vector<std::shared_ptr<WidgetMenuObj>> _objs;
@@ -62,8 +59,6 @@ namespace editor {
 	
 		axEVENT_DECLARATION(ax::Button::Msg, OnSmallerMenu);
 		
-
-//
 		void SetSmall();
 		void OnMouseEnter(const ax::Point& pos);
 		void OnMouseLeave(const ax::Point& pos);

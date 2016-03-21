@@ -1,6 +1,8 @@
 #include "PyoAudio.h"
 #include "PyoComponent.h"
 #include "atEditorLoader.h"
+#include "atEditorMainWindow.h"
+#include "atEditor.h"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Knob.h>
@@ -45,7 +47,7 @@ namespace editor {
 		}
 
 		std::string script_path;
-		
+
 		try {
 			script_path = top_node.GetAttribute("script");
 		}
@@ -106,7 +108,7 @@ namespace editor {
 		catch (ax::Xml::Exception& err) {
 			ax::Error("Widget menu xml", err.what());
 		}
-		
+
 		return script_path;
 	}
 
@@ -225,7 +227,8 @@ namespace editor {
 					}
 					//					else {
 					//						window->dimension.SetPosition(
-					//							pos - window->node.GetParent()->dimension.GetAbsoluteRect().position
+					//							pos -
+					//window->node.GetParent()->dimension.GetAbsoluteRect().position
 					//-
 					// c_delta);
 					//					}
@@ -266,44 +269,46 @@ namespace editor {
 			}
 		});
 
-		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([win, m_right_down](const ax::Point& pos) {
-			if(ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([gwin, win, m_right_down](const ax::Point& pos) {
+			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
 				win->Hide();
 				ax::Window* parent = win->node.GetParent();
-				
+
 				if (parent == nullptr) {
 					return;
 				}
-				
-					auto& children = parent->node.GetChildren();
-					ax::Window::Ptr current_win;
-				
-					int index = -1;
-					for (int i = 0; i < children.size(); i++) {
-						if (children[i]->GetId() == win->GetId()) {
-							current_win = children[i];
-							index = i;
-							break;
-						}
+
+				auto& children = parent->node.GetChildren();
+				ax::Window::Ptr current_win;
+
+				int index = -1;
+				for (int i = 0; i < children.size(); i++) {
+					if (children[i]->GetId() == win->GetId()) {
+						current_win = children[i];
+						index = i;
+						break;
 					}
-				
-					if(current_win && index != -1) {
-						win->event.UnGrabMouse();
-						ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
-						children.erase(children.begin() + index);
-					}
-				
-				
-					return;
 				}
-			
+
+				if (current_win && index != -1) {
+					win->event.UnGrabMouse();
+					ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
+					children.erase(children.begin() + index);
+					
+					/// @todo Remove from inspector menu.
+					gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(nullptr));
+				}
+
+				return;
+			}
+
 			ax::Print("RIGHT DOWN");
 			//				if (win->event.IsGrabbed()) {
 			//					win->event.UnGrabMouse();
 			//				}
 			//
-			
-//			win->DeleteWindow();
+
+			//			win->DeleteWindow();
 
 			if (m_right_down) {
 				m_right_down(pos);
@@ -313,8 +318,8 @@ namespace editor {
 		win->event.OnPaintOverFrameBuffer = ax::WFunc<ax::GC>([win](ax::GC gc) {
 			if (win->property.HasProperty("current_editing_widget")) {
 				ax::Rect rect(win->dimension.GetDrawingRect());
-//				rect.position -= ax::Point(3, 3);
-//				rect.size += ax::Size(6, 6);
+				//				rect.position -= ax::Point(3, 3);
+				//				rect.size += ax::Size(6, 6);
 				ax::Color color(255, 0, 0);
 
 				gc.SetColor(color, 0.1);
@@ -330,8 +335,6 @@ namespace editor {
 				gc.DrawRectangleContour(rect.GetInteriorRect(ax::Point(2, 2)));
 			}
 		});
-		
-		
 	}
 
 	void Loader::SetupPyoComponent(ax::Window* win, const std::string& fct_name)
@@ -392,25 +395,25 @@ namespace editor {
 							   }
 						   }));
 	}
-	
+
 	void Loader::SetupSliderPyoEvent(ax::Window* win)
 	{
 		win->AddConnection(0, ax::Event::Function([win](ax::Event::Msg* msg) {
-			if (win->component.Has("pyo")) {
-				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
-				std::string fct_name = comp->GetFunctionName();
-				
-				if (!fct_name.empty()) {
-					ax::Slider::Msg* kmsg = static_cast<ax::Slider::Msg*>(msg);
-					double value = 1.0 - kmsg->GetValue();
-					std::string fct_call = fct_name + "(";
-					fct_call += std::to_string(value) + ");\n";
-					
-					PyoAudio* pyo = PyoAudio::GetInstance();
-					pyo->ProcessString(fct_call);
-				}
-			}
-		}));
+							   if (win->component.Has("pyo")) {
+								   pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
+								   std::string fct_name = comp->GetFunctionName();
+
+								   if (!fct_name.empty()) {
+									   ax::Slider::Msg* kmsg = static_cast<ax::Slider::Msg*>(msg);
+									   double value = 1.0 - kmsg->GetValue();
+									   std::string fct_call = fct_name + "(";
+									   fct_call += std::to_string(value) + ");\n";
+
+									   PyoAudio* pyo = PyoAudio::GetInstance();
+									   pyo->ProcessString(fct_call);
+								   }
+							   }
+						   }));
 	}
 }
 }
