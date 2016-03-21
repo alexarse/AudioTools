@@ -48,6 +48,7 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Button::Msg, OnOpenLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnViewLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnReload);
+		axEVENT_DECLARATION(ax::Button::Msg, OnSettings);
 
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleLeftPanel);
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleBottomPanel);

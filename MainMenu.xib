@@ -62,16 +62,16 @@
             </items>
         </menu>
         <window title="AudioTools" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" animationBehavior="default" id="QvC-M9-y7g">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES"/>
+            <windowStyleMask key="styleMask" closable="YES" miniaturizable="YES" texturedBackground="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="405" y="148" width="550" height="500"/>
+            <rect key="contentRect" x="405" y="148" width="400" height="500"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="550" height="500"/>
+                <rect key="frame" x="0.0" y="0.0" width="400" height="500"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <openGLView fixedFrame="YES" placeholderIntrinsicWidth="599" placeholderIntrinsicHeight="771" antiAliasingType="multisample" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f4P-Mk-36u" customClass="axAppDelegate">
-                        <rect key="frame" x="0.0" y="0.0" width="550" height="500"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="500"/>
                     </openGLView>
                 </subviews>
             </view>
