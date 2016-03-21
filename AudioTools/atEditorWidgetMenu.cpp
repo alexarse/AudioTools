@@ -1,7 +1,6 @@
+#include "atCommon.h"
 #include "atEditor.h"
 #include "atEditorWidgetMenu.h"
-
-#include "atCommon.h"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Xml.h>
@@ -60,6 +59,7 @@ namespace editor {
 		, _title(title)
 		, _info(info)
 		, _size_str(size)
+		, _selectable(true)
 	{
 		_font_normal.SetFontSize(11);
 
@@ -89,19 +89,26 @@ namespace editor {
 		}
 	}
 
+	void WidgetMenuObj::SetSelectable(bool selectable)
+	{
+		if (_selectable != selectable) {
+			_selectable = selectable;
+			win->Update();
+		}
+	}
+
 	void WidgetMenuObj::OnMouseLeftDown(const ax::Point& pos)
 	{
-		win->event.GrabMouse();
-		//	ApplicationManager::GetMainEvtObj()->PushEvent(
-		//		8000, new ax::Event::SimpleMsg<std::pair<std::string,
-		// ax::Point>>(
-		//				  std::pair<std::string, ax::Point>(_name, pos)));
+		if (_selectable) {
+			win->event.GrabMouse();
 
-		App::GetMainEvtObj()->PushEvent(
-			8000, new ax::Event::SimpleMsg<std::pair<ax::StringPair, ax::Point>>(
-					  std::pair<ax::StringPair, ax::Point>(ax::StringPair(_builder_name, _file_path), pos)));
+			App::GetMainEvtObj()->PushEvent(
+				8000,
+				new ax::Event::SimpleMsg<std::pair<ax::StringPair, ax::Point>>(
+					std::pair<ax::StringPair, ax::Point>(ax::StringPair(_builder_name, _file_path), pos)));
 
-		win->Update();
+			win->Update();
+		}
 	}
 
 	void WidgetMenuObj::OnMouseLeftDragging(const ax::Point& pos)
@@ -118,12 +125,14 @@ namespace editor {
 			win->Update();
 		}
 	}
+	
+	
 
 	void WidgetMenuObj::OnPaint(ax::GC gc)
 	{
 		ax::Rect rect(win->dimension.GetDrawingRect());
 		gc.DrawRectangleColorFade(rect, ax::Color(1.0), ax::Color(0.98));
-
+		
 		ax::Size img_size(_img->GetSize());
 		ax::Point img_pos(5 + (65 - img_size.x) / 2, 5 + (rect.size.y - 8 - img_size.y) / 2);
 		gc.DrawImage(_img.get(), img_pos);
@@ -139,6 +148,12 @@ namespace editor {
 
 		gc.SetColor(ax::Color(0.9));
 		gc.DrawRectangleContour(rect);
+		
+		// If not selectable.
+		if(!_selectable) {
+			gc.SetColor(ax::Color(0.5, 0.45));
+			gc.DrawRectangle(rect);
+		}
 	}
 
 	WidgetMenu::WidgetMenu(const ax::Rect& rect)
@@ -246,6 +261,22 @@ namespace editor {
 
 		_scrollBar->SetWindowHandle(_panel);
 		_scrollBar->UpdateWindowSize(ax::Size(rect.size.x, pos.y));
+		
+		SetOnlyMainWindowWidgetSelectable();
+	}
+	
+	void WidgetMenu::SetOnlyMainWindowWidgetSelectable()
+	{
+		for(int i = 1; i < _objs.size(); i++) {
+			_objs[i]->SetSelectable(false);
+		}
+	}
+	
+	void WidgetMenu::SetAllSelectable()
+	{
+		for(int i = 1; i < _objs.size(); i++) {
+			_objs[i]->SetSelectable(true);
+		}
 	}
 
 	void WidgetMenu::OnMouseEnter(const ax::Point& pos)

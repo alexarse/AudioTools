@@ -32,12 +32,15 @@ namespace editor {
 		
 		void ShowText();
 		
+		void SetSelectable(bool selectable);
+		
 	private:
 		ax::Font _font;
 		ax::Font _font_normal;
 		std::string _builder_name, _file_path, _title, _info, _size_str;
 		std::shared_ptr<ax::Image> _img;
 		bool _show_text = true;
+		bool _selectable;
 
 		void OnMouseLeftDown(const ax::Point& pos);
 		void OnMouseLeftDragging(const ax::Point& pos);
@@ -50,6 +53,9 @@ namespace editor {
 		WidgetMenu(const ax::Rect& rect);
 		
 		enum : ax::Event::Id { SMALLER_MENU };
+		
+		void SetOnlyMainWindowWidgetSelectable();
+		void SetAllSelectable();
 
 	private:
 		ax::Window* _panel;

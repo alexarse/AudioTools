@@ -16,7 +16,8 @@ namespace editor {
 		enum : ax::Event::Id
 		{
 			UNSELECT_ALL = 999,
-			SELECT_WIDGET = 1234
+			SELECT_WIDGET = 1234//,
+//			GRID_HAS_NEW_MAIN_WINDOW = 19281
 		};
 
 		/// Set number of pixels between each grid lines.
@@ -37,7 +38,7 @@ namespace editor {
 		std::pair<bool, ax::Rect> _selection;
 		ax::Color _bg_color;
 		
-		void SetupControl(ax::Window* win);
+//		void SetupControl(ax::Window* win);
 		////		{
 		////			auto m_down_fct = win->event.OnMouseLeftDown.GetFunction();
 		////			auto m_drag_fct = win->event.OnMouseLeftDragging.GetFunction();

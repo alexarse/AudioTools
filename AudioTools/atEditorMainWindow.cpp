@@ -102,7 +102,6 @@ namespace editor {
 
 	void MainWindow::OnSelectWidget(const ax::Event::SimpleMsg<ax::Window*>& msg)
 	{
-		ax::Print("SELECT WIDGET");
 		ax::Window* selected_win = msg.GetMsg();
 
 		_gridWindow->UnSelectAllWidgets();
@@ -114,6 +113,10 @@ namespace editor {
 		}
 		else {
 			_inspectorMenu->SetWidgetHandle(nullptr);
+		}
+		
+		if(_gridWindow->GetMainWindow() == nullptr) {
+			_widgetMenu->SetOnlyMainWindowWidgetSelectable();
 		}
 	}
 
@@ -195,6 +198,13 @@ namespace editor {
 				_statusBar->SetLayoutFilePath(msg.GetMsg());
 				_codeEditor->OpenFile(script_path);
 				PyoAudio::GetInstance()->ReloadScript(script_path);
+			}
+			
+			if(_gridWindow->GetMainWindow() == nullptr) {
+				_widgetMenu->SetOnlyMainWindowWidgetSelectable();
+			}
+			else {
+				_widgetMenu->SetAllSelectable();
 			}
 		}
 	}
@@ -385,6 +395,8 @@ namespace editor {
 				// The temporary widget will be deleted.
 				return;
 			}
+			
+			_widgetMenu->SetAllSelectable();
 
 			if (widget_win->GetId() != main_window->GetId()) {
 				bool inside_main_window = main_window->dimension.GetAbsoluteRect().IsPointInside(pos);
