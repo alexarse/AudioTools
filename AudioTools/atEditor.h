@@ -20,11 +20,6 @@ namespace editor {
 		}
 
 		static ax::Event::Object* GetMainEvtObj();
-		
-//		void SetMainObject(ax::Event::Object* obj)
-//		{
-//			
-//		}
 
 		int MainLoop();
 
@@ -32,7 +27,6 @@ namespace editor {
 		static std::unique_ptr<App> _instance;
 		ax::Event::Object _obj;
 		std::thread _loading_thread;
-//		std::shared_ptr<MainWindow> _mainWindow;
 
 		App();
 

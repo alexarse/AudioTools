@@ -53,7 +53,7 @@ void SplashDialog::OnPaint(ax::GC gc)
 
 	if (_logo_img.IsImageReady()) {
 		ax::Size logo_size(_logo_img.GetSize());
-		gc.DrawImage(&_logo_img, ax::Point((rect.size.x - logo_size.x) * 0.5, 100));
+		gc.DrawImage(&_logo_img, ax::Point((rect.size.x - logo_size.x) * 0.5, 140));
 	}
 
 	// App name.
