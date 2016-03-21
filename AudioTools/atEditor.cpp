@@ -50,8 +50,7 @@ namespace editor {
 
 	ax::Event::Object* App::GetMainEvtObj()
 	{
-		auto& app(App::_instance);
-		return app->_mainWindow->GetWindow();
+		return ax::App::GetInstance().GetTopLevel().get();
 	}
 
 	App::App()
@@ -65,19 +64,12 @@ namespace editor {
 		ax::App& app(ax::App::GetInstance());
 
 		app.AddMainEntry([&]() {
-			//			const ax::Size size(1000, 700);
-			//			app.SetFrameSize(size);
-			//
-			//			_mainWindow = ax::shared<MainWindow>(ax::Rect(0, 0, size));
-			//			app.AddTopLevel(_mainWindow);
 			app.SetFrameSize(ax::Size(400, 500));
 			auto splash_screen = ax::shared<at::SplashDialog>(ax::Rect(0, 0, 400, 500));
 			_obj.AddConnection(Events::LOADING_EVT_ID, splash_screen->GetOnLoadingPercent());
 			app.AddTopLevel(splash_screen);
 		});
 
-		//		app.AddAfterGUILoadFunction(
-		//			[&app]() { app.SetFrameSize(ax::Size(1000, 700)); });
 		app.AddAfterGUILoadFunction([&]() {
 			app.SetFrameSize(ax::Size(400, 500));
 			app.SetFocusAndCenter();
@@ -97,6 +89,7 @@ namespace editor {
 					obj.PushEvent(Events::LOADING_EVT_ID,
 						new MsgType(at::SplashDialog::LoadInfoMsg(0.7, "Load midi ...")));
 					
+					/// @todo Save this somewhere.
 					Midi* midi = new Midi(audio);
 
 					obj.PushEvent(
@@ -124,12 +117,6 @@ namespace editor {
 		if (chdir(path.c_str()) == -1) {
 			ax::Error("Could not set current directory : ", path, ".");
 		}
-
-		//		PyoAudio* audio = PyoAudio::GetInstance();
-		//		audio->InitAudio();
-		//		audio->StartAudio();
-		//
-		//		Midi* midi = new Midi(audio);
 
 		ax::App::GetInstance().MainLoop();
 		return 0;
