@@ -316,6 +316,7 @@ namespace editor {
 
 		ax::App::GetInstance().SetResizable(true);
 		ax::App::GetInstance().SetFrameSize(_view_info.old_frame_size);
+		ax::App::GetInstance().SetFocusAndCenter();
 	}
 
 	void MainWindow::OnCreateDraggingWidget(const ax::Event::SimpleMsg<ObjMsg>& msg)
