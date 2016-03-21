@@ -1,5 +1,5 @@
 #include "PyoAudio.h"
-#include "axUtils.h"
+#include <OpenAX/Utils.h>
 
 PyoAudio* PyoAudio::_global_audio = nullptr;
 

@@ -1,12 +1,13 @@
-#include "axEditor.h"
-#include "axEditorWidgetMenu.h"
+#include "atEditor.h"
+#include "atEditorWidgetMenu.h"
 
 #include "atCommon.h"
-#include "axButton.h"
-#include "axXml.h"
-#include "rapidxml.hpp"
 
-namespace ax {
+#include <OpenAX/Button.h>
+#include <OpenAX/Xml.h>
+#include <OpenAX/rapidxml.hpp>
+
+namespace at {
 namespace editor {
 	WidgetMenuSeparator::WidgetMenuSeparator(const ax::Rect& rect, const std::string& name)
 		: _font("fonts/FreeSansBold.ttf")

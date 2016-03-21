@@ -7,8 +7,8 @@
 //
 
 #include "atMenuAttribute.h"
-#include "axLabel.h"
-#include "axTextBox.h"
+#include <OpenAX/Label.h>
+#include <OpenAX/TextBox.h>
 
 namespace at {
 namespace inspector {

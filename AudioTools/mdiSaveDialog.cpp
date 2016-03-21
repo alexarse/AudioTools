@@ -1,9 +1,9 @@
-#include "mdiSaveDialog.hpp"
+#include "atSaveDialog.hpp"
 
-#include "axCore.h"
-#include "axToggle.h"
+#include <OpenAX/Core.h>
+#include <OpenAX/Toggle.h>
 
-namespace ax {
+namespace at {
 namespace editor {
 	SaveDialog::SaveDialog(const ax::Rect& rect, const std::string& default_name)
 	{

@@ -9,8 +9,8 @@
 #ifndef PyoComponent_hpp
 #define PyoComponent_hpp
 
-#include "axUtils.h"
-#include "axWindow.h"
+#include <OpenAX/Utils.h>
+#include <OpenAX/Window.h>
 
 namespace pyo {
 class Component : public ax::Component {

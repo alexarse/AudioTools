@@ -1,15 +1,13 @@
-#include "axEditorStatusBar.h"
-
-#include "mdiOpenDialog.hpp"
-#include "mdiSaveDialog.hpp"
-
-#include "axCore.h"
-#include "axToggle.h"
-#include "axWindowManager.h"
-
+#include "atEditorStatusBar.h"
+#include "atOpenDialog.hpp"
+#include "atSaveDialog.hpp"
 #include "atCommon.h"
 
-namespace ax {
+#include <OpenAX/Core.h>
+#include <OpenAX/Toggle.h>
+#include <OpenAX/WindowManager.h>
+
+namespace at {
 namespace editor {
 	StatusBar::StatusBar(const ax::Rect& rect)
 		: _font(0)

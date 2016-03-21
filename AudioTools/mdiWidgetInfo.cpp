@@ -1,1 +1,0 @@
-#include "mdiWidgetInfo.hpp"

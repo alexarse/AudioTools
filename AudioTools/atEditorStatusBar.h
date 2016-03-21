@@ -1,12 +1,14 @@
 #ifndef mdiStatusBar_hpp
 #define mdiStatusBar_hpp
 
-#include "axButton.h"
-#include "axLib.h"
-#include "axToggle.h"
+#include <OpenAX/OpenAX.h>
+
+#include <OpenAX/Button.h>
+#include <OpenAX/Toggle.h>
+
 #include "atVolumeMeter.hpp"
 
-namespace ax {
+namespace at {
 namespace editor {
 	/*
 	 * ax::editor::StatusBar.

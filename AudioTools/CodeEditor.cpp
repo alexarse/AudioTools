@@ -1,5 +1,5 @@
 #include "CodeEditor.h"
-#include "axButton.h"
+#include <OpenAX/Button.h>
 #include <algorithm>
 
 CodeEditor::CodeEditor(const ax::Rect& rect)

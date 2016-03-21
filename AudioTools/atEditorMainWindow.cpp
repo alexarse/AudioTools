@@ -1,37 +1,23 @@
-#include "axEditorMainWindow.h"
+#include "atEditorMainWindow.h"
 
-//#include <axLib/axWindowManager.h>
-//#include <axLib/axWindowTree.h>
-//
-//#include <axLib/axKnob.h>
-//#include <axLib/axLabel.h>
-//#include <axLib/axPanel.h>
-//#include <axLib/axScrollBar.h>
-//#include <axLib/axSlider.h>
+#include <OpenAX/WindowManager.h>
+#include <OpenAX/WindowTree.h>
 
-#include "axWindowManager.h"
-#include "axWindowTree.h"
-
-#include "axKnob.h"
-#include "axLabel.h"
-#include "axPanel.h"
-#include "axScrollBar.h"
-#include "axSlider.h"
-
-#include "mdiCtrlButton.hpp"
-#include "mdiCtrlKnob.hpp"
-#include "mdiCtrlSlider.hpp"
-#include "mdiCtrlToggle.hpp"
+#include <OpenAX/Knob.h>
+#include <OpenAX/Label.h>
+#include <OpenAX/Panel.h>
+#include <OpenAX/ScrollBar.h>
+#include <OpenAX/Slider.h>
+#include <OpenAX/WidgetLoader.h>
 
 #include "CodeEditor.h"
-#include "axEditorLoader.h"
-#include "axWidgetLoader.h"
+#include "atEditorLoader.h"
 
 #include "atCommon.h"
 
 #include "PyoAudio.h"
 
-namespace ax {
+namespace at {
 namespace editor {
 	MainWindow::MainWindow(const ax::Rect& rect)
 		: _has_tmp_widget(false)
@@ -45,9 +31,8 @@ namespace editor {
 		ax::Rect top_menu_rect(0, 0, rect.size.x, 30);
 		_statusBar = new StatusBar(top_menu_rect);
 		win->node.Add(std::shared_ptr<ax::Window::Backbone>(_statusBar));
-		
+
 		_statusBar->SetLayoutFilePath("default.xml");
-	
 
 		ax::Window* sb_win = _statusBar->GetWindow();
 		sb_win->AddConnection(StatusBar::SAVE_LAYOUT, GetOnSaveLayout());
@@ -60,16 +45,13 @@ namespace editor {
 
 		sb_win->AddConnection(StatusBar::VIEW_LAYOUT, GetOnViewLayout());
 
-
 		// Create grid window.
 		ax::Rect grid_rect(WIDGET_MENU_WIDTH, 30, rect.size.x - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH,
-						   rect.size.y - 30 - 200 - 18);
+			rect.size.y - 30 - 200 - 18);
 		win->node.Add(_gridWindow = ax::shared<GridWindow>(grid_rect));
-		
+
 		_gridWindow->GetWindow()->AddConnection(1234, GetOnSelectWidget());
 		_gridWindow->GetWindow()->AddConnection(GridWindow::UNSELECT_ALL, GetOnUnSelectAllWidget());
-
-
 
 		// Create widget menu. // 75
 		ax::Rect widget_menu_rect(0, 30, WIDGET_MENU_WIDTH, rect.size.y - 30 - 18);
@@ -82,8 +64,6 @@ namespace editor {
 		ax::Rect info_rect(
 			rect.size.x - INSPECTOR_MENU_WIDTH, 30, INSPECTOR_MENU_WIDTH, rect.size.y - 30 - 18);
 		win->node.Add(_inspectorMenu = ax::shared<InspectorMenu>(info_rect));
-
-		
 
 		// Create code editor.
 		TextEditor::Info txt_info;
@@ -142,7 +122,7 @@ namespace editor {
 		ax::Print("REMOVE ALL");
 		_inspectorMenu->RemoveHandle();
 	}
-	
+
 	void MainWindow::OnResizeCodeEditor(const ax::Event::SimpleMsg<int>& msg)
 	{
 		win->event.OnResize(win->dimension.GetSize());
@@ -204,18 +184,18 @@ namespace editor {
 	{
 		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _codeEditor->GetScriptPath());
 	}
-	
-//	void MainWindow::OnSaveAsLayout(const ax::Event::StringMsg& msg)
-//	{
-//		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _codeEditor->GetScriptPath());
-//	}
+
+	//	void MainWindow::OnSaveAsLayout(const ax::Event::StringMsg& msg)
+	//	{
+	//		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _codeEditor->GetScriptPath());
+	//	}
 
 	void MainWindow::OnOpenLayout(const ax::Event::StringMsg& msg)
 	{
 		if (!msg.GetMsg().empty()) {
 			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
-			
-			if(!script_path.empty()) {
+
+			if (!script_path.empty()) {
 				ax::Print("Loading script :", script_path);
 				_statusBar->SetLayoutFilePath(msg.GetMsg());
 				_codeEditor->OpenFile(script_path);
@@ -271,11 +251,12 @@ namespace editor {
 		tmp_back_btn->GetWindow()->property.AddProperty("TemporaryBackButton");
 
 		main_win->node.Add(tmp_back_btn);
-		
+
 		_gridWindow->UnSelectAllWidgets();
 		_inspectorMenu->SetWidgetHandle(nullptr);
-		
+
 		ax::App::GetInstance().SetResizable(false);
+		ax::App::GetInstance().SetFocusAndCenter();
 	}
 
 	void MainWindow::OnBackToEditor(const ax::Button::Msg& msg)
@@ -332,7 +313,6 @@ namespace editor {
 			ax::Error("Back to editor button wasn't found when comming back "
 					  "from view mode.");
 		}
-
 
 		ax::App::GetInstance().SetResizable(true);
 		ax::App::GetInstance().SetFrameSize(_view_info.old_frame_size);
@@ -506,7 +486,7 @@ namespace editor {
 
 		if (code_editor) {
 			editor_height = _codeEditor->GetWindow()->dimension.GetSize().y;
-			if(editor_height > size.y - STATUS_BAR_HEIGHT ) {
+			if (editor_height > size.y - STATUS_BAR_HEIGHT) {
 				editor_height = size.y - STATUS_BAR_HEIGHT;
 			}
 		}

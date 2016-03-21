@@ -1,9 +1,9 @@
 #ifndef mdiInspectorMenu_hpp
 #define mdiInspectorMenu_hpp
 
-#include "axLib.h"
+#include <OpenAX/OpenAX.h>
 
-namespace ax {
+namespace at {
 namespace editor {
 
 	class MenuSeparator : public ax::Window::Backbone {

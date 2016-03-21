@@ -1,10 +1,10 @@
-#include "mdiOpenDialog.hpp"
+#include "atOpenDialog.hpp"
 
-#include "axCore.h"
-#include "axOSFileSystem.h"
-#include "axToggle.h"
+#include <OpenAX/Core.h>
+#include <OpenAX/OSFileSystem.h>
+#include <OpenAX/Toggle.h>
 
-namespace ax {
+namespace at {
 namespace editor {
 	OpenDialog::OpenDialog(const ax::Rect& rect)
 	{

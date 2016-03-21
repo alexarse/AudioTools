@@ -1,11 +1,11 @@
 #ifndef __MDI_OPEN_DIALOG_H__
 #define __MDI_OPEN_DIALOG_H__
 
-#include "axButton.h"
-#include "axDropMenu.h"
-#include "axLib.h"
+#include <OpenAX/Button.h>
+#include <OpenAX/DropMenu.h>
+#include <OpenAX/OpenAX.h>
 
-namespace ax {
+namespace at {
 namespace editor {
 	/*
 	 * mdi::StatusBar.

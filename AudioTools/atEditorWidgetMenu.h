@@ -1,11 +1,12 @@
 #ifndef mdiWidgetMenu_hpp
 #define mdiWidgetMenu_hpp
 
-#include "axButton.h"
-#include "axLib.h"
-#include "axScrollBar.h"
+#include <OpenAX/OpenAX.h>
 
-namespace ax {
+#include <OpenAX/Button.h>
+#include <OpenAX/ScrollBar.h>
+
+namespace at {
 namespace editor {
 	class WidgetMenuSeparator : public ax::Window::Backbone {
 	public:

@@ -9,7 +9,7 @@
 #ifndef atInspectorMenuAttribute_hpp
 #define atInspectorMenuAttribute_hpp
 
-#include "axLib.h"
+#include <OpenAX/OpenAX.h>
 
 namespace at {
 namespace inspector {

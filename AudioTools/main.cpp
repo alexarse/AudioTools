@@ -1,18 +1,14 @@
-#include "axLib.h"
-#include "axWindowManager.h"
+#include <OpenAX/OpenAX.h>
+#include <OpenAX/WindowManager.h>
 //#include "axWindowServerFrame.h"
 //#include "axWindowServerManager.h"
 
-#include "axDropMenu.h"
-#include "axLabel.h"
-#include "axScrollBar.h"
-#include "axTextBox.h"
+#include "OpenAX/DropMenu.h"
+#include "OpenAX/Label.h"
+#include "OpenAX/ScrollBar.h"
+#include "OpenAX/TextBox.h"
 
-//#include "axScript.h"
-//#include "axMidiCore.h"
-//
-//#include "PyoAudio.h"
-#include "axEditor.h"
+#include "atEditor.h"
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -57,7 +53,7 @@ int main()
 	
 	
 	
-	ax::editor::App* app = ax::editor::App::Create();
+	at::editor::App* app = at::editor::App::Create();
 //	PyoAudio* audio = PyoAudio::GetInstance();
 //	audio->InitAudio();
 //	audio->StartAudio();

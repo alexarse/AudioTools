@@ -1,11 +1,11 @@
 #include "PyoComponent.h"
-#include "axEditorInspectorMenu.h"
+#include "atEditorInspectorMenu.h"
 //#include "axLabel.h"
 //#include "axTextBox.h"
 #include "atCommon.h"
 #include "atMenuAttribute.h"
 
-namespace ax {
+namespace at {
 namespace editor {
 	MenuSeparator::MenuSeparator(const ax::Rect& rect, const std::string& name)
 		: _name(name)

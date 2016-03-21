@@ -1,9 +1,9 @@
 #ifndef __MDI_GRID_WINDOW_H__
 #define __MDI_GRID_WINDOW_H__
 
-#include "axLib.h"
+#include <OpenAX/OpenAX.h>
 
-namespace ax {
+namespace at {
 namespace editor {
 	/*
 	 * GridWindow.

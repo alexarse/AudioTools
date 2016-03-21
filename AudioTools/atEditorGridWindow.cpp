@@ -2,26 +2,26 @@
 //#include "mdiCtrlButton.hpp"
 //#include "mdiCtrlKnob.hpp"
 
-#include "axEditorGridWindow.h"
-#include "axWindowManager.h"
-#include "rapidxml.hpp"
-#include "rapidxml_print.hpp"
+#include "atEditorGridWindow.h"
+#include <OpenAX/WindowManager.h>
+#include <OpenAX/rapidxml.hpp>
+#include <OpenAX/rapidxml_print.hpp>
 #include <fstream>
 
 #include "atCommon.h"
 #include "PyoAudio.h"
 #include "PyoComponent.h"
-#include "axEditorLoader.h"
+#include "atEditorLoader.h"
 
-#include "axWidgetLoader.h"
-#include "axButton.h"
-#include "axKnob.h"
-#include "axLabel.h"
-#include "axPanel.h"
-#include "axToggle.h"
-#include "axSlider.h"
+#include <OpenAX/WidgetLoader.h>
+#include <OpenAX/Button.h>
+#include <OpenAX/Knob.h>
+#include <OpenAX/Label.h>
+#include <OpenAX/Panel.h>
+#include <OpenAX/Toggle.h>
+#include <OpenAX/Slider.h>
 
-namespace ax {
+namespace at {
 namespace editor {
 	GridWindow::GridWindow(const ax::Rect& rect)
 		: _grid_space(10)
@@ -77,8 +77,8 @@ namespace editor {
 	{
 		std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
 
-		Xml xml;
-		Xml::Node layout = xml.CreateNode("Layout");
+		ax::Xml xml;
+		ax::Xml::Node layout = xml.CreateNode("Layout");
 		xml.AddMainNode(layout);
 		layout.AddAttribute("script", script_path);
 
@@ -139,7 +139,7 @@ namespace editor {
 
 	std::string GridWindow::OpenLayout(const std::string& path)
 	{
-		ax::editor::Loader loader(win);
+		at::editor::Loader loader(win);
 		return loader.OpenLayout(path, true);
 	}
 

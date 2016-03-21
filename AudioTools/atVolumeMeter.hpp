@@ -1,7 +1,7 @@
 #ifndef atVolumeMeter_hpp
 #define atVolumeMeter_hpp
 
-#include "axLib.h"
+#include <OpenAX/OpenAX.h>
 
 namespace at {
 /*
@@ -18,7 +18,7 @@ public:
 
 private:
 	double _value;
-	
+
 	void OnPaint(ax::GC gc);
 };
 }

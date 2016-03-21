@@ -20,36 +20,41 @@
  * licenses are available, email alx.arsenault@gmail.com for more information.
  */
 
-#ifndef __AX_EDITOR_LOADER_H__
-#define __AX_EDITOR_LOADER_H__
+#ifndef __AX_EDITOR_H__
+#define __AX_EDITOR_H__
 
-#include "axLib.h"
-#include "axXml.h"
+#include <OpenAX/OpenAX.h>
 
-namespace ax {
+/// TODO LIST.
+///------------------
+/// @todo 
+
+namespace at {
 namespace editor {
+	class MainWindow;
 	
-	class Loader {
+	class App {
 	public:
-		Loader(ax::Window* win);
+		static App* Create();
 		
-		std::string OpenLayout(const std::string& path, bool clear = false);
-
-		void SetupExistingWidget(ax::Window* widget, const std::string& builder_name, const std::string& pyo_fct = "");
+		static inline App* GetInstance()
+		{
+			return _instance.get();
+		}
+		
+		static ax::Event::Object* GetMainEvtObj();
+		
+		int MainLoop();
 		
 	private:
-		ax::Window* _win;
+		static std::unique_ptr<App> _instance;
+		std::shared_ptr<MainWindow> _mainWindow;
 		
-		void SetupEditWidget(ax::Window* win);
-		void SetupPyoComponent(ax::Window* win, const std::string& fct_name);
-
-		void SetupButtonPyoEvent(ax::Window* win);
-		void SetupTogglePyoEvent(ax::Window* win);
-		void SetupKnobPyoEvent(ax::Window* win);
-		void SetupSliderPyoEvent(ax::Window* win);
-
+		App();
+		
+		void SetupApplication();
 	};
 }
 }
 
-#endif // __AX_EDITOR_LOADER_H__
+#endif // __AX_EDITOR_H__

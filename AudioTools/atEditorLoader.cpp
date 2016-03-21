@@ -1,17 +1,17 @@
 #include "PyoAudio.h"
 #include "PyoComponent.h"
-#include "axEditorLoader.h"
+#include "atEditorLoader.h"
 
-#include "axButton.h"
-#include "axKnob.h"
-#include "axLabel.h"
-#include "axPanel.h"
-#include "axSlider.h"
-#include "axToggle.h"
-#include "axWidgetLoader.h"
-#include "axWindowManager.h"
+#include <OpenAX/Button.h>
+#include <OpenAX/Knob.h>
+#include <OpenAX/Label.h>
+#include <OpenAX/Panel.h>
+#include <OpenAX/Slider.h>
+#include <OpenAX/Toggle.h>
+#include <OpenAX/WidgetLoader.h>
+#include <OpenAX/WindowManager.h>
 
-namespace ax {
+namespace at {
 namespace editor {
 	Loader::Loader(ax::Window* win)
 		: _win(win)

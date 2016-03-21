@@ -1,15 +1,15 @@
-#include "axCore.h"
-#include "axEditor.h"
-#include "axEditorMainWindow.h"
+#include <OpenAX/Core.h>
+
+#include "atEditor.h"
+#include "atEditorMainWindow.h"
 #include "atCommon.h"
-//#include "mdiApplicationManager.hpp"
-#include <unistd.h>
+
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
 
 
-#include "axMidiCore.h"
+#include <OpenAX/axMidiCore.h>
 #include "PyoAudio.h"
 
 class Midi : public ax::midi::Core {
@@ -37,7 +37,7 @@ private:
 	
 };
 
-namespace ax {
+namespace at {
 namespace editor {
 	std::unique_ptr<App> App::_instance = nullptr;
 

@@ -1,9 +1,9 @@
 #ifndef __TEXT_EDITOR_H__
 #define __TEXT_EDITOR_H__
 
-#include "axLib.h"
-#include "axScrollBar.h"
-#include "axTimer.h"
+#include <OpenAX/OpenAX.h>
+#include <OpenAX/ScrollBar.h>
+#include <OpenAX/Timer.h>
 
 #include <fstream>
 #include <set>

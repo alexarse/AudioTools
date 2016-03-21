@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C055FAB1C947DA8004527C3 /* atMenuAttribute.cpp */; };
 		7C2138D41C9B252C0050F676 /* atVolumeMeter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */; };
+		7C213B0E1CA02AC20050F676 /* libOpenAX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C213B0D1CA02AC20050F676 /* libOpenAX.a */; };
+		7C213B111CA02AD00050F676 /* libaxAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C213B0F1CA02AD00050F676 /* libaxAudio.a */; };
+		7C213B121CA02AD00050F676 /* libaxMidi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C213B101CA02AD00050F676 /* libaxMidi.a */; };
 		7CF1D8341C9207DE00AAAC01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */; };
 		7CF1D83F1C9207F400AAAC01 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CF1D83E1C9207F400AAAC01 /* MainMenu.xib */; };
 		7CF1D84D1C9208A500AAAC01 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8451C9208A500AAAC01 /* Python.framework */; };
@@ -16,25 +19,16 @@
 		7CF1D84F1C9208A500AAAC01 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8471C9208A500AAAC01 /* CoreAudio.framework */; };
 		7CF1D8501C9208A500AAAC01 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8481C9208A500AAAC01 /* OpenGL.framework */; };
 		7CF1D8511C9208A500AAAC01 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8491C9208A500AAAC01 /* Cocoa.framework */; };
-		7CF1D8971C921DDF00AAAC01 /* axEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8821C921DDF00AAAC01 /* axEditor.cpp */; };
-		7CF1D8981C921DDF00AAAC01 /* axEditorAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8831C921DDF00AAAC01 /* axEditorAttributes.cpp */; };
-		7CF1D8991C921DDF00AAAC01 /* axEditorGridWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8841C921DDF00AAAC01 /* axEditorGridWindow.cpp */; };
+		7CF1D8971C921DDF00AAAC01 /* atEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8821C921DDF00AAAC01 /* atEditor.cpp */; };
+		7CF1D8991C921DDF00AAAC01 /* atEditorGridWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8841C921DDF00AAAC01 /* atEditorGridWindow.cpp */; };
 		7CF1D89A1C921DDF00AAAC01 /* axEditorInspectorMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8851C921DDF00AAAC01 /* axEditorInspectorMenu.cpp */; };
-		7CF1D89B1C921DDF00AAAC01 /* axEditorLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8861C921DDF00AAAC01 /* axEditorLoader.cpp */; };
-		7CF1D89C1C921DDF00AAAC01 /* axEditorMainWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8871C921DDF00AAAC01 /* axEditorMainWindow.cpp */; };
-		7CF1D89D1C921DDF00AAAC01 /* axEditorSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8881C921DDF00AAAC01 /* axEditorSelector.cpp */; };
-		7CF1D89E1C921DDF00AAAC01 /* axEditorStatusBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8891C921DDF00AAAC01 /* axEditorStatusBar.cpp */; };
-		7CF1D89F1C921DDF00AAAC01 /* axEditorWidgetMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D88A1C921DDF00AAAC01 /* axEditorWidgetMenu.cpp */; };
-		7CF1D8A01C921DDF00AAAC01 /* axEditorWidgetPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D88B1C921DDF00AAAC01 /* axEditorWidgetPanel.cpp */; };
+		7CF1D89B1C921DDF00AAAC01 /* atEditorLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8861C921DDF00AAAC01 /* atEditorLoader.cpp */; };
+		7CF1D89C1C921DDF00AAAC01 /* atEditorMainWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8871C921DDF00AAAC01 /* atEditorMainWindow.cpp */; };
+		7CF1D89E1C921DDF00AAAC01 /* atEditorStatusBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8891C921DDF00AAAC01 /* atEditorStatusBar.cpp */; };
+		7CF1D89F1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D88A1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp */; };
 		7CF1D8A11C921DDF00AAAC01 /* CodeEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D88C1C921DDF00AAAC01 /* CodeEditor.cpp */; };
-		7CF1D8A21C921DDF00AAAC01 /* mdiControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D88D1C921DDF00AAAC01 /* mdiControl.cpp */; };
-		7CF1D8A31C921DDF00AAAC01 /* mdiCtrlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D88E1C921DDF00AAAC01 /* mdiCtrlButton.cpp */; };
-		7CF1D8A41C921DDF00AAAC01 /* mdiCtrlKnob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D88F1C921DDF00AAAC01 /* mdiCtrlKnob.cpp */; };
-		7CF1D8A51C921DDF00AAAC01 /* mdiCtrlSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8901C921DDF00AAAC01 /* mdiCtrlSlider.cpp */; };
-		7CF1D8A61C921DDF00AAAC01 /* mdiCtrlToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8911C921DDF00AAAC01 /* mdiCtrlToggle.cpp */; };
-		7CF1D8A71C921DDF00AAAC01 /* mdiOpenDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8921C921DDF00AAAC01 /* mdiOpenDialog.cpp */; };
+		7CF1D8A71C921DDF00AAAC01 /* atOpenDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8921C921DDF00AAAC01 /* atOpenDialog.cpp */; };
 		7CF1D8A81C921DDF00AAAC01 /* mdiSaveDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8931C921DDF00AAAC01 /* mdiSaveDialog.cpp */; };
-		7CF1D8A91C921DDF00AAAC01 /* mdiWidgetInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8941C921DDF00AAAC01 /* mdiWidgetInfo.cpp */; };
 		7CF1D8AA1C921DDF00AAAC01 /* TextEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8951C921DDF00AAAC01 /* TextEditor.cpp */; };
 		7CF1D8AB1C921DDF00AAAC01 /* TextEditorLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8961C921DDF00AAAC01 /* TextEditorLogic.cpp */; };
 		7CF1D8B41C921DF800AAAC01 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8AC1C921DF800AAAC01 /* main.cpp */; };
@@ -55,6 +49,9 @@
 		7C055FAC1C947DA8004527C3 /* atMenuAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atMenuAttribute.h; sourceTree = "<group>"; };
 		7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atVolumeMeter.cpp; sourceTree = "<group>"; };
 		7C2138D31C9B252C0050F676 /* atVolumeMeter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atVolumeMeter.hpp; sourceTree = "<group>"; };
+		7C213B0D1CA02AC20050F676 /* libOpenAX.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOpenAX.a; path = ../../../../usr/local/lib/libOpenAX.a; sourceTree = "<group>"; };
+		7C213B0F1CA02AD00050F676 /* libaxAudio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaxAudio.a; path = ../../../../usr/local/lib/libaxAudio.a; sourceTree = "<group>"; };
+		7C213B101CA02AD00050F676 /* libaxMidi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaxMidi.a; path = ../../../../usr/local/lib/libaxMidi.a; sourceTree = "<group>"; };
 		7CF1D82A1C9207DD00AAAC01 /* AudioTools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioTools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CF1D8381C9207DE00AAAC01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -64,43 +61,28 @@
 		7CF1D8471C9208A500AAAC01 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		7CF1D8481C9208A500AAAC01 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		7CF1D8491C9208A500AAAC01 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		7CF1D8701C921DCC00AAAC01 /* axEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = axEditor.h; sourceTree = "<group>"; };
-		7CF1D8711C921DCC00AAAC01 /* axEditorGridWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = axEditorGridWindow.h; sourceTree = "<group>"; };
-		7CF1D8721C921DCC00AAAC01 /* axEditorInspectorMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = axEditorInspectorMenu.h; sourceTree = "<group>"; };
-		7CF1D8731C921DCC00AAAC01 /* axEditorLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = axEditorLoader.h; sourceTree = "<group>"; };
-		7CF1D8741C921DCC00AAAC01 /* axEditorMainWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = axEditorMainWindow.h; sourceTree = "<group>"; };
-		7CF1D8751C921DCC00AAAC01 /* axEditorStatusBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = axEditorStatusBar.h; sourceTree = "<group>"; };
-		7CF1D8761C921DCC00AAAC01 /* axEditorWidgetMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = axEditorWidgetMenu.h; sourceTree = "<group>"; };
+		7CF1D8701C921DCC00AAAC01 /* atEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = atEditor.h; sourceTree = "<group>"; };
+		7CF1D8711C921DCC00AAAC01 /* atEditorGridWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = atEditorGridWindow.h; sourceTree = "<group>"; };
+		7CF1D8721C921DCC00AAAC01 /* atEditorInspectorMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = atEditorInspectorMenu.h; sourceTree = "<group>"; };
+		7CF1D8731C921DCC00AAAC01 /* atEditorLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = atEditorLoader.h; sourceTree = "<group>"; };
+		7CF1D8741C921DCC00AAAC01 /* atEditorMainWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = atEditorMainWindow.h; sourceTree = "<group>"; };
+		7CF1D8751C921DCC00AAAC01 /* atEditorStatusBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = atEditorStatusBar.h; sourceTree = "<group>"; };
+		7CF1D8761C921DCC00AAAC01 /* atEditorWidgetMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = atEditorWidgetMenu.h; sourceTree = "<group>"; };
 		7CF1D8771C921DCC00AAAC01 /* CodeEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeEditor.h; sourceTree = "<group>"; };
-		7CF1D8781C921DCC00AAAC01 /* mdiControl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdiControl.hpp; sourceTree = "<group>"; };
-		7CF1D8791C921DCC00AAAC01 /* mdiCtrlButton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdiCtrlButton.hpp; sourceTree = "<group>"; };
-		7CF1D87A1C921DCC00AAAC01 /* mdiCtrlKnob.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdiCtrlKnob.hpp; sourceTree = "<group>"; };
-		7CF1D87B1C921DCC00AAAC01 /* mdiCtrlSlider.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdiCtrlSlider.hpp; sourceTree = "<group>"; };
-		7CF1D87C1C921DCC00AAAC01 /* mdiCtrlToggle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdiCtrlToggle.hpp; sourceTree = "<group>"; };
-		7CF1D87D1C921DCC00AAAC01 /* mdiOpenDialog.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdiOpenDialog.hpp; sourceTree = "<group>"; };
-		7CF1D87E1C921DCC00AAAC01 /* mdiSaveDialog.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdiSaveDialog.hpp; sourceTree = "<group>"; };
-		7CF1D87F1C921DCC00AAAC01 /* mdiWidgetInfo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mdiWidgetInfo.hpp; sourceTree = "<group>"; };
+		7CF1D87D1C921DCC00AAAC01 /* atOpenDialog.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = atOpenDialog.hpp; sourceTree = "<group>"; };
+		7CF1D87E1C921DCC00AAAC01 /* atSaveDialog.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = atSaveDialog.hpp; sourceTree = "<group>"; };
 		7CF1D8801C921DCC00AAAC01 /* TextEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextEditor.h; sourceTree = "<group>"; };
 		7CF1D8811C921DCC00AAAC01 /* TextEditorLogic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextEditorLogic.h; sourceTree = "<group>"; };
-		7CF1D8821C921DDF00AAAC01 /* axEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = axEditor.cpp; sourceTree = "<group>"; };
-		7CF1D8831C921DDF00AAAC01 /* axEditorAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = axEditorAttributes.cpp; sourceTree = "<group>"; };
-		7CF1D8841C921DDF00AAAC01 /* axEditorGridWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = axEditorGridWindow.cpp; sourceTree = "<group>"; };
+		7CF1D8821C921DDF00AAAC01 /* atEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditor.cpp; sourceTree = "<group>"; };
+		7CF1D8841C921DDF00AAAC01 /* atEditorGridWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorGridWindow.cpp; sourceTree = "<group>"; };
 		7CF1D8851C921DDF00AAAC01 /* axEditorInspectorMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = axEditorInspectorMenu.cpp; sourceTree = "<group>"; };
-		7CF1D8861C921DDF00AAAC01 /* axEditorLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = axEditorLoader.cpp; sourceTree = "<group>"; };
-		7CF1D8871C921DDF00AAAC01 /* axEditorMainWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = axEditorMainWindow.cpp; sourceTree = "<group>"; };
-		7CF1D8881C921DDF00AAAC01 /* axEditorSelector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = axEditorSelector.cpp; sourceTree = "<group>"; };
-		7CF1D8891C921DDF00AAAC01 /* axEditorStatusBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = axEditorStatusBar.cpp; sourceTree = "<group>"; };
-		7CF1D88A1C921DDF00AAAC01 /* axEditorWidgetMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = axEditorWidgetMenu.cpp; sourceTree = "<group>"; };
-		7CF1D88B1C921DDF00AAAC01 /* axEditorWidgetPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = axEditorWidgetPanel.cpp; sourceTree = "<group>"; };
+		7CF1D8861C921DDF00AAAC01 /* atEditorLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorLoader.cpp; sourceTree = "<group>"; };
+		7CF1D8871C921DDF00AAAC01 /* atEditorMainWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorMainWindow.cpp; sourceTree = "<group>"; };
+		7CF1D8891C921DDF00AAAC01 /* atEditorStatusBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorStatusBar.cpp; sourceTree = "<group>"; };
+		7CF1D88A1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorWidgetMenu.cpp; sourceTree = "<group>"; };
 		7CF1D88C1C921DDF00AAAC01 /* CodeEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CodeEditor.cpp; sourceTree = "<group>"; };
-		7CF1D88D1C921DDF00AAAC01 /* mdiControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdiControl.cpp; sourceTree = "<group>"; };
-		7CF1D88E1C921DDF00AAAC01 /* mdiCtrlButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdiCtrlButton.cpp; sourceTree = "<group>"; };
-		7CF1D88F1C921DDF00AAAC01 /* mdiCtrlKnob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdiCtrlKnob.cpp; sourceTree = "<group>"; };
-		7CF1D8901C921DDF00AAAC01 /* mdiCtrlSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdiCtrlSlider.cpp; sourceTree = "<group>"; };
-		7CF1D8911C921DDF00AAAC01 /* mdiCtrlToggle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdiCtrlToggle.cpp; sourceTree = "<group>"; };
-		7CF1D8921C921DDF00AAAC01 /* mdiOpenDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdiOpenDialog.cpp; sourceTree = "<group>"; };
+		7CF1D8921C921DDF00AAAC01 /* atOpenDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atOpenDialog.cpp; sourceTree = "<group>"; };
 		7CF1D8931C921DDF00AAAC01 /* mdiSaveDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdiSaveDialog.cpp; sourceTree = "<group>"; };
-		7CF1D8941C921DDF00AAAC01 /* mdiWidgetInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdiWidgetInfo.cpp; sourceTree = "<group>"; };
 		7CF1D8951C921DDF00AAAC01 /* TextEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextEditor.cpp; sourceTree = "<group>"; };
 		7CF1D8961C921DDF00AAAC01 /* TextEditorLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextEditorLogic.cpp; sourceTree = "<group>"; };
 		7CF1D8AC1C921DF800AAAC01 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -131,13 +113,16 @@
 				7CF1D84F1C9208A500AAAC01 /* CoreAudio.framework in Frameworks */,
 				7CF1D8D11C92254F00AAAC01 /* libboost_container.a in Frameworks */,
 				7CF1D8D51C9225A700AAAC01 /* libfreetype.a in Frameworks */,
+				7C213B111CA02AD00050F676 /* libaxAudio.a in Frameworks */,
 				7CF1D8501C9208A500AAAC01 /* OpenGL.framework in Frameworks */,
+				7C213B0E1CA02AC20050F676 /* libOpenAX.a in Frameworks */,
 				7CF1D84D1C9208A500AAAC01 /* Python.framework in Frameworks */,
 				7CF1D8CD1C92251600AAAC01 /* libportaudio.a in Frameworks */,
 				7CF1D8D21C92254F00AAAC01 /* libboost_filesystem.a in Frameworks */,
 				7CF1D8D91C9225D300AAAC01 /* libsndfile.a in Frameworks */,
 				7CF1D84E1C9208A500AAAC01 /* CoreMIDI.framework in Frameworks */,
 				7CF1D8D71C9225BF00AAAC01 /* libpng16.a in Frameworks */,
+				7C213B121CA02AD00050F676 /* libaxMidi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,7 +132,7 @@
 		7C055FAA1C947D78004527C3 /* InspectorMenu */ = {
 			isa = PBXGroup;
 			children = (
-				7CF1D8721C921DCC00AAAC01 /* axEditorInspectorMenu.h */,
+				7CF1D8721C921DCC00AAAC01 /* atEditorInspectorMenu.h */,
 				7CF1D8851C921DDF00AAAC01 /* axEditorInspectorMenu.cpp */,
 				7C055FAB1C947DA8004527C3 /* atMenuAttribute.cpp */,
 				7C055FAC1C947DA8004527C3 /* atMenuAttribute.h */,
@@ -155,9 +140,48 @@
 			name = InspectorMenu;
 			sourceTree = "<group>";
 		};
+		7C213B131CA0318B0050F676 /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				7C055FAA1C947D78004527C3 /* InspectorMenu */,
+				7CF1D8DB1C93801B00AAAC01 /* CodeEditor */,
+				7C213B151CA031A90050F676 /* include */,
+				7C213B141CA031A20050F676 /* source */,
+			);
+			name = Editor;
+			sourceTree = "<group>";
+		};
+		7C213B141CA031A20050F676 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1D8821C921DDF00AAAC01 /* atEditor.cpp */,
+				7CF1D8841C921DDF00AAAC01 /* atEditorGridWindow.cpp */,
+				7CF1D8861C921DDF00AAAC01 /* atEditorLoader.cpp */,
+				7CF1D8871C921DDF00AAAC01 /* atEditorMainWindow.cpp */,
+				7CF1D8891C921DDF00AAAC01 /* atEditorStatusBar.cpp */,
+				7CF1D88A1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp */,
+			);
+			name = source;
+			sourceTree = "<group>";
+		};
+		7C213B151CA031A90050F676 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1D8701C921DCC00AAAC01 /* atEditor.h */,
+				7CF1D8711C921DCC00AAAC01 /* atEditorGridWindow.h */,
+				7CF1D8731C921DCC00AAAC01 /* atEditorLoader.h */,
+				7CF1D8741C921DCC00AAAC01 /* atEditorMainWindow.h */,
+				7CF1D8751C921DCC00AAAC01 /* atEditorStatusBar.h */,
+				7CF1D8761C921DCC00AAAC01 /* atEditorWidgetMenu.h */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
 		7CF1D8211C9207DD00AAAC01 = {
 			isa = PBXGroup;
 			children = (
+				7C213B0F1CA02AD00050F676 /* libaxAudio.a */,
+				7C213B101CA02AD00050F676 /* libaxMidi.a */,
 				7CF1D8CC1C92251600AAAC01 /* libportaudio.a */,
 				7CF1D8CE1C92254F00AAAC01 /* libboost_container.a */,
 				7CF1D8CF1C92254F00AAAC01 /* libboost_filesystem.a */,
@@ -165,6 +189,7 @@
 				7CF1D8D41C9225A700AAAC01 /* libfreetype.a */,
 				7CF1D8D61C9225BF00AAAC01 /* libpng16.a */,
 				7CF1D8D81C9225D300AAAC01 /* libsndfile.a */,
+				7C213B0D1CA02AC20050F676 /* libOpenAX.a */,
 				7CF1D8451C9208A500AAAC01 /* Python.framework */,
 				7CF1D8461C9208A500AAAC01 /* CoreMIDI.framework */,
 				7CF1D8471C9208A500AAAC01 /* CoreAudio.framework */,
@@ -186,10 +211,8 @@
 		7CF1D82C1C9207DD00AAAC01 /* AudioTools */ = {
 			isa = PBXGroup;
 			children = (
-				7C055FAA1C947D78004527C3 /* InspectorMenu */,
+				7C213B131CA0318B0050F676 /* Editor */,
 				7CF1D9CF1C938FC400AAAC01 /* pyo */,
-				7CF1D9CE1C938C5700AAAC01 /* old */,
-				7CF1D8DB1C93801B00AAAC01 /* CodeEditor */,
 				7CF1D8AC1C921DF800AAAC01 /* main.cpp */,
 				7CF1D9D01C944C8500AAAC01 /* atCommon.h */,
 				7CF1D86E1C921DBB00AAAC01 /* include */,
@@ -204,15 +227,8 @@
 		7CF1D86E1C921DBB00AAAC01 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				7CF1D8701C921DCC00AAAC01 /* axEditor.h */,
-				7CF1D8711C921DCC00AAAC01 /* axEditorGridWindow.h */,
-				7CF1D8731C921DCC00AAAC01 /* axEditorLoader.h */,
-				7CF1D8741C921DCC00AAAC01 /* axEditorMainWindow.h */,
-				7CF1D8751C921DCC00AAAC01 /* axEditorStatusBar.h */,
-				7CF1D8761C921DCC00AAAC01 /* axEditorWidgetMenu.h */,
-				7CF1D87D1C921DCC00AAAC01 /* mdiOpenDialog.hpp */,
-				7CF1D87E1C921DCC00AAAC01 /* mdiSaveDialog.hpp */,
-				7CF1D87F1C921DCC00AAAC01 /* mdiWidgetInfo.hpp */,
+				7CF1D87D1C921DCC00AAAC01 /* atOpenDialog.hpp */,
+				7CF1D87E1C921DCC00AAAC01 /* atSaveDialog.hpp */,
 				7C2138D31C9B252C0050F676 /* atVolumeMeter.hpp */,
 			);
 			name = include;
@@ -222,18 +238,8 @@
 			isa = PBXGroup;
 			children = (
 				7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */,
-				7CF1D8821C921DDF00AAAC01 /* axEditor.cpp */,
-				7CF1D8831C921DDF00AAAC01 /* axEditorAttributes.cpp */,
-				7CF1D8841C921DDF00AAAC01 /* axEditorGridWindow.cpp */,
-				7CF1D8861C921DDF00AAAC01 /* axEditorLoader.cpp */,
-				7CF1D8871C921DDF00AAAC01 /* axEditorMainWindow.cpp */,
-				7CF1D8881C921DDF00AAAC01 /* axEditorSelector.cpp */,
-				7CF1D8891C921DDF00AAAC01 /* axEditorStatusBar.cpp */,
-				7CF1D88A1C921DDF00AAAC01 /* axEditorWidgetMenu.cpp */,
-				7CF1D88B1C921DDF00AAAC01 /* axEditorWidgetPanel.cpp */,
-				7CF1D8921C921DDF00AAAC01 /* mdiOpenDialog.cpp */,
+				7CF1D8921C921DDF00AAAC01 /* atOpenDialog.cpp */,
 				7CF1D8931C921DDF00AAAC01 /* mdiSaveDialog.cpp */,
-				7CF1D8941C921DDF00AAAC01 /* mdiWidgetInfo.cpp */,
 			);
 			name = source;
 			sourceTree = "<group>";
@@ -249,23 +255,6 @@
 				7CF1D8811C921DCC00AAAC01 /* TextEditorLogic.h */,
 			);
 			name = CodeEditor;
-			sourceTree = "<group>";
-		};
-		7CF1D9CE1C938C5700AAAC01 /* old */ = {
-			isa = PBXGroup;
-			children = (
-				7CF1D88D1C921DDF00AAAC01 /* mdiControl.cpp */,
-				7CF1D88E1C921DDF00AAAC01 /* mdiCtrlButton.cpp */,
-				7CF1D88F1C921DDF00AAAC01 /* mdiCtrlKnob.cpp */,
-				7CF1D8901C921DDF00AAAC01 /* mdiCtrlSlider.cpp */,
-				7CF1D8911C921DDF00AAAC01 /* mdiCtrlToggle.cpp */,
-				7CF1D8781C921DCC00AAAC01 /* mdiControl.hpp */,
-				7CF1D8791C921DCC00AAAC01 /* mdiCtrlButton.hpp */,
-				7CF1D87A1C921DCC00AAAC01 /* mdiCtrlKnob.hpp */,
-				7CF1D87B1C921DCC00AAAC01 /* mdiCtrlSlider.hpp */,
-				7CF1D87C1C921DCC00AAAC01 /* mdiCtrlToggle.hpp */,
-			);
-			name = old;
 			sourceTree = "<group>";
 		};
 		7CF1D9CF1C938FC400AAAC01 /* pyo */ = {
@@ -353,30 +342,21 @@
 			files = (
 				7CF1D8B61C921DF800AAAC01 /* Pyo.cpp in Sources */,
 				7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */,
-				7CF1D8A01C921DDF00AAAC01 /* axEditorWidgetPanel.cpp in Sources */,
-				7CF1D8991C921DDF00AAAC01 /* axEditorGridWindow.cpp in Sources */,
-				7CF1D8A21C921DDF00AAAC01 /* mdiControl.cpp in Sources */,
+				7CF1D8991C921DDF00AAAC01 /* atEditorGridWindow.cpp in Sources */,
 				7CF1D8AB1C921DDF00AAAC01 /* TextEditorLogic.cpp in Sources */,
 				7CF1D8B41C921DF800AAAC01 /* main.cpp in Sources */,
-				7CF1D8A61C921DDF00AAAC01 /* mdiCtrlToggle.cpp in Sources */,
-				7CF1D8A91C921DDF00AAAC01 /* mdiWidgetInfo.cpp in Sources */,
 				7CF1D8A11C921DDF00AAAC01 /* CodeEditor.cpp in Sources */,
 				7C2138D41C9B252C0050F676 /* atVolumeMeter.cpp in Sources */,
-				7CF1D8981C921DDF00AAAC01 /* axEditorAttributes.cpp in Sources */,
-				7CF1D89D1C921DDF00AAAC01 /* axEditorSelector.cpp in Sources */,
-				7CF1D89C1C921DDF00AAAC01 /* axEditorMainWindow.cpp in Sources */,
-				7CF1D8A31C921DDF00AAAC01 /* mdiCtrlButton.cpp in Sources */,
-				7CF1D8A71C921DDF00AAAC01 /* mdiOpenDialog.cpp in Sources */,
+				7CF1D89C1C921DDF00AAAC01 /* atEditorMainWindow.cpp in Sources */,
+				7CF1D8A71C921DDF00AAAC01 /* atOpenDialog.cpp in Sources */,
 				7CF1D8B71C921DF800AAAC01 /* PyoComponent.cpp in Sources */,
-				7CF1D89B1C921DDF00AAAC01 /* axEditorLoader.cpp in Sources */,
+				7CF1D89B1C921DDF00AAAC01 /* atEditorLoader.cpp in Sources */,
 				7CF1D8A81C921DDF00AAAC01 /* mdiSaveDialog.cpp in Sources */,
-				7CF1D8A41C921DDF00AAAC01 /* mdiCtrlKnob.cpp in Sources */,
 				7CF1D89A1C921DDF00AAAC01 /* axEditorInspectorMenu.cpp in Sources */,
 				7CF1D8B51C921DF800AAAC01 /* PyoAudio.cpp in Sources */,
-				7CF1D8971C921DDF00AAAC01 /* axEditor.cpp in Sources */,
-				7CF1D89F1C921DDF00AAAC01 /* axEditorWidgetMenu.cpp in Sources */,
-				7CF1D89E1C921DDF00AAAC01 /* axEditorStatusBar.cpp in Sources */,
-				7CF1D8A51C921DDF00AAAC01 /* mdiCtrlSlider.cpp in Sources */,
+				7CF1D8971C921DDF00AAAC01 /* atEditor.cpp in Sources */,
+				7CF1D89F1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp in Sources */,
+				7CF1D89E1C921DDF00AAAC01 /* atEditorStatusBar.cpp in Sources */,
 				7CF1D8AA1C921DDF00AAAC01 /* TextEditor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

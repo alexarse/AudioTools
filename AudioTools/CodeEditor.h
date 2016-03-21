@@ -1,12 +1,13 @@
 #ifndef __CODE_EDITOR_H__
 #define __CODE_EDITOR_H__
 
-#include "axLib.h"
-#include "axScrollBar.h"
-#include "axTimer.h"
+#include <OpenAX/OpenAX.h>
+#include <OpenAX/ScrollBar.h>
+#include <OpenAX/Timer.h>
+#include <OpenAX/Button.h>
 
 #include "TextEditor.h"
-#include "axButton.h"
+
 
 #include <fstream>
 #include <set>

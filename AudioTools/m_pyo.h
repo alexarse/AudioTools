@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <Python/Python.h>
-#include "axUtils.h"
+#include <OpenAX/Utils.h>
 
 #ifndef __m_pyo_h_
 

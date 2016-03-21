@@ -23,15 +23,15 @@
 #ifndef __AX_EDITOR_MAIN_WINDOW_H__
 #define __AX_EDITOR_MAIN_WINDOW_H__
 
-#include "axEditorWidgetMenu.h"
-#include "axEditorGridWindow.h"
-#include "axEditorWidgetMenu.h"
-#include "axEditorStatusBar.h"
-#include "axEditorInspectorMenu.h"
+#include "atEditorWidgetMenu.h"
+#include "atEditorGridWindow.h"
+#include "atEditorWidgetMenu.h"
+#include "atEditorStatusBar.h"
+#include "atEditorInspectorMenu.h"
 
 class CodeEditor;
 
-namespace ax {
+namespace at {
 	namespace editor {
 
 class MainWindow : public ax::Window::Backbone {

@@ -1,11 +1,11 @@
 #ifndef __MDI_SAVE_DIALOG_H__
 #define __MDI_SAVE_DIALOG_H__
 
-#include "axButton.h"
-#include "axLib.h"
-#include "axTextBox.h"
+#include <OpenAX/Button.h>
+#include <OpenAX/OpenAX.h>
+#include <OpenAX/TextBox.h>
 
-namespace ax {
+namespace at {
 namespace editor {
 	/*
 	 * mdi::StatusBar.

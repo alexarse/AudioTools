@@ -9,8 +9,8 @@
 #ifndef Audio_hpp
 #define Audio_hpp
 
-#include "axLib.h"
-#include "axAudio.h"
+#include <OpenAX/OpenAX.h>
+#include <OpenAX/axAudio.h>
 //#include "axPython.h"
 #include "m_pyo.h"
 
