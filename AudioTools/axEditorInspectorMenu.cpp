@@ -2,6 +2,7 @@
 #include "atEditorInspectorMenu.h"
 #include "atCommon.h"
 #include "atMenuAttribute.h"
+#include <OpenAX/WindowManager.h>
 
 namespace at {
 namespace editor {
@@ -106,6 +107,7 @@ namespace editor {
 			win->node.GetChildren().clear();
 		}
 		_selected_handle = nullptr;
+		ax::App::GetInstance().GetWindowManager()->SetPastKeyWindow(nullptr);
 		win->Update();
 	}
 
