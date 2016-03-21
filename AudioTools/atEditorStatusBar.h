@@ -39,6 +39,8 @@ namespace editor {
 		ax::Toggle* _toggle_left;
 		ax::Toggle* _toggle_bottom;
 		ax::Toggle* _toggle_right;
+		at::VolumeMeter* _volumeMeterLeft;
+		at::VolumeMeter* _volumeMeterRight;
 		std::string _layout_file_path;
 		
 		axEVENT_DECLARATION(ax::Button::Msg, OnSaveLayout);
