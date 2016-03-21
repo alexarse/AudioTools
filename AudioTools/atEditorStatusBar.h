@@ -57,6 +57,10 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Event::StringMsg, OnCancelDialog);
 		
 		axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenDialog);
+		
+		typedef std::pair<double, double> StereoRmsValue;
+		
+		axEVENT_DECLARATION(ax::Event::SimpleMsg<StereoRmsValue>, OnAudioRmsValue);
 
 		void OnResize(const ax::Size& size);
 		void OnPaint(ax::GC gc);

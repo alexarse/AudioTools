@@ -22,7 +22,7 @@ namespace inspector {
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &MenuAttribute::OnPaint);
 
 		if (fct) {
-			win->AddConnection(99, fct);
+			win->AddConnection(Events::ASSIGN_VALUE, fct);
 		}
 
 		ax::TextBox::Info txtInfo;
@@ -50,7 +50,9 @@ namespace inspector {
 		txt_evts.enter_click = ax::Event::Function([&](ax::Event::Msg* msg) {
 			ax::TextBox::Msg* tmsg = static_cast<ax::TextBox::Msg*>(msg);
 			std::string msg_str = tmsg->GetMsg();
-			win->PushEvent(99, new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, msg_str)));
+			
+			win->PushEvent(Events::ASSIGN_VALUE,
+				new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, msg_str)));
 		});
 
 		win->node.Add(ax::shared<ax::TextBox>(
@@ -59,12 +61,10 @@ namespace inspector {
 
 	void MenuAttribute::OnPaint(ax::GC gc)
 	{
-		ax::Rect rect(win->dimension.GetDrawingRect());
+		const ax::Rect rect(win->dimension.GetDrawingRect());
 
 		gc.SetColor(ax::Color(0.94));
 		gc.DrawRectangle(rect);
-
-		gc.SetColor(ax::Color(0.94));
 		gc.DrawRectangleContour(rect);
 	}
 }

@@ -14,6 +14,8 @@ PyoAudio* PyoAudio::GetInstance()
 
 PyoAudio::PyoAudio()
 	: _connected_obj(nullptr)
+	, _rms_values(0.0, 0.0)
+	, _rms_count(0)
 {
 	CreateServer(44100, 1024, 2);
 
@@ -74,7 +76,7 @@ int PyoAudio::CoreCallbackAudio(const float* input, float* output, unsigned long
 	for (int i = 0; i < frameCount; i++) {
 		rms_left += pow(*pyo_buffer, 2);
 		*output++ = *pyo_buffer++;
-		
+
 		rms_right += pow(*pyo_buffer, 2);
 		*output++ = *pyo_buffer++;
 	}
@@ -84,11 +86,17 @@ int PyoAudio::CoreCallbackAudio(const float* input, float* output, unsigned long
 
 	rms_left = sqrt(rms_left);
 	rms_right = sqrt(rms_right);
+	_rms_values.first = rms_left;
+	_rms_values.second = rms_right;
 
-//	if (_connected_obj) {
-//		_connected_obj->PushEvent(89831, new ax::Event::SimpleMsg<std::pair<double, double>>(
-//											 std::pair<double, double>(rms_left, rms_right)));
-//	}
+	_rms_count += frameCount;
+
+	if (_rms_count >= 5000 && _connected_obj) {
+		_connected_obj->PushEvent(
+			Events::RMS_VALUE_CHANGE, new ax::Event::SimpleMsg<std::pair<double, double>>(_rms_values));
+
+		_rms_count = 0;
+	}
 
 	return 0;
 }

@@ -1,7 +1,5 @@
 #include "PyoComponent.h"
 #include "atEditorInspectorMenu.h"
-//#include "axLabel.h"
-//#include "axTextBox.h"
 #include "atCommon.h"
 #include "atMenuAttribute.h"
 
@@ -29,6 +27,9 @@ namespace editor {
 		gc.DrawRectangleContour(rect);
 	}
 
+	/*
+	 * InspectorMenu.
+	 */
 	InspectorMenu::InspectorMenu(const ax::Rect& rect)
 		: _selected_handle(nullptr)
 		, _font("fonts/Lato.ttf")
@@ -62,8 +63,6 @@ namespace editor {
 			ax::Point att_pos(0, 50);
 			ax::Size att_size(rect.size.x, 20);
 
-//			_info_txt.clear();
-
 			for (auto& n : atts_pair) {
 				win->node.Add(ax::shared<at::inspector::MenuAttribute>(
 					ax::Rect(att_pos, att_size), n.first, n.second, GetOnWidgetUpdate()));
@@ -90,6 +89,7 @@ namespace editor {
 				att_pos.y += separator_size.y;
 
 				std::string fct_name = pyo_comp->GetFunctionName();
+				
 				auto menu = ax::shared<at::inspector::MenuAttribute>(
 					ax::Rect(att_pos, att_size), "callback", fct_name, GetOnPyoCallback());
 				win->node.Add(menu);
@@ -148,6 +148,12 @@ namespace editor {
 		if (_selected_handle == nullptr) {
 			return;
 		}
+		ax::widget::Component::Ptr widget
+		= _selected_handle->component.Get<ax::widget::Component>("Widget");
+		
+		widget->SetInfo(ax::StringPairVector{ msg.GetMsg() });
+		widget->ReloadInfo();
+		
 	}
 
 	void InspectorMenu::OnPaint(ax::GC gc)
@@ -156,13 +162,6 @@ namespace editor {
 
 		gc.SetColor(ax::Color(255, 255, 255));
 		gc.DrawRectangle(rect);
-
-		//		ax::Point pos(5, 25);
-		//		gc.SetColor(ax::Color(0.0));
-		//		for (auto& n : _info_pair_txt) {
-		//			gc.DrawString(_font, n.first + " -> " + n.second, pos);
-		//			pos.y += 20;
-		//		}
 
 		gc.SetColor(ax::Color(0.7));
 		gc.DrawRectangleContour(rect);

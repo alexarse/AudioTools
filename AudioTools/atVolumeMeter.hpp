@@ -14,6 +14,7 @@ public:
 	void SetValue(double value)
 	{
 		_value = ax::Utils::Clamp<double>(value, 0.0, 1.0);
+		win->Update();
 	}
 
 private:

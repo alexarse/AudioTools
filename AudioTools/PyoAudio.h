@@ -17,6 +17,8 @@
 class PyoAudio : public ax::audio::Core {
 public:
 	static PyoAudio* GetInstance();
+	
+	enum Events : ax::Event::Id { RMS_VALUE_CHANGE = 89831 };
 
 	void ProcessString(const std::string& script);
 	bool IsServerStarted();
@@ -27,6 +29,11 @@ public:
 	}
 	
 	void ReloadScript(const std::string& path);
+	
+	void SetConnectedObject(ax::Event::Object* obj)
+	{
+		_connected_obj = obj;
+	}
 	
 protected:
 	static PyoAudio* _global_audio;
@@ -41,6 +48,8 @@ protected:
 private:
 	ax::Event::Object* _connected_obj;
 	PyThreadState* _pyo;
+	int _rms_count;
+	std::pair<double, double> _rms_values;
 	float* _output;
 	int _server_id;
 	void (*_callback_fct)(int);

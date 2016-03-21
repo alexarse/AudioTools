@@ -2,6 +2,7 @@
 #include "atEditorStatusBar.h"
 #include "atOpenDialog.hpp"
 #include "atSaveDialog.hpp"
+#include "PyoAudio.h"
 
 #include <OpenAX/Core.h>
 #include <OpenAX/Toggle.h>
@@ -49,6 +50,11 @@ namespace editor {
 		auto v_meter_r = ax::shared<at::VolumeMeter>(volume_rect);
 		win->node.Add(v_meter_r);
 		_volumeMeterRight = v_meter_r.get();
+		
+		
+		win->AddConnection(PyoAudio::Events::RMS_VALUE_CHANGE, GetOnAudioRmsValue());
+		PyoAudio::GetInstance()->SetConnectedObject(win);
+		
 
 		const ax::Size tog_size(25, 25);
 
@@ -194,12 +200,18 @@ namespace editor {
 	void StatusBar::OnCancelDialog(const ax::Event::StringMsg& msg)
 	{
 	}
+	
+	void StatusBar::OnAudioRmsValue(const ax::Event::SimpleMsg<StereoRmsValue>& msg)
+	{
+		_volumeMeterLeft->SetValue(msg.GetMsg().first);
+		_volumeMeterRight->SetValue(msg.GetMsg().second);
+	}
 
 	void StatusBar::OnResize(const ax::Size& size)
 	{
 		// Repos left volume meter.
 		_volumeMeterLeft->GetWindow()->dimension.SetPosition(ax::Point(size.x - 165, 8));
-		
+
 		// Repos right volume meter.
 		_volumeMeterRight->GetWindow()->dimension.SetPosition(
 			_volumeMeterLeft->GetWindow()->dimension.GetRect().GetNextPosDown(0));

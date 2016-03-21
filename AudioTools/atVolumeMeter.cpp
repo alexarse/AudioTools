@@ -10,12 +10,13 @@
 
 namespace at {
 VolumeMeter::VolumeMeter(const ax::Rect& rect)
+	: _value(0.0)
 {
 	// Create window.
 	win = ax::Window::Create(rect);
 	win->event.OnPaint = ax::WBind<ax::GC>(this, &VolumeMeter::OnPaint);
 	
-	_value = 0.2;
+	
 }
 
 void VolumeMeter::OnPaint(ax::GC gc)
