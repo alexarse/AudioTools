@@ -9,10 +9,15 @@
 /* Begin PBXBuildFile section */
 		7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C055FAB1C947DA8004527C3 /* atMenuAttribute.cpp */; };
 		7C2138D41C9B252C0050F676 /* atVolumeMeter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */; };
-		7C213B0E1CA02AC20050F676 /* libOpenAX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C213B0D1CA02AC20050F676 /* libOpenAX.a */; };
-		7C213B111CA02AD00050F676 /* libaxAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C213B0F1CA02AD00050F676 /* libaxAudio.a */; };
-		7C213B121CA02AD00050F676 /* libaxMidi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C213B101CA02AD00050F676 /* libaxMidi.a */; };
 		7C213B181CA05E460050F676 /* atSplashDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C213B161CA05E460050F676 /* atSplashDialog.cpp */; };
+		7C74767A1CA7675E009CBE23 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476791CA7675E009CBE23 /* CoreAudioKit.framework */; };
+		7C74767C1CA76766009CBE23 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C74767B1CA76766009CBE23 /* AudioUnit.framework */; };
+		7C74767E1CA7677E009CBE23 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C74767D1CA7677E009CBE23 /* Carbon.framework */; };
+		7C7476801CA767FF009CBE23 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C74767F1CA767FF009CBE23 /* CoreServices.framework */; };
+		7C7476821CA7680A009CBE23 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476811CA7680A009CBE23 /* CoreFoundation.framework */; };
+		7C7476841CA76956009CBE23 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476831CA76956009CBE23 /* AudioToolbox.framework */; };
+		7C7476881CA76A0C009CBE23 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476871CA76A0C009CBE23 /* libz.dylib */; };
+		7C74768A1CA76A34009CBE23 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476891CA76A34009CBE23 /* libbz2.dylib */; };
 		7CF1D8341C9207DE00AAAC01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */; };
 		7CF1D83F1C9207F400AAAC01 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CF1D83E1C9207F400AAAC01 /* MainMenu.xib */; };
 		7CF1D84D1C9208A500AAAC01 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8451C9208A500AAAC01 /* Python.framework */; };
@@ -36,13 +41,6 @@
 		7CF1D8B51C921DF800AAAC01 /* PyoAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8AD1C921DF800AAAC01 /* PyoAudio.cpp */; };
 		7CF1D8B61C921DF800AAAC01 /* Pyo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8B01C921DF800AAAC01 /* Pyo.cpp */; };
 		7CF1D8B71C921DF800AAAC01 /* PyoComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8B21C921DF800AAAC01 /* PyoComponent.cpp */; };
-		7CF1D8CD1C92251600AAAC01 /* libportaudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8CC1C92251600AAAC01 /* libportaudio.a */; };
-		7CF1D8D11C92254F00AAAC01 /* libboost_container.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8CE1C92254F00AAAC01 /* libboost_container.a */; };
-		7CF1D8D21C92254F00AAAC01 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8CF1C92254F00AAAC01 /* libboost_filesystem.a */; };
-		7CF1D8D31C92254F00AAAC01 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8D01C92254F00AAAC01 /* libboost_system.a */; };
-		7CF1D8D51C9225A700AAAC01 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8D41C9225A700AAAC01 /* libfreetype.a */; };
-		7CF1D8D71C9225BF00AAAC01 /* libpng16.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8D61C9225BF00AAAC01 /* libpng16.a */; };
-		7CF1D8D91C9225D300AAAC01 /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8D81C9225D300AAAC01 /* libsndfile.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,11 +48,22 @@
 		7C055FAC1C947DA8004527C3 /* atMenuAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atMenuAttribute.h; sourceTree = "<group>"; };
 		7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atVolumeMeter.cpp; sourceTree = "<group>"; };
 		7C2138D31C9B252C0050F676 /* atVolumeMeter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atVolumeMeter.hpp; sourceTree = "<group>"; };
-		7C213B0D1CA02AC20050F676 /* libOpenAX.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOpenAX.a; path = ../../../../usr/local/lib/libOpenAX.a; sourceTree = "<group>"; };
-		7C213B0F1CA02AD00050F676 /* libaxAudio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaxAudio.a; path = ../../../../usr/local/lib/libaxAudio.a; sourceTree = "<group>"; };
-		7C213B101CA02AD00050F676 /* libaxMidi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaxMidi.a; path = ../../../../usr/local/lib/libaxMidi.a; sourceTree = "<group>"; };
 		7C213B161CA05E460050F676 /* atSplashDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atSplashDialog.cpp; sourceTree = "<group>"; };
 		7C213B171CA05E460050F676 /* atSplashDialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atSplashDialog.hpp; sourceTree = "<group>"; };
+		7C74766D1CA76288009CBE23 /* libaxAudio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaxAudio.a; path = ../../../../usr/local/lib/libaxAudio.a; sourceTree = "<group>"; };
+		7C74766E1CA76288009CBE23 /* libaxMidi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaxMidi.a; path = ../../../../usr/local/lib/libaxMidi.a; sourceTree = "<group>"; };
+		7C74766F1CA76288009CBE23 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../../usr/local/lib/libfreetype.a; sourceTree = "<group>"; };
+		7C7476701CA76288009CBE23 /* libOpenAX.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOpenAX.a; path = ../../../../usr/local/lib/libOpenAX.a; sourceTree = "<group>"; };
+		7C7476711CA76288009CBE23 /* libpng16.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng16.a; path = ../../../../usr/local/lib/libpng16.a; sourceTree = "<group>"; };
+		7C7476721CA76288009CBE23 /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsndfile.a; path = ../../../../usr/local/lib/libsndfile.a; sourceTree = "<group>"; };
+		7C7476791CA7675E009CBE23 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
+		7C74767B1CA76766009CBE23 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		7C74767D1CA7677E009CBE23 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		7C74767F1CA767FF009CBE23 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		7C7476811CA7680A009CBE23 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		7C7476831CA76956009CBE23 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		7C7476871CA76A0C009CBE23 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = ../../../../usr/lib/libz.dylib; sourceTree = "<group>"; };
+		7C7476891CA76A34009CBE23 /* libbz2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.dylib; path = ../../../../usr/lib/libbz2.dylib; sourceTree = "<group>"; };
 		7CF1D82A1C9207DD00AAAC01 /* AudioTools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioTools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CF1D8381C9207DE00AAAC01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -96,13 +105,6 @@
 		7CF1D8B11C921DF800AAAC01 /* Pyo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pyo.h; sourceTree = "<group>"; };
 		7CF1D8B21C921DF800AAAC01 /* PyoComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PyoComponent.cpp; sourceTree = "<group>"; };
 		7CF1D8B31C921DF800AAAC01 /* PyoComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PyoComponent.h; sourceTree = "<group>"; };
-		7CF1D8CC1C92251600AAAC01 /* libportaudio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libportaudio.a; path = ../../../../usr/local/lib/libportaudio.a; sourceTree = "<group>"; };
-		7CF1D8CE1C92254F00AAAC01 /* libboost_container.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_container.a; path = ../../../../usr/local/lib/libboost_container.a; sourceTree = "<group>"; };
-		7CF1D8CF1C92254F00AAAC01 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = ../../../../usr/local/lib/libboost_filesystem.a; sourceTree = "<group>"; };
-		7CF1D8D01C92254F00AAAC01 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = ../../../../usr/local/lib/libboost_system.a; sourceTree = "<group>"; };
-		7CF1D8D41C9225A700AAAC01 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../../usr/local/lib/libfreetype.a; sourceTree = "<group>"; };
-		7CF1D8D61C9225BF00AAAC01 /* libpng16.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng16.a; path = ../../../../usr/local/lib/libpng16.a; sourceTree = "<group>"; };
-		7CF1D8D81C9225D300AAAC01 /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsndfile.a; path = ../../../../usr/local/lib/libsndfile.a; sourceTree = "<group>"; };
 		7CF1D9D01C944C8500AAAC01 /* atCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = atCommon.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,21 +113,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C7476841CA76956009CBE23 /* AudioToolbox.framework in Frameworks */,
+				7C7476821CA7680A009CBE23 /* CoreFoundation.framework in Frameworks */,
+				7C7476801CA767FF009CBE23 /* CoreServices.framework in Frameworks */,
+				7C74767E1CA7677E009CBE23 /* Carbon.framework in Frameworks */,
+				7C74768A1CA76A34009CBE23 /* libbz2.dylib in Frameworks */,
+				7C74767C1CA76766009CBE23 /* AudioUnit.framework in Frameworks */,
+				7C7476881CA76A0C009CBE23 /* libz.dylib in Frameworks */,
+				7C74767A1CA7675E009CBE23 /* CoreAudioKit.framework in Frameworks */,
 				7CF1D8511C9208A500AAAC01 /* Cocoa.framework in Frameworks */,
-				7CF1D8D31C92254F00AAAC01 /* libboost_system.a in Frameworks */,
 				7CF1D84F1C9208A500AAAC01 /* CoreAudio.framework in Frameworks */,
-				7CF1D8D11C92254F00AAAC01 /* libboost_container.a in Frameworks */,
-				7CF1D8D51C9225A700AAAC01 /* libfreetype.a in Frameworks */,
-				7C213B111CA02AD00050F676 /* libaxAudio.a in Frameworks */,
 				7CF1D8501C9208A500AAAC01 /* OpenGL.framework in Frameworks */,
-				7C213B0E1CA02AC20050F676 /* libOpenAX.a in Frameworks */,
 				7CF1D84D1C9208A500AAAC01 /* Python.framework in Frameworks */,
-				7CF1D8CD1C92251600AAAC01 /* libportaudio.a in Frameworks */,
-				7CF1D8D21C92254F00AAAC01 /* libboost_filesystem.a in Frameworks */,
-				7CF1D8D91C9225D300AAAC01 /* libsndfile.a in Frameworks */,
 				7CF1D84E1C9208A500AAAC01 /* CoreMIDI.framework in Frameworks */,
-				7CF1D8D71C9225BF00AAAC01 /* libpng16.a in Frameworks */,
-				7C213B121CA02AD00050F676 /* libaxMidi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,21 +183,25 @@
 		7CF1D8211C9207DD00AAAC01 = {
 			isa = PBXGroup;
 			children = (
-				7C213B0F1CA02AD00050F676 /* libaxAudio.a */,
-				7C213B101CA02AD00050F676 /* libaxMidi.a */,
-				7CF1D8CC1C92251600AAAC01 /* libportaudio.a */,
-				7CF1D8CE1C92254F00AAAC01 /* libboost_container.a */,
-				7CF1D8CF1C92254F00AAAC01 /* libboost_filesystem.a */,
-				7CF1D8D01C92254F00AAAC01 /* libboost_system.a */,
-				7CF1D8D41C9225A700AAAC01 /* libfreetype.a */,
-				7CF1D8D61C9225BF00AAAC01 /* libpng16.a */,
-				7CF1D8D81C9225D300AAAC01 /* libsndfile.a */,
-				7C213B0D1CA02AC20050F676 /* libOpenAX.a */,
+				7C7476831CA76956009CBE23 /* AudioToolbox.framework */,
+				7C7476811CA7680A009CBE23 /* CoreFoundation.framework */,
+				7C74767F1CA767FF009CBE23 /* CoreServices.framework */,
+				7C74767D1CA7677E009CBE23 /* Carbon.framework */,
+				7C74767B1CA76766009CBE23 /* AudioUnit.framework */,
+				7C7476791CA7675E009CBE23 /* CoreAudioKit.framework */,
 				7CF1D8451C9208A500AAAC01 /* Python.framework */,
 				7CF1D8461C9208A500AAAC01 /* CoreMIDI.framework */,
 				7CF1D8471C9208A500AAAC01 /* CoreAudio.framework */,
 				7CF1D8481C9208A500AAAC01 /* OpenGL.framework */,
 				7CF1D8491C9208A500AAAC01 /* Cocoa.framework */,
+				7C7476871CA76A0C009CBE23 /* libz.dylib */,
+				7C7476891CA76A34009CBE23 /* libbz2.dylib */,
+				7C74766D1CA76288009CBE23 /* libaxAudio.a */,
+				7C74766E1CA76288009CBE23 /* libaxMidi.a */,
+				7C74766F1CA76288009CBE23 /* libfreetype.a */,
+				7C7476701CA76288009CBE23 /* libOpenAX.a */,
+				7C7476711CA76288009CBE23 /* libpng16.a */,
+				7C7476721CA76288009CBE23 /* libsndfile.a */,
 				7CF1D82C1C9207DD00AAAC01 /* AudioTools */,
 				7CF1D82B1C9207DD00AAAC01 /* Products */,
 			);
@@ -443,6 +447,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -473,7 +478,16 @@
 				INFOPLIST_FILE = AudioTools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					/usr/local/lib/libaxAudio.a,
+					/usr/local/lib/libaxMidi.a,
+					/usr/local/lib/libportaudio.a,
+					/usr/local/lib/libfreetype.a,
+					/usr/local/lib/libsndfile.a,
+					/usr/local/lib/libpng16.a,
+					/usr/local/lib/libOpenAX.a,
+				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = ax.AudioTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -484,7 +498,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_OPTIMIZATION_LEVEL = 2;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/freetype2/,
 					/usr/local/include/,
@@ -492,7 +506,16 @@
 				INFOPLIST_FILE = AudioTools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					/usr/local/lib/libaxAudio.a,
+					/usr/local/lib/libaxMidi.a,
+					/usr/local/lib/libportaudio.a,
+					/usr/local/lib/libfreetype.a,
+					/usr/local/lib/libsndfile.a,
+					/usr/local/lib/libpng16.a,
+					/usr/local/lib/libOpenAX.a,
+				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = ax.AudioTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

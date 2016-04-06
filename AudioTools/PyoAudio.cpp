@@ -27,6 +27,11 @@ PyoAudio::PyoAudio()
 	}
 }
 
+PyoAudio::~PyoAudio()
+{
+	StopAudio();
+}
+
 void PyoAudio::ReloadScript(const std::string& path)
 {
 	ax::Print("Debug reload");

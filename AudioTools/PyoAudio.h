@@ -11,12 +11,13 @@
 
 #include <OpenAX/OpenAX.h>
 #include <OpenAX/axAudio.h>
-//#include "axPython.h"
 #include "m_pyo.h"
 
 class PyoAudio : public ax::audio::Core {
 public:
 	static PyoAudio* GetInstance();
+	
+	~PyoAudio();
 	
 	enum Events : ax::Event::Id { RMS_VALUE_CHANGE = 89831 };
 

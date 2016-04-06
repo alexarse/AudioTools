@@ -348,7 +348,7 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 
 			if (cursor_index_x == -1) {
 				ax::Print("go to last char of line");
-				_logic.SetCursorPosition(ax::Point(text.size(), actual_line_index));
+				_logic.SetCursorPosition(ax::Point((int)text.size(), actual_line_index));
 				_scrollPanel->Update();
 				return;
 			}
@@ -375,7 +375,7 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 	else {
 		//
 		ax::Print("go to last char");
-		_logic.SetCursorPosition(ax::Point(data[data.size() - 1].size(), data.size() - 1));
+		_logic.SetCursorPosition(ax::Point((int)data[data.size() - 1].size(), (int)data.size() - 1));
 		_scrollPanel->Update();
 	}
 }

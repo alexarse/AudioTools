@@ -29,7 +29,7 @@ namespace inspector {
 		txtInfo.normal = ax::Color(1.0);
 		txtInfo.hover = ax::Color(1.0);
 		txtInfo.selected = ax::Color(1.0);
-		txtInfo.highlight = ax::Color(0.4f, 0.4f, 0.6f);
+		txtInfo.highlight = ax::Color(0.4f, 0.4f, 0.6f, 0.2f);
 		txtInfo.contour = ax::Color(0.88);
 		txtInfo.cursor = ax::Color(1.0f, 0.0f, 0.0f);
 		txtInfo.selected_shadow = ax::Color(0.8f, 0.8f, 0.8f);

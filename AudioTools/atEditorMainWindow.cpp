@@ -409,9 +409,6 @@ namespace editor {
 			}
 
 			// Is inside grid window.
-			/// @todo Add multiple layer search for deepest window.
-			//		  std::vector<ax::Window::Ptr>& children(_gridWindow->GetWindow()->node.GetChildren());
-			//		  ax::Window* FindMousePosition(const ax::Point& pos);
 			ax::Window* hover_window
 				= ax::App::GetInstance().GetWindowManager()->GetWindowTree()->FindMousePosition(pos);
 

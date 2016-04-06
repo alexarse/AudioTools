@@ -52,7 +52,7 @@ namespace editor {
 			ax::Size separator_size(rect.size.x, 20);
 
 			// Add widget separator.
-			win->node.Add(ax::shared<MenuSeparator>(ax::Rect(ax::Point(0, 30), separator_size), "Widget"));
+			win->node.Add(ax::shared<MenuSeparator>(ax::Rect(ax::Point(0, 0), separator_size), "Widget"));
 
 			ax::widget::Component::Ptr widget
 				= _selected_handle->component.Get<ax::widget::Component>("Widget");
@@ -61,7 +61,7 @@ namespace editor {
 			ax::StringVector info_atts = info->GetParamNameList();
 			ax::StringPairVector atts_pair = widget->GetBuilderAttributes();
 
-			ax::Point att_pos(0, 50);
+			ax::Point att_pos(0, 20);
 			ax::Size att_size(rect.size.x, 20);
 
 			for (auto& n : atts_pair) {
