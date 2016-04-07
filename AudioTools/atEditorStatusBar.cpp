@@ -157,8 +157,10 @@ namespace editor {
 		ax::Size size = ax::App::GetInstance().GetFrameSize();
 
 		auto open_dialog = ax::shared<OpenDialog>(ax::Rect(pos, size));
+		
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
 			ax::Window::Ptr(open_dialog->GetWindow()));
+		
 		open_dialog->GetWindow()->backbone = open_dialog;
 		open_dialog->GetWindow()->AddConnection(OpenDialog::OPEN, GetOnOpenDialog());
 	}

@@ -143,11 +143,13 @@ namespace editor {
 		win->event.UnGrabMouse();
 
 		win->backbone = nullptr;
+		
 		ax::App::GetInstance()
 			.GetPopupManager()
 			->GetWindowTree()
 			->GetNodeVector()
 			.clear();
+		
 		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
 		ax::Print("Delete window.");
 
