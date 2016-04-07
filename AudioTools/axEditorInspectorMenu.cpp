@@ -4,6 +4,8 @@
 #include "atMenuAttribute.h"
 #include <OpenAX/WindowManager.h>
 #include "atMenuColorAttribute.hpp"
+#include "atMenuBoolAttribute.hpp"
+#include "atMenuSizeAttribute.hpp"
 
 namespace at {
 namespace editor {
@@ -86,6 +88,14 @@ namespace editor {
 				if(n.first == ax::widget::ParamType::COLOR) {
 					ax::Print(n.second, "Color", value);
 					win->node.Add(ax::shared<at::inspector::ColorAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
+				}
+				else if(n.first == ax::widget::ParamType::BOOLEAN) {
+					win->node.Add(ax::shared<at::inspector::BoolAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
+				}
+				else if(n.first == ax::widget::ParamType::SIZE) {
+					win->node.Add(ax::shared<at::inspector::SizeAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
 				}
 				else {
