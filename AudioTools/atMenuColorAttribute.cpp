@@ -114,13 +114,13 @@ namespace inspector {
 		const ax::Rect rect(win->dimension.GetDrawingRect());
 
 		gc.SetColor(_color);
-		gc.DrawRectangle(rect);
+		gc.DrawRectangle(ax::Rect(rect.position, ax::Size(rect.size.x, rect.size.y + 1)));
 
-		//		gc.SetColor(_color);
-		//		gc.DrawRectangle(rect.GetInteriorRect(ax::Point(1, 1)));
-
-		gc.SetColor(ax::Color(0.94));
-		gc.DrawRectangleContour(rect);
+		gc.SetColor(ax::Color(0.88));
+		gc.DrawRectangleContour(ax::Rect(rect.position, ax::Size(rect.size.x, rect.size.y + 1)));
+		
+		gc.SetColor(ax::Color(0.88));
+		gc.DrawLine(ax::Point(91, 0), ax::Point(91, rect.size.y + 1));
 	}
 }
 }

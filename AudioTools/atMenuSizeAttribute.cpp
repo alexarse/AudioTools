@@ -59,17 +59,17 @@ namespace inspector {
 		scroll_info.txt_info.hover = ax::Color(1.0);
 		scroll_info.txt_info.selected = ax::Color(1.0);
 		scroll_info.txt_info.highlight = ax::Color(0.4f, 0.4f, 0.6f, 0.2f);
-		scroll_info.txt_info.contour = ax::Color(0.7);
+		scroll_info.txt_info.contour = ax::Color(0.88);
 		scroll_info.txt_info.cursor = ax::Color(1.0f, 0.0f, 0.0f);
 		scroll_info.txt_info.selected_shadow = ax::Color(0.8f, 0.8f, 0.8f);
 		scroll_info.txt_info.font_color = ax::Color(0.0);
 
 		// Button.
-		scroll_info.btn_info.normal = ax::Color(0.85);
-		scroll_info.btn_info.hover = ax::Color(0.86);
-		scroll_info.btn_info.clicking = ax::Color(0.83);
+		scroll_info.btn_info.normal = ax::Color(0.92);
+		scroll_info.btn_info.hover = ax::Color(0.94);
+		scroll_info.btn_info.clicking = ax::Color(0.90);
 		scroll_info.btn_info.selected = scroll_info.btn_info.normal;
-		scroll_info.btn_info.contour = ax::Color(0.7);
+		scroll_info.btn_info.contour = ax::Color(0.88);
 		scroll_info.btn_info.font_color = ax::Color(0.0, 0.0);
 
 		auto size_values = ax::Utils::String::Split(value, ",");
@@ -77,14 +77,14 @@ namespace inspector {
 		int h_value = std::stoi(size_values[1]);
 
 		auto w_scroll
-			= ax::shared<ax::NumberScroll>(ax::Rect(110, 0, 60, rect.size.y), ax::NumberScroll::Events(), scroll_info,
+			= ax::shared<ax::NumberScroll>(ax::Rect(110, 0, 60, rect.size.y + 1), ax::NumberScroll::Events(), scroll_info,
 				w_value, ax::Utils::Control::Type::INTEGER, ax::Utils::Range<double>(1.0, 10000.0), 1.0);
 
 		_width_scroll = w_scroll.get();
 		win->node.Add(w_scroll);
 
 		auto h_scroll
-			= ax::shared<ax::NumberScroll>(ax::Rect(190, 0, 60, rect.size.y), ax::NumberScroll::Events(), scroll_info,
+			= ax::shared<ax::NumberScroll>(ax::Rect(190, 0, 60, rect.size.y + 1), ax::NumberScroll::Events(), scroll_info,
 				h_value, ax::Utils::Control::Type::INTEGER, ax::Utils::Range<double>(1.0, 10000.0), 1.0);
 
 		_height_scroll = h_scroll.get();
@@ -103,19 +103,19 @@ namespace inspector {
 	{
 		const ax::Rect rect(win->dimension.GetDrawingRect());
 
-		gc.SetColor(ax::Color(0.94));
+		gc.SetColor(ax::Color(0.96));
 		gc.DrawRectangle(rect);
 
-		gc.SetColor(ax::Color(1.0));
-		gc.DrawRectangle(rect.GetInteriorRect(ax::Point(1, 1)));
-
 		gc.SetColor(ax::Color(0.0));
-		gc.DrawString(_font, "w :", ax::Point(92, 3));
+		gc.DrawString(_font, "w :", ax::Point(93, 3));
 
 		gc.DrawString(_font, "h :", ax::Point(175, 3));
 
-		gc.SetColor(ax::Color(0.94));
-		gc.DrawRectangleContour(rect);
+		gc.SetColor(ax::Color(0.88));
+		gc.DrawRectangleContour(ax::Rect(rect.position, ax::Size(rect.size.x, rect.size.y + 1)));
+		
+		gc.SetColor(ax::Color(0.88));
+		gc.DrawLine(ax::Point(91, 0), ax::Point(91, rect.size.y + 1));
 	}
 }
 }

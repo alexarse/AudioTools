@@ -36,7 +36,7 @@ namespace inspector {
 		labelInfo.alignement = ax::Utils::Alignement::axALIGN_LEFT;
 
 		ax::Point pos(0, 0);
-		win->node.Add(ax::shared<ax::Label>(ax::Rect(pos, ax::Size(90, 25)), labelInfo, _name));
+		win->node.Add(ax::shared<ax::Label>(ax::Rect(pos, ax::Size(90, rect.size.y + 1)), labelInfo, _name));
 
 		ax::TextBox::Events txt_evts;
 		txt_evts.enter_click = ax::Event::Function([&](ax::Event::Msg* msg) {
@@ -48,7 +48,7 @@ namespace inspector {
 		});
 
 		win->node.Add(ax::shared<ax::TextBox>(
-			ax::Rect(ax::Point(90, 0), ax::Size(rect.size.x - 90, 25)), txt_evts, txtInfo, "", _value));
+			ax::Rect(ax::Point(90, 0), ax::Size(rect.size.x - 90, rect.size.y + 1)), txt_evts, txtInfo, "", _value));
 	}
 
 	void MenuAttribute::OnPaint(ax::GC gc)
