@@ -112,6 +112,33 @@ namespace inspector {
 	void ColorAttribute::OnPaint(ax::GC gc)
 	{
 		const ax::Rect rect(win->dimension.GetDrawingRect());
+		
+		const ax::Rect color_rect(rect);
+		
+		
+		// Draw color rectangle background.
+		int line_index = 0;
+		for(int y = color_rect.position.y; y < color_rect.position.y + color_rect.size.y; y += 5) {
+			for(int x = color_rect.position.x; x < color_rect.position.x + color_rect.size.x - 5; x += 10) {
+				int xx = x;
+				int sx = 5;
+								
+				if(line_index % 2) {
+					gc.SetColor(ax::Color(0.95));
+					gc.DrawRectangle(ax::Rect(xx, y, 5, 5));
+					gc.SetColor(ax::Color(0.99));
+					gc.DrawRectangle(ax::Rect(xx + 5, y, sx, 5));
+				}
+				else {
+					gc.SetColor(ax::Color(0.99));
+					gc.DrawRectangle(ax::Rect(xx, y, 5, 5));
+					gc.SetColor(ax::Color(0.95));
+					gc.DrawRectangle(ax::Rect(xx + 5, y, sx, 5));
+				}
+			}
+			
+			line_index++;
+		}
 
 		gc.SetColor(_color);
 		gc.DrawRectangle(ax::Rect(rect.position, ax::Size(rect.size.x, rect.size.y + 1)));
