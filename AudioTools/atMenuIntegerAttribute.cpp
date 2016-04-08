@@ -71,9 +71,17 @@ namespace inspector {
 		scroll_info.btn_info.contour = ax::Color(0.88);
 		scroll_info.btn_info.font_color = ax::Color(0.0, 0.0);
 
-		auto w_scroll = ax::shared<ax::NumberScroll>(ax::Rect(ax::Point(90, 0), ax::Size(rect.size.x - 90, rect.size.y + 1)),
-			ax::NumberScroll::Events(), scroll_info, std::stod(value), ax::Utils::Control::Type::INTEGER,
-			ax::Utils::Range<double>(1.0, 10000.0), 1.0);
+
+		double v = 0.0;
+		
+		if(!value.empty()) {
+			v = std::stod(value);
+		}
+
+		auto w_scroll = ax::shared<ax::NumberScroll>(
+			ax::Rect(ax::Point(90, 0), ax::Size(rect.size.x - 90, rect.size.y + 1)),
+			ax::NumberScroll::Events(), scroll_info, v, ax::Utils::Control::Type::INTEGER,
+			ax::Utils::Range<double>(0.0, 10000.0), 1.0);
 
 		win->node.Add(w_scroll);
 	}
@@ -88,11 +96,6 @@ namespace inspector {
 
 		gc.SetColor(ax::Color(0.96));
 		gc.DrawRectangle(rect);
-
-		//		gc.SetColor(ax::Color(0.0));
-		//		gc.DrawString(_font, "w :", ax::Point(93, 3));
-		//
-		//		gc.DrawString(_font, "h :", ax::Point(175, 3));
 
 		gc.SetColor(ax::Color(0.88));
 		gc.DrawRectangleContour(ax::Rect(rect.position, ax::Size(rect.size.x, rect.size.y + 1)));
