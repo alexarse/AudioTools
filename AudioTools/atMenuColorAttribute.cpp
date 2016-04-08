@@ -95,18 +95,82 @@ namespace inspector {
 
 	void ColorAttribute::OnColorCancel(const ax::ColorPicker::Msg& msg)
 	{
+		win->PushEvent(Events::ASSIGN_VALUE,
+					   new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, msg.GetMsg().ToString())));
+		
+		ax::App& app(ax::App::GetInstance());
+		auto w = app.GetPopupManager()->GetWindowTree()->GetTopLevel();
+		//		app.GetWindowManager()->RemoveGlobalClickListener(win);
+		app.GetPopupManager()->SetPastWindow(nullptr);
+		app.GetPopupManager()->UnGrabKey();
+		app.GetPopupManager()->UnGrabMouse();
+		
+		w->event.UnGrabKey();
+		w->event.UnGrabMouse();
+		
+		w->backbone = nullptr;
+		
+		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		app.GetPopupManager()->SetPastWindow(nullptr);
+		app.UpdateAll();
 	}
 
 	void ColorAttribute::OnMouseLeftDown(const ax::Point& pos)
 	{
+		ax::Slider::Info sld_info;
+		sld_info.img_path = "resources/sliderPlain.png";
+		sld_info.btn_size = ax::Size(12, 12);
+		sld_info.slider_width = 4;
+		sld_info.contour_round_radius = 0;
+		sld_info.bgColorNormal = ax::Color(0.97);
+		sld_info.bgColorHover = sld_info.bgColorNormal;
+		sld_info.bgColorClicked = sld_info.bgColorNormal;
+		
+		sld_info.sliderColorNormal = ax::Color(0.801);
+		sld_info.sliderColorHover = sld_info.sliderColorNormal;
+		sld_info.sliderColorClicked = sld_info.sliderColorNormal;
+		sld_info.sliderContourColor = ax::Color(0.901);
+		
+		sld_info.contourColor = ax::Color(0.88);
+		sld_info.backSliderColor = ax::Color(0.0);
+		sld_info.backSliderContourColor = ax::Color(0.0);
+		
+		ax::TextBox::Info txtInfo;
+		txtInfo.normal = ax::Color(0.97);
+		txtInfo.hover = txtInfo.normal;
+		txtInfo.selected = txtInfo.normal;
+		txtInfo.highlight = ax::Color(0.4f, 0.4f, 0.6f, 0.2f);
+		txtInfo.contour = ax::Color(0.88);
+		txtInfo.cursor = ax::Color(1.0f, 0.0f, 0.0f);
+		txtInfo.selected_shadow = ax::Color(0.8f, 0.8f, 0.8f);
+		txtInfo.font_color = ax::Color(0.0);
+		
+		ax::Button::Info btn_info;
+		btn_info.normal = ax::Color(0.97);
+		btn_info.hover = ax::Color(0.99);
+		btn_info.clicking = ax::Color(0.96);
+		btn_info.selected = btn_info.normal;
+		btn_info.contour = ax::Color(0.88);
+		btn_info.font_color = ax::Color(0.0);
+		btn_info.corner_radius = 0;
+		
+		ax::ColorPicker::Info cp_info;
+		cp_info.btn_info = btn_info;
+		cp_info.sld_info = sld_info;
+		cp_info.txt_info = txtInfo;
+	
+		ax::ColorPicker::Events cp_evts;
+		cp_evts.select = GetOnColorSelect();
+		cp_evts.cancel = GetOnColorCancel();
+	
 		auto c_picker = ax::shared<ax::ColorPicker>(
-			ax::Rect(win->dimension.GetAbsoluteRect().position.x - 120, 30, 205, 272), _color);
+			ax::Point(win->dimension.GetAbsoluteRect().position.x - 120, 30), cp_evts, cp_info, _color);
 
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
 			ax::Window::Ptr(c_picker->GetWindow()));
 
 		c_picker->GetWindow()->backbone = c_picker;
-		c_picker->GetWindow()->AddConnection(ax::ColorPicker::Events::SELECT, GetOnColorSelect());
+//		c_picker->GetWindow()->AddConnection(ax::ColorPicker::Events::SELECT, GetOnColorSelect());
 	}
 
 	void ColorAttribute::OnPaint(ax::GC gc)
