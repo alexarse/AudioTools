@@ -1,15 +1,8 @@
-//
-//  atMenuSizeAttribute.hpp
-//  AudioTools
-//
-//  Created by Alexandre Arsenault on 2016-04-07.
-//  Copyright © 2016 Alexandre Arsenault. All rights reserved.
-//
-
 #ifndef atMenuSizeAttribute_hpp
 #define atMenuSizeAttribute_hpp
 
 #include <OpenAX/OpenAX.h>
+#include <OpenAX/NumberScroll.h>
 
 namespace at {
 namespace inspector {
@@ -22,13 +15,13 @@ namespace inspector {
 
 	private:
 		std::string _name;
-		//		ax::Color _color;
 		ax::Font _font;
+		ax::NumberScroll* _width_scroll;
+		ax::NumberScroll* _height_scroll;
 
-		//		axEVENT_DECLARATION(ax::ColorPicker::Msg, OnColorSelect);
-		//		axEVENT_DECLARATION(ax::ColorPicker::Msg, OnColorCancel);
+		axEVENT_DECLARATION(ax::NumberScroll::Msg, OnWidthChange);
+		axEVENT_DECLARATION(ax::NumberScroll::Msg, OnHeightChange);
 
-		//		void OnMouseLeftDown(const ax::Point& pos);
 		void OnPaint(ax::GC gc);
 	};
 }

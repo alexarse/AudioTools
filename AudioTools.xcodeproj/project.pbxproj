@@ -21,7 +21,6 @@
 		7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */; };
 		7CBD415E1CB6973C000A22C5 /* atMenuBoolAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */; };
 		7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */; };
-		7CBD41641CB6A8A1000A22C5 /* axNumberScroll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD41621CB6A8A1000A22C5 /* axNumberScroll.cpp */; };
 		7CF1D8341C9207DE00AAAC01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */; };
 		7CF1D83F1C9207F400AAAC01 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CF1D83E1C9207F400AAAC01 /* MainMenu.xib */; };
 		7CF1D84D1C9208A500AAAC01 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF1D8451C9208A500AAAC01 /* Python.framework */; };
@@ -74,8 +73,6 @@
 		7CBD415D1CB6973C000A22C5 /* atMenuBoolAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuBoolAttribute.hpp; sourceTree = "<group>"; };
 		7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuSizeAttribute.cpp; sourceTree = "<group>"; };
 		7CBD41601CB6A251000A22C5 /* atMenuSizeAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuSizeAttribute.hpp; sourceTree = "<group>"; };
-		7CBD41621CB6A8A1000A22C5 /* axNumberScroll.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = axNumberScroll.cpp; sourceTree = "<group>"; };
-		7CBD41631CB6A8A1000A22C5 /* axNumberScroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = axNumberScroll.h; sourceTree = "<group>"; };
 		7CF1D82A1C9207DD00AAAC01 /* AudioTools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioTools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CF1D8381C9207DE00AAAC01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -157,8 +154,6 @@
 				7CBD415D1CB6973C000A22C5 /* atMenuBoolAttribute.hpp */,
 				7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */,
 				7CBD41601CB6A251000A22C5 /* atMenuSizeAttribute.hpp */,
-				7CBD41621CB6A8A1000A22C5 /* axNumberScroll.cpp */,
-				7CBD41631CB6A8A1000A22C5 /* axNumberScroll.h */,
 			);
 			name = InspectorMenu;
 			sourceTree = "<group>";
@@ -200,6 +195,19 @@
 			name = include;
 			sourceTree = "<group>";
 		};
+		7C9219341CB7F7BD00AB6AF6 /* Dialog */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1D87D1C921DCC00AAAC01 /* atOpenDialog.hpp */,
+				7CF1D87E1C921DCC00AAAC01 /* atSaveDialog.hpp */,
+				7CF1D8921C921DDF00AAAC01 /* atOpenDialog.cpp */,
+				7CF1D8931C921DDF00AAAC01 /* mdiSaveDialog.cpp */,
+				7C213B161CA05E460050F676 /* atSplashDialog.cpp */,
+				7C213B171CA05E460050F676 /* atSplashDialog.hpp */,
+			);
+			name = Dialog;
+			sourceTree = "<group>";
+		};
 		7CF1D8211C9207DD00AAAC01 = {
 			isa = PBXGroup;
 			children = (
@@ -238,8 +246,7 @@
 		7CF1D82C1C9207DD00AAAC01 /* AudioTools */ = {
 			isa = PBXGroup;
 			children = (
-				7C213B161CA05E460050F676 /* atSplashDialog.cpp */,
-				7C213B171CA05E460050F676 /* atSplashDialog.hpp */,
+				7C9219341CB7F7BD00AB6AF6 /* Dialog */,
 				7C213B131CA0318B0050F676 /* Editor */,
 				7CF1D9CF1C938FC400AAAC01 /* pyo */,
 				7CF1D8AC1C921DF800AAAC01 /* main.cpp */,
@@ -256,8 +263,6 @@
 		7CF1D86E1C921DBB00AAAC01 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				7CF1D87D1C921DCC00AAAC01 /* atOpenDialog.hpp */,
-				7CF1D87E1C921DCC00AAAC01 /* atSaveDialog.hpp */,
 				7C2138D31C9B252C0050F676 /* atVolumeMeter.hpp */,
 			);
 			name = include;
@@ -267,8 +272,6 @@
 			isa = PBXGroup;
 			children = (
 				7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */,
-				7CF1D8921C921DDF00AAAC01 /* atOpenDialog.cpp */,
-				7CF1D8931C921DDF00AAAC01 /* mdiSaveDialog.cpp */,
 			);
 			name = source;
 			sourceTree = "<group>";
@@ -370,7 +373,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C213B181CA05E460050F676 /* atSplashDialog.cpp in Sources */,
-				7CBD41641CB6A8A1000A22C5 /* axNumberScroll.cpp in Sources */,
 				7CF1D8B61C921DF800AAAC01 /* Pyo.cpp in Sources */,
 				7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */,
 				7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */,

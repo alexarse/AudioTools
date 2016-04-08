@@ -1,11 +1,3 @@
-//
-//  atInspectorMenuAttribute.cpp
-//  AudioTools
-//
-//  Created by Alexandre Arsenault on 2016-03-12.
-//  Copyright © 2016 Alexandre Arsenault. All rights reserved.
-//
-
 #include "atMenuAttribute.h"
 #include <OpenAX/Label.h>
 #include <OpenAX/TextBox.h>

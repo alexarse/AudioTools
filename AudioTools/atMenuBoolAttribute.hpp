@@ -22,13 +22,6 @@ namespace inspector {
 
 	private:
 		std::string _name;
-//		ax::Color _color;
-		ax::Font _font;
-
-//		axEVENT_DECLARATION(ax::ColorPicker::Msg, OnColorSelect);
-//		axEVENT_DECLARATION(ax::ColorPicker::Msg, OnColorCancel);
-
-//		void OnMouseLeftDown(const ax::Point& pos);
 		void OnPaint(ax::GC gc);
 	};
 }

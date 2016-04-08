@@ -50,32 +50,53 @@ namespace inspector {
 		txtInfo.selected_shadow = ax::Color(0.8f, 0.8f, 0.8f);
 		txtInfo.font_color = ax::Color(0.0);
 
-		ax::TextBox::Events txt_evts;
+		ax::NumberScroll::Info scroll_info;
+		scroll_info.up_btn = "resources/drop_up.png";
+		scroll_info.down_btn = "resources/drop_down.png";
 
-		txt_evts.enter_click = ax::Event::Function([&](ax::Event::Msg* msg) {
-			ax::TextBox::Msg* tmsg = static_cast<ax::TextBox::Msg*>(msg);
-			std::string msg_str = tmsg->GetMsg();
+		// Txt box.
+		scroll_info.txt_info.normal = ax::Color(1.0);
+		scroll_info.txt_info.hover = ax::Color(1.0);
+		scroll_info.txt_info.selected = ax::Color(1.0);
+		scroll_info.txt_info.highlight = ax::Color(0.4f, 0.4f, 0.6f, 0.2f);
+		scroll_info.txt_info.contour = ax::Color(0.7);
+		scroll_info.txt_info.cursor = ax::Color(1.0f, 0.0f, 0.0f);
+		scroll_info.txt_info.selected_shadow = ax::Color(0.8f, 0.8f, 0.8f);
+		scroll_info.txt_info.font_color = ax::Color(0.0);
 
-			win->PushEvent(Events::ASSIGN_VALUE,
-				new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, msg_str)));
-		});
+		// Button.
+		scroll_info.btn_info.normal = ax::Color(0.85);
+		scroll_info.btn_info.hover = ax::Color(0.86);
+		scroll_info.btn_info.clicking = ax::Color(0.83);
+		scroll_info.btn_info.selected = scroll_info.btn_info.normal;
+		scroll_info.btn_info.contour = ax::Color(0.7);
+		scroll_info.btn_info.font_color = ax::Color(0.0, 0.0);
 
 		auto size_values = ax::Utils::String::Split(value, ",");
-		win->node.Add(ax::shared<ax::TextBox>(
-			ax::Rect(ax::Point(110, 0), ax::Size(60, 25)), txt_evts, txtInfo, "", size_values[0]));
+		int w_value = std::stoi(size_values[0]);
+		int h_value = std::stoi(size_values[1]);
 
-		win->node.Add(ax::shared<ax::TextBox>(
-			ax::Rect(ax::Point(210, 0), ax::Size(60, 25)), txt_evts, txtInfo, "", size_values[1]));
+		auto w_scroll
+			= ax::shared<ax::NumberScroll>(ax::Rect(110, 0, 60, rect.size.y), ax::NumberScroll::Events(), scroll_info,
+				w_value, ax::Utils::Control::Type::INTEGER, ax::Utils::Range<double>(1.0, 10000.0), 1.0);
 
-		auto btn_top = ax::shared<ax::Button>(ax::Rect(ax::Point(150, 0), ax::Size(20, rect.size.y / 2)),
-			ax::Button::Events(), ax::Button::Info(), "", "");
-		win->node.Add(btn_top);
+		_width_scroll = w_scroll.get();
+		win->node.Add(w_scroll);
 
-		ax::Point btn_pos(btn_top->GetWindow()->dimension.GetRect().GetNextPosDown(0));
+		auto h_scroll
+			= ax::shared<ax::NumberScroll>(ax::Rect(190, 0, 60, rect.size.y), ax::NumberScroll::Events(), scroll_info,
+				h_value, ax::Utils::Control::Type::INTEGER, ax::Utils::Range<double>(1.0, 10000.0), 1.0);
 
-		auto btn_bottom = ax::shared<ax::Button>(ax::Rect(btn_pos, ax::Size(20, rect.size.y / 2)),
-			ax::Button::Events(), ax::Button::Info(), "", "");
-		win->node.Add(btn_bottom);
+		_height_scroll = h_scroll.get();
+		win->node.Add(h_scroll);
+	}
+
+	void SizeAttribute::OnWidthChange(const ax::NumberScroll::Msg& msg)
+	{
+	}
+
+	void SizeAttribute::OnHeightChange(const ax::NumberScroll::Msg& msg)
+	{
 	}
 
 	void SizeAttribute::OnPaint(ax::GC gc)
@@ -91,7 +112,7 @@ namespace inspector {
 		gc.SetColor(ax::Color(0.0));
 		gc.DrawString(_font, "w :", ax::Point(92, 3));
 
-		gc.DrawString(_font, "h :", ax::Point(180, 3));
+		gc.DrawString(_font, "h :", ax::Point(175, 3));
 
 		gc.SetColor(ax::Color(0.94));
 		gc.DrawRectangleContour(rect);
