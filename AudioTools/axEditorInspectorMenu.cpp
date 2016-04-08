@@ -1,11 +1,12 @@
 #include "PyoComponent.h"
-#include "atEditorInspectorMenu.h"
 #include "atCommon.h"
+#include "atEditorInspectorMenu.h"
 #include "atMenuAttribute.h"
-#include <OpenAX/WindowManager.h>
-#include "atMenuColorAttribute.hpp"
 #include "atMenuBoolAttribute.hpp"
+#include "atMenuColorAttribute.hpp"
+#include "atMenuIntegerAttribute.hpp"
 #include "atMenuSizeAttribute.hpp"
+#include <OpenAX/WindowManager.h>
 
 namespace at {
 namespace editor {
@@ -59,15 +60,15 @@ namespace editor {
 
 			ax::widget::Component::Ptr widget
 				= _selected_handle->component.Get<ax::widget::Component>("Widget");
-			
-//			ax::StringVector info_atts = info->GetParamNameList();
+
+			//			ax::StringVector info_atts = info->GetParamNameList();
 			ax::StringPairVector atts_pair = widget->GetBuilderAttributes();
 
 			ax::Point att_pos(0, 20);
 			ax::Size att_size(rect.size.x, 20);
 
 			//------------------------------------------------------------------
-			
+
 			for (auto& n : atts_pair) {
 				win->node.Add(ax::shared<at::inspector::MenuAttribute>(
 					ax::Rect(att_pos, att_size), n.first, n.second, GetOnWidgetUpdate()));
@@ -80,29 +81,32 @@ namespace editor {
 
 			ax::widget::Info* info = widget->GetInfo();
 			std::vector<ax::widget::ParamInfo> info_atts = info->GetParametersInfo();
-			
-		
+
 			for (auto& n : info_atts) {
 				std::string value = info->GetAttributeValue(n.second);
-				
-				if(n.first == ax::widget::ParamType::COLOR) {
-					ax::Print(n.second, "Color", value);
+
+				if (n.first == ax::widget::ParamType::COLOR) {
 					win->node.Add(ax::shared<at::inspector::ColorAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
 				}
-				else if(n.first == ax::widget::ParamType::BOOLEAN) {
+				else if (n.first == ax::widget::ParamType::BOOLEAN) {
 					win->node.Add(ax::shared<at::inspector::BoolAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
 				}
-				else if(n.first == ax::widget::ParamType::SIZE) {
+				else if (n.first == ax::widget::ParamType::SIZE) {
 					win->node.Add(ax::shared<at::inspector::SizeAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
 				}
+				else if (n.first == ax::widget::ParamType::INTEGER) {
+					win->node.Add(ax::shared<at::inspector::IntegerAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
+				}
 				else {
+					//					ax::Print("Attribute :", n.second, value);
 					win->node.Add(ax::shared<at::inspector::MenuAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
 				}
-				
+
 				att_pos.y += att_size.y;
 			}
 
@@ -115,7 +119,7 @@ namespace editor {
 				att_pos.y += separator_size.y;
 
 				std::string fct_name = pyo_comp->GetFunctionName();
-				
+
 				auto menu = ax::shared<at::inspector::MenuAttribute>(
 					ax::Rect(att_pos, att_size), "callback", fct_name, GetOnPyoCallback());
 				win->node.Add(menu);
@@ -176,12 +180,10 @@ namespace editor {
 		if (_selected_handle == nullptr) {
 			return;
 		}
-		ax::widget::Component::Ptr widget
-		= _selected_handle->component.Get<ax::widget::Component>("Widget");
-		
+		ax::widget::Component::Ptr widget = _selected_handle->component.Get<ax::widget::Component>("Widget");
+
 		widget->SetInfo(ax::StringPairVector{ msg.GetMsg() });
 		widget->ReloadInfo();
-		
 	}
 
 	void InspectorMenu::OnPaint(ax::GC gc)
