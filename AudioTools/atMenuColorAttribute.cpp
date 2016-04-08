@@ -134,7 +134,6 @@ namespace inspector {
 			ax::Window::Ptr(c_picker->GetWindow()));
 
 		c_picker->GetWindow()->backbone = c_picker;
-		//		c_picker->GetWindow()->AddConnection(ax::ColorPicker::Events::SELECT, GetOnColorSelect());
 	}
 
 	void ColorAttribute::OnPaint(ax::GC gc)

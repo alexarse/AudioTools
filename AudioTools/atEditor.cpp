@@ -106,6 +106,10 @@ namespace editor {
 		char usr_name[200];
 		int err = getlogin_r(usr_name, 200);
 
+		if(err != 0) {
+			ax::Error("Can't get unser name.");
+		}
+
 		ax::Print("User name :", usr_name);
 
 		struct passwd* pw = getpwuid(getuid());
