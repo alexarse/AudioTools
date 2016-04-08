@@ -5,7 +5,9 @@
 #include "atMenuBoolAttribute.hpp"
 #include "atMenuColorAttribute.hpp"
 #include "atMenuIntegerAttribute.hpp"
+#include "atMenuPointAttribute.hpp"
 #include "atMenuSizeAttribute.hpp"
+
 #include <OpenAX/WindowManager.h>
 
 namespace at {
@@ -75,7 +77,7 @@ namespace editor {
 			ax::Size att_size(rect.size.x, 20);
 
 			for (auto& n : builder_atts_info) {
-//				std::string value = info->GetAttributeValue(n.second);
+				//				std::string value = info->GetAttributeValue(n.second);
 				std::string value = atts_map[n.second];
 
 				if (n.first == ax::widget::ParamType::COLOR) {
@@ -84,6 +86,10 @@ namespace editor {
 				}
 				else if (n.first == ax::widget::ParamType::BOOLEAN) {
 					win->node.Add(ax::shared<at::inspector::BoolAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
+				}
+				else if (n.first == ax::widget::ParamType::POINT) {
+					win->node.Add(ax::shared<at::inspector::PointAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
 				}
 				else if (n.first == ax::widget::ParamType::SIZE) {
@@ -126,6 +132,10 @@ namespace editor {
 				}
 				else if (n.first == ax::widget::ParamType::BOOLEAN) {
 					win->node.Add(ax::shared<at::inspector::BoolAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
+				}
+				else if (n.first == ax::widget::ParamType::POINT) {
+					win->node.Add(ax::shared<at::inspector::PointAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
 				}
 				else if (n.first == ax::widget::ParamType::SIZE) {
