@@ -37,7 +37,7 @@ namespace inspector {
 		labelInfo.alignement = ax::Utils::Alignement::axALIGN_LEFT;
 
 		ax::Point pos(0, 0);
-		win->node.Add(ax::shared<ax::Label>(ax::Rect(pos, ax::Size(90, 25)), labelInfo, _name));
+		win->node.Add(ax::shared<ax::Label>(ax::Rect(pos, ax::Size(90, rect.size.y + 1)), labelInfo, _name));
 
 		ax::TextBox::Info txtInfo;
 		txtInfo.normal = ax::Color(1.0);
