@@ -61,24 +61,59 @@ namespace editor {
 			ax::widget::Component::Ptr widget
 				= _selected_handle->component.Get<ax::widget::Component>("Widget");
 
-			//			ax::StringVector info_atts = info->GetParamNameList();
+			// Builder attributes.
 			ax::StringPairVector atts_pair = widget->GetBuilderAttributes();
+			std::map<std::string, std::string> atts_map;
+
+			for (auto& n : atts_pair) {
+				atts_map.insert(n);
+			}
+
+			std::vector<ax::widget::ParamInfo> builder_atts_info = widget->GetBuilderAttributesInfo();
 
 			ax::Point att_pos(0, 20);
 			ax::Size att_size(rect.size.x, 20);
 
-			//------------------------------------------------------------------
+			for (auto& n : builder_atts_info) {
+//				std::string value = info->GetAttributeValue(n.second);
+				std::string value = atts_map[n.second];
 
-			for (auto& n : atts_pair) {
-				win->node.Add(ax::shared<at::inspector::MenuAttribute>(
-					ax::Rect(att_pos, att_size), n.first, n.second, GetOnWidgetUpdate()));
+				if (n.first == ax::widget::ParamType::COLOR) {
+					win->node.Add(ax::shared<at::inspector::ColorAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
+				}
+				else if (n.first == ax::widget::ParamType::BOOLEAN) {
+					win->node.Add(ax::shared<at::inspector::BoolAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
+				}
+				else if (n.first == ax::widget::ParamType::SIZE) {
+					win->node.Add(ax::shared<at::inspector::SizeAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
+				}
+				else if (n.first == ax::widget::ParamType::INTEGER) {
+					win->node.Add(ax::shared<at::inspector::IntegerAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
+				}
+				else {
+					//					ax::Print("Attribute :", n.second, value);
+					win->node.Add(ax::shared<at::inspector::MenuAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
+				}
+
 				att_pos.y += att_size.y;
 			}
+
+			//			for (auto& n : atts_pair) {
+			//				win->node.Add(ax::shared<at::inspector::MenuAttribute>(
+			//					ax::Rect(att_pos, att_size), n.first, n.second, GetOnWidgetUpdate()));
+			//				att_pos.y += att_size.y;
+			//			}
 
 			win->node.Add(ax::shared<MenuSeparator>(ax::Rect(att_pos, separator_size), "Info"));
 
 			att_pos.y += separator_size.y;
 
+			// Widget info attributes.
 			ax::widget::Info* info = widget->GetInfo();
 			std::vector<ax::widget::ParamInfo> info_atts = info->GetParametersInfo();
 
@@ -110,7 +145,7 @@ namespace editor {
 				att_pos.y += att_size.y;
 			}
 
-			// pyo function.
+			// Python attributes.
 			if (_selected_handle->component.Has("pyo")) {
 				pyo::Component::Ptr pyo_comp = _selected_handle->component.Get<pyo::Component>("pyo");
 

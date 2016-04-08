@@ -77,14 +77,14 @@ namespace inspector {
 		int h_value = std::stoi(size_values[1]);
 
 		auto w_scroll
-			= ax::shared<ax::NumberScroll>(ax::Rect(110, 0, 60, rect.size.y + 1), ax::NumberScroll::Events(), scroll_info,
+			= ax::shared<ax::NumberScroll>(ax::Rect(110, 0, 60, rect.size.y + 1), GetOnWidthChange(), scroll_info,
 				w_value, ax::Utils::Control::Type::INTEGER, ax::Utils::Range<double>(1.0, 10000.0), 1.0);
 
 		_width_scroll = w_scroll.get();
 		win->node.Add(w_scroll);
 
 		auto h_scroll
-			= ax::shared<ax::NumberScroll>(ax::Rect(190, 0, 60, rect.size.y + 1), ax::NumberScroll::Events(), scroll_info,
+			= ax::shared<ax::NumberScroll>(ax::Rect(190, 0, 60, rect.size.y + 1), GetOnHeightChange(), scroll_info,
 				h_value, ax::Utils::Control::Type::INTEGER, ax::Utils::Range<double>(1.0, 10000.0), 1.0);
 
 		_height_scroll = h_scroll.get();
@@ -93,10 +93,22 @@ namespace inspector {
 
 	void SizeAttribute::OnWidthChange(const ax::NumberScroll::Msg& msg)
 	{
+		std::string w_str = std::to_string((int)msg.GetValue());
+		std::string h_str = std::to_string((int)_height_scroll->GetValue());
+		std::string out_str(w_str + ", " + h_str);
+	
+		win->PushEvent(Events::ASSIGN_VALUE,
+					   new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, out_str)));
 	}
 
 	void SizeAttribute::OnHeightChange(const ax::NumberScroll::Msg& msg)
 	{
+		std::string w_str = std::to_string((int)_width_scroll->GetValue());
+		std::string h_str = std::to_string((int)msg.GetValue());
+		std::string out_str(w_str + ", " + h_str);
+		
+		win->PushEvent(Events::ASSIGN_VALUE,
+					   new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, out_str)));
 	}
 
 	void SizeAttribute::OnPaint(ax::GC gc)
