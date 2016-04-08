@@ -11,6 +11,8 @@
 
 #include <OpenAX/OpenAX.h>
 
+#include <OpenAX/Toggle.h>
+
 namespace at {
 namespace inspector {
 	class BoolAttribute : public ax::Window::Backbone {
@@ -22,6 +24,9 @@ namespace inspector {
 
 	private:
 		std::string _name;
+		
+		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleClick);
+		
 		void OnPaint(ax::GC gc);
 	};
 }
