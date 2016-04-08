@@ -42,13 +42,14 @@ namespace inspector {
 		txt_evts.enter_click = ax::Event::Function([&](ax::Event::Msg* msg) {
 			ax::TextBox::Msg* tmsg = static_cast<ax::TextBox::Msg*>(msg);
 			std::string msg_str = tmsg->GetMsg();
-			
+
 			win->PushEvent(Events::ASSIGN_VALUE,
 				new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, msg_str)));
 		});
 
-		win->node.Add(ax::shared<ax::TextBox>(
-			ax::Rect(ax::Point(90, 0), ax::Size(rect.size.x - 90, rect.size.y + 1)), txt_evts, txtInfo, "", _value));
+		win->node.Add(
+			ax::shared<ax::TextBox>(ax::Rect(ax::Point(90, 0), ax::Size(rect.size.x - 90, rect.size.y + 1)),
+				txt_evts, txtInfo, "", _value));
 	}
 
 	void MenuAttribute::OnPaint(ax::GC gc)
