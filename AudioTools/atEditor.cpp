@@ -12,6 +12,7 @@
 #include <OpenAX/axMidiCore.h>
 
 #include "atSplashDialog.hpp"
+#include "atSkin.hpp"
 
 class Midi : public ax::midi::Core {
 public:
@@ -62,6 +63,9 @@ namespace editor {
 	void App::SetupApplication()
 	{
 		ax::App& app(ax::App::GetInstance());
+
+		at::Skin::GetInstance()->SetLightSkin();
+		//at::Skin::GetInstance()->SetDarkSkin();
 
 		app.AddMainEntry([&]() {
 			app.SetFrameSize(ax::Size(400, 500));

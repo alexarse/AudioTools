@@ -3,6 +3,7 @@
 #include "atOpenDialog.hpp"
 #include "atSaveDialog.hpp"
 #include "PyoAudio.h"
+#include "atSkin.hpp"
 
 #include <OpenAX/Core.h>
 #include <OpenAX/Toggle.h>
@@ -243,15 +244,18 @@ namespace editor {
 	{
 		ax::Rect rect(win->dimension.GetDrawingRect());
 
-		gc.SetColor(ax::Color(0.30));
+//		gc.SetColor(ax::Color(0.30));
+		gc.SetColor(at::Skin::GetInstance()->data.status_bar_bg);
 		gc.DrawRectangle(rect);
 
 		if (!_layout_file_path.empty()) {
-			gc.SetColor(ax::Color(1.0));
+//			gc.SetColor(ax::Color(1.0));
+			gc.SetColor(at::Skin::GetInstance()->data.status_bar_text);
 			gc.DrawStringAlignedCenter(_font, _layout_file_path, rect);
 		}
 
-		gc.SetColor(ax::Color(0.30));
+//		gc.SetColor(ax::Color(0.30));
+		gc.SetColor(at::Skin::GetInstance()->data.status_bar_bg);
 		gc.DrawRectangleContour(rect);
 	}
 }

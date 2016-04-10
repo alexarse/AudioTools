@@ -1,4 +1,5 @@
 #include "CodeEditor.h"
+#include "atSkin.hpp"
 #include <OpenAX/Button.h>
 #include <algorithm>
 
@@ -224,11 +225,16 @@ void CodeEditor::OnPaint(ax::GC gc)
 	gc.DrawRectangle(rect);
 
 	ax::Rect top_bar_rect(0, 0, rect.size.x, TOP_BAR_HEIGHT);
-	gc.SetColor(ax::Color(0.45));
+//	gc.SetColor(ax::Color(0.45));
+	gc.SetColor(at::Skin::GetInstance()->data.txt_edit_bar);
 	gc.DrawRectangle(top_bar_rect);
+	
+	gc.SetColor(at::Skin::GetInstance()->data.txt_edit_bar_contour);
 	gc.DrawRectangleContour(top_bar_rect);
 	gc.DrawRectangleContour(rect);
 	
-	gc.SetColor(ax::Color(1.0));
+//	gc.SetColor(ax::Color(1.0));
+	gc.SetColor(at::Skin::GetInstance()->data.txt_edit_bar_label);
+
 	gc.DrawString(_font, _file_path, ax::Point(5, 2));
 }

@@ -1,6 +1,7 @@
 #include "atCommon.h"
 #include "atEditor.h"
 #include "atEditorWidgetMenu.h"
+#include "atSkin.hpp"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Xml.h>
@@ -37,14 +38,17 @@ namespace editor {
 	{
 		ax::Rect rect(win->dimension.GetDrawingRect());
 
-		gc.SetColor(ax::Color(0.94));
+//		gc.SetColor(ax::Color(0.94));
+		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_bg);
 		gc.DrawRectangle(rect);
 		//	gc.DrawRectangleColorFade(rect, ax::Color(0.85), ax::Color(0.95));
 
-		gc.SetColor(ax::Color(0.94));
+//		gc.SetColor(ax::Color(0.94));
+		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_contour);
 		gc.DrawRectangleContour(rect);
 
-		gc.SetColor(ax::Color(0.3));
+//		gc.SetColor(ax::Color(0.3));
+		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_text);
 		gc.DrawString(_font, _name, ax::Point(10, 2));
 	}
 
@@ -131,22 +135,27 @@ namespace editor {
 	void WidgetMenuObj::OnPaint(ax::GC gc)
 	{
 		ax::Rect rect(win->dimension.GetDrawingRect());
-		gc.DrawRectangleColorFade(rect, ax::Color(1.0), ax::Color(0.98));
+//		gc.DrawRectangleColorFade(rect, ax::Color(1.0), ax::Color(0.98));
+		gc.DrawRectangleColorFade(rect, at::Skin::GetInstance()->data.w_menu_obj_bg_0, at::Skin::GetInstance()->data.w_menu_obj_bg_1);
 		
 		ax::Size img_size(_img->GetSize());
 		ax::Point img_pos(5 + (65 - img_size.x) / 2, 5 + (rect.size.y - 8 - img_size.y) / 2);
 		gc.DrawImage(_img.get(), img_pos);
 
 		if (_show_text) {
-			gc.SetColor(ax::Color(0.1));
+//			gc.SetColor(ax::Color(0.1));
+			gc.SetColor(at::Skin::GetInstance()->data.w_menu_title_txt);
 			gc.DrawString(_font, _title, ax::Point(75, 6));
 
-			gc.SetColor(ax::Color(0.0));
+//			gc.SetColor(ax::Color(0.0));
+			gc.SetColor(at::Skin::GetInstance()->data.w_menu_txt);
 			gc.DrawString(_font_normal, _info, ax::Point(75, 20));
 			gc.DrawString(_font_normal, _size_str, ax::Point(75, 32));
 		}
 
-		gc.SetColor(ax::Color(0.9));
+//		gc.SetColor(ax::Color(0.9));
+		gc.SetColor(at::Skin::GetInstance()->data.w_menu_obj_contour);
+
 		gc.DrawRectangleContour(rect);
 		
 		// If not selectable.
@@ -306,7 +315,7 @@ namespace editor {
 	void WidgetMenu::OnScrollWheel(const ax::Point& delta)
 	{
 		ax::Size size = _panel->dimension.GetShownRect().size;
-		double scroll_value = delta.y / double(size.y) + _scrollBar->GetZeroToOneValue();
+		double scroll_value = (delta.y / double(size.y / 2.0)) + _scrollBar->GetZeroToOneValue();
 
 		_scrollBar->SetZeroToOneValue(scroll_value);
 	}
@@ -350,7 +359,8 @@ namespace editor {
 	{
 		ax::Rect rect(win->dimension.GetDrawingRect());
 
-		gc.SetColor(ax::Color(0.45));
+//		gc.SetColor(ax::Color(0.45));
+		gc.SetColor(at::Skin::GetInstance()->data.w_menu_top_bar);
 		gc.DrawRectangle(rect);
 		gc.DrawRectangleContour(rect);
 	}

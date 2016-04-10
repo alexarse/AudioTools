@@ -8,6 +8,7 @@
 #include "PyoComponent.h"
 #include "atCommon.h"
 #include "atEditorLoader.h"
+#include "atSkin.hpp"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Knob.h>
@@ -22,7 +23,8 @@ namespace editor {
 	GridWindow::GridWindow(const ax::Rect& rect)
 		: _grid_space(10)
 		, _selection(false, ax::Rect(0, 0, 0, 0))
-		, _bg_color(1.0)
+//		, _bg_color(1.0)
+		, _bg_color(at::Skin::GetInstance()->data.grid_window_bg)
 	{
 		// Create window.
 		win = ax::Window::Create(rect);
@@ -203,7 +205,8 @@ namespace editor {
 		gc.SetColor(_bg_color);
 		gc.DrawRectangle(rect);
 
-		gc.SetColor(ax::Color(0.9));
+//		gc.SetColor(ax::Color(0.9));
+		gc.SetColor(at::Skin::GetInstance()->data.grid_window_lines);
 
 		// Vertical lines.
 		for (int x = _grid_space; x < rect.size.x; x += _grid_space) {
@@ -224,7 +227,8 @@ namespace editor {
 		}
 
 		// Grid contour.
-		gc.SetColor(ax::Color(0.7));
+//		gc.SetColor(ax::Color(0.7));
+		gc.SetColor(at::Skin::GetInstance()->data.grid_window_contour);
 		gc.DrawRectangleContour(rect);
 	}
 }

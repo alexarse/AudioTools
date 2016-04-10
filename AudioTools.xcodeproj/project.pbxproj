@@ -20,6 +20,7 @@
 		7C74768A1CA76A34009CBE23 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476891CA76A34009CBE23 /* libbz2.dylib */; };
 		7C9219371CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219351CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp */; };
 		7C92193A1CB8314900AB6AF6 /* atMenuPointAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */; };
+		7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */; };
 		7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */; };
 		7CBD415E1CB6973C000A22C5 /* atMenuBoolAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */; };
 		7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */; };
@@ -73,6 +74,8 @@
 		7C9219361CB8091000AB6AF6 /* atMenuIntegerAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuIntegerAttribute.hpp; sourceTree = "<group>"; };
 		7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuPointAttribute.cpp; sourceTree = "<group>"; };
 		7C9219391CB8314900AB6AF6 /* atMenuPointAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuPointAttribute.hpp; sourceTree = "<group>"; };
+		7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atSkin.cpp; sourceTree = "<group>"; };
+		7C92193C1CB894EB00AB6AF6 /* atSkin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atSkin.hpp; sourceTree = "<group>"; };
 		7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuColorAttribute.cpp; sourceTree = "<group>"; };
 		7CBD41571CB60033000A22C5 /* atMenuColorAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuColorAttribute.hpp; sourceTree = "<group>"; };
 		7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuBoolAttribute.cpp; sourceTree = "<group>"; };
@@ -266,6 +269,8 @@
 				7CF1D83E1C9207F400AAAC01 /* MainMenu.xib */,
 				7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */,
 				7CF1D8381C9207DE00AAAC01 /* Info.plist */,
+				7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */,
+				7C92193C1CB894EB00AB6AF6 /* atSkin.hpp */,
 			);
 			path = AudioTools;
 			sourceTree = "<group>";
@@ -387,6 +392,7 @@
 				7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */,
 				7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */,
 				7CF1D8991C921DDF00AAAC01 /* atEditorGridWindow.cpp in Sources */,
+				7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */,
 				7CF1D8AB1C921DDF00AAAC01 /* TextEditorLogic.cpp in Sources */,
 				7CF1D8B41C921DF800AAAC01 /* main.cpp in Sources */,
 				7CF1D8A11C921DDF00AAAC01 /* CodeEditor.cpp in Sources */,
