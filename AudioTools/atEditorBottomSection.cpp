@@ -41,7 +41,8 @@ namespace editor {
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &BottomSection::OnMouseLeftDown);
 		win->event.OnMouseLeftDragging = ax::WBind<ax::Point>(this, &BottomSection::OnMouseLeftDragging);
 		win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &BottomSection::OnMouseLeftUp);
-
+		win->event.OnMouseLeftDoubleClick = ax::WBind<ax::Point>(this, &BottomSection::OnMouseLeftDoubleClick);
+	
 		TextEditor::Info txt_info;
 		txt_info.bg_color = ax::Color(1.0);
 		txt_info.cursor_color = ax::Color(0.0);
@@ -122,6 +123,28 @@ namespace editor {
 		if (_is_txt_edit) {
 			_is_txt_edit = false;
 			win->Update();
+		}
+	}
+	
+	void BottomSection::OnMouseLeftDoubleClick(const ax::Point& pos)
+	{
+		ax::Print("Double click bottom menu");
+		
+		ax::Rect rect(win->dimension.GetRect());
+		
+		if (rect.position.y > 30) {
+			// Drop up.
+			int bottom_pos_y = rect.position.y + rect.size.y;
+			int size_y = bottom_pos_y - 30;
+			
+			win->PushEvent(RESIZE, new ax::Event::SimpleMsg<int>(0));
+			win->dimension.SetRect(ax::Rect(rect.position.x, 30, rect.size.x, size_y));
+		}
+		else {
+			// Drop down.
+			win->PushEvent(RESIZE, new ax::Event::SimpleMsg<int>(0));
+			int y_pos = rect.position.y + rect.size.y - MINIMUM_HEIGHT;
+			win->dimension.SetRect(ax::Rect(rect.position.x, y_pos, rect.size.x, MINIMUM_HEIGHT));
 		}
 	}
 
