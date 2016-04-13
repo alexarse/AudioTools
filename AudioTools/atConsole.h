@@ -22,47 +22,32 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef PyoComponent_hpp
-#define PyoComponent_hpp
+#ifndef __AT_CONSOLE_H__
+#define __AT_CONSOLE_H__
 
-#include <OpenAX/Utils.h>
-#include <OpenAX/Window.h>
+#include <OpenAX/OpenAX.h>
+#include <OpenAX/ScrollBar.h>
+#include <OpenAX/Timer.h>
+#include <OpenAX/Button.h>
 
-namespace pyo {
-class Component : public ax::Component {
+#include "TextEditor.h"
+
+#include <fstream>
+#include <set>
+
+namespace at {
+class Console : public ax::Window::Backbone {
 public:
-	/// Shared pointer.
-	typedef std::shared_ptr<Component> Ptr;
-
-	Component(ax::Window* win)
-	{
-		_win = win;
-	}
-
-	virtual ~Component()
-	{
-		
-	}
-
-	ax::Window* GetWindow()
-	{
-		return _win;
-	}
+	Console(const ax::Rect& rect);
 	
-	void SetFunctionName(const std::string& name)
-	{
-		_fct_name = name;
-	}
+private:
+	std::stringstream _buffer;
+	ax::Font _font;
+	char _buf[100000];
 	
-	std::string GetFunctionName() const
-	{
-		return _fct_name;
-	}
-
-protected:
-	ax::Window* _win;
-	std::string _fct_name;
+	void OnResize(const ax::Size& size);
+	void OnPaint(ax::GC gc);
 };
 }
 
-#endif /* PyoComponent_hpp */
+#endif // __AT_CONSOLE_H__

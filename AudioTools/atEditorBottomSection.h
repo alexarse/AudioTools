@@ -22,30 +22,60 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef atMenuBoolAttribute_hpp
-#define atMenuBoolAttribute_hpp
+#ifndef __AT_EDITOR_BOTTOM_SECTION_H__
+#define __AT_EDITOR_BOTTOM_SECTION_H__
 
 #include <OpenAX/OpenAX.h>
 
-#include <OpenAX/Toggle.h>
+#include <OpenAX/Button.h>
+#include <OpenAX/ScrollBar.h>
+#include <OpenAX/Timer.h>
+
+#include "TextEditor.h"
+#include "atConsole.h"
 
 namespace at {
-namespace inspector {
-	class BoolAttribute : public ax::Window::Backbone {
+namespace editor {
+	class BottomSection : public ax::Window::Backbone {
 	public:
-		enum Events : ax::Event::Id { ASSIGN_VALUE };
+		BottomSection(const ax::Rect& rect);
 
-		BoolAttribute(
-			const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct);
+		enum : ax::Event::Id { RESIZE };
+		
+		bool OpenFile(const std::string& path);
+		void SaveFile(const std::string& path);
+		std::string GetScriptPath() const;
 
 	private:
-		std::string _name;
+		// Resize elements.
+		ax::Point _delta_resize_click;
+		ax::Rect _resize_click_old_rect;
+		bool _has_resize_cursor = false;
 		
-		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleClick);
+		std::string _file_path;
+		ax::Font _font;
 		
+		bool _is_txt_edit;
+		ax::Button* _console_btn;
+		ax::Button* _txt_btn;
+		
+		TextEditor* _txt_editor;
+		Console* _console;
+		
+		static const int MINIMUM_HEIGHT = 200;
+		static const int TOP_BAR_HEIGHT = 20;
+		
+		axEVENT_DECLARATION(ax::Button::Msg, OnTextEditor);
+		axEVENT_DECLARATION(ax::Button::Msg, OnConsole);
+	
+		void OnMouseLeave(const ax::Point& pos);
+		void OnMouseMotion(const ax::Point& pos);
+		void OnMouseLeftDown(const ax::Point& pos);
+		void OnMouseLeftDragging(const ax::Point& pos);
+		void OnMouseLeftUp(const ax::Point& pos);
+		void OnResize(const ax::Size& size);
 		void OnPaint(ax::GC gc);
 	};
 }
 }
-
-#endif /* atMenuBoolAttribute_hpp */
+#endif // __AT_EDITOR_BOTTOM_SECTION_H__

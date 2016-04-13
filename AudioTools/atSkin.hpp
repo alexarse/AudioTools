@@ -1,37 +1,32 @@
-//
-//  atSkin.hpp
-//  AudioTools
-//
-//  Created by Alexandre Arsenault on 2016-04-08.
-//  Copyright © 2016 Alexandre Arsenault. All rights reserved.
-//
+/*
+ * Copyright (c) 2016 AudioTools - All Rights Reserved
+ *
+ * This Software may not be distributed in parts or its entirety
+ * without prior written agreement by AutioTools.
+ *
+ * Neither the name of the AudioTools nor the names of its
+ * contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY AUDIOTOOLS "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL AUDIOTOOLS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
+ */
 
 #ifndef atSkin_hpp
 #define atSkin_hpp
 
 #include <OpenAX/OpenAX.h>
 
-
-///ax::Rect rect(win->dimension.GetDrawingRect());
-//gc.DrawRectangleColorFade(rect, ax::Color(1.0), ax::Color(0.98));
-
-//if (_show_text) {
-//	gc.SetColor(ax::Color(0.1));
-//	gc.DrawString(_font, _title, ax::Point(75, 6));
-//	
-//	gc.SetColor(ax::Color(0.0));
-//	gc.DrawString(_font_normal, _info, ax::Point(75, 20));
-//	gc.DrawString(_font_normal, _size_str, ax::Point(75, 32));
-//}
-//
-//gc.SetColor(ax::Color(0.9));
-//gc.DrawRectangleContour(rect);
-//
-//// If not selectable.
-//if(!_selectable) {
-//	gc.SetColor(ax::Color(0.5, 0.45));
-//	gc.DrawRectangle(rect);
-//}
 namespace at {
 
 struct SkinData {

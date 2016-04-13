@@ -21,48 +21,47 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
+ 
+#include "atConsole.h"
 
-#ifndef PyoComponent_hpp
-#define PyoComponent_hpp
-
-#include <OpenAX/Utils.h>
-#include <OpenAX/Window.h>
-
-namespace pyo {
-class Component : public ax::Component {
-public:
-	/// Shared pointer.
-	typedef std::shared_ptr<Component> Ptr;
-
-	Component(ax::Window* win)
-	{
-		_win = win;
-	}
-
-	virtual ~Component()
-	{
-		
-	}
-
-	ax::Window* GetWindow()
-	{
-		return _win;
-	}
+namespace at {
+Console::Console(const ax::Rect& rect)
+	: _font(0)
+{
+	win = ax::Window::Create(rect);
+	win->event.OnPaint = ax::WBind<ax::GC>(this, &Console::OnPaint);
+	win->event.OnResize = ax::WBind<ax::Size>(this, &Console::OnResize);
 	
-	void SetFunctionName(const std::string& name)
-	{
-		_fct_name = name;
-	}
-	
-	std::string GetFunctionName() const
-	{
-		return _fct_name;
-	}
-
-protected:
-	ax::Window* _win;
-	std::string _fct_name;
-};
+//	std::streambuf* old = std::cout.rdbuf(_buffer.rdbuf());
 }
 
-#endif /* PyoComponent_hpp */
+void Console::OnResize(const ax::Size& size)
+{
+	
+}
+
+void Console::OnPaint(ax::GC gc)
+{
+	const ax::Rect rect(win->dimension.GetDrawingRect());
+	gc.SetColor(ax::Color(1.0));
+	gc.DrawRectangle(rect);
+	
+	ax::StringVector vec = ax::Utils::String::Split(_buffer.str(), "\n");
+	gc.SetColor(ax::Color(0.0));
+	
+	ax::Point pos(5, 5);
+	
+	if(vec.size() > 10) {
+		for(int i = int(vec.size() - 10); i < vec.size(); i++) {
+			gc.DrawString(_font, vec[i], pos);
+			pos.y += 15;
+		}
+	}
+	else {
+		for(auto& n : vec) {
+			gc.DrawString(_font, n, pos);
+			pos.y += 15;
+		}
+	}
+}
+}

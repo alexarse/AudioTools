@@ -22,47 +22,39 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef PyoComponent_hpp
-#define PyoComponent_hpp
+#ifndef atPreferenceDialog_hpp
+#define atPreferenceDialog_hpp
 
-#include <OpenAX/Utils.h>
-#include <OpenAX/Window.h>
+#include <OpenAX/Button.h>
+#include <OpenAX/DropMenu.h>
+#include <OpenAX/OpenAX.h>
 
-namespace pyo {
-class Component : public ax::Component {
-public:
-	/// Shared pointer.
-	typedef std::shared_ptr<Component> Ptr;
-
-	Component(ax::Window* win)
-	{
-		_win = win;
+namespace at {
+	namespace editor {
+		class PreferenceDialog : public ax::Window::Backbone {
+		public:
+			PreferenceDialog(const ax::Rect& rect);
+			
+			virtual ~PreferenceDialog()
+			{
+			}
+			
+//			enum : ax::Event::Id { OPEN, CANCEL };
+			
+		private:
+//			std::shared_ptr<ax::DropMenu> _menu;
+			
+//			axEVENT_DECLARATION(ax::Button::Msg, OnOpen);
+//			axEVENT_DECLARATION(ax::Button::Msg, OnCancel);
+//			axEVENT_DECLARATION(ax::DropMenu::Msg, OnMenuSelection);
+			
+			void DeleteDialog();
+			
+			void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
+			void OnMouseLeftDown(const ax::Point& pos);
+			void OnPaint(ax::GC gc);
+		};
 	}
-
-	virtual ~Component()
-	{
-		
-	}
-
-	ax::Window* GetWindow()
-	{
-		return _win;
-	}
-	
-	void SetFunctionName(const std::string& name)
-	{
-		_fct_name = name;
-	}
-	
-	std::string GetFunctionName() const
-	{
-		return _fct_name;
-	}
-
-protected:
-	ax::Window* _win;
-	std::string _fct_name;
-};
 }
 
-#endif /* PyoComponent_hpp */
+#endif /* atPreferenceDialog_hpp */

@@ -255,8 +255,22 @@ inline int pyo_exec_file(PyThreadState *interp, const char *file, char *msg, int
     PyRun_SimpleString(msg);
     sprintf(msg, "if not _ok_:\n    _ok_ = os.path.isfile('%s')", file);
     PyRun_SimpleString(msg);
+	
 	PyObject* module = PyImport_AddModule("__main__");
     PyObject* obj = PyObject_GetAttrString(module, "_ok_");
+	
+//	PyRun_SimpleString(
+//	"import sys\n"
+//	"class StdoutCatcher:\n"
+//	"\tdef __init__(self):\n"
+//	"\t\tself.data = ''\n"
+//	"\tdef write(self, stuff):\n"
+//	"\t\tself.data = self.data + stuff\n"
+//	"catcher = StdoutCatcher()\n"
+//	"sys.stdout = catcher");
+
+	
+	
 	
 	int ok = (int)PyInt_AsLong(obj);
     if (ok) {

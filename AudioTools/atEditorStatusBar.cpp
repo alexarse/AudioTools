@@ -1,8 +1,33 @@
+/*
+ * Copyright (c) 2016 AudioTools - All Rights Reserved
+ *
+ * This Software may not be distributed in parts or its entirety
+ * without prior written agreement by AutioTools.
+ *
+ * Neither the name of the AudioTools nor the names of its
+ * contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY AUDIOTOOLS "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL AUDIOTOOLS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
+ */
+
+#include "PyoAudio.h"
 #include "atCommon.h"
 #include "atEditorStatusBar.h"
 #include "atOpenDialog.hpp"
+#include "atPreferenceDialog.h"
 #include "atSaveDialog.hpp"
-#include "PyoAudio.h"
 #include "atSkin.hpp"
 
 #include <OpenAX/Core.h>
@@ -51,11 +76,11 @@ namespace editor {
 		auto v_meter_r = ax::shared<at::VolumeMeter>(volume_rect);
 		win->node.Add(v_meter_r);
 		_volumeMeterRight = v_meter_r.get();
-		
+
 		// Connect volume meter event.
 		win->AddConnection(PyoAudio::Events::RMS_VALUE_CHANGE, GetOnAudioRmsValue());
 		PyoAudio::GetInstance()->SetConnectedObject(win);
-		
+
 		const ax::Size tog_size(25, 25);
 
 		// Left panel toggle.
@@ -120,11 +145,11 @@ namespace editor {
 		auto refresh_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnReload(), btn_info,
 			"resources/refresh.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(refresh_btn);
-		
+
 		// Settings button.
 		pos = refresh_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto settings_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSettings(), btn_info,
-												  "resources/settings.png", "", ax::Button::Flags::SINGLE_IMG);
+			"resources/settings.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(settings_btn);
 	}
 
@@ -158,10 +183,10 @@ namespace editor {
 		ax::Size size = ax::App::GetInstance().GetFrameSize();
 
 		auto open_dialog = ax::shared<OpenDialog>(ax::Rect(pos, size));
-		
+
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
 			ax::Window::Ptr(open_dialog->GetWindow()));
-		
+
 		open_dialog->GetWindow()->backbone = open_dialog;
 		open_dialog->GetWindow()->AddConnection(OpenDialog::OPEN, GetOnOpenDialog());
 	}
@@ -177,10 +202,21 @@ namespace editor {
 		ax::Print("On reload script.");
 		win->PushEvent(RELOAD_SCRIPT, new ax::Event::SimpleMsg<int>(0));
 	}
-	
+
 	void StatusBar::OnSettings(const ax::Button::Msg& msg)
 	{
 		ax::Print("Setting");
+		const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
+		ax::Point pos(0, rect.position.y + rect.size.y);
+
+		ax::Size size = ax::App::GetInstance().GetFrameSize();
+
+		auto pref_dialog = ax::shared<PreferenceDialog>(ax::Rect(pos, size));
+		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+			ax::Window::Ptr(pref_dialog->GetWindow()));
+
+		pref_dialog->GetWindow()->backbone = pref_dialog;
+//		open_dialog->GetWindow()->AddConnection(OpenDialog::OPEN, GetOnOpenDialog());
 	}
 
 	void StatusBar::OnToggleLeftPanel(const ax::Toggle::Msg& msg)
@@ -211,7 +247,7 @@ namespace editor {
 	void StatusBar::OnCancelDialog(const ax::Event::StringMsg& msg)
 	{
 	}
-	
+
 	void StatusBar::OnAudioRmsValue(const ax::Event::SimpleMsg<StereoRmsValue>& msg)
 	{
 		_volumeMeterLeft->SetValue(msg.GetMsg().first);
@@ -244,17 +280,17 @@ namespace editor {
 	{
 		ax::Rect rect(win->dimension.GetDrawingRect());
 
-//		gc.SetColor(ax::Color(0.30));
+		//		gc.SetColor(ax::Color(0.30));
 		gc.SetColor(at::Skin::GetInstance()->data.status_bar_bg);
 		gc.DrawRectangle(rect);
 
 		if (!_layout_file_path.empty()) {
-//			gc.SetColor(ax::Color(1.0));
+			//			gc.SetColor(ax::Color(1.0));
 			gc.SetColor(at::Skin::GetInstance()->data.status_bar_text);
 			gc.DrawStringAlignedCenter(_font, _layout_file_path, rect);
 		}
 
-//		gc.SetColor(ax::Color(0.30));
+		//		gc.SetColor(ax::Color(0.30));
 		gc.SetColor(at::Skin::GetInstance()->data.status_bar_bg);
 		gc.DrawRectangleContour(rect);
 	}

@@ -1,23 +1,25 @@
 /*
- * Copyright (c) 2016 Alexandre Arsenault.
+ * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
- * This file is part of axFrameworks.
+ * This Software may not be distributed in parts or its entirety
+ * without prior written agreement by AutioTools.
  *
- * axFrameworks is free or commercial software: you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 or any later version of the
- * License or use a commercial axFrameworks License.
+ * Neither the name of the AudioTools nor the names of its
+ * contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
  *
- * axFrameworks is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * THIS SOFTWARE IS PROVIDED BY AUDIOTOOLS "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL AUDIOTOOLS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * You should have received a copy of the GNU General Public License
- * along with axFrameworks. If not, see <http://www.gnu.org/licenses/>.
- *
- * To release a closed-source product which uses axFrameworks, commercial
- * licenses are available, email alx.arsenault@gmail.com for more information.
+ * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
 #ifndef __AX_EDITOR_MAIN_WINDOW_H__
@@ -28,6 +30,7 @@
 #include "atEditorWidgetMenu.h"
 #include "atEditorStatusBar.h"
 #include "atEditorInspectorMenu.h"
+#include "atEditorBottomSection.h"
 
 class CodeEditor;
 
@@ -49,9 +52,12 @@ private:
 	StatusBar* _statusBar;
 	std::shared_ptr<WidgetMenu> _widgetMenu;
 	std::shared_ptr<GridWindow> _gridWindow;
-	std::shared_ptr<CodeEditor> _codeEditor;
+//	std::shared_ptr<CodeEditor> _codeEditor;
 	std::shared_ptr<InspectorMenu> _inspectorMenu;
+	BottomSection* _bottom_section;
+	
 	std::vector<ax::Window::Ptr> _selected_windows;
+	
 	
 	bool _has_tmp_widget;
 	std::string _tmp_widget_builder_name;
@@ -70,7 +76,6 @@ private:
 	bool _view_mode = false;
 	
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveLayout);
-//	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveAsLayout);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenLayout);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnViewLayout);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
