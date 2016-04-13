@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "TextEditor.h"
 #include <algorithm>
 
@@ -46,7 +46,7 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	_scrollPanel->property.AddProperty("BlockDrawing");
 
 	_scrollPanel->event.OnPaint = ax::WBind<ax::GC>(this, &TextEditor::OnPaint);
-	
+
 	// Mouse events.
 	_scrollPanel->event.OnMouseEnter = ax::WBind<ax::Point>(this, &TextEditor::OnMouseEnter);
 	_scrollPanel->event.OnMouseEnterChild = ax::WBind<ax::Size>(this, &TextEditor::OnMouseEnterChild);
@@ -55,7 +55,7 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	_scrollPanel->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftDown);
 	_scrollPanel->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftUp);
 	_scrollPanel->event.OnScrollWheel = ax::WBind<ax::Point>(this, &TextEditor::OnScrollWheel);
-	
+
 	// Keyboard events.
 	_scrollPanel->event.OnLeftArrowDown = ax::WBind<char>(this, &TextEditor::OnLeftArrowDown);
 	_scrollPanel->event.OnRightArrowDown = ax::WBind<char>(this, &TextEditor::OnRightArrowDown);
@@ -218,9 +218,9 @@ void TextEditor::OnScroll(const ax::ScrollBar::Msg& msg)
 	int diff = (int)_logic.GetFileData().size() - _n_line_shown;
 
 	double scroll_ratio = _scrollBar->GetZeroToOneValue();
-//	ax::Print("OnScroollll new index = ", _file_start_index, diff);
+	//	ax::Print("OnScroollll new index = ", _file_start_index, diff);
 	_file_start_index = scroll_ratio * diff;
-//	ax::Print("OnScroollll new index = ", _file_start_index, diff, scroll_ratio);
+	//	ax::Print("OnScroollll new index = ", _file_start_index, diff, scroll_ratio);
 	_scrollPanel->Update();
 }
 
@@ -228,6 +228,7 @@ void TextEditor::OnMouseEnter(const ax::Point& mouse)
 {
 	_scrollPanel->event.GrabKey();
 	_scrollPanel->event.GrabScroll();
+	_scrollPanel->Update();
 }
 
 void TextEditor::OnMouseLeave(const ax::Point& pos)
@@ -235,6 +236,9 @@ void TextEditor::OnMouseLeave(const ax::Point& pos)
 	if (!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
 		_scrollPanel->event.UnGrabScroll();
 	}
+
+	_scrollPanel->event.UnGrabKey();
+	_scrollPanel->Update();
 }
 
 void TextEditor::OnMouseEnterChild(const ax::Point& pos)
@@ -330,15 +334,15 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 	// Find new cursor line.
 	int line_index = mouse_pos.y / _line_height;
 
-//	ax::Print(line_index);
+	//	ax::Print(line_index);
 	const ax::StringVector& data = _logic.GetFileData();
 
 	if (line_index < data.size()) {
 		int actual_line_index = line_index + _file_start_index;
-//		ax::Print("actualine : ", actual_line_index);
+		//		ax::Print("actualine : ", actual_line_index);
 
 		// Find x cursor position.
-		
+
 		const std::string& text = data[line_index];
 
 		std::vector<int> next_vec;
@@ -371,7 +375,7 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 			}
 
 			if (cursor_index_x == -1) {
-//				ax::Print("go to last char of line");
+				//				ax::Print("go to last char of line");
 				_logic.SetCursorPosition(ax::Point((int)text.size(), actual_line_index));
 				_scrollPanel->Update();
 				return;
@@ -387,7 +391,7 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 		}
 		// No or one char in line.
 		else {
-//			ax::Print("Line is empty");
+			//			ax::Print("Line is empty");
 			_logic.SetCursorPosition(ax::Point(0, actual_line_index));
 			_scrollPanel->Update();
 		}
@@ -503,7 +507,7 @@ void TextEditor::OnPaint(ax::GC gc)
 	const ax::StringVector& data = _logic.GetFileData();
 
 	// For all shown line in text.
-//	ax::Print("File start index = ", _file_start_index);
+	//	ax::Print("File start index = ", _file_start_index);
 	for (int i = 0, k = _file_start_index; k < data.size() && i < _n_line_shown; i++, k++) {
 
 		// Line.
@@ -538,13 +542,15 @@ void TextEditor::OnPaint(ax::GC gc)
 	}
 
 	// Line cursor.
-	ax::Point cursor_index = FileCursorPosToNextPosIndex();
+	if (_scrollPanel->event.IsKeyGrab()) {
+		ax::Point cursor_index = FileCursorPosToNextPosIndex();
 
-	if (cursor_index.x != -1 && cursor_index.y != -1) {
-		int x = _next_pos_data[cursor_index.y][cursor_index.x];
-		int y = cursor_index.y * _line_height;
+		if (cursor_index.x != -1 && cursor_index.y != -1) {
+			int x = _next_pos_data[cursor_index.y][cursor_index.x];
+			int y = cursor_index.y * _line_height;
 
-		gc.SetColor(_info.cursor_color);
-		gc.DrawLine(ax::Point(x, y), ax::Point(x, y + _line_height));
+			gc.SetColor(_info.cursor_color);
+			gc.DrawLine(ax::Point(x, y), ax::Point(x, y + _line_height));
+		}
 	}
 }
