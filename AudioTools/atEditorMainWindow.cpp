@@ -165,6 +165,10 @@ namespace editor {
 
 		_selected_windows.clear();
 		_inspectorMenu->RemoveHandle();
+		
+		if (_gridWindow->GetMainWindow() == nullptr) {
+			_widgetMenu->SetOnlyMainWindowWidgetSelectable();
+		}
 	}
 
 	void MainWindow::OnSmallerLeftMenu(const ax::Button::Msg& msg)
