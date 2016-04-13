@@ -177,6 +177,16 @@ namespace editor {
 	{
 		ax::Window* gwin = _win;
 		
+//		auto m_mouse_enter = win->event.OnMouseEnter.GetFunction();
+//		win->event.OnMouseEnter = ax::WFunc<ax::Point>([gwin, win, m_mouse_enter](const ax::Point& pos) {
+//			ax::Print("Mouse enter.");
+//			
+////			if (win->property.HasProperty("edit_click")) {
+////				ax::Print("Grabkey.");
+//				win->event.GrabKey();
+////			}
+//		});
+		
 		auto m_down_fct = win->event.OnMouseLeftDown.GetFunction();
 		win->event.OnMouseLeftDown = ax::WFunc<ax::Point>([gwin, win, m_down_fct](const ax::Point& pos) {
 			bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
@@ -211,6 +221,8 @@ namespace editor {
 				}
 			}
 		});
+		
+		
 		
 		auto m_drag_fct = win->event.OnMouseLeftDragging.GetFunction();
 		win->event.OnMouseLeftDragging = ax::WFunc<ax::Point>([win, m_drag_fct](const ax::Point& pos) {
@@ -324,6 +336,44 @@ namespace editor {
 				m_right_down(pos);
 			}
 		});
+		
+//		auto m_key_delete_down = win->event.OnBackSpaceDown.GetFunction();
+//		win->event.OnBackSpaceDown = ax::WFunc<char>([gwin, win, m_key_delete_down](const char& c) {
+//			ax::Print("Backspace down");
+//			
+//			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+//				win->Hide();
+//				
+//				ax::Window* parent = win->node.GetParent();
+//				
+//				if (parent == nullptr) {
+//					return;
+//				}
+//				
+//				auto& children = parent->node.GetChildren();
+//				ax::Window::Ptr current_win;
+//				
+//				int index = -1;
+//				for (int i = 0; i < children.size(); i++) {
+//					if (children[i]->GetId() == win->GetId()) {
+//						current_win = children[i];
+//						index = i;
+//						break;
+//					}
+//				}
+//				
+//				if (current_win && index != -1) {
+//					win->event.UnGrabMouse();
+//					win->event.UnGrabKey();
+//					ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
+//					children.erase(children.begin() + index);
+//					
+//					/// @todo Remove from inspector menu.
+//					gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(nullptr));
+//				}
+//
+//			}
+//		});
 
 		win->event.OnPaintOverFrameBuffer = ax::WFunc<ax::GC>([win](ax::GC gc) {
 			if (win->property.HasProperty("current_editing_widget")) {

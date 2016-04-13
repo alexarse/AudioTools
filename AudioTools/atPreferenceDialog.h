@@ -29,6 +29,7 @@
 #include <OpenAX/DropMenu.h>
 #include <OpenAX/OpenAX.h>
 
+#include "DropMenuBox.h"
 
 
 namespace at {
@@ -37,25 +38,41 @@ namespace at {
 		public:
 			PreferencePanel(const ax::Rect& rect);
 			
-			virtual ~PreferencePanel()
-			{
-			}
+			virtual ~PreferencePanel();
 			
-			//			enum : ax::Event::Id { OPEN, CANCEL };
+			
+			bool IsMouseInDropMenu();
+//			bool HasDropMenu()
+//			{
+//				
+//			}
 			
 		private:
-			//			std::shared_ptr<ax::DropMenu> _menu;
+			ax::Font _font;
+			ax::Rect _audio_rect;
+			ax::Rect _audio_label_rect;
 			
-			//			axEVENT_DECLARATION(ax::Button::Msg, OnOpen);
-			//			axEVENT_DECLARATION(ax::Button::Msg, OnCancel);
-			//			axEVENT_DECLARATION(ax::DropMenu::Msg, OnMenuSelection);
+			ax::Rect _midi_rect;
+			ax::Rect _midi_label_rect;
 			
-//			void DeleteDialog();
-//			
-//			void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
-//			void OnMouseLeftDown(const ax::Point& pos);
+			enum MenuBoxesPref {
+				AUDIO_IN,
+				AUDIO_OUT,
+				MIDI_IN,
+				NUMBER_OF_PREF_BOX
+			};
+			
+			ax::DropMenuBox* _menu_boxes[NUMBER_OF_PREF_BOX];
+			
+			axEVENT_ACCESSOR(ax::Button::Msg, OnButtonAudioInputDevice);
+			void OnButtonAudioInputDevice(const ax::Button::Msg& msg);
+			
+			axEVENT_ACCESSOR(ax::Button::Msg, OnButtonAudioOutputDevice);
+			void OnButtonAudioOutputDevice(const ax::Button::Msg& msg);
+			
 			void OnPaint(ax::GC gc);
 		};
+		
 	
 		class PreferenceDialog : public ax::Window::Backbone {
 		public:
@@ -68,6 +85,8 @@ namespace at {
 //			enum : ax::Event::Id { OPEN, CANCEL };
 			
 		private:
+			PreferencePanel* _pref_panel;
+			
 //			std::shared_ptr<ax::DropMenu> _menu;
 			
 //			axEVENT_DECLARATION(ax::Button::Msg, OnOpen);

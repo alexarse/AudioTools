@@ -218,9 +218,9 @@ void TextEditor::OnScroll(const ax::ScrollBar::Msg& msg)
 	int diff = (int)_logic.GetFileData().size() - _n_line_shown;
 
 	double scroll_ratio = _scrollBar->GetZeroToOneValue();
-
+//	ax::Print("OnScroollll new index = ", _file_start_index, diff);
 	_file_start_index = scroll_ratio * diff;
-
+	ax::Print("OnScroollll new index = ", _file_start_index, diff, scroll_ratio);
 	_scrollPanel->Update();
 }
 
@@ -330,7 +330,7 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 	// Find new cursor line.
 	int line_index = mouse_pos.y / _line_height;
 
-	ax::Print(line_index);
+//	ax::Print(line_index);
 	const ax::StringVector& data = _logic.GetFileData();
 
 	if (line_index < data.size()) {
@@ -338,7 +338,7 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 		ax::Print("actualine : ", actual_line_index);
 
 		// Find x cursor position.
-
+		
 		const std::string& text = data[line_index];
 
 		std::vector<int> next_vec;
@@ -503,6 +503,7 @@ void TextEditor::OnPaint(ax::GC gc)
 	const ax::StringVector& data = _logic.GetFileData();
 
 	// For all shown line in text.
+	ax::Print("File start index = ", _file_start_index);
 	for (int i = 0, k = _file_start_index; k < data.size() && i < _n_line_shown; i++, k++) {
 
 		// Line.
