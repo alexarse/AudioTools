@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "atEditorMainWindow.h"
 
 #include <OpenAX/Knob.h>
@@ -133,6 +133,40 @@ namespace editor {
 		//												}));
 	}
 
+	std::vector<ax::Window*> MainWindow::GetSelectedWindows() const
+	{
+		return _selected_windows;
+	}
+
+	void MainWindow::DeleteCurrentWidgets()
+	{
+		// @todo Remove multiple widgets.
+		if (_selected_windows.size()) {
+			
+			auto& children = _selected_windows[0]->node.GetParent()->node.GetChildren();
+			ax::Window::Ptr current_win;
+
+			int index = -1;
+
+			for (int i = 0; i < children.size(); i++) {
+				if (children[i]->GetId() == _selected_windows[0]->GetId()) {
+					current_win = children[i];
+					index = i;
+					break;
+				}
+			}
+
+			if (current_win && index != -1) {
+				win->event.UnGrabMouse();
+				ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
+				children.erase(children.begin() + index);
+			}
+		}
+
+		_selected_windows.clear();
+		_inspectorMenu->RemoveHandle();
+	}
+
 	void MainWindow::OnSmallerLeftMenu(const ax::Button::Msg& msg)
 	{
 		ax::Print("OnSmallerLeftMenu");
@@ -142,10 +176,12 @@ namespace editor {
 	void MainWindow::OnSelectWidget(const ax::Event::SimpleMsg<ax::Window*>& msg)
 	{
 		ax::Window* selected_win = msg.GetMsg();
+		_selected_windows.clear();
 
 		_gridWindow->UnSelectAllWidgets();
 
 		if (selected_win != nullptr) {
+			_selected_windows.push_back(selected_win);
 			selected_win->property.AddProperty("current_editing_widget");
 			selected_win->Update();
 			_inspectorMenu->SetWidgetHandle(selected_win);
@@ -161,7 +197,7 @@ namespace editor {
 
 	void MainWindow::OnUnSelectAllWidget(const ax::Event::SimpleMsg<int>& msg)
 	{
-		ax::Print("REMOVE ALL");
+		_selected_windows.clear();
 		_inspectorMenu->RemoveHandle();
 	}
 
@@ -236,6 +272,8 @@ namespace editor {
 	void MainWindow::OnOpenLayout(const ax::Event::StringMsg& msg)
 	{
 		if (!msg.GetMsg().empty()) {
+			_selected_windows.clear();
+
 			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
 
 			if (!script_path.empty()) {
@@ -308,6 +346,7 @@ namespace editor {
 
 		main_win->node.Add(tmp_back_btn);
 
+		_selected_windows.clear();
 		_gridWindow->UnSelectAllWidgets();
 		_inspectorMenu->SetWidgetHandle(nullptr);
 
@@ -480,11 +519,13 @@ namespace editor {
 				Loader loader(_gridWindow->GetWindow());
 				loader.SetupExistingWidget(widget_win.get(), _tmp_widget_builder_name);
 
+				_selected_windows.clear();
 				_gridWindow->UnSelectAllWidgets();
 
 				if (widget_win != nullptr) {
 					widget_win->property.AddProperty("current_editing_widget");
 					widget_win->Update();
+					_selected_windows.push_back(widget_win.get());
 					_inspectorMenu->SetWidgetHandle(widget_win.get());
 				}
 			}
@@ -502,10 +543,12 @@ namespace editor {
 				loader.SetupExistingWidget(widget_win.get(), _tmp_widget_builder_name);
 
 				_gridWindow->UnSelectAllWidgets();
+				_selected_windows.clear();
 
 				if (widget_win != nullptr) {
 					widget_win->property.AddProperty("current_editing_widget");
 					widget_win->Update();
+					_selected_windows.push_back(widget_win.get());
 					_inspectorMenu->SetWidgetHandle(widget_win.get());
 				}
 			}

@@ -41,6 +41,9 @@ class MainWindow : public ax::Window::Backbone {
 public:
 	MainWindow(const ax::Rect& rect);
 	
+	std::vector<ax::Window*> GetSelectedWindows() const;
+	void DeleteCurrentWidgets();
+	
 private:
 	//	std::shared_ptr<StatusBar> _statusBar;
 	static const int STATUS_BAR_HEIGHT = 30;
@@ -52,11 +55,10 @@ private:
 	StatusBar* _statusBar;
 	std::shared_ptr<WidgetMenu> _widgetMenu;
 	std::shared_ptr<GridWindow> _gridWindow;
-//	std::shared_ptr<CodeEditor> _codeEditor;
 	std::shared_ptr<InspectorMenu> _inspectorMenu;
 	BottomSection* _bottom_section;
 	
-	std::vector<ax::Window::Ptr> _selected_windows;
+	std::vector<ax::Window*> _selected_windows;
 	
 	
 	bool _has_tmp_widget;

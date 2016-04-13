@@ -128,6 +128,12 @@ namespace editor {
 			_loading_thread.detach();
 		});
 	}
+	
+	MainWindow* App::GetMainWindow()
+	{
+		auto w = ax::App::GetInstance().GetWindowManager()->GetWindowTree()->GetTopLevel();;
+		return static_cast<MainWindow*>(w->backbone.get());
+	}
 
 	int App::MainLoop()
 	{

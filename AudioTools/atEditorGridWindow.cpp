@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "atEditorGridWindow.h"
 #include <OpenAX/WindowManager.h>
 #include <OpenAX/rapidxml.hpp>
@@ -33,6 +33,8 @@
 #include "atCommon.h"
 #include "atEditorLoader.h"
 #include "atSkin.hpp"
+#include "atEditor.h"
+#include "atEditorMainWindow.h"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Knob.h>
@@ -47,7 +49,7 @@ namespace editor {
 	GridWindow::GridWindow(const ax::Rect& rect)
 		: _grid_space(10)
 		, _selection(false, ax::Rect(0, 0, 0, 0))
-//		, _bg_color(1.0)
+		//		, _bg_color(1.0)
 		, _bg_color(at::Skin::GetInstance()->data.grid_window_bg)
 	{
 		// Create window.
@@ -56,6 +58,9 @@ namespace editor {
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &GridWindow::OnMouseLeftDown);
 		win->event.OnMouseLeftDragging = ax::WBind<ax::Point>(this, &GridWindow::OnMouseLeftDragging);
 		win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &GridWindow::OnMouseLeftUp);
+		win->event.OnBackSpaceDown = ax::WBind<char>(this, &GridWindow::OnBackSpaceDown);
+
+		ax::App::GetInstance().GetWindowManager()->AddGlobalGrabedWindow(win);
 
 		win->property.AddProperty("BlockDrawing");
 		win->property.AddProperty("AcceptWidget");
@@ -100,7 +105,7 @@ namespace editor {
 		xml.AddMainNode(layout);
 		layout.AddAttribute("script", script_path);
 
-		ax::Print("Childen size :", children.size());
+		//		ax::Print("Childen size :", children.size());
 
 		// Callback for saving widget with child widgets in them.
 		std::function<void(ax::Xml&, ax::Xml::Node&, ax::Window*)> panel_save_child
@@ -162,6 +167,26 @@ namespace editor {
 		win->Update();
 	}
 
+	void GridWindow::OnBackSpaceDown(const char& c)
+	{
+		ax::Print(" GridWindow::OnBackSpaceDown");
+		ax::App& app = ax::App::GetInstance();
+
+		// If command is down and mouse is still inside window.
+		if (app.GetWindowManager()->IsCmdDown() && app.GetWindowManager()->IsMouseStillInChildWindow(win)) {
+			MainWindow* main_win = at::editor::App::GetInstance()->GetMainWindow();
+			
+			std::vector<ax::Window*> sel_wins = main_win->GetSelectedWindows();
+			
+			ax::Print("Sel win size :", sel_wins.size());
+			
+			if(sel_wins.size()) {
+				ax::Print("Should delete widget.");
+				main_win->DeleteCurrentWidgets();
+			}
+		}
+	}
+
 	void GridWindow::OnMouseLeftDown(const ax::Point& pos)
 	{
 		bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
@@ -186,7 +211,7 @@ namespace editor {
 	void UnselectAllChildWidget(ax::Window::Ptr window)
 	{
 		window->property.RemoveProperty("current_editing_widget");
-		
+
 		if (window->property.HasProperty("AcceptWidget")) {
 			std::vector<ax::Window::Ptr>& children = window->node.GetChildren();
 
@@ -229,7 +254,7 @@ namespace editor {
 		gc.SetColor(_bg_color);
 		gc.DrawRectangle(rect);
 
-//		gc.SetColor(ax::Color(0.9));
+		//		gc.SetColor(ax::Color(0.9));
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_lines);
 
 		// Vertical lines.
@@ -251,7 +276,7 @@ namespace editor {
 		}
 
 		// Grid contour.
-//		gc.SetColor(ax::Color(0.7));
+		//		gc.SetColor(ax::Color(0.7));
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_contour);
 		gc.DrawRectangleContour(rect);
 	}
