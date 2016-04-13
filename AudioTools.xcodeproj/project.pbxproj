@@ -182,6 +182,9 @@
 		7C213B141CA031A20050F676 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */,
+				7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */,
+				7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */,
 				7CF1D8821C921DDF00AAAC01 /* atEditor.cpp */,
 				7CF1D8841C921DDF00AAAC01 /* atEditorGridWindow.cpp */,
 				7CF1D8861C921DDF00AAAC01 /* atEditorLoader.cpp */,
@@ -195,6 +198,9 @@
 		7C213B151CA031A90050F676 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				7C92193C1CB894EB00AB6AF6 /* atSkin.hpp */,
+				7CE7BF2C1CBC452D004350B6 /* atConsole.h */,
+				7CE7BF2F1CBC4629004350B6 /* atEditorBottomSection.h */,
 				7CF1D8701C921DCC00AAAC01 /* atEditor.h */,
 				7CF1D8711C921DCC00AAAC01 /* atEditorGridWindow.h */,
 				7CF1D8731C921DCC00AAAC01 /* atEditorLoader.h */,
@@ -324,19 +330,13 @@
 			children = (
 				7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */,
 				7CF1D9D01C944C8500AAAC01 /* atCommon.h */,
-				7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */,
-				7CE7BF2C1CBC452D004350B6 /* atConsole.h */,
-				7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */,
-				7CE7BF2F1CBC4629004350B6 /* atEditorBottomSection.h */,
-				7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */,
-				7C92193C1CB894EB00AB6AF6 /* atSkin.hpp */,
+				7CF1D9CF1C938FC400AAAC01 /* pyo */,
 				7C9219341CB7F7BD00AB6AF6 /* Dialog */,
 				7C213B131CA0318B0050F676 /* Editor */,
 				7CF1D86E1C921DBB00AAAC01 /* include */,
 				7CF1D8381C9207DE00AAAC01 /* Info.plist */,
 				7CF1D8AC1C921DF800AAAC01 /* main.cpp */,
 				7CF1D83E1C9207F400AAAC01 /* MainMenu.xib */,
-				7CF1D9CF1C938FC400AAAC01 /* pyo */,
 				7CF1D86F1C921DC100AAAC01 /* source */,
 			);
 			path = AudioTools;

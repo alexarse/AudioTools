@@ -28,14 +28,69 @@ namespace at {
 
 Skin* Skin::_global_skin = nullptr;
 
+void Skin::SetLightSkin()
+{
+	data.status_bar_bg = ax::Color(0.30);
+	data.status_bar_text = ax::Color(1.0);
+
+	data.grid_window_bg = ax::Color(1.0);
+	data.grid_window_contour = ax::Color(0.7);
+	data.grid_window_lines = ax::Color(0.9);
+
+	// Widget menu.
+	data.w_menu_separator_bg = ax::Color(0.94);
+	data.w_menu_separator_contour = ax::Color(0.94);
+	data.w_menu_separator_text = ax::Color(0.3);
+
+	data.w_menu_top_bar = ax::Color(0.45);
+	data.w_menu_obj_bg_0 = ax::Color(1.0);
+	data.w_menu_obj_bg_1 = ax::Color(0.98);
+	data.w_menu_obj_contour = ax::Color(0.9);
+	data.w_menu_title_txt = ax::Color(0.1);
+	data.w_menu_txt = ax::Color(0.0);
+
+	data.txt_edit_bar = ax::Color(0.45);
+	data.txt_edit_bar_contour = ax::Color(0.45);
+	data.txt_edit_bar_label = ax::Color(1.0);
+
+	data.preference_panel_bg = ax::Color(0.94);
 }
-//PyoAudio* PyoAudio::_global_audio = nullptr;
+
+void Skin::SetDarkSkin()
+{
+	data.status_bar_bg = ax::Color(0.30);
+	data.status_bar_text = ax::Color(1.0);
+
+	data.grid_window_bg = ax::Color(0.4);
+	data.grid_window_contour = ax::Color(0.3);
+	data.grid_window_lines = ax::Color(0.45);
+
+	// Widget menu.
+	data.w_menu_separator_bg = ax::Color(0.24);
+	data.w_menu_separator_contour = ax::Color(0.22);
+	data.w_menu_separator_text = ax::Color(0.8);
+
+	data.w_menu_top_bar = ax::Color(0.25);
+	data.w_menu_obj_bg_0 = ax::Color(0.3);
+	data.w_menu_obj_bg_1 = ax::Color(0.27);
+	data.w_menu_obj_contour = ax::Color(0.2);
+	data.w_menu_title_txt = ax::Color(0.7);
+	data.w_menu_txt = ax::Color(0.9);
+
+	data.txt_edit_bar = ax::Color(0.25);
+	data.txt_edit_bar_contour = ax::Color(0.25);
+	data.txt_edit_bar_label = ax::Color(0.8);
+
+	data.preference_panel_bg = ax::Color(0.94);
+}
+}
+// PyoAudio* PyoAudio::_global_audio = nullptr;
 //
-//PyoAudio* PyoAudio::GetInstance()
+// PyoAudio* PyoAudio::GetInstance()
 //{
 //	if (_global_audio == nullptr) {
 //		_global_audio = new PyoAudio();
 //	}
-//	
+//
 //	return _global_audio;
 //}

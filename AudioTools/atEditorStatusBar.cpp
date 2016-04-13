@@ -207,9 +207,10 @@ namespace editor {
 	{
 		ax::Print("Setting");
 		const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
-		ax::Point pos(0, rect.position.y + rect.size.y);
+		ax::Point pos(0, rect.position.y + rect.size.y);//rect.position;
 
 		ax::Size size = ax::App::GetInstance().GetFrameSize();
+		size.y -= rect.size.y;
 
 		auto pref_dialog = ax::shared<PreferenceDialog>(ax::Rect(pos, size));
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(

@@ -21,12 +21,12 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "PyoAudio.h"
 #include "PyoComponent.h"
+#include "atEditor.h"
 #include "atEditorLoader.h"
 #include "atEditorMainWindow.h"
-#include "atEditor.h"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Knob.h>
@@ -46,8 +46,6 @@ namespace editor {
 
 	std::string Loader::OpenLayout(const std::string& path, bool clear)
 	{
-		ax::Print("LAYEOUT :", path);
-
 		if (path.empty()) {
 			return "";
 		}
@@ -151,10 +149,13 @@ namespace editor {
 		}
 		else if (builder_name == "Panel") {
 			SetupEditWidget(widget);
+
+			// Add MainWindow property.
 			ax::Panel* panel = static_cast<ax::Panel*>(widget->backbone.get());
 			if (panel->GetName() == "MainWindow") {
 				widget->property.AddProperty("MainWindow");
 			}
+
 			widget->property.AddProperty("BlockDrawing");
 		}
 		else if (builder_name == "Knob") {
@@ -174,13 +175,9 @@ namespace editor {
 
 	void Loader::SetupEditWidget(ax::Window* win)
 	{
-		auto m_down_fct = win->event.OnMouseLeftDown.GetFunction();
-		auto m_drag_fct = win->event.OnMouseLeftDragging.GetFunction();
-		auto m_up_fct = win->event.OnMouseLeftUp.GetFunction();
-		auto m_right_down = win->event.OnMouseRightDown.GetFunction();
-
 		ax::Window* gwin = _win;
-
+		
+		auto m_down_fct = win->event.OnMouseLeftDown.GetFunction();
 		win->event.OnMouseLeftDown = ax::WFunc<ax::Point>([gwin, win, m_down_fct](const ax::Point& pos) {
 			bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
 
@@ -191,51 +188,51 @@ namespace editor {
 				win->property.AddProperty("edit_click");
 
 				if (win->property.HasProperty("AcceptWidget")) {
+					
 					if (c_delta.x > win->dimension.GetShownRect().size.x - 4) {
-						ax::Print("Right resize");
 						win->property.AddProperty("ResizeRight");
 					}
 					else if (c_delta.y > win->dimension.GetShownRect().size.y - 4) {
-						ax::Print("Bottom resize");
 						win->property.AddProperty("ResizeBottom");
 					}
 					else if (c_delta.x < 4) {
-						ax::Print("Left resize");
 						win->property.AddProperty("ResizeLeft");
 					}
 				}
-				//				else {
+
 				/// @todo Change event id to enum.
 				gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
-				//				}
 			}
+			
+			// Call widget callback.
 			else {
 				if (m_down_fct) {
 					m_down_fct(pos);
 				}
 			}
 		});
-
+		
+		auto m_drag_fct = win->event.OnMouseLeftDragging.GetFunction();
 		win->event.OnMouseLeftDragging = ax::WFunc<ax::Point>([win, m_drag_fct](const ax::Point& pos) {
+
 			// Editing.
 			if (win->property.HasProperty("edit_click")) {
 				if (win->event.IsGrabbed()) {
 					ax::Point c_delta = win->resource.GetResource("click_delta");
-					//					win->dimension.SetPosition(
-					//						pos - win->node.GetParent()->dimension.GetAbsoluteRect().position
-					//-
-					// c_delta);
 
+					// Right resize.
 					if (win->property.HasProperty("ResizeRight")) {
 						int size_y = win->dimension.GetSize().y;
 						int size_x = pos.x - win->dimension.GetAbsoluteRect().position.x;
 						win->dimension.SetSize(ax::Size(size_x, size_y));
 					}
+					// Bottom resize.
 					else if (win->property.HasProperty("ResizeBottom")) {
 						int size_x = win->dimension.GetSize().x;
 						int size_y = pos.y - win->dimension.GetAbsoluteRect().position.y;
 						win->dimension.SetSize(ax::Size(size_x, size_y));
 					}
+					// Left resize.
 					else if (win->property.HasProperty("ResizeLeft")) {
 						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
 						int size_x = abs_rect.position.x + abs_rect.size.x - pos.x;
@@ -245,19 +242,15 @@ namespace editor {
 						win->dimension.SetSize(ax::Size(size_x, size_y));
 						win->dimension.SetPosition(ax::Point(pos_x, pos_y));
 					}
+					// Moving widget.
 					else {
 						win->dimension.SetPosition(
 							pos - win->node.GetParent()->dimension.GetAbsoluteRect().position - c_delta);
 					}
-					//					else {
-					//						window->dimension.SetPosition(
-					//							pos -
-					//window->node.GetParent()->dimension.GetAbsoluteRect().position
-					//-
-					// c_delta);
-					//					}
 				}
 			}
+			
+			// Call widget callback.
 			else {
 				if (m_drag_fct) {
 					m_drag_fct(pos);
@@ -265,27 +258,23 @@ namespace editor {
 			}
 		});
 
+		auto m_up_fct = win->event.OnMouseLeftUp.GetFunction();
 		win->event.OnMouseLeftUp = ax::WFunc<ax::Point>([win, m_up_fct](const ax::Point& pos) {
+
 			// Editing.
 			if (win->property.HasProperty("edit_click")) {
+
 				win->property.RemoveProperty("edit_click");
-
-				if (win->property.HasProperty("ResizeRight")) {
-					win->property.RemoveProperty("ResizeRight");
-				}
-
-				if (win->property.HasProperty("ResizeBottom")) {
-					win->property.RemoveProperty("ResizeBottom");
-				}
-
-				if (win->property.HasProperty("ResizeLeft")) {
-					win->property.RemoveProperty("ResizeLeft");
-				}
+				win->property.RemoveProperty("ResizeLeft");
+				win->property.RemoveProperty("ResizeRight");
+				win->property.RemoveProperty("ResizeBottom");
 
 				if (win->event.IsGrabbed()) {
 					win->event.UnGrabMouse();
 				}
 			}
+
+			// Call widget callback.
 			else {
 				if (m_up_fct) {
 					m_up_fct(pos);
@@ -293,9 +282,13 @@ namespace editor {
 			}
 		});
 
+		auto m_right_down = win->event.OnMouseRightDown.GetFunction();
 		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([gwin, win, m_right_down](const ax::Point& pos) {
+
 			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+				
 				win->Hide();
+				
 				ax::Window* parent = win->node.GetParent();
 
 				if (parent == nullptr) {
@@ -318,7 +311,7 @@ namespace editor {
 					win->event.UnGrabMouse();
 					ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
 					children.erase(children.begin() + index);
-					
+
 					/// @todo Remove from inspector menu.
 					gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(nullptr));
 				}
@@ -326,14 +319,7 @@ namespace editor {
 				return;
 			}
 
-			ax::Print("RIGHT DOWN");
-			//				if (win->event.IsGrabbed()) {
-			//					win->event.UnGrabMouse();
-			//				}
-			//
-
-			//			win->DeleteWindow();
-
+			// Call widget callback.
 			if (m_right_down) {
 				m_right_down(pos);
 			}
@@ -341,9 +327,7 @@ namespace editor {
 
 		win->event.OnPaintOverFrameBuffer = ax::WFunc<ax::GC>([win](ax::GC gc) {
 			if (win->property.HasProperty("current_editing_widget")) {
-				ax::Rect rect(win->dimension.GetDrawingRect());
-				//				rect.position -= ax::Point(3, 3);
-				//				rect.size += ax::Size(6, 6);
+				const ax::Rect rect(win->dimension.GetDrawingRect());
 				ax::Color color(255, 0, 0);
 
 				gc.SetColor(color, 0.1);
@@ -361,6 +345,20 @@ namespace editor {
 		});
 	}
 
+	
+	void PythonCallEmpty(const std::string& fct_name)
+	{
+		std::string fct_call = fct_name + "();\n";
+		PyoAudio::GetInstance()->ProcessString(fct_call);
+	}
+	
+	void PythonCallReal(const std::string& fct_name, double value)
+	{
+		std::string fct_call = fct_name + "(";
+		fct_call += std::to_string(value) + ");\n";
+		PyoAudio::GetInstance()->ProcessString(fct_call);
+	}
+	
 	void Loader::SetupPyoComponent(ax::Window* win, const std::string& fct_name)
 	{
 		auto comp = pyo::Component::Ptr(new pyo::Component(win));
@@ -373,12 +371,10 @@ namespace editor {
 		win->AddConnection(ax::Button::Events::BUTTON_CLICK, ax::Event::Function([win](ax::Event::Msg* msg) {
 							   if (win->component.Has("pyo")) {
 								   pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
-								   std::string fct_name = comp->GetFunctionName();
+								   const std::string fct_name = comp->GetFunctionName();
 
 								   if (!fct_name.empty()) {
-									   std::string fct_call = fct_name + "();\n";
-									   PyoAudio* pyo = PyoAudio::GetInstance();
-									   pyo->ProcessString(fct_call);
+								   	   PythonCallEmpty(fct_name);
 								   }
 							   }
 						   }));
@@ -389,12 +385,10 @@ namespace editor {
 		win->AddConnection(ax::Toggle::Events::BUTTON_CLICK, ax::Event::Function([win](ax::Event::Msg* msg) {
 							   if (win->component.Has("pyo")) {
 								   pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
-								   std::string fct_name = comp->GetFunctionName();
+								   const std::string fct_name = comp->GetFunctionName();
 
 								   if (!fct_name.empty()) {
-									   std::string fct_call = fct_name + "();\n";
-									   PyoAudio* pyo = PyoAudio::GetInstance();
-									   pyo->ProcessString(fct_call);
+									   PythonCallEmpty(fct_name);
 								   }
 							   }
 						   }));
@@ -405,16 +399,11 @@ namespace editor {
 		win->AddConnection(0, ax::Event::Function([win](ax::Event::Msg* msg) {
 							   if (win->component.Has("pyo")) {
 								   pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
-								   std::string fct_name = comp->GetFunctionName();
+								   const std::string fct_name = comp->GetFunctionName();
 
 								   if (!fct_name.empty()) {
 									   ax::Knob::Msg* kmsg = static_cast<ax::Knob::Msg*>(msg);
-									   double value = kmsg->GetValue();
-									   std::string fct_call = fct_name + "(";
-									   fct_call += std::to_string(value) + ");\n";
-
-									   PyoAudio* pyo = PyoAudio::GetInstance();
-									   pyo->ProcessString(fct_call);
+									   PythonCallReal(fct_name, kmsg->GetValue());
 								   }
 							   }
 						   }));
@@ -425,16 +414,11 @@ namespace editor {
 		win->AddConnection(0, ax::Event::Function([win](ax::Event::Msg* msg) {
 							   if (win->component.Has("pyo")) {
 								   pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
-								   std::string fct_name = comp->GetFunctionName();
+								   const std::string fct_name = comp->GetFunctionName();
 
 								   if (!fct_name.empty()) {
 									   ax::Slider::Msg* kmsg = static_cast<ax::Slider::Msg*>(msg);
-									   double value = 1.0 - kmsg->GetValue();
-									   std::string fct_call = fct_name + "(";
-									   fct_call += std::to_string(value) + ");\n";
-
-									   PyoAudio* pyo = PyoAudio::GetInstance();
-									   pyo->ProcessString(fct_call);
+									   PythonCallReal(fct_name, 1.0 - kmsg->GetValue());
 								   }
 							   }
 						   }));

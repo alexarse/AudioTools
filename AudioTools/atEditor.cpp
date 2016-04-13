@@ -151,6 +151,7 @@ namespace editor {
 		}
 
 		ax::App::GetInstance().MainLoop();
+		
 		return 0;
 	}
 }

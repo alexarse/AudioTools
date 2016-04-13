@@ -28,8 +28,24 @@
 #include <OpenAX/OSFileSystem.h>
 #include <OpenAX/Toggle.h>
 
+#include "atSkin.hpp"
+
 namespace at {
 namespace editor {
+	PreferencePanel::PreferencePanel(const ax::Rect& rect)
+	{
+		// Create window.
+		win = ax::Window::Create(rect);
+		win->event.OnPaint = ax::WBind<ax::GC>(this, &PreferencePanel::OnPaint);
+	}
+	
+	void PreferencePanel::OnPaint(ax::GC gc)
+	{
+		const ax::Rect rect(win->dimension.GetDrawingRect());
+		gc.SetColor(at::Skin::GetInstance()->data.preference_panel_bg);
+		gc.DrawRectangle(rect);
+	}
+
 	PreferenceDialog::PreferenceDialog(const ax::Rect& rect)
 	{
 		// Create window.
@@ -39,7 +55,14 @@ namespace editor {
 			= ax::WBind<ax::Window::Event::GlobalClick>(this, &PreferenceDialog::OnGlobalClick);
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &PreferenceDialog::OnMouseLeftDown);
 
-		ax::App::GetInstance().GetWindowManager()->AddGlobalClickListener(win);
+		ax::App::GetInstance().GetPopupManager()->AddGlobalClickListener(win);
+		
+		ax::Size pref_size(350, 350);
+		ax::Point pos((rect.size.x - pref_size.x) / 2,
+					  (rect.size.y - pref_size.y) / 2);
+
+		auto pref_panel = ax::shared<PreferencePanel>(ax::Rect(pos, pref_size));
+		win->node.Add(pref_panel);
 		
 		//		ax::DropMenu::Info menu_info;
 		//		menu_info.normal = ax::Color(240, 240, 240);
@@ -153,7 +176,6 @@ namespace editor {
 
 	void PreferenceDialog::DeleteDialog()
 	{
-		ax::App::GetInstance().GetWindowManager()->RemoveGlobalClickListener(win);
 		ax::App::GetInstance().GetWindowManager()->SetPastWindow(nullptr);
 		ax::App::GetInstance().GetWindowManager()->UnGrabKey();
 		ax::App::GetInstance().GetWindowManager()->UnGrabMouse();
@@ -161,8 +183,11 @@ namespace editor {
 		win->event.UnGrabKey();
 		win->event.UnGrabMouse();
 		win->backbone = nullptr;
-
+		
+		ax::App::GetInstance().GetPopupManager()->RemoveGlobalClickListener(win);
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		ax::App::GetInstance().GetPopupManager()->UnGrabKey();
+		ax::App::GetInstance().GetPopupManager()->UnGrabMouse();
 		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
 		ax::App::GetInstance().UpdateAll();
 	}
@@ -170,15 +195,22 @@ namespace editor {
 	void PreferenceDialog::OnMouseLeftDown(const ax::Point& pos)
 	{
 		//	win->PushEvent(CANCEL, new ax::Event::StringMsg(""));
-//		DeleteDialog();
+		DeleteDialog();
 	}
 
 	void PreferenceDialog::OnPaint(ax::GC gc)
 	{
-		ax::Rect rect(win->dimension.GetDrawingRect());
+		const ax::Rect rect(win->dimension.GetDrawingRect());
 
 		gc.SetColor(ax::Color(0.0, 0.6));
 		gc.DrawRectangle(rect);
+//		
+//		ax::Size pref_size(350, 350);
+//		ax::Point pos(rect.position.x + (rect.size.x - pref_size.x) / 2,
+//			rect.position.y + (rect.size.y - pref_size.y) / 2);
+//		
+//		gc.SetColor(at::Skin::GetInstance()->data.preference_panel_bg);
+//		gc.DrawRectangle(ax::Rect(pos, pref_size));
 	}
 }
 }
