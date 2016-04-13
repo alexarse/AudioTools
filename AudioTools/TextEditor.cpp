@@ -220,7 +220,7 @@ void TextEditor::OnScroll(const ax::ScrollBar::Msg& msg)
 	double scroll_ratio = _scrollBar->GetZeroToOneValue();
 //	ax::Print("OnScroollll new index = ", _file_start_index, diff);
 	_file_start_index = scroll_ratio * diff;
-	ax::Print("OnScroollll new index = ", _file_start_index, diff, scroll_ratio);
+//	ax::Print("OnScroollll new index = ", _file_start_index, diff, scroll_ratio);
 	_scrollPanel->Update();
 }
 
@@ -335,7 +335,7 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 
 	if (line_index < data.size()) {
 		int actual_line_index = line_index + _file_start_index;
-		ax::Print("actualine : ", actual_line_index);
+//		ax::Print("actualine : ", actual_line_index);
 
 		// Find x cursor position.
 		
@@ -371,7 +371,7 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 			}
 
 			if (cursor_index_x == -1) {
-				ax::Print("go to last char of line");
+//				ax::Print("go to last char of line");
 				_logic.SetCursorPosition(ax::Point((int)text.size(), actual_line_index));
 				_scrollPanel->Update();
 				return;
@@ -387,7 +387,7 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 		}
 		// No or one char in line.
 		else {
-			ax::Print("Line is empty");
+//			ax::Print("Line is empty");
 			_logic.SetCursorPosition(ax::Point(0, actual_line_index));
 			_scrollPanel->Update();
 		}
@@ -503,7 +503,7 @@ void TextEditor::OnPaint(ax::GC gc)
 	const ax::StringVector& data = _logic.GetFileData();
 
 	// For all shown line in text.
-	ax::Print("File start index = ", _file_start_index);
+//	ax::Print("File start index = ", _file_start_index);
 	for (int i = 0, k = _file_start_index; k < data.size() && i < _n_line_shown; i++, k++) {
 
 		// Line.

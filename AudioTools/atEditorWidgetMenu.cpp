@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "atCommon.h"
 #include "atEditor.h"
 #include "atEditorWidgetMenu.h"
@@ -60,27 +60,22 @@ namespace editor {
 
 	void WidgetMenuSeparator::OnPaint(ax::GC gc)
 	{
-		ax::Rect rect(win->dimension.GetDrawingRect());
+		const ax::Rect rect(win->dimension.GetDrawingRect());
 
-//		gc.SetColor(ax::Color(0.94));
 		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_bg);
 		gc.DrawRectangle(rect);
-		//	gc.DrawRectangleColorFade(rect, ax::Color(0.85), ax::Color(0.95));
 
-//		gc.SetColor(ax::Color(0.94));
 		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_contour);
 		gc.DrawRectangleContour(rect);
 
-//		gc.SetColor(ax::Color(0.3));
 		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_text);
 		gc.DrawString(_font, _name, ax::Point(10, 2));
 	}
 
 	WidgetMenuObj::WidgetMenuObj(const ax::Rect& rect, const std::string& builder_name,
 		const std::string& file_path, const std::string& title, const std::string& info,
-		const std::string& size,
-		const std::string& img_path)
-		: _font("fonts/Lato.ttf") //"resources/FreeSansBold.ttf")
+		const std::string& size, const std::string& img_path)
+		: _font("fonts/Lato.ttf")
 		, _font_normal("fonts/LatoLight.ttf")
 		, _builder_name(builder_name)
 		, _file_path(file_path)
@@ -153,37 +148,32 @@ namespace editor {
 			win->Update();
 		}
 	}
-	
-	
 
 	void WidgetMenuObj::OnPaint(ax::GC gc)
 	{
 		ax::Rect rect(win->dimension.GetDrawingRect());
-//		gc.DrawRectangleColorFade(rect, ax::Color(1.0), ax::Color(0.98));
-		gc.DrawRectangleColorFade(rect, at::Skin::GetInstance()->data.w_menu_obj_bg_0, at::Skin::GetInstance()->data.w_menu_obj_bg_1);
-		
+		gc.DrawRectangleColorFade(rect, at::Skin::GetInstance()->data.w_menu_obj_bg_0,
+			at::Skin::GetInstance()->data.w_menu_obj_bg_1);
+
 		ax::Size img_size(_img->GetSize());
 		ax::Point img_pos(5 + (65 - img_size.x) / 2, 5 + (rect.size.y - 8 - img_size.y) / 2);
 		gc.DrawImage(_img.get(), img_pos);
 
 		if (_show_text) {
-//			gc.SetColor(ax::Color(0.1));
 			gc.SetColor(at::Skin::GetInstance()->data.w_menu_title_txt);
 			gc.DrawString(_font, _title, ax::Point(75, 6));
 
-//			gc.SetColor(ax::Color(0.0));
 			gc.SetColor(at::Skin::GetInstance()->data.w_menu_txt);
 			gc.DrawString(_font_normal, _info, ax::Point(75, 20));
 			gc.DrawString(_font_normal, _size_str, ax::Point(75, 32));
 		}
 
-//		gc.SetColor(ax::Color(0.9));
 		gc.SetColor(at::Skin::GetInstance()->data.w_menu_obj_contour);
 
 		gc.DrawRectangleContour(rect);
-		
+
 		// If not selectable.
-		if(!_selectable) {
+		if (!_selectable) {
 			gc.SetColor(ax::Color(0.5, 0.45));
 			gc.DrawRectangle(rect);
 		}
@@ -215,7 +205,8 @@ namespace editor {
 		win->node.Add(view_btn);
 
 		// Create scrolling window.
-		_panel = ax::Window::Create(ax::Rect(ax::Point(1, TOP_BAR_HEIGHT), rect.size - ax::Size(2, TOP_BAR_HEIGHT + 2)));
+		_panel = ax::Window::Create(
+			ax::Rect(ax::Point(1, TOP_BAR_HEIGHT), rect.size - ax::Size(2, TOP_BAR_HEIGHT + 2)));
 
 		win->node.Add(ax::Window::Ptr(_panel));
 
@@ -236,7 +227,7 @@ namespace editor {
 		try {
 			while (node.IsValid()) {
 				std::string node_name = node.GetName();
-				ax::Print("Node name :", node_name);
+				//				ax::Print("Node name :", node_name);
 
 				if (node_name == "separator") {
 					std::string separator_name = node.GetAttribute("name");
@@ -248,7 +239,7 @@ namespace editor {
 					pos = sep->GetWindow()->dimension.GetRect().GetNextPosDown(0);
 				}
 				else if (node_name == "widget") {
-					ax::Print("WIDGET");
+					//					ax::Print("WIDGET");
 					std::string buider_name = node.GetAttribute("builder");
 					std::string file_path = node.GetAttribute("file");
 					std::string widget_label = node.GetAttribute("label");
@@ -294,20 +285,20 @@ namespace editor {
 
 		_scrollBar->SetWindowHandle(_panel);
 		_scrollBar->UpdateWindowSize(ax::Size(rect.size.x, pos.y));
-		
+
 		SetOnlyMainWindowWidgetSelectable();
 	}
-	
+
 	void WidgetMenu::SetOnlyMainWindowWidgetSelectable()
 	{
-		for(int i = 1; i < _objs.size(); i++) {
+		for (int i = 1; i < _objs.size(); i++) {
 			_objs[i]->SetSelectable(false);
 		}
 	}
-	
+
 	void WidgetMenu::SetAllSelectable()
 	{
-		for(int i = 1; i < _objs.size(); i++) {
+		for (int i = 1; i < _objs.size(); i++) {
 			_objs[i]->SetSelectable(true);
 		}
 	}
@@ -339,8 +330,7 @@ namespace editor {
 	void WidgetMenu::OnScrollWheel(const ax::Point& delta)
 	{
 		ax::Size size = _panel->dimension.GetShownRect().size;
-		double scroll_value = (delta.y / double(size.y / 2.0
-		)) + _scrollBar->GetZeroToOneValue();
+		double scroll_value = (delta.y / double(size.y / 2.0)) + _scrollBar->GetZeroToOneValue();
 
 		_scrollBar->SetZeroToOneValue(scroll_value);
 	}
@@ -382,9 +372,7 @@ namespace editor {
 
 	void WidgetMenu::OnPaint(ax::GC gc)
 	{
-		ax::Rect rect(win->dimension.GetDrawingRect());
-
-//		gc.SetColor(ax::Color(0.45));
+		const ax::Rect rect(win->dimension.GetDrawingRect());
 		gc.SetColor(at::Skin::GetInstance()->data.w_menu_top_bar);
 		gc.DrawRectangle(rect);
 		gc.DrawRectangleContour(rect);

@@ -96,7 +96,7 @@ namespace editor {
 		try {
 			while (node.IsValid()) {
 				std::string node_name = node.GetName();
-				ax::Print("Node name :", node_name);
+//				ax::Print("Node name :", node_name);
 
 				if (node_name == "Widget") {
 					std::string buider_name = node.GetAttribute("builder");
