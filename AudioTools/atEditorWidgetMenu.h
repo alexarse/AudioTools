@@ -86,6 +86,8 @@ namespace editor {
 		ax::ScrollBar::Ptr _scrollBar;
 		std::vector<std::shared_ptr<WidgetMenuObj>> _objs;
 		bool _dropped_smaller = false;
+		
+		static const int TOP_BAR_HEIGHT = 25;
 	
 		axEVENT_DECLARATION(ax::Button::Msg, OnSmallerMenu);
 		

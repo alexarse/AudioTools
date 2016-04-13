@@ -138,16 +138,19 @@ namespace editor {
 		ax::Window* widget, const std::string& builder_name, const std::string& pyo_fct)
 	{
 		if (builder_name == "Button") {
+			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 			SetupPyoComponent(widget, pyo_fct);
 			SetupButtonPyoEvent(widget);
 		}
 		else if (builder_name == "Toggle") {
+			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 			SetupPyoComponent(widget, pyo_fct);
 			SetupTogglePyoEvent(widget);
 		}
 		else if (builder_name == "Panel") {
+			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 
 			// Add MainWindow property.
@@ -159,16 +162,19 @@ namespace editor {
 			widget->property.AddProperty("BlockDrawing");
 		}
 		else if (builder_name == "Knob") {
+			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 			SetupPyoComponent(widget, pyo_fct);
 			SetupKnobPyoEvent(widget);
 		}
 		else if (builder_name == "Slider") {
+			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 			SetupPyoComponent(widget, pyo_fct);
 			SetupSliderPyoEvent(widget);
 		}
 		else if (builder_name == "Label") {
+			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 		}
 	}
@@ -176,16 +182,6 @@ namespace editor {
 	void Loader::SetupEditWidget(ax::Window* win)
 	{
 		ax::Window* gwin = _win;
-		
-//		auto m_mouse_enter = win->event.OnMouseEnter.GetFunction();
-//		win->event.OnMouseEnter = ax::WFunc<ax::Point>([gwin, win, m_mouse_enter](const ax::Point& pos) {
-//			ax::Print("Mouse enter.");
-//			
-////			if (win->property.HasProperty("edit_click")) {
-////				ax::Print("Grabkey.");
-//				win->event.GrabKey();
-////			}
-//		});
 		
 		auto m_down_fct = win->event.OnMouseLeftDown.GetFunction();
 		win->event.OnMouseLeftDown = ax::WFunc<ax::Point>([gwin, win, m_down_fct](const ax::Point& pos) {
@@ -197,7 +193,7 @@ namespace editor {
 				win->event.GrabMouse();
 				win->property.AddProperty("edit_click");
 
-				if (win->property.HasProperty("AcceptWidget")) {
+				if (win->property.HasProperty("Resizable")) {
 					
 					if (c_delta.x > win->dimension.GetShownRect().size.x - 4) {
 						win->property.AddProperty("ResizeRight");

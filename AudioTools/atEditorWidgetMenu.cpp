@@ -209,13 +209,13 @@ namespace editor {
 		btn_info.contour = ax::Color(0.0, 0.0);
 		btn_info.font_color = ax::Color(0.0, 0.0);
 
-		auto view_btn = ax::shared<ax::Button>(ax::Rect(ax::Point(5, 2), ax::Size(25, 25)),
+		auto view_btn = ax::shared<ax::Button>(ax::Rect(ax::Point(5, 2), ax::Size(20, 20)),
 			GetOnSmallerMenu(), btn_info, "resources/menu.png", "", ax::Button::Flags::SINGLE_IMG);
 
 		win->node.Add(view_btn);
 
 		// Create scrolling window.
-		_panel = ax::Window::Create(ax::Rect(ax::Point(1, 30), rect.size - ax::Size(2, 32)));
+		_panel = ax::Window::Create(ax::Rect(ax::Point(1, TOP_BAR_HEIGHT), rect.size - ax::Size(2, TOP_BAR_HEIGHT + 2)));
 
 		win->node.Add(ax::Window::Ptr(_panel));
 
@@ -284,7 +284,7 @@ namespace editor {
 		sInfo.bg_top = ax::Color(0.8, 0.2);
 		sInfo.bg_bottom = ax::Color(0.82, 0.2);
 
-		ax::Rect sRect(rect.size.x - 9, 30, 10, rect.size.y - 31);
+		ax::Rect sRect(rect.size.x - 9, TOP_BAR_HEIGHT, 10, rect.size.y - (TOP_BAR_HEIGHT + 1));
 		_scrollBar = ax::shared<ax::ScrollBar>(sRect, ax::ScrollBar::Events(), sInfo);
 
 		win->node.Add(_scrollBar);
@@ -374,9 +374,9 @@ namespace editor {
 
 	void WidgetMenu::OnResize(const ax::Size& size)
 	{
-		ax::Rect sRect(size.x - 9, 30, 10, size.y - 31);
+		ax::Rect sRect(size.x - 9, TOP_BAR_HEIGHT, 10, size.y - (TOP_BAR_HEIGHT + 1));
 		_scrollBar->GetWindow()->dimension.SetRect(sRect);
-		_panel->dimension.SetShownRect(ax::Rect(0, 30, size.x, size.y - 30));
+		_panel->dimension.SetShownRect(ax::Rect(0, TOP_BAR_HEIGHT, size.x, size.y - TOP_BAR_HEIGHT));
 		_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 	}
 

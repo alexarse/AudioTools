@@ -63,7 +63,7 @@ namespace editor {
 		Console* _console;
 		
 		static const int MINIMUM_HEIGHT = 200;
-		static const int TOP_BAR_HEIGHT = 20;
+		static const int TOP_BAR_HEIGHT = 25;
 		
 		axEVENT_DECLARATION(ax::Button::Msg, OnTextEditor);
 		axEVENT_DECLARATION(ax::Button::Msg, OnConsole);
