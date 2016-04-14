@@ -151,7 +151,7 @@ namespace editor {
 	void BottomSection::OnMouseLeave(const ax::Point& pos)
 	{
 		if (_has_resize_cursor) {
-			ax::App::GetInstance().SetCursor(0);
+			ax::App::GetInstance().SetCursor(ax::core::Core::Cursor::NORMAL);
 			_has_resize_cursor = false;
 		}
 	}
@@ -162,12 +162,12 @@ namespace editor {
 
 		if (mouse_pos.y < 6) {
 			if (_has_resize_cursor == false) {
-				ax::App::GetInstance().SetCursor(1);
+				ax::App::GetInstance().SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
 				_has_resize_cursor = true;
 			}
 		}
 		else if (_has_resize_cursor) {
-			ax::App::GetInstance().SetCursor(0);
+			ax::App::GetInstance().SetCursor(ax::core::Core::Cursor::NORMAL);
 			_has_resize_cursor = false;
 		}
 	}
@@ -177,7 +177,7 @@ namespace editor {
 		ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
 
 		if (mouse_pos.y < 6) {
-			ax::App::GetInstance().SetCursor(1);
+			ax::App::GetInstance().SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
 			_delta_resize_click = pos;
 			_resize_click_old_rect = win->dimension.GetRect();
 			win->event.GrabMouse();
@@ -254,7 +254,7 @@ namespace editor {
 			win->event.UnGrabMouse();
 
 			if (_has_resize_cursor) {
-				ax::App::GetInstance().SetCursor(0);
+				ax::App::GetInstance().SetCursor(ax::core::Core::Cursor::NORMAL);
 				_has_resize_cursor = false;
 			}
 		}

@@ -35,6 +35,7 @@
 #include <OpenAX/Slider.h>
 #include <OpenAX/Toggle.h>
 #include <OpenAX/WidgetLoader.h>
+#include <OpenAX/Core.h>
 #include <OpenAX/WindowManager.h>
 
 namespace at {
@@ -333,43 +334,62 @@ namespace editor {
 			}
 		});
 		
-//		auto m_key_delete_down = win->event.OnBackSpaceDown.GetFunction();
-//		win->event.OnBackSpaceDown = ax::WFunc<char>([gwin, win, m_key_delete_down](const char& c) {
-//			ax::Print("Backspace down");
-//			
-//			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
-//				win->Hide();
-//				
-//				ax::Window* parent = win->node.GetParent();
-//				
-//				if (parent == nullptr) {
-//					return;
-//				}
-//				
-//				auto& children = parent->node.GetChildren();
-//				ax::Window::Ptr current_win;
-//				
-//				int index = -1;
-//				for (int i = 0; i < children.size(); i++) {
-//					if (children[i]->GetId() == win->GetId()) {
-//						current_win = children[i];
-//						index = i;
-//						break;
-//					}
-//				}
-//				
-//				if (current_win && index != -1) {
-//					win->event.UnGrabMouse();
-//					win->event.UnGrabKey();
-//					ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
-//					children.erase(children.begin() + index);
-//					
-//					/// @todo Remove from inspector menu.
-//					gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(nullptr));
-//				}
-//
-//			}
-//		});
+		// Mouse motion.
+		auto m_motion = win->event.OnMouseMotion.GetFunction();
+		win->event.OnMouseMotion = ax::WFunc<ax::Point>([gwin, win, m_motion](const ax::Point& pos) {
+			bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
+			
+			if (cmd_down) {
+				ax::Point c_delta(pos - win->dimension.GetAbsoluteRect().position);
+				//win->resource.Add("click_delta", c_delta);
+//				win->event.GrabMouse();
+//				win->property.AddProperty("edit_click");
+				
+				if (win->property.HasProperty("Resizable")) {
+					
+					if (c_delta.x > win->dimension.GetShownRect().size.x - 4) {
+						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
+					}
+					else if (c_delta.y > win->dimension.GetShownRect().size.y - 4) {
+						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
+					}
+					else if (c_delta.x < 4) {
+						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
+					}
+					else {
+						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
+					}
+				}
+			}
+			else {
+				// Set normal cursor.
+				ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
+				
+				// Call widget callback.
+				if (m_motion) {
+					m_motion(pos);
+				}
+			}
+		});
+		
+		auto m_leave = win->event.OnMouseLeave.GetFunction();
+		win->event.OnMouseLeave = ax::WFunc<ax::Point>([gwin, win, m_leave](const ax::Point& pos) {
+			
+			ax::Print("Mouse leave");
+			
+			if (win->property.HasProperty("edit_click")) {
+				ax::Print("Mouse leave has -> edit click");
+			}
+			else {
+				// Set normal cursor.
+				ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
+				
+				if (m_leave) {
+					m_leave(pos);
+				}
+			}
+		});
+
 
 		win->event.OnPaintOverFrameBuffer = ax::WFunc<ax::GC>([win](ax::GC gc) {
 			if (win->property.HasProperty("current_editing_widget")) {
