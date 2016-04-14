@@ -58,6 +58,7 @@ namespace editor {
 		win->event.OnMouseLeftDragging = ax::WBind<ax::Point>(this, &GridWindow::OnMouseLeftDragging);
 		win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &GridWindow::OnMouseLeftUp);
 		win->event.OnBackSpaceDown = ax::WBind<char>(this, &GridWindow::OnBackSpaceDown);
+		win->event.OnKeyDown = ax::WBind<char>(this, &GridWindow::OnKeyDown);
 
 		ax::App::GetInstance().GetWindowManager()->AddGlobalGrabedWindow(win);
 
@@ -179,6 +180,50 @@ namespace editor {
 			if (sel_wins.size()) {
 				ax::Print("Should delete widget.");
 				main_win->DeleteCurrentWidgets();
+			}
+		}
+	}
+
+	void GridWindow::OnKeyDown(const char& c)
+	{
+		ax::App& app = ax::App::GetInstance();
+
+		// If command is down and mouse is still inside window.
+		if (app.GetWindowManager()->IsCmdDown() && app.GetWindowManager()->IsMouseStillInChildWindow(win)) {
+
+			if (c == 'd' || c == 'D') {
+
+				MainWindow* main_win = at::editor::App::GetInstance()->GetMainWindow();
+
+				std::vector<ax::Window*> sel_wins = main_win->GetSelectedWindows();
+
+				if (sel_wins.size()) {
+					// Copy selected widgets.
+					std::shared_ptr<ax::Window::Backbone> bck_bone(sel_wins[0]->backbone->GetCopy());
+					
+					if(bck_bone == nullptr) {
+						return;
+					}
+					
+					const ax::Rect rect(sel_wins[0]->dimension.GetRect());
+					
+					bck_bone->GetWindow()->dimension.SetPosition(
+						rect.position + ax::Point(rect.size.x + 2, 0));
+					
+					at::editor::Loader loader(win);
+					ax::widget::Component* widget = static_cast<ax::widget::Component*>(bck_bone->GetWindow()->component.Get("Widget").get());
+
+					loader.SetupExistingWidget(bck_bone->GetWindow(), widget->GetBuilderName());
+					
+					
+					ax::Window* parent = sel_wins[0]->node.GetParent();
+					
+					if(parent == nullptr) {
+						return;
+					}
+					
+					parent->node.Add(bck_bone);
+				}
 			}
 		}
 	}

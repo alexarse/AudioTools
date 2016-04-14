@@ -291,48 +291,48 @@ namespace editor {
 			}
 		});
 
-		auto m_right_down = win->event.OnMouseRightDown.GetFunction();
-		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([gwin, win, m_right_down](const ax::Point& pos) {
-
-			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
-				
-				win->Hide();
-				
-				ax::Window* parent = win->node.GetParent();
-
-				if (parent == nullptr) {
-					return;
-				}
-
-				auto& children = parent->node.GetChildren();
-				ax::Window::Ptr current_win;
-
-				int index = -1;
-				for (int i = 0; i < children.size(); i++) {
-					if (children[i]->GetId() == win->GetId()) {
-						current_win = children[i];
-						index = i;
-						break;
-					}
-				}
-
-				if (current_win && index != -1) {
-					win->event.UnGrabMouse();
-					ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
-					children.erase(children.begin() + index);
-
-					/// @todo Remove from inspector menu.
-					gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(nullptr));
-				}
-
-				return;
-			}
-
-			// Call widget callback.
-			if (m_right_down) {
-				m_right_down(pos);
-			}
-		});
+//		auto m_right_down = win->event.OnMouseRightDown.GetFunction();
+//		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([gwin, win, m_right_down](const ax::Point& pos) {
+//
+//			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+//				
+//				win->Hide();
+//				
+//				ax::Window* parent = win->node.GetParent();
+//
+//				if (parent == nullptr) {
+//					return;
+//				}
+//
+//				auto& children = parent->node.GetChildren();
+//				ax::Window::Ptr current_win;
+//
+//				int index = -1;
+//				for (int i = 0; i < children.size(); i++) {
+//					if (children[i]->GetId() == win->GetId()) {
+//						current_win = children[i];
+//						index = i;
+//						break;
+//					}
+//				}
+//
+//				if (current_win && index != -1) {
+//					win->event.UnGrabMouse();
+//					ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
+//					children.erase(children.begin() + index);
+//
+//					/// @todo Remove from inspector menu.
+//					gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(nullptr));
+//				}
+//
+//				return;
+//			}
+//
+//			// Call widget callback.
+//			if (m_right_down) {
+//				m_right_down(pos);
+//			}
+//		});
 		
 		// Mouse motion.
 		auto m_motion = win->event.OnMouseMotion.GetFunction();

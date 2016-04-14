@@ -56,6 +56,7 @@ namespace editor {
 		std::pair<bool, ax::Rect> _selection;
 		ax::Color _bg_color;
 
+		void OnKeyDown(const char& c);
 		void OnBackSpaceDown(const char& c);
 		void OnMouseLeftDown(const ax::Point& pos);
 		void OnMouseLeftDragging(const ax::Point& pos);
