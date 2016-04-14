@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "atOpenDialog.hpp"
 
 #include <OpenAX/Core.h>
@@ -35,10 +35,9 @@ namespace editor {
 		// Create window.
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &OpenDialog::OnPaint);
-		win->event.OnGlobalClick = ax::WBind<ax::Window::Event::GlobalClick>(
-			this, &OpenDialog::OnGlobalClick);
-		win->event.OnMouseLeftDown
-			= ax::WBind<ax::Point>(this, &OpenDialog::OnMouseLeftDown);
+		win->event.OnGlobalClick
+			= ax::WBind<ax::Window::Event::GlobalClick>(this, &OpenDialog::OnGlobalClick);
+		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &OpenDialog::OnMouseLeftDown);
 
 		ax::App::GetInstance().GetWindowManager()->AddGlobalClickListener(win);
 
@@ -77,21 +76,18 @@ namespace editor {
 		ax::Size size(150, 300);
 
 		_menu = ax::shared<ax::DropMenu>(
-			ax::Rect(ax::Point(rect.position.x, 0), size), GetOnMenuSelection(),
-			menu_info, layout_files);
+			ax::Rect(ax::Point(rect.position.x, 0), size), GetOnMenuSelection(), menu_info, layout_files);
 
 		win->node.Add(_menu);
 
 		ax::Size menu_size(_menu->GetWindow()->dimension.GetSize());
 
-		auto open = ax::shared<ax::Button>(
-			ax::Rect(rect.position.x, menu_size.y, size.x * 0.5, 30),
+		auto open = ax::shared<ax::Button>(ax::Rect(rect.position.x, menu_size.y, size.x * 0.5, 30),
 			GetOnOpen(), ax::Button::Info(), "", "Open");
 
 		auto cancel = ax::shared<ax::Button>(
-			ax::Rect(ax::Point(size.x * 0.5, menu_size.y),
-				ax::Size(size.x * 0.5, 30)),
-			GetOnCancel(), ax::Button::Info(), "", "Cancel");
+			ax::Rect(ax::Point(size.x * 0.5, menu_size.y), ax::Size(size.x * 0.5, 30)), GetOnCancel(),
+			ax::Button::Info(), "", "Cancel");
 
 		win->node.Add(open);
 		win->node.Add(cancel);
@@ -138,8 +134,7 @@ namespace editor {
 	{
 		//		std::string label = _txtBox->GetLabel();
 		//		ax::Print(label);
-		win->PushEvent(
-			OPEN, new ax::Event::StringMsg(_menu->GetSelectedItem()));
+		win->PushEvent(OPEN, new ax::Event::StringMsg(_menu->GetSelectedItem()));
 		DeleteDialog();
 	}
 
@@ -157,8 +152,7 @@ namespace editor {
 
 	void OpenDialog::DeleteDialog()
 	{
-		ax::App::GetInstance().GetWindowManager()->RemoveGlobalClickListener(
-			win);
+		ax::App::GetInstance().GetWindowManager()->RemoveGlobalClickListener(win);
 		ax::App::GetInstance().GetWindowManager()->SetPastWindow(nullptr);
 		ax::App::GetInstance().GetWindowManager()->UnGrabKey();
 		ax::App::GetInstance().GetWindowManager()->UnGrabMouse();
@@ -167,15 +161,11 @@ namespace editor {
 		win->event.UnGrabMouse();
 
 		win->backbone = nullptr;
-		
-		ax::App::GetInstance()
-			.GetPopupManager()
-			->GetWindowTree()
-			->GetNodeVector()
-			.clear();
-		
+
+		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+
 		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
-		ax::Print("Delete window.");
+//		ax::Print("Delete window.");
 
 		ax::App::GetInstance().UpdateAll();
 	}
