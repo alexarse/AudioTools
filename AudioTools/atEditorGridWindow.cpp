@@ -213,16 +213,18 @@ namespace editor {
 					at::editor::Loader loader(win);
 					ax::widget::Component* widget = static_cast<ax::widget::Component*>(bck_bone->GetWindow()->component.Get("Widget").get());
 
-					loader.SetupExistingWidget(bck_bone->GetWindow(), widget->GetBuilderName());
-					
-					
 					ax::Window* parent = sel_wins[0]->node.GetParent();
 					
 					if(parent == nullptr) {
 						return;
 					}
 					
+					if(parent->GetId() == win->GetId()) {
+						return;
+					}
+					
 					parent->node.Add(bck_bone);
+					loader.SetupExistingWidget(bck_bone->GetWindow(), widget->GetBuilderName());
 				}
 			}
 		}
