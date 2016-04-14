@@ -64,11 +64,11 @@ namespace at {
 			
 			ax::DropMenuBox* _menu_boxes[NUMBER_OF_PREF_BOX];
 			
-			axEVENT_ACCESSOR(ax::Button::Msg, OnButtonAudioInputDevice);
-			void OnButtonAudioInputDevice(const ax::Button::Msg& msg);
+			axEVENT_ACCESSOR(ax::DropMenuBox::Msg, OnAudioInputDevice);
+			void OnAudioInputDevice(const ax::DropMenuBox::Msg& msg);
 			
-			axEVENT_ACCESSOR(ax::Button::Msg, OnButtonAudioOutputDevice);
-			void OnButtonAudioOutputDevice(const ax::Button::Msg& msg);
+			axEVENT_ACCESSOR(ax::DropMenuBox::Msg, OnAudioOutputDevice);
+			void OnAudioOutputDevice(const ax::DropMenuBox::Msg& msg);
 			
 			void OnPaint(ax::GC gc);
 		};

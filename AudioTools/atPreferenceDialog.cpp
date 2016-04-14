@@ -54,11 +54,14 @@ namespace editor {
 				ax::Size(175, 25)), audio->GetCurrentInputDevice(), audio->GetInputDevices());
 
 		win->node.Add(btn_in);
+		btn_in->GetWindow()->AddConnection(ax::DropMenuBox::VALUE_CHANGE, GetOnAudioInputDevice());
 		_menu_boxes[AUDIO_IN] = btn_in.get();
 
 		// Audio output device.
 		ax::Point o_pos(btn_in->GetWindow()->dimension.GetRect().GetNextPosDown(10));
 		auto btn_out = ax::shared<ax::DropMenuBox>(ax::Rect(o_pos, ax::Size(175, 25)), audio->GetCurrentOutputDevice(), audio->GetOutputDevices());
+		
+		btn_out->GetWindow()->AddConnection(ax::DropMenuBox::VALUE_CHANGE, GetOnAudioOutputDevice());
 		win->node.Add(btn_out);
 		
 		_menu_boxes[AUDIO_OUT] = btn_out.get();
@@ -78,37 +81,16 @@ namespace editor {
 	{
 	}
 
-	void PreferencePanel::OnButtonAudioInputDevice(const ax::Button::Msg& msg)
+	void PreferencePanel::OnAudioInputDevice(const ax::DropMenuBox::Msg& msg)
 	{
-		ax::StringVector drop_options = { "Banana", "Potato" };
-
-		ax::DropMenu::Info menu_info;
-		menu_info.normal = ax::Color(240, 240, 240);
-		menu_info.hover = ax::Color(246, 246, 246);
-		menu_info.font_color = ax::Color(0.0);
-		menu_info.selected = ax::Color(41, 222, 255);
-		menu_info.selected_hover = ax::Color(41, 226, 255);
-		menu_info.selected_font_color = ax::Color(0.0);
-		menu_info.contour = ax::Color(0.86);
-		menu_info.separation = ax::Color(0.86);
-		menu_info.up_down_arrow = ax::Color(0.35);
-		menu_info.right_arrow = ax::Color(0.70);
-		menu_info.item_height = 25;
-
-		ax::DropMenu::Events drop_evts;
-
-		ax::Size size(175, 300);
-
-		ax::Button* sender = msg.GetSender();
-		const ax::Point pos(sender->GetWindow()->dimension.GetRect().GetNextPosDown(0));
-
-		auto menu = ax::shared<ax::DropMenu>(ax::Rect(pos, size), drop_evts, menu_info, drop_options);
-
-		win->node.Add(menu);
+		PyoAudio* audio = PyoAudio::GetInstance();
+		audio->SetCurrentInputDevice(msg.GetMsg());
 	}
 
-	void PreferencePanel::OnButtonAudioOutputDevice(const ax::Button::Msg& msg)
+	void PreferencePanel::OnAudioOutputDevice(const ax::DropMenuBox::Msg& msg)
 	{
+		PyoAudio* audio = PyoAudio::GetInstance();
+		audio->SetCurrentOutputDevice(msg.GetMsg());
 	}
 	
 	bool PreferencePanel::IsMouseInDropMenu()

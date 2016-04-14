@@ -31,7 +31,6 @@ namespace at {
 namespace editor {
 	/*
 	 * GridWindow.
-	 * @brief All child ax::Window are suppose to be mdi::Widget.
 	 */
 	class GridWindow : public ax::Window::Backbone {
 	public:

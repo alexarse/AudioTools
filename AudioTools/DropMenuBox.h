@@ -33,6 +33,10 @@ namespace ax {
 	public:
 		DropMenuBox(const ax::Rect& rect, const std::string& current_value, const ax::StringVector& menu_options);
 		
+		enum : ax::Event::Id { VALUE_CHANGE };
+		
+		typedef ax::Event::SimpleMsg<std::string> Msg;
+		
 		bool IsDropped() const
 		{
 			return _is_droped;

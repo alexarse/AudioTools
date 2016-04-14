@@ -31,10 +31,10 @@
 #include "PyoAudio.h"
 #include "PyoComponent.h"
 #include "atCommon.h"
-#include "atEditorLoader.h"
-#include "atSkin.hpp"
 #include "atEditor.h"
+#include "atEditorLoader.h"
 #include "atEditorMainWindow.h"
+#include "atSkin.hpp"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Knob.h>
@@ -49,7 +49,6 @@ namespace editor {
 	GridWindow::GridWindow(const ax::Rect& rect)
 		: _grid_space(10)
 		, _selection(false, ax::Rect(0, 0, 0, 0))
-		//		, _bg_color(1.0)
 		, _bg_color(at::Skin::GetInstance()->data.grid_window_bg)
 	{
 		// Create window.
@@ -104,8 +103,6 @@ namespace editor {
 		ax::Xml::Node layout = xml.CreateNode("Layout");
 		xml.AddMainNode(layout);
 		layout.AddAttribute("script", script_path);
-
-		//		ax::Print("Childen size :", children.size());
 
 		// Callback for saving widget with child widgets in them.
 		std::function<void(ax::Xml&, ax::Xml::Node&, ax::Window*)> panel_save_child
@@ -169,18 +166,17 @@ namespace editor {
 
 	void GridWindow::OnBackSpaceDown(const char& c)
 	{
-		ax::Print(" GridWindow::OnBackSpaceDown");
+		// Delete current selected widget.
+
 		ax::App& app = ax::App::GetInstance();
 
 		// If command is down and mouse is still inside window.
 		if (app.GetWindowManager()->IsCmdDown() && app.GetWindowManager()->IsMouseStillInChildWindow(win)) {
 			MainWindow* main_win = at::editor::App::GetInstance()->GetMainWindow();
-			
+
 			std::vector<ax::Window*> sel_wins = main_win->GetSelectedWindows();
-			
-			ax::Print("Sel win size :", sel_wins.size());
-			
-			if(sel_wins.size()) {
+
+			if (sel_wins.size()) {
 				ax::Print("Should delete widget.");
 				main_win->DeleteCurrentWidgets();
 			}
@@ -254,7 +250,6 @@ namespace editor {
 		gc.SetColor(_bg_color);
 		gc.DrawRectangle(rect);
 
-		//		gc.SetColor(ax::Color(0.9));
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_lines);
 
 		// Vertical lines.
@@ -276,7 +271,6 @@ namespace editor {
 		}
 
 		// Grid contour.
-		//		gc.SetColor(ax::Color(0.7));
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_contour);
 		gc.DrawRectangleContour(rect);
 	}

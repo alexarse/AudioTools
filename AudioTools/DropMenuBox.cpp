@@ -167,6 +167,8 @@ void DropMenuBox::OnMenuChoice(const ax::DropMenu::Msg& msg)
 	_drop_btn->SetLabel(msg.GetItem());
 	RemoveMenu();
 	_is_droped = false;
+	
+	win->PushEvent(VALUE_CHANGE, new DropMenuBox::Msg(msg.GetItem()));
 }
 
 void DropMenuBox::OnPaint(ax::GC gc)
