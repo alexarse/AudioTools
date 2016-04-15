@@ -45,7 +45,7 @@ namespace editor {
 		static ax::Event::Object* GetMainEvtObj();
 		
 		MainWindow* GetMainWindow();
-
+	
 		int MainLoop();
 
 	private:

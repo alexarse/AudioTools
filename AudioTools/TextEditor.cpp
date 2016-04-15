@@ -81,7 +81,7 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	scrollEvents.value_change = GetOnScroll();
 
 	auto scroll_bar
-		= ax::shared<ax::ScrollBar>(ax::Rect(rect.size.x - 9, 0, 10, rect.size.y - 1), scrollEvents, sInfo);
+		= ax::shared<ax::ScrollBar>(ax::Rect(rect.size.x - 9, 0, 10, rect.size.y), scrollEvents, sInfo);
 
 	_scrollBar = scroll_bar.get();
 

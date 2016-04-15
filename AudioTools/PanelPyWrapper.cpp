@@ -1,52 +1,46 @@
 #include "PanelPyWrapper.h"
-#include <cstdio>
 #include <Python/Python.h>
 #include <boost/python.hpp>
+#include <cstdio>
 
 #include <OpenAX/OpenAX.h>
 #include <OpenAX/Panel.h>
 
 using namespace boost::python;
 
-//Panel(const ax::Rect& rect, const Panel::Info& info, const std::string& bg_img,
-//	  const std::string& name = "", ax::Flag flags = 0);
-//
-//ax::Window::Backbone* GetCopy();
-//
-//ax::Flag GetFlags() const
-//{
-//	return _flags;
-//}
-//
-//std::string GetName() const
-//{
-//	return _name;
-//}
-//
-//void SetName(const std::string& name)
-//{
-//	_name = name;
-//}
-//
-//std::string GetBackgroundImagePath() const
-//{
-//	return _bg_img_path;
-//}
-
 namespace ax {
 namespace python {
+
+	Panel::Panel(ax::Panel* panel)
+		: _panel(panel)
+	{
+	}
+
+	void Panel::SetBackgroundColor(const ax::Color& color)
+	{
+		widget::Component* widget
+			= static_cast<widget::Component*>(_panel->GetWindow()->component.Get("Widget").get());
+		ax::Panel::Info* info = static_cast<ax::Panel::Info*>(widget->GetInfo());
+
+		info->background = color;
+		widget->ReloadInfo();
+	}
+
+	void Panel::SetContourColor(const ax::Color& color)
+	{
+		widget::Component* widget
+			= static_cast<widget::Component*>(_panel->GetWindow()->component.Get("Widget").get());
+		ax::Panel::Info* info = static_cast<ax::Panel::Info*>(widget->GetInfo());
+
+		info->contour = color;
+		widget->ReloadInfo();
+	}
+
 	void export_python_wrapper_panel()
 	{
-		// ax;:Panel.
-//		class_<ax::Panel>("Panel", init<>())
-//			.def_readwrite("x", &ax::Point::x)
-//			.def_readwrite("y", &ax::Point::y)
-//			.def(self + self)
-//			.def(self - self)
-//			.def(self * self)
-//			.def(self += self)
-//			.def(self -= self)
-//			.def(self *= other<double>());
+		class_<ax::python::Panel>("Panel", init<ax::Panel*>())
+			.def("SetBackgroundColor", &ax::python::Panel::SetBackgroundColor)
+			.def("SetContourColor", &ax::python::Panel::SetContourColor);
 	}
 }
 }

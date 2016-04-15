@@ -42,6 +42,8 @@ public:
 	MainWindow(const ax::Rect& rect);
 	
 	std::vector<ax::Window*> GetSelectedWindows() const;
+	ax::Window* GetWidgetsByName(const std::string& name);
+	
 	void DeleteCurrentWidgets();
 	
 private:

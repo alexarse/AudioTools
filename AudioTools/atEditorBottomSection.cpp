@@ -51,12 +51,12 @@ namespace editor {
 		txt_info.text_color = ax::Color(0.0);
 
 		auto txt_editor = ax::shared<TextEditor>(
-			ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT), txt_info);
+			ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x - 1, rect.size.y - TOP_BAR_HEIGHT), txt_info);
 		_txt_editor = txt_editor.get();
 		win->node.Add(txt_editor);
 
 		auto console
-			= ax::shared<Console>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
+			= ax::shared<Console>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x - 1, rect.size.y - TOP_BAR_HEIGHT));
 		_console = console.get();
 		win->node.Add(console);
 		_console->GetWindow()->Hide();
@@ -266,17 +266,18 @@ namespace editor {
 		//
 		//		ax::Point pos = _open_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		//		_save_btn->GetWindow()->dimension.SetPosition(pos);
-		_txt_editor->GetWindow()->dimension.SetSize(ax::Size(size.x, size.y - TOP_BAR_HEIGHT));
-		_console->GetWindow()->dimension.SetSize(ax::Size(size.x, size.y - TOP_BAR_HEIGHT));
+		
+		_txt_editor->GetWindow()->dimension.SetSize(ax::Size(size.x - 1, size.y - TOP_BAR_HEIGHT));
+		_console->GetWindow()->dimension.SetSize(ax::Size(size.x - 1, size.y - TOP_BAR_HEIGHT));
 	}
 
 	void BottomSection::OnPaint(ax::GC gc)
 	{
 		const ax::Rect rect(win->dimension.GetDrawingRect());
-		gc.SetColor(ax::Color(255, 0, 0));
+		gc.SetColor(ax::Color(0.6));
 		gc.DrawRectangle(rect);
 
-		ax::Rect top_bar_rect(0, 0, rect.size.x, TOP_BAR_HEIGHT);
+		ax::Rect top_bar_rect(rect.position.x, rect.position.y, rect.size.x, TOP_BAR_HEIGHT);
 		gc.SetColor(at::Skin::GetInstance()->data.txt_edit_bar);
 		gc.DrawRectangle(top_bar_rect);
 
@@ -291,6 +292,9 @@ namespace editor {
 		else {
 			gc.DrawStringAlignedCenter(_font, "Console", top_bar_rect);
 		}
+		
+//		gc.SetColor(ax::Color(0.6));
+//		gc.DrawRectangleContour(rect);
 	}
 }
 }

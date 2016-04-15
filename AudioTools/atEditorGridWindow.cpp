@@ -164,6 +164,17 @@ namespace editor {
 		_bg_color = color;
 		win->Update();
 	}
+	
+	ax::Window* GridWindow::GetWidgetByName(const std::string& name)
+	{
+		auto& children = win->node.GetChildren();
+		
+		if(children.empty()) {
+			return nullptr;
+		}
+		
+		return children[0].get();
+	}
 
 	void GridWindow::OnBackSpaceDown(const char& c)
 	{

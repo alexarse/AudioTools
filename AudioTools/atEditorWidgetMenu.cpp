@@ -271,7 +271,7 @@ namespace editor {
 		sInfo.hover = ax::Color(0.65);
 		sInfo.clicking = ax::Color(0.62);
 		sInfo.slider_contour = ax::Color(0.0, 0.2);
-		sInfo.contour = ax::Color(0.0, 0.0);
+		sInfo.contour = ax::Color(0.8, 0.2);
 		sInfo.bg_top = ax::Color(0.8, 0.2);
 		sInfo.bg_bottom = ax::Color(0.82, 0.2);
 

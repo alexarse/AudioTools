@@ -50,6 +50,8 @@ namespace editor {
 		void UnSelectAllWidgets();
 
 		ax::Window* GetMainWindow();
+		
+		ax::Window* GetWidgetByName(const std::string& name);
 
 	private:
 		int _grid_space;

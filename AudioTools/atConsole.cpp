@@ -63,5 +63,9 @@ void Console::OnPaint(ax::GC gc)
 			pos.y += 15;
 		}
 	}
+	
+//	gc.SetColor(ax::Color(0.6));
+	gc.SetColor(ax::Color(1.0));
+	gc.DrawRectangleContour(rect);
 }
 }

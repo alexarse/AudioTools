@@ -137,6 +137,11 @@ namespace editor {
 	{
 		return _selected_windows;
 	}
+	
+	ax::Window* MainWindow::GetWidgetsByName(const std::string& name)
+	{
+		return _gridWindow->GetWidgetByName(name);
+	}
 
 	void MainWindow::DeleteCurrentWidgets()
 	{
