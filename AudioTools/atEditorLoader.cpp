@@ -27,6 +27,7 @@
 #include "atEditor.h"
 #include "atEditorLoader.h"
 #include "atEditorMainWindow.h"
+#include "atUniqueNameComponent.h"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Knob.h>
@@ -85,13 +86,21 @@ namespace editor {
 		panel_builder->SetCreateCallback([&](ax::Window* win, ax::Xml::Node& node) {
 			std::string builder_name = node.GetAttribute("builder");
 			std::string pyo_fct_name;
+			
 			ax::Xml::Node pyo_node = node.GetNode("pyo");
 
 			if (pyo_node.IsValid()) {
 				pyo_fct_name = pyo_node.GetValue();
 			}
-
-			SetupExistingWidget(win, builder_name, pyo_fct_name);
+			
+			std::string unique_name;
+			ax::Xml::Node unique_name_node = node.GetNode("unique_name");
+			
+			if (unique_name_node.IsValid()) {
+				unique_name = unique_name_node.GetValue();
+			}
+			
+			SetupExistingWidget(win, builder_name, pyo_fct_name, unique_name);
 		});
 
 		try {
@@ -108,6 +117,13 @@ namespace editor {
 					if (pyo_node.IsValid()) {
 						pyo_fct_name = pyo_node.GetValue();
 					}
+					
+					std::string unique_name;
+					ax::Xml::Node unique_name_node = node.GetNode("unique_name");
+					
+					if (unique_name_node.IsValid()) {
+						unique_name = unique_name_node.GetValue();
+					}
 
 					ax::widget::Builder* builder = loader->GetBuilder(buider_name);
 
@@ -119,7 +135,7 @@ namespace editor {
 
 					auto obj(builder->Create(node));
 					_win->node.Add(obj);
-					SetupExistingWidget(obj->GetWindow(), buider_name, pyo_fct_name);
+					SetupExistingWidget(obj->GetWindow(), buider_name, pyo_fct_name, unique_name);
 				}
 
 				node = node.GetNextSibling();
@@ -136,19 +152,21 @@ namespace editor {
 	}
 
 	void Loader::SetupExistingWidget(
-		ax::Window* widget, const std::string& builder_name, const std::string& pyo_fct)
+		ax::Window* widget, const std::string& builder_name, const std::string& pyo_fct, const std::string& unique_name)
 	{
 		if (builder_name == "Button") {
 			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 			SetupPyoComponent(widget, pyo_fct);
 			SetupButtonPyoEvent(widget);
+			SetupUniqueNameComponent(widget, unique_name);
 		}
 		else if (builder_name == "Toggle") {
 			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 			SetupPyoComponent(widget, pyo_fct);
 			SetupTogglePyoEvent(widget);
+			SetupUniqueNameComponent(widget, unique_name);
 		}
 		else if (builder_name == "Panel") {
 			widget->property.AddProperty("Resizable");
@@ -161,22 +179,26 @@ namespace editor {
 			}
 
 			widget->property.AddProperty("BlockDrawing");
+			SetupUniqueNameComponent(widget, unique_name);
 		}
 		else if (builder_name == "Knob") {
 			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 			SetupPyoComponent(widget, pyo_fct);
 			SetupKnobPyoEvent(widget);
+			SetupUniqueNameComponent(widget, unique_name);
 		}
 		else if (builder_name == "Slider") {
 			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 			SetupPyoComponent(widget, pyo_fct);
 			SetupSliderPyoEvent(widget);
+			SetupUniqueNameComponent(widget, unique_name);
 		}
 		else if (builder_name == "Label") {
 			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
+			SetupUniqueNameComponent(widget, unique_name);
 		}
 	}
 
@@ -430,6 +452,13 @@ namespace editor {
 		auto comp = pyo::Component::Ptr(new pyo::Component(win));
 		comp->SetFunctionName(fct_name);
 		win->component.Add("pyo", comp);
+	}
+	
+	void Loader::SetupUniqueNameComponent(ax::Window* win, const std::string& name)
+	{
+		auto comp = at::UniqueNameComponent::Ptr(new at::UniqueNameComponent(win));
+		comp->SetName(name);
+		win->component.Add("unique_name", comp);
 	}
 
 	void Loader::SetupButtonPyoEvent(ax::Window* win)

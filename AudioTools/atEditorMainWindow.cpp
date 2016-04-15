@@ -71,7 +71,7 @@ namespace editor {
 			rect.size.y - 30 - 200 - 18);
 		win->node.Add(_gridWindow = ax::shared<GridWindow>(grid_rect));
 
-		_gridWindow->GetWindow()->AddConnection(1234, GetOnSelectWidget());
+		_gridWindow->GetWindow()->AddConnection(GridWindow::SELECT_WIDGET, GetOnSelectWidget());
 		_gridWindow->GetWindow()->AddConnection(GridWindow::UNSELECT_ALL, GetOnUnSelectAllWidget());
 
 		// Create widget menu. // 75
@@ -101,8 +101,7 @@ namespace editor {
 		win->node.Add(b_section);
 		_bottom_section = b_section.get();
 		_bottom_section->GetWindow()->AddConnection(BottomSection::RESIZE, GetOnResizeCodeEditor());
-		//		win->node.Add(_codeEditor = ax::shared<CodeEditor>(bottom_rect));
-
+		
 		_bottom_section->GetWindow()->AddConnection(10020, ax::Event::Function([&](ax::Event::Msg* msg) {
 														ax::Print("Save");
 														std::vector<ax::Window::Ptr>& children
@@ -117,27 +116,13 @@ namespace editor {
 		win->AddConnection(8000, GetOnCreateDraggingWidget());
 		win->AddConnection(8001, GetOnDraggingWidget());
 		win->AddConnection(8002, GetOnReleaseObjWidget());
-
-		//		_codeEditor->GetWindow()->AddConnection(CodeEditor::RESIZE, GetOnResizeCodeEditor());
-		//
-		//		/// @todo Add enum for events.
-		//		_codeEditor->GetWindow()->AddConnection(10020, ax::Event::Function([&](ax::Event::Msg* msg) {
-		//													ax::Print("Save");
-		//													std::vector<ax::Window::Ptr>& children
-		//														=
-		//_gridWindow->GetWindow()->node.GetChildren();
-		//
-		//													for (auto& n : children) {
-		//														n->Update();
-		//													}
-		//												}));
 	}
 
 	std::vector<ax::Window*> MainWindow::GetSelectedWindows() const
 	{
 		return _selected_windows;
 	}
-	
+
 	ax::Window* MainWindow::GetWidgetsByName(const std::string& name)
 	{
 		return _gridWindow->GetWidgetByName(name);
@@ -147,7 +132,7 @@ namespace editor {
 	{
 		// @todo Remove multiple widgets.
 		if (_selected_windows.size()) {
-			
+
 			auto& children = _selected_windows[0]->node.GetParent()->node.GetChildren();
 			ax::Window::Ptr current_win;
 
@@ -170,7 +155,7 @@ namespace editor {
 
 		_selected_windows.clear();
 		_inspectorMenu->RemoveHandle();
-		
+
 		if (_gridWindow->GetMainWindow() == nullptr) {
 			_widgetMenu->SetOnlyMainWindowWidgetSelectable();
 		}
@@ -282,18 +267,14 @@ namespace editor {
 	{
 		if (!msg.GetMsg().empty()) {
 			_selected_windows.clear();
-
+			_inspectorMenu->SetWidgetHandle(nullptr);
+			
 			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
 
 			if (!script_path.empty()) {
-				ax::Print("Loading script :", script_path);
 				_statusBar->SetLayoutFilePath(msg.GetMsg());
-				//----------------------------------------------------------------------
-				//				_codeEditor->OpenFile(script_path);
 				_bottom_section->OpenFile(script_path);
-
 				PyoAudio::GetInstance()->ReloadScript(script_path);
-				//----------------------------------------------------------------------
 			}
 
 			if (_gridWindow->GetMainWindow() == nullptr) {

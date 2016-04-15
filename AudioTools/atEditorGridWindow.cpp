@@ -35,6 +35,7 @@
 #include "atEditorLoader.h"
 #include "atEditorMainWindow.h"
 #include "atSkin.hpp"
+#include "atUniqueNameComponent.h"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Knob.h>
@@ -87,6 +88,7 @@ namespace editor {
 	ax::Window* GridWindow::GetMainWindow()
 	{
 		std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+		
 		for (auto& n : children) {
 			if (n->property.HasProperty("MainWindow")) {
 				return n.get();
@@ -126,6 +128,14 @@ namespace editor {
 						  ax::Xml::Node pyo_node = xml.CreateNode("pyo", fct_name);
 						  child_node.AddNode(pyo_node);
 					  }
+					  
+					  if (child_win->component.Has("unique_name")) {
+						  at::UniqueNameComponent::Ptr comp = child_win->component.Get<at::UniqueNameComponent>("unique_name");
+						  
+						  std::string name = comp->GetName();
+						  ax::Xml::Node unique_name_node = xml.CreateNode("unique_name", name);
+						  child_node.AddNode(unique_name_node);
+					  }
 				  }
 			  };
 
@@ -146,6 +156,14 @@ namespace editor {
 					std::string fct_name = comp->GetFunctionName();
 					ax::Xml::Node pyo_node = xml.CreateNode("pyo", fct_name);
 					node.AddNode(pyo_node);
+				}
+				
+				if (n->component.Has("unique_name")) {
+					at::UniqueNameComponent::Ptr comp = n->component.Get<at::UniqueNameComponent>("unique_name");
+					
+					std::string name = comp->GetName();
+					ax::Xml::Node unique_name_node = xml.CreateNode("unique_name", name);
+					node.AddNode(unique_name_node);
 				}
 			}
 		}

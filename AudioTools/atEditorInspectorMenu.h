@@ -55,6 +55,7 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnPyoCallback);
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnWidgetUpdate);
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnInfoUpdate);
+		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnUniqueName);
 	
 		void OnPaint(ax::GC gc);
 	};
