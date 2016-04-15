@@ -1,6 +1,7 @@
-#include <stdlib.h>
-#include <Python/Python.h>
+#include "PythonWrapper.h"
 #include <OpenAX/Utils.h>
+#include <Python/Python.h>
+#include <stdlib.h>
 
 #ifndef __m_pyo_h_
 
@@ -21,26 +22,34 @@ extern "C" {
 **
 ** returns the new python thread's interpreter state.
 */
-inline PyThreadState * pyo_new_interpreter(float sr, int bufsize, int chnls) {
-    char msg[64];
-    PyThreadState *interp;
-    if(!Py_IsInitialized()) {
-        Py_Initialize();
-        PyEval_InitThreads();
-        PyEval_ReleaseLock();
-    }
-    PyEval_AcquireLock();              /* get the GIL */
-    interp = Py_NewInterpreter();      /* add a new sub-interpreter */
-    PyRun_SimpleString("from pyo import *");
-    sprintf(msg, "_s_ = Server(%f, %d, %d, 1, 'embedded')", sr, chnls, bufsize);
-    PyRun_SimpleString(msg);
-    PyRun_SimpleString("_s_.boot()\n_s_.start()\n_s_.setServer()");
-    PyRun_SimpleString("_in_address_ = _s_.getInputAddr()");
-    PyRun_SimpleString("_out_address_ = _s_.getOutputAddr()");
-    PyRun_SimpleString("_server_id_ = _s_.getServerID()");
-    PyRun_SimpleString("_emb_callback_ = _s_.getEmbedICallbackAddr()");
-    PyEval_ReleaseThread(interp);
-    return interp;
+inline PyThreadState* pyo_new_interpreter(float sr, int bufsize, int chnls)
+{
+	char msg[64];
+
+	PyThreadState* interp;
+
+	if (!Py_IsInitialized()) {
+		Py_Initialize();
+		PyEval_InitThreads();
+		PyEval_ReleaseLock();
+	}
+
+	PyEval_AcquireLock(); /* get the GIL */
+	interp = Py_NewInterpreter(); /* add a new sub-interpreter */
+
+	PyRun_SimpleString("from pyo import *");
+	sprintf(msg, "_s_ = Server(%f, %d, %d, 1, 'embedded')", sr, chnls, bufsize);
+
+	PyRun_SimpleString(msg);
+
+	PyRun_SimpleString("_s_.boot()\n_s_.start()\n_s_.setServer()");
+	PyRun_SimpleString("_in_address_ = _s_.getInputAddr()");
+	PyRun_SimpleString("_out_address_ = _s_.getOutputAddr()");
+	PyRun_SimpleString("_server_id_ = _s_.getServerID()");
+	PyRun_SimpleString("_emb_callback_ = _s_.getEmbedICallbackAddr()");
+	PyEval_ReleaseThread(interp);
+
+	return interp;
 }
 
 /*
@@ -52,14 +61,15 @@ inline PyThreadState * pyo_new_interpreter(float sr, int bufsize, int chnls) {
 **
 ** returns an "unsigned long" that should be recast to a float pointer.
 */
-inline unsigned long pyo_get_input_buffer_address(PyThreadState *interp) {
-    PyEval_AcquireThread(interp);
-    PyObject* module = PyImport_AddModule("__main__");
-    PyObject* obj = PyObject_GetAttrString(module, "_in_address_");
-    char* address = PyString_AsString(obj);
-    unsigned long uadd = strtoul(address, NULL, 0);
-    PyEval_ReleaseThread(interp);
-    return uadd;
+inline unsigned long pyo_get_input_buffer_address(PyThreadState* interp)
+{
+	PyEval_AcquireThread(interp);
+	PyObject* module = PyImport_AddModule("__main__");
+	PyObject* obj = PyObject_GetAttrString(module, "_in_address_");
+	char* address = PyString_AsString(obj);
+	unsigned long uadd = strtoul(address, NULL, 0);
+	PyEval_ReleaseThread(interp);
+	return uadd;
 }
 
 /*
@@ -71,14 +81,15 @@ inline unsigned long pyo_get_input_buffer_address(PyThreadState *interp) {
 **
 ** returns an "unsigned long long" that should be recast to a double pointer.
 */
-inline unsigned long long pyo_get_input_buffer_address_64(PyThreadState *interp) {
-    PyEval_AcquireThread(interp);
-    PyObject* module = PyImport_AddModule("__main__");
-    PyObject* obj = PyObject_GetAttrString(module, "_in_address_");
-    char* address = PyString_AsString(obj);
-    unsigned long long uadd = strtoull(address, NULL, 0);
-    PyEval_ReleaseThread(interp);
-    return uadd;
+inline unsigned long long pyo_get_input_buffer_address_64(PyThreadState* interp)
+{
+	PyEval_AcquireThread(interp);
+	PyObject* module = PyImport_AddModule("__main__");
+	PyObject* obj = PyObject_GetAttrString(module, "_in_address_");
+	char* address = PyString_AsString(obj);
+	unsigned long long uadd = strtoull(address, NULL, 0);
+	PyEval_ReleaseThread(interp);
+	return uadd;
 }
 
 /*
@@ -90,14 +101,15 @@ inline unsigned long long pyo_get_input_buffer_address_64(PyThreadState *interp)
 **
 ** returns an "unsigned long" that should be recast to a float pointer.
 */
-inline unsigned long pyo_get_output_buffer_address(PyThreadState *interp) {
-    PyEval_AcquireThread(interp);
-    PyObject* module = PyImport_AddModule("__main__");
-    PyObject* obj = PyObject_GetAttrString(module, "_out_address_");
-    char* address = PyString_AsString(obj);
-    unsigned long uadd = strtoul(address, NULL, 0);
-    PyEval_ReleaseThread(interp);
-    return uadd;
+inline unsigned long pyo_get_output_buffer_address(PyThreadState* interp)
+{
+	PyEval_AcquireThread(interp);
+	PyObject* module = PyImport_AddModule("__main__");
+	PyObject* obj = PyObject_GetAttrString(module, "_out_address_");
+	char* address = PyString_AsString(obj);
+	unsigned long uadd = strtoul(address, NULL, 0);
+	PyEval_ReleaseThread(interp);
+	return uadd;
 }
 
 /*
@@ -115,14 +127,15 @@ inline unsigned long pyo_get_output_buffer_address(PyThreadState *interp) {
 ** Prototype:
 ** void (*callback)(int);
 */
-inline unsigned long pyo_get_embedded_callback_address(PyThreadState *interp) {
-    PyEval_AcquireThread(interp);
-    PyObject* module = PyImport_AddModule("__main__");
-    PyObject* obj = PyObject_GetAttrString(module, "_emb_callback_");
-    char *address = PyString_AsString(obj);
-    unsigned long uadd = strtoul(address, NULL, 0);
-    PyEval_ReleaseThread(interp);
-    return uadd;
+inline unsigned long pyo_get_embedded_callback_address(PyThreadState* interp)
+{
+	PyEval_AcquireThread(interp);
+	PyObject* module = PyImport_AddModule("__main__");
+	PyObject* obj = PyObject_GetAttrString(module, "_emb_callback_");
+	char* address = PyString_AsString(obj);
+	unsigned long uadd = strtoul(address, NULL, 0);
+	PyEval_ReleaseThread(interp);
+	return uadd;
 }
 
 /*
@@ -134,13 +147,14 @@ inline unsigned long pyo_get_embedded_callback_address(PyThreadState *interp) {
 **
 ** returns an integer.
 */
-inline int pyo_get_server_id(PyThreadState *interp) {
-    PyEval_AcquireThread(interp);
-    PyObject* module = PyImport_AddModule("__main__");
-    PyObject* obj = PyObject_GetAttrString(module, "_server_id_");
-    int pyo_id = (int)PyInt_AsLong(obj);
-    PyEval_ReleaseThread(interp);
-    return pyo_id;
+inline int pyo_get_server_id(PyThreadState* interp)
+{
+	PyEval_AcquireThread(interp);
+	PyObject* module = PyImport_AddModule("__main__");
+	PyObject* obj = PyObject_GetAttrString(module, "_server_id_");
+	int pyo_id = (int)PyInt_AsLong(obj);
+	PyEval_ReleaseThread(interp);
+	return pyo_id;
 }
 
 /*
@@ -149,16 +163,17 @@ inline int pyo_get_server_id(PyThreadState *interp) {
 ** arguments:
 **  interp : pointer, pointer to the targeted Python thread state.
 */
-inline void pyo_end_interpreter(PyThreadState *interp) {
-    /* Old method (causing segfault) */
-    //PyEval_AcquireThread(interp);
-    //Py_EndInterpreter(interp);
-    //PyEval_ReleaseLock();
-    /* New method (seems to be ok) */
-    PyThreadState_Swap(interp);
-    PyThreadState_Swap(NULL);
-    PyThreadState_Clear(interp);
-    PyThreadState_Delete(interp);
+inline void pyo_end_interpreter(PyThreadState* interp)
+{
+	/* Old method (causing segfault) */
+	// PyEval_AcquireThread(interp);
+	// Py_EndInterpreter(interp);
+	// PyEval_ReleaseLock();
+	/* New method (seems to be ok) */
+	PyThreadState_Swap(interp);
+	PyThreadState_Swap(NULL);
+	PyThreadState_Clear(interp);
+	PyThreadState_Delete(interp);
 }
 
 /*
@@ -167,11 +182,12 @@ inline void pyo_end_interpreter(PyThreadState *interp) {
 ** arguments:
 **  interp : pointer, pointer to the targeted Python thread state.
 */
-inline void pyo_server_reboot(PyThreadState *interp) {
-    PyEval_AcquireThread(interp);
-    PyRun_SimpleString("_s_.setServer()\n_s_.stop()\n_s_.shutdown()");
-    PyRun_SimpleString("_s_.boot(newBuffer=False).start()");
-    PyEval_ReleaseThread(interp);
+inline void pyo_server_reboot(PyThreadState* interp)
+{
+	PyEval_AcquireThread(interp);
+	PyRun_SimpleString("_s_.setServer()\n_s_.stop()\n_s_.shutdown()");
+	PyRun_SimpleString("_s_.boot(newBuffer=False).start()");
+	PyEval_ReleaseThread(interp);
 }
 
 /*
@@ -182,20 +198,21 @@ inline void pyo_server_reboot(PyThreadState *interp) {
 **  sr : float, host sampling rate.
 **  bufsize : int, host buffer size.
 */
-inline void pyo_set_server_params(PyThreadState *interp, float sr, int bufsize) {
-    char msg[64];
-    PyEval_AcquireThread(interp);
-    PyRun_SimpleString("_s_.setServer()\n_s_.stop()\n_s_.shutdown()");
-    sprintf(msg, "_s_.setSamplingRate(%f)", sr);
-    PyRun_SimpleString(msg);
-    sprintf(msg, "_s_.setBufferSize(%d)", bufsize);
-    PyRun_SimpleString(msg);
-    PyRun_SimpleString("_s_.boot(newBuffer=False).start()");
-    PyEval_ReleaseThread(interp);
+inline void pyo_set_server_params(PyThreadState* interp, float sr, int bufsize)
+{
+	char msg[64];
+	PyEval_AcquireThread(interp);
+	PyRun_SimpleString("_s_.setServer()\n_s_.stop()\n_s_.shutdown()");
+	sprintf(msg, "_s_.setSamplingRate(%f)", sr);
+	PyRun_SimpleString(msg);
+	sprintf(msg, "_s_.setBufferSize(%d)", bufsize);
+	PyRun_SimpleString(msg);
+	PyRun_SimpleString("_s_.boot(newBuffer=False).start()");
+	PyEval_ReleaseThread(interp);
 }
 
 /*
-** Add a MIDI event in the pyo server processing chain. When used in 
+** Add a MIDI event in the pyo server processing chain. When used in
 ** an embedded framework, pyo can't open MIDI ports by itself. MIDI
 ** inputs must be handled by the host program and sent to pyo with
 ** the pyo_add_midi_event function.
@@ -206,12 +223,13 @@ inline void pyo_set_server_params(PyThreadState *interp, float sr, int bufsize) 
 **  data1 : int, first data byte.
 **  data2 : int, second data byte.
 */
-inline void pyo_add_midi_event(PyThreadState *interp, int status, int data1, int data2) {
-    char msg[64];
-    PyEval_AcquireThread(interp);
-    sprintf(msg, "_s_.addMidiEvent(%d, %d, %d)", status, data1, data2);
-    PyRun_SimpleString(msg);
-    PyEval_ReleaseThread(interp);
+inline void pyo_add_midi_event(PyThreadState* interp, int status, int data1, int data2)
+{
+	char msg[64];
+	PyEval_AcquireThread(interp);
+	sprintf(msg, "_s_.addMidiEvent(%d, %d, %d)", status, data1, data2);
+	PyRun_SimpleString(msg);
+	PyEval_ReleaseThread(interp);
 }
 
 /*
@@ -221,14 +239,15 @@ inline void pyo_add_midi_event(PyThreadState *interp, int status, int data1, int
 ** arguments:
 **  interp : pointer, pointer to the targeted Python thread state.
 */
-inline int pyo_is_server_started(PyThreadState *interp) {
-    PyEval_AcquireThread(interp);
-    PyRun_SimpleString("started = _s_.getIsStarted()");
-    PyObject* module = PyImport_AddModule("__main__");
-    PyObject* obj = PyObject_GetAttrString(module, "started");
-    int started = (int)PyInt_AsLong(obj);
-    PyEval_ReleaseThread(interp);
-    return started;
+inline int pyo_is_server_started(PyThreadState* interp)
+{
+	PyEval_AcquireThread(interp);
+	PyRun_SimpleString("started = _s_.getIsStarted()");
+	PyObject* module = PyImport_AddModule("__main__");
+	PyObject* obj = PyObject_GetAttrString(module, "started");
+	int started = (int)PyInt_AsLong(obj);
+	PyEval_ReleaseThread(interp);
+	return started;
 }
 
 /*
@@ -248,45 +267,63 @@ inline int pyo_is_server_started(PyThreadState *interp) {
 **            is already running in the pyo server. If 0, the server will be
 **            shutdown and reboot before executing the file.
 */
-inline int pyo_exec_file(PyThreadState *interp, const char *file, char *msg, int add) {
-    int err = 0;
-    PyEval_AcquireThread(interp);
-    sprintf(msg, "import os\n_ok_ = os.path.isfile('./%s')", file);
-    PyRun_SimpleString(msg);
-    sprintf(msg, "if not _ok_:\n    _ok_ = os.path.isfile('%s')", file);
-    PyRun_SimpleString(msg);
-	
-	PyObject* module = PyImport_AddModule("__main__");
-    PyObject* obj = PyObject_GetAttrString(module, "_ok_");
-	
-//	PyRun_SimpleString(
-//	"import sys\n"
-//	"class StdoutCatcher:\n"
-//	"\tdef __init__(self):\n"
-//	"\t\tself.data = ''\n"
-//	"\tdef write(self, stuff):\n"
-//	"\t\tself.data = self.data + stuff\n"
-//	"catcher = StdoutCatcher()\n"
-//	"sys.stdout = catcher");
+inline int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int add)
+{
+	int err = 0;
+	PyEval_AcquireThread(interp);
 
-	
-	
-	
-	int ok = (int)PyInt_AsLong(obj);
-    if (ok) {
-        sprintf(msg, "try:\n\texecfile('./%s')\nexcept BaseException, _e_:\n\tprint str(_e_);",
-                file);
-        if (!add) {
-            PyRun_SimpleString("_s_.setServer()\n_s_.stop()\n_s_.shutdown()");
-            PyRun_SimpleString("_s_.boot(newBuffer=False).start()");
-        }
-        PyRun_SimpleString(msg);
-		ax::Print("Last python file");
-    }
-    else
-        err = 1;
-    PyEval_ReleaseThread(interp);
-    return err;
+	//	sprintf(msg, "import os\n_ok_ = os.path.isfile('./%s')", file);
+	//
+	//    PyRun_SimpleString(msg);
+	//    sprintf(msg, "if not _ok_:\n    _ok_ = os.path.isfile('%s')", file);
+	//    PyRun_SimpleString(msg);
+
+	//	PyObject* module = PyImport_AddModule("__main__");
+	//    PyObject* obj = PyObject_GetAttrString(module, "_ok_");
+
+	try {
+
+		boost::python::object main_module = boost::python::import("__main__");
+		boost::python::object globals = main_module.attr("__dict__");
+
+		ax::python::InitWrapper();
+
+		//	std::shared_ptr<ax::python::Widgets> w(new ax::python::Widgets());
+		globals["widgets"] = boost::python::ptr(ax::python::Widgets::GetInstance().get());
+
+		boost::python::object ignored = boost::python::exec_file(file, globals);
+	}
+	catch (boost::python::error_already_set const&) {
+		ax::Print("Error");
+		PyErr_Print();
+	}
+
+	//	PyRun_SimpleString(
+	//	"import sys\n"
+	//	"class StdoutCatcher:\n"
+	//	"\tdef __init__(self):\n"
+	//	"\t\tself.data = ''\n"
+	//	"\tdef write(self, stuff):\n"
+	//	"\t\tself.data = self.data + stuff\n"
+	//	"catcher = StdoutCatcher()\n"
+	//	"sys.stdout = catcher");
+
+	//	int ok = (int)PyInt_AsLong(obj);
+	//    if (ok) {
+	//        sprintf(msg, "try:\n\texecfile('./%s')\nexcept BaseException, _e_:\n\tprint str(_e_);",
+	//                file);
+	//        if (!add) {
+	//            PyRun_SimpleString("_s_.setServer()\n_s_.stop()\n_s_.shutdown()");
+	//            PyRun_SimpleString("_s_.boot(newBuffer=False).start()");
+	//        }
+	//        PyRun_SimpleString(msg);
+	//		ax::Print("Last python file");
+	//    }
+	//    else
+	//        err = 1;
+
+	PyEval_ReleaseThread(interp);
+	return err;
 }
 
 /*
@@ -306,30 +343,31 @@ inline int pyo_exec_file(PyThreadState *interp, const char *file, char *msg, int
 **              statement. If 0, there will be no error checking, which is
 **              much faster.
 */
-inline int pyo_exec_statement(PyThreadState *interp, char *msg, int debug) {
-    int err = 0;
-    if (debug) {
-        PyObject *module, *obj;
-        char pp[26] = "_error_=None\ntry:\n    ";
-        memmove(msg + strlen(pp), msg, strlen(msg)+1);
-        memmove(msg, pp, strlen(pp));
-        strcat(msg, "\nexcept Exception, _e_:\n    _error_=str(_e_)");
-        PyEval_AcquireThread(interp);
-        PyRun_SimpleString(msg);
-        module = PyImport_AddModule("__main__");
-        obj = PyObject_GetAttrString(module, "_error_");
-        if (obj != Py_None) {
-            strcpy(msg, PyString_AsString(obj));
-            err = 1;
-        }
-        PyEval_ReleaseThread(interp);
-    }
-    else {
-        PyEval_AcquireThread(interp);
-        PyRun_SimpleString(msg);
-        PyEval_ReleaseThread(interp);
-    }
-    return err;
+inline int pyo_exec_statement(PyThreadState* interp, char* msg, int debug)
+{
+	int err = 0;
+	if (debug) {
+		PyObject *module, *obj;
+		char pp[26] = "_error_=None\ntry:\n    ";
+		memmove(msg + strlen(pp), msg, strlen(msg) + 1);
+		memmove(msg, pp, strlen(pp));
+		strcat(msg, "\nexcept Exception, _e_:\n    _error_=str(_e_)");
+		PyEval_AcquireThread(interp);
+		PyRun_SimpleString(msg);
+		module = PyImport_AddModule("__main__");
+		obj = PyObject_GetAttrString(module, "_error_");
+		if (obj != Py_None) {
+			strcpy(msg, PyString_AsString(obj));
+			err = 1;
+		}
+		PyEval_ReleaseThread(interp);
+	}
+	else {
+		PyEval_AcquireThread(interp);
+		PyRun_SimpleString(msg);
+		PyEval_ReleaseThread(interp);
+	}
+	return err;
 }
 
 #if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus)

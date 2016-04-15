@@ -29,7 +29,6 @@
 
 namespace at {
 namespace editor {
-
 	class MainWindow;
 
 	class App {

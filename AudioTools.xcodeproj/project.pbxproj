@@ -20,6 +20,9 @@
 		7C7476841CA76956009CBE23 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476831CA76956009CBE23 /* AudioToolbox.framework */; };
 		7C7476881CA76A0C009CBE23 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476871CA76A0C009CBE23 /* libz.dylib */; };
 		7C74768A1CA76A34009CBE23 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476891CA76A34009CBE23 /* libbz2.dylib */; };
+		7C7B74681CC08778006EF72E /* PythonWrapperUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74641CC08778006EF72E /* PythonWrapperUtils.cpp */; };
+		7C7B74691CC08778006EF72E /* PythonWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74661CC08778006EF72E /* PythonWrapper.cpp */; };
+		7C7B746B1CC087C3006EF72E /* libboost_python.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7B746A1CC087C3006EF72E /* libboost_python.a */; };
 		7C9219371CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219351CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp */; };
 		7C92193A1CB8314900AB6AF6 /* atMenuPointAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */; };
 		7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */; };
@@ -78,6 +81,11 @@
 		7C7476831CA76956009CBE23 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7C7476871CA76A0C009CBE23 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = ../../../../usr/lib/libz.dylib; sourceTree = "<group>"; };
 		7C7476891CA76A34009CBE23 /* libbz2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.dylib; path = ../../../../usr/lib/libbz2.dylib; sourceTree = "<group>"; };
+		7C7B74641CC08778006EF72E /* PythonWrapperUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonWrapperUtils.cpp; sourceTree = "<group>"; };
+		7C7B74651CC08778006EF72E /* PythonWrapperUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonWrapperUtils.h; sourceTree = "<group>"; };
+		7C7B74661CC08778006EF72E /* PythonWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PythonWrapper.cpp; sourceTree = "<group>"; };
+		7C7B74671CC08778006EF72E /* PythonWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonWrapper.h; sourceTree = "<group>"; };
+		7C7B746A1CC087C3006EF72E /* libboost_python.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_python.a; path = ../../../../usr/local/lib/libboost_python.a; sourceTree = "<group>"; };
 		7C9219351CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuIntegerAttribute.cpp; sourceTree = "<group>"; };
 		7C9219361CB8091000AB6AF6 /* atMenuIntegerAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuIntegerAttribute.hpp; sourceTree = "<group>"; };
 		7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuPointAttribute.cpp; sourceTree = "<group>"; };
@@ -146,6 +154,7 @@
 				7C7476841CA76956009CBE23 /* AudioToolbox.framework in Frameworks */,
 				7C7476821CA7680A009CBE23 /* CoreFoundation.framework in Frameworks */,
 				7C7476801CA767FF009CBE23 /* CoreServices.framework in Frameworks */,
+				7C7B746B1CC087C3006EF72E /* libboost_python.a in Frameworks */,
 				7C74767E1CA7677E009CBE23 /* Carbon.framework in Frameworks */,
 				7C74768A1CA76A34009CBE23 /* libbz2.dylib in Frameworks */,
 				7C74767C1CA76766009CBE23 /* AudioUnit.framework in Frameworks */,
@@ -309,6 +318,7 @@
 				7CF1D8491C9208A500AAAC01 /* Cocoa.framework */,
 				7C7476871CA76A0C009CBE23 /* libz.dylib */,
 				7C7476891CA76A34009CBE23 /* libbz2.dylib */,
+				7C7B746A1CC087C3006EF72E /* libboost_python.a */,
 				7C74766D1CA76288009CBE23 /* libaxAudio.a */,
 				7C74766E1CA76288009CBE23 /* libaxMidi.a */,
 				7C74766F1CA76288009CBE23 /* libfreetype.a */,
@@ -343,6 +353,10 @@
 				7CF1D8AC1C921DF800AAAC01 /* main.cpp */,
 				7CF1D83E1C9207F400AAAC01 /* MainMenu.xib */,
 				7CF1D86F1C921DC100AAAC01 /* source */,
+				7C7B74641CC08778006EF72E /* PythonWrapperUtils.cpp */,
+				7C7B74651CC08778006EF72E /* PythonWrapperUtils.h */,
+				7C7B74661CC08778006EF72E /* PythonWrapper.cpp */,
+				7C7B74671CC08778006EF72E /* PythonWrapper.h */,
 			);
 			path = AudioTools;
 			sourceTree = "<group>";
@@ -460,10 +474,12 @@
 				7CF1D8B61C921DF800AAAC01 /* Pyo.cpp in Sources */,
 				7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */,
 				7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */,
+				7C7B74691CC08778006EF72E /* PythonWrapper.cpp in Sources */,
 				7CF1D8991C921DDF00AAAC01 /* atEditorGridWindow.cpp in Sources */,
 				7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */,
 				7CF1D8AB1C921DDF00AAAC01 /* TextEditorLogic.cpp in Sources */,
 				7CF1D8B41C921DF800AAAC01 /* main.cpp in Sources */,
+				7C7B74681CC08778006EF72E /* PythonWrapperUtils.cpp in Sources */,
 				7CF1D8A11C921DDF00AAAC01 /* CodeEditor.cpp in Sources */,
 				7C2138D41C9B252C0050F676 /* atVolumeMeter.cpp in Sources */,
 				7CF1D89C1C921DDF00AAAC01 /* atEditorMainWindow.cpp in Sources */,
@@ -519,6 +535,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"PYTHON_INCLUDE=/usr/include/python2.7/",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -527,10 +544,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					/System/Library/Frameworks/Python.framework/Headers/,
 					/usr/local/include/freetype2/,
 					/usr/local/include/,
 				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -571,10 +588,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					/System/Library/Frameworks/Python.framework/Headers/,
 					/usr/local/include/freetype2/,
 					/usr/local/include/,
 				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
@@ -590,6 +607,7 @@
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/freetype2/,
 					/usr/local/include/,
+					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7,
 				);
 				INFOPLIST_FILE = AudioTools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -618,6 +636,7 @@
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/freetype2/,
 					/usr/local/include/,
+					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7,
 				);
 				INFOPLIST_FILE = AudioTools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
