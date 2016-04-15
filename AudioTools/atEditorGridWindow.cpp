@@ -183,6 +183,34 @@ namespace editor {
 		win->Update();
 	}
 	
+	ax::Window* GetWidgetByNameRecursive(ax::Window* window, const std::string& name)
+	{
+		if(window == nullptr) {
+			return nullptr;
+		}
+		
+		if (window->component.Has("unique_name")) {
+			at::UniqueNameComponent::Ptr comp = window->component.Get<at::UniqueNameComponent>("unique_name");
+			
+			if(name == comp->GetName()) {
+				return comp->GetWindow();
+			}
+		}
+		
+		if (window->property.HasProperty("AcceptWidget")) {
+			std::vector<ax::Window::Ptr>& children = window->node.GetChildren();
+			
+			for (auto& n : children) {
+				ax::Window* tmp = GetWidgetByNameRecursive(n.get(), name);
+				if(tmp != nullptr) {
+					return tmp;
+				}
+			}
+		}
+		
+		return nullptr;
+	}
+	
 	ax::Window* GridWindow::GetWidgetByName(const std::string& name)
 	{
 		auto& children = win->node.GetChildren();
@@ -191,7 +219,15 @@ namespace editor {
 			return nullptr;
 		}
 		
-		return children[0].get();
+		for(auto& n : children) {
+			ax::Window* tmp = GetWidgetByNameRecursive(n.get(), name);
+			
+			if(tmp != nullptr) {
+				return tmp;
+			}
+		}
+		
+		return nullptr;
 	}
 
 	void GridWindow::OnBackSpaceDown(const char& c)
