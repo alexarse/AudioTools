@@ -216,11 +216,10 @@ void TextEditor::OnResize(const ax::Size& size)
 void TextEditor::OnScroll(const ax::ScrollBar::Msg& msg)
 {
 	int diff = (int)_logic.GetFileData().size() - _n_line_shown;
+	diff = ax::Utils::Clamp<int>(diff, 0, (int)_logic.GetFileData().size());
 
 	double scroll_ratio = _scrollBar->GetZeroToOneValue();
-	//	ax::Print("OnScroollll new index = ", _file_start_index, diff);
 	_file_start_index = scroll_ratio * diff;
-	//	ax::Print("OnScroollll new index = ", _file_start_index, diff, scroll_ratio);
 	_scrollPanel->Update();
 }
 
@@ -324,6 +323,7 @@ void TextEditor::OnScrollWheel(const ax::Point& delta)
 {
 	ax::Size size = _scrollPanel->dimension.GetShownRect().size;
 	double scroll_value = (2.0 * delta.y) / double(size.y) + _scrollBar->GetZeroToOneValue();
+	scroll_value = ax::Utils::Clamp(scroll_value, 0.0, 1.0);
 	_scrollBar->SetZeroToOneValue(scroll_value);
 }
 
@@ -342,7 +342,6 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 		//		ax::Print("actualine : ", actual_line_index);
 
 		// Find x cursor position.
-
 		const std::string& text = data[line_index];
 
 		std::vector<int> next_vec;
@@ -385,9 +384,6 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 				_logic.SetCursorPosition(ax::Point(cursor_index_x, actual_line_index));
 				_scrollPanel->Update();
 			}
-			//			else {
-			//				_logic.SetCursorPosition(ax::Point(text.size(), actual_line_index));
-			//			}
 		}
 		// No or one char in line.
 		else {
@@ -507,9 +503,7 @@ void TextEditor::OnPaint(ax::GC gc)
 	const ax::StringVector& data = _logic.GetFileData();
 
 	// For all shown line in text.
-	//	ax::Print("File start index = ", _file_start_index);
 	for (int i = 0, k = _file_start_index; k < data.size() && i < _n_line_shown; i++, k++) {
-
 		// Line.
 		const std::string& text = data[k];
 		std::vector<int> next_vec(text.size() + 1);
@@ -523,13 +517,50 @@ void TextEditor::OnPaint(ax::GC gc)
 			// Set text color.
 			gc.SetColor(_info.text_color);
 
+			bool line_comment = false;
+			bool string_literal = false;
+			bool last_char_str_literal = false;
+
 			// For all char in line.
 			for (int i = 0; i < text.size(); i++) {
-				if (text[i] == '=') {
-					gc.SetColor(ax::Color(222, 69, 199));
+
+				if (text[i] == '#') {
+					line_comment = true;
+				}
+				else if (text[i] == '\"') {
+					string_literal = !string_literal;
+					last_char_str_literal = true;
+				}
+
+				if (!line_comment) {
+					if (string_literal || last_char_str_literal) {
+						gc.SetColor(ax::Color(180, 10, 10));
+					}
+					else {
+						if (text[i] == '=') {
+							gc.SetColor(ax::Color(222, 69, 199));
+						}
+						else if (text[i] == ':') {
+							gc.SetColor(ax::Color(0, 0, 255));
+						}
+						else if (text[i] == ';') {
+							gc.SetColor(ax::Color(0, 0, 255));
+						}
+						else if (text[i] == '(' || text[i] == ')') {
+							gc.SetColor(ax::Color(222, 69, 199));
+						}
+						else if (text[i] == '.') {
+							gc.SetColor(ax::Color(0, 0, 255));
+						}
+						else {
+							gc.SetColor(_info.text_color);
+						}
+					}
+					
+					last_char_str_literal = false;
 				}
 				else {
-					gc.SetColor(_info.text_color);
+					gc.SetColor(ax::Color(0.6));
 				}
 
 				x = gc.DrawChar(_font, text[i], ax::Point(x, line_pos.y)).x;

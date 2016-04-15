@@ -282,13 +282,11 @@ inline int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int
 	//    PyObject* obj = PyObject_GetAttrString(module, "_ok_");
 
 	try {
-
 		boost::python::object main_module = boost::python::import("__main__");
 		boost::python::object globals = main_module.attr("__dict__");
 
 		ax::python::InitWrapper();
 
-		//	std::shared_ptr<ax::python::Widgets> w(new ax::python::Widgets());
 		globals["widgets"] = boost::python::ptr(ax::python::Widgets::GetInstance().get());
 
 		boost::python::object ignored = boost::python::exec_file(file, globals);
@@ -346,27 +344,39 @@ inline int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int
 inline int pyo_exec_statement(PyThreadState* interp, char* msg, int debug)
 {
 	int err = 0;
-	if (debug) {
-		PyObject *module, *obj;
-		char pp[26] = "_error_=None\ntry:\n    ";
-		memmove(msg + strlen(pp), msg, strlen(msg) + 1);
-		memmove(msg, pp, strlen(pp));
-		strcat(msg, "\nexcept Exception, _e_:\n    _error_=str(_e_)");
-		PyEval_AcquireThread(interp);
-		PyRun_SimpleString(msg);
-		module = PyImport_AddModule("__main__");
-		obj = PyObject_GetAttrString(module, "_error_");
-		if (obj != Py_None) {
-			strcpy(msg, PyString_AsString(obj));
-			err = 1;
-		}
-		PyEval_ReleaseThread(interp);
+	//	if (debug) {
+	//		PyObject *module, *obj;
+	//		char pp[26] = "_error_=None\ntry:\n    ";
+	//		memmove(msg + strlen(pp), msg, strlen(msg) + 1);
+	//		memmove(msg, pp, strlen(pp));
+	//		strcat(msg, "\nexcept Exception, _e_:\n    _error_=str(_e_)");
+	//		PyEval_AcquireThread(interp);
+	//		PyRun_SimpleString(msg);
+	//		module = PyImport_AddModule("__main__");
+	//		obj = PyObject_GetAttrString(module, "_error_");
+	//		if (obj != Py_None) {
+	//			strcpy(msg, PyString_AsString(obj));
+	//			err = 1;
+	//		}
+	//		PyEval_ReleaseThread(interp);
+	//	}
+	//	else {
+	
+	PyEval_AcquireThread(interp);
+	//		PyRun_SimpleString(msg);
+	try {
+		boost::python::object main_module = boost::python::import("__main__");
+		boost::python::object globals = main_module.attr("__dict__");
+
+		globals["widgets"] = boost::python::ptr(ax::python::Widgets::GetInstance().get());
+		boost::python::object ignored = boost::python::exec(msg, globals);
 	}
-	else {
-		PyEval_AcquireThread(interp);
-		PyRun_SimpleString(msg);
-		PyEval_ReleaseThread(interp);
+	catch (boost::python::error_already_set const&) {
+		ax::Print("Error");
+		PyErr_Print();
 	}
+	PyEval_ReleaseThread(interp);
+	//	}
 	return err;
 }
 

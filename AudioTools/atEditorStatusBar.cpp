@@ -2,7 +2,7 @@
  * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
- * without prior written agreement by AutioTools.
+ * without prior written agreement by AudioTools.
  *
  * Neither the name of the AudioTools nor the names of its
  * contributors may be used to endorse or promote products derived from this
@@ -176,19 +176,21 @@ namespace editor {
 
 	void StatusBar::OnOpenLayout(const ax::Button::Msg& msg)
 	{
-		const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
-		ax::Point pos = rect.position;
-		pos.y += rect.size.y;
+		if (ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel() == nullptr) {
+			const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
+			ax::Point pos = rect.position;
+			pos.y += rect.size.y;
 
-		ax::Size size = ax::App::GetInstance().GetFrameSize();
+			ax::Size size = ax::App::GetInstance().GetFrameSize();
 
-		auto open_dialog = ax::shared<OpenDialog>(ax::Rect(pos, size));
+			auto open_dialog = ax::shared<OpenDialog>(ax::Rect(pos, size));
 
-		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-			ax::Window::Ptr(open_dialog->GetWindow()));
+			ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+				ax::Window::Ptr(open_dialog->GetWindow()));
 
-		open_dialog->GetWindow()->backbone = open_dialog;
-		open_dialog->GetWindow()->AddConnection(OpenDialog::OPEN, GetOnOpenDialog());
+			open_dialog->GetWindow()->backbone = open_dialog;
+			open_dialog->GetWindow()->AddConnection(OpenDialog::OPEN, GetOnOpenDialog());
+		}
 	}
 
 	void StatusBar::OnViewLayout(const ax::Button::Msg& msg)
@@ -205,19 +207,19 @@ namespace editor {
 
 	void StatusBar::OnSettings(const ax::Button::Msg& msg)
 	{
-		ax::Print("Setting");
-		const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
-		ax::Point pos(0, rect.position.y + rect.size.y);//rect.position;
+		if (ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel() == nullptr) {
+			const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
+			ax::Point pos(0, rect.position.y + rect.size.y);
 
-		ax::Size size = ax::App::GetInstance().GetFrameSize();
-		size.y -= rect.size.y;
+			ax::Size size = ax::App::GetInstance().GetFrameSize();
+			size.y -= rect.size.y;
 
-		auto pref_dialog = ax::shared<PreferenceDialog>(ax::Rect(pos, size));
-		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-			ax::Window::Ptr(pref_dialog->GetWindow()));
+			auto pref_dialog = ax::shared<PreferenceDialog>(ax::Rect(pos, size));
+			ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+				ax::Window::Ptr(pref_dialog->GetWindow()));
 
-		pref_dialog->GetWindow()->backbone = pref_dialog;
-//		open_dialog->GetWindow()->AddConnection(OpenDialog::OPEN, GetOnOpenDialog());
+			pref_dialog->GetWindow()->backbone = pref_dialog;
+		}
 	}
 
 	void StatusBar::OnToggleLeftPanel(const ax::Toggle::Msg& msg)

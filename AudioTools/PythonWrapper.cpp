@@ -35,7 +35,7 @@ namespace python {
 
 	boost::python::object Widgets::Get(const std::string& widget_name)
 	{
-		return boost::python::object(boost::python::ptr(_pt.get()).get());
+		return boost::python::object(boost::python::ptr(_pt.get()));
 	}
 }
 }

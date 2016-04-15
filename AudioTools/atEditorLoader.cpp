@@ -375,10 +375,10 @@ namespace editor {
 		auto m_leave = win->event.OnMouseLeave.GetFunction();
 		win->event.OnMouseLeave = ax::WFunc<ax::Point>([gwin, win, m_leave](const ax::Point& pos) {
 			
-			ax::Print("Mouse leave");
+//			ax::Print("Mouse leave");
 			
 			if (win->property.HasProperty("edit_click")) {
-				ax::Print("Mouse leave has -> edit click");
+//				ax::Print("Mouse leave has -> edit click");
 			}
 			else {
 				// Set normal cursor.
