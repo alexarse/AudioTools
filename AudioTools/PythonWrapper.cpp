@@ -2,11 +2,21 @@
 #include "atEditor.h"
 #include "atEditorMainWindow.h"
 #include "PanelPyWrapper.h"
+#include "ButtonPyWrapper.h"
+#include "WindowPyWrapper.h"
 
 BOOST_PYTHON_MODULE(ax)
 {
+	// Create ax::Window python wrapper.
+	ax::python::export_python_wrapper_window();
+	
 	ax::python::export_python_wrapper_utils();
+	
+	// Create ax::Panel python wrapper.
 	ax::python::export_python_wrapper_panel();
+	
+	// Create ax::Button python wrapper.
+	ax::python::export_python_wrapper_button();
 
 	boost::python::class_<ax::python::Widgets>("Widgets").def("Get", &ax::python::Widgets::Get);
 }
@@ -39,13 +49,16 @@ namespace python {
 		
 		widget::Component* widget = static_cast<widget::Component*>(win->component.Get("Widget").get());
 		
-		if(widget->GetBuilderName() == "Panel") {
+		const std::string builder_name(widget->GetBuilderName());
+		
+		if(builder_name == "Panel") {
 			ax::Panel* panel = static_cast<ax::Panel*>(win->backbone.get());
-			ax::python::Panel* py_panel = new ax::python::Panel(panel);
-			return boost::python::object(boost::python::ptr(py_panel));
+			return boost::python::object(ax::python::Panel(panel));
 		}
-//		ax::Panel::Info* info = static_cast<ax::Panel::Info*>(widget->GetInfo());
-
+		else if(builder_name == "Button") {
+			ax::Button* btn = static_cast<ax::Button*>(win->backbone.get());
+			return boost::python::object(ax::python::Button(btn));
+		}
 		
 	
 		return boost::python::object(boost::python::ptr(_pt.get()));

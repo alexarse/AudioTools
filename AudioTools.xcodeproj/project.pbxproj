@@ -25,6 +25,8 @@
 		7C7B746B1CC087C3006EF72E /* libboost_python.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7B746A1CC087C3006EF72E /* libboost_python.a */; };
 		7C7B746E1CC0B0B5006EF72E /* PanelPyWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B746C1CC0B0B5006EF72E /* PanelPyWrapper.cpp */; };
 		7C7B74711CC195CD006EF72E /* atUniqueNameComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B746F1CC195CD006EF72E /* atUniqueNameComponent.cpp */; };
+		7C7B74741CC1A0EA006EF72E /* ButtonPyWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74721CC1A0EA006EF72E /* ButtonPyWrapper.cpp */; };
+		7C7B74771CC1A5A5006EF72E /* WindowPyWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74751CC1A5A5006EF72E /* WindowPyWrapper.cpp */; };
 		7C9219371CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219351CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp */; };
 		7C92193A1CB8314900AB6AF6 /* atMenuPointAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */; };
 		7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */; };
@@ -92,6 +94,10 @@
 		7C7B746D1CC0B0B5006EF72E /* PanelPyWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanelPyWrapper.h; sourceTree = "<group>"; };
 		7C7B746F1CC195CD006EF72E /* atUniqueNameComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atUniqueNameComponent.cpp; sourceTree = "<group>"; };
 		7C7B74701CC195CD006EF72E /* atUniqueNameComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atUniqueNameComponent.h; sourceTree = "<group>"; };
+		7C7B74721CC1A0EA006EF72E /* ButtonPyWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonPyWrapper.cpp; sourceTree = "<group>"; };
+		7C7B74731CC1A0EA006EF72E /* ButtonPyWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonPyWrapper.h; sourceTree = "<group>"; };
+		7C7B74751CC1A5A5006EF72E /* WindowPyWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowPyWrapper.cpp; sourceTree = "<group>"; };
+		7C7B74761CC1A5A5006EF72E /* WindowPyWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowPyWrapper.h; sourceTree = "<group>"; };
 		7C9219351CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuIntegerAttribute.cpp; sourceTree = "<group>"; };
 		7C9219361CB8091000AB6AF6 /* atMenuIntegerAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuIntegerAttribute.hpp; sourceTree = "<group>"; };
 		7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuPointAttribute.cpp; sourceTree = "<group>"; };
@@ -367,6 +373,10 @@
 				7C7B74671CC08778006EF72E /* PythonWrapper.h */,
 				7C7B746C1CC0B0B5006EF72E /* PanelPyWrapper.cpp */,
 				7C7B746D1CC0B0B5006EF72E /* PanelPyWrapper.h */,
+				7C7B74721CC1A0EA006EF72E /* ButtonPyWrapper.cpp */,
+				7C7B74731CC1A0EA006EF72E /* ButtonPyWrapper.h */,
+				7C7B74751CC1A5A5006EF72E /* WindowPyWrapper.cpp */,
+				7C7B74761CC1A5A5006EF72E /* WindowPyWrapper.h */,
 			);
 			path = AudioTools;
 			sourceTree = "<group>";
@@ -490,6 +500,7 @@
 				7CF1D8AB1C921DDF00AAAC01 /* TextEditorLogic.cpp in Sources */,
 				7CF1D8B41C921DF800AAAC01 /* main.cpp in Sources */,
 				7C7B74681CC08778006EF72E /* PythonWrapperUtils.cpp in Sources */,
+				7C7B74771CC1A5A5006EF72E /* WindowPyWrapper.cpp in Sources */,
 				7CF1D8A11C921DDF00AAAC01 /* CodeEditor.cpp in Sources */,
 				7C2138D41C9B252C0050F676 /* atVolumeMeter.cpp in Sources */,
 				7CF1D89C1C921DDF00AAAC01 /* atEditorMainWindow.cpp in Sources */,
@@ -503,6 +514,7 @@
 				7CF1D8A81C921DDF00AAAC01 /* mdiSaveDialog.cpp in Sources */,
 				7C92193A1CB8314900AB6AF6 /* atMenuPointAttribute.cpp in Sources */,
 				7CF1D89A1C921DDF00AAAC01 /* axEditorInspectorMenu.cpp in Sources */,
+				7C7B74741CC1A0EA006EF72E /* ButtonPyWrapper.cpp in Sources */,
 				7C7B74711CC195CD006EF72E /* atUniqueNameComponent.cpp in Sources */,
 				7CF1D8B51C921DF800AAAC01 /* PyoAudio.cpp in Sources */,
 				7C5AD9541CBEBE4B002D8E57 /* DropMenuBox.cpp in Sources */,
