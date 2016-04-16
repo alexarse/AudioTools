@@ -34,11 +34,18 @@ Console::Console(const ax::Rect& rect)
 	win->event.OnResize = ax::WBind<ax::Size>(this, &Console::OnResize);
 
 	at::ConsoleStream::GetInstance()->AddConnection(at::ConsoleStream::WRITE_NEW_LINE, GetOnConsoleUpdate());
+	at::ConsoleStream::GetInstance()->AddConnection(at::ConsoleStream::WRITE_ERROR, GetOnConsoleErrorUpdate());
 	at::ConsoleStream::GetInstance()->Write("Console init.");
 }
 
 void Console::OnConsoleUpdate(const ax::Event::SimpleMsg<int>& msg)
 {
+	win->Update();
+}
+
+void Console::OnConsoleErrorUpdate(const ax::Event::SimpleMsg<int>& msg)
+{
+	win->PushEvent(WRITE_ERROR, new ax::Event::SimpleMsg<int>(msg));
 	win->Update();
 }
 

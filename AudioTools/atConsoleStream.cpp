@@ -23,4 +23,9 @@ void ConsoleStream::Write()
 	PushEvent(WRITE_NEW_LINE, new ax::Event::SimpleMsg<int>(0));
 }
 
+void ConsoleStream::Error()
+{
+	_stream << std::endl;
+	PushEvent(WRITE_ERROR, new ax::Event::SimpleMsg<int>(0));
+}
 }

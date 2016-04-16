@@ -67,6 +67,8 @@ namespace editor {
 		
 		axEVENT_DECLARATION(ax::Button::Msg, OnTextEditor);
 		axEVENT_DECLARATION(ax::Button::Msg, OnConsole);
+		
+		axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnConsoleErrorUpdate);
 	
 		void OnMouseLeftDoubleClick(const ax::Point& pos);
 		void OnMouseLeave(const ax::Point& pos);

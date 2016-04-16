@@ -40,12 +40,15 @@ class Console : public ax::Window::Backbone {
 public:
 	Console(const ax::Rect& rect);
 	
+	enum Events : ax::Event::Id { WRITE_ERROR };
+	
 private:
 //	std::stringstream _buffer;
 	ax::Font _font;
 //	char _buf[100000];
 	
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnConsoleUpdate);
+	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnConsoleErrorUpdate);
 	void OnResize(const ax::Size& size);
 	void OnPaint(ax::GC gc);
 };

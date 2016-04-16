@@ -60,6 +60,8 @@ namespace editor {
 		_console = console.get();
 		win->node.Add(console);
 		_console->GetWindow()->Hide();
+		
+		_console->GetWindow()->AddConnection(Console::WRITE_ERROR, GetOnConsoleErrorUpdate());
 
 		// @todo Change this.
 		_txt_editor->OpenFile("scripts/default.py");
@@ -120,6 +122,17 @@ namespace editor {
 		_console->GetWindow()->Show();
 		_txt_editor->GetWindow()->Hide();
 
+		if (_is_txt_edit) {
+			_is_txt_edit = false;
+			win->Update();
+		}
+	}
+	
+	void BottomSection::OnConsoleErrorUpdate(const ax::Event::SimpleMsg<int>& msg)
+	{
+		_console->GetWindow()->Show();
+		_txt_editor->GetWindow()->Hide();
+		
 		if (_is_txt_edit) {
 			_is_txt_edit = false;
 			win->Update();

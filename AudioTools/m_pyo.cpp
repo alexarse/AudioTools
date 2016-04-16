@@ -15,11 +15,13 @@ std::string handle_pyerror()
 	using namespace boost;
 
 	PyObject *exc, *val, *tb;
-	object formatted_list, formatted;
+
 	PyErr_Fetch(&exc, &val, &tb);
+	
 	handle<> hexc(exc), hval(allow_null(val)), htb(allow_null(tb));
 	
-	object traceback(import("traceback"));
+	boost::python::object traceback(import("traceback"));
+	boost::python::object formatted_list, formatted;
 	
 	if (!tb) {
 		object format_exception_only(traceback.attr("format_exception_only"));
@@ -58,7 +60,7 @@ int pyo_exec_statement(PyThreadState* interp, char* msg, int debug)
 		PyErr_Clear();
 		
 		if(!msg.empty()) {
-			at::ConsoleStream::GetInstance()->Write(msg);
+			at::ConsoleStream::GetInstance()->Error(msg);
 		}
 	}
 	

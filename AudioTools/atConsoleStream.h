@@ -14,7 +14,7 @@
 namespace at {
 class ConsoleStream : public ax::Event::Object {
 public:
-	enum Events : ax::Event::Id { WRITE_NEW_LINE };
+	enum Events : ax::Event::Id { WRITE_NEW_LINE, WRITE_ERROR };
 
 	static inline ConsoleStream* GetInstance()
 	{
@@ -32,6 +32,16 @@ public:
 		_stream << t << ' ';
 		{
 			Write(p...);
+		}
+	}
+	
+	void Error();
+	
+	template <typename T, typename... P> void Error(T t, P... p)
+	{
+		_stream << t << ' ';
+		{
+			Error(p...);
 		}
 	}
 	
