@@ -27,6 +27,8 @@
 		7C7B74711CC195CD006EF72E /* atUniqueNameComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B746F1CC195CD006EF72E /* atUniqueNameComponent.cpp */; };
 		7C7B74741CC1A0EA006EF72E /* ButtonPyWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74721CC1A0EA006EF72E /* ButtonPyWrapper.cpp */; };
 		7C7B74771CC1A5A5006EF72E /* WindowPyWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74751CC1A5A5006EF72E /* WindowPyWrapper.cpp */; };
+		7C7B747A1CC1A890006EF72E /* atConsoleStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74781CC1A890006EF72E /* atConsoleStream.cpp */; };
+		7C7B747C1CC1B9EE006EF72E /* m_pyo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B747B1CC1B9EE006EF72E /* m_pyo.cpp */; };
 		7C9219371CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219351CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp */; };
 		7C92193A1CB8314900AB6AF6 /* atMenuPointAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */; };
 		7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */; };
@@ -98,6 +100,9 @@
 		7C7B74731CC1A0EA006EF72E /* ButtonPyWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonPyWrapper.h; sourceTree = "<group>"; };
 		7C7B74751CC1A5A5006EF72E /* WindowPyWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowPyWrapper.cpp; sourceTree = "<group>"; };
 		7C7B74761CC1A5A5006EF72E /* WindowPyWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowPyWrapper.h; sourceTree = "<group>"; };
+		7C7B74781CC1A890006EF72E /* atConsoleStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atConsoleStream.cpp; sourceTree = "<group>"; };
+		7C7B74791CC1A890006EF72E /* atConsoleStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atConsoleStream.h; sourceTree = "<group>"; };
+		7C7B747B1CC1B9EE006EF72E /* m_pyo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = m_pyo.cpp; sourceTree = "<group>"; };
 		7C9219351CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuIntegerAttribute.cpp; sourceTree = "<group>"; };
 		7C9219361CB8091000AB6AF6 /* atMenuIntegerAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuIntegerAttribute.hpp; sourceTree = "<group>"; };
 		7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuPointAttribute.cpp; sourceTree = "<group>"; };
@@ -377,6 +382,8 @@
 				7C7B74731CC1A0EA006EF72E /* ButtonPyWrapper.h */,
 				7C7B74751CC1A5A5006EF72E /* WindowPyWrapper.cpp */,
 				7C7B74761CC1A5A5006EF72E /* WindowPyWrapper.h */,
+				7C7B74781CC1A890006EF72E /* atConsoleStream.cpp */,
+				7C7B74791CC1A890006EF72E /* atConsoleStream.h */,
 			);
 			path = AudioTools;
 			sourceTree = "<group>";
@@ -412,6 +419,7 @@
 				7CF1D8AD1C921DF800AAAC01 /* PyoAudio.cpp */,
 				7CF1D8AE1C921DF800AAAC01 /* PyoAudio.h */,
 				7CF1D8AF1C921DF800AAAC01 /* m_pyo.h */,
+				7C7B747B1CC1B9EE006EF72E /* m_pyo.cpp */,
 				7CF1D8B01C921DF800AAAC01 /* Pyo.cpp */,
 				7CF1D8B11C921DF800AAAC01 /* Pyo.h */,
 				7CF1D8B21C921DF800AAAC01 /* PyoComponent.cpp */,
@@ -497,6 +505,7 @@
 				7C7B74691CC08778006EF72E /* PythonWrapper.cpp in Sources */,
 				7CF1D8991C921DDF00AAAC01 /* atEditorGridWindow.cpp in Sources */,
 				7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */,
+				7C7B747A1CC1A890006EF72E /* atConsoleStream.cpp in Sources */,
 				7CF1D8AB1C921DDF00AAAC01 /* TextEditorLogic.cpp in Sources */,
 				7CF1D8B41C921DF800AAAC01 /* main.cpp in Sources */,
 				7C7B74681CC08778006EF72E /* PythonWrapperUtils.cpp in Sources */,
@@ -517,6 +526,7 @@
 				7C7B74741CC1A0EA006EF72E /* ButtonPyWrapper.cpp in Sources */,
 				7C7B74711CC195CD006EF72E /* atUniqueNameComponent.cpp in Sources */,
 				7CF1D8B51C921DF800AAAC01 /* PyoAudio.cpp in Sources */,
+				7C7B747C1CC1B9EE006EF72E /* m_pyo.cpp in Sources */,
 				7C5AD9541CBEBE4B002D8E57 /* DropMenuBox.cpp in Sources */,
 				7C5AD94E1CBDDE1A002D8E57 /* atPreferenceDialog.cpp in Sources */,
 				7CF1D8971C921DDF00AAAC01 /* atEditor.cpp in Sources */,

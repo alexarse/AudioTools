@@ -5,9 +5,7 @@
 
 #ifndef __m_pyo_h_
 
-#if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus)
-extern "C" {
-#endif
+std::string handle_pyerror();
 
 /*
 ** Creates a new python interpreter and starts a pyo server in it.
@@ -324,6 +322,27 @@ inline int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int
 	return err;
 }
 
+//	std::string handle_pyerror()
+//	{
+//		using namespace boost::python;
+//		using namespace boost;
+//		
+//		PyObject *exc,*val,*tb;
+//		object formatted_list, formatted;
+//		PyErr_Fetch(&exc,&val,&tb);
+//		handle<> hexc(exc),hval(allow_null(val)),htb(allow_null(tb));
+//		object traceback(import("traceback"));
+//		if (!tb) {
+//			object format_exception_only(traceback.attr("format_exception_only"));
+//			formatted_list = format_exception_only(hexc,hval);
+//		} else {
+//			object format_exception(traceback.attr("format_exception"));
+//			formatted_list = format_exception(hexc,hval,htb);
+//		}
+//		formatted = str("\n").join(formatted_list);
+//		return extract<std::string>(formatted);
+//	}
+
 /*
 ** Execute a python statement "msg" in the thread's interpreter "interp".
 ** If "debug" is true, the statement will be executed in a try - except
@@ -341,48 +360,7 @@ inline int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int
 **              statement. If 0, there will be no error checking, which is
 **              much faster.
 */
-inline int pyo_exec_statement(PyThreadState* interp, char* msg, int debug)
-{
-	int err = 0;
-	//	if (debug) {
-	//		PyObject *module, *obj;
-	//		char pp[26] = "_error_=None\ntry:\n    ";
-	//		memmove(msg + strlen(pp), msg, strlen(msg) + 1);
-	//		memmove(msg, pp, strlen(pp));
-	//		strcat(msg, "\nexcept Exception, _e_:\n    _error_=str(_e_)");
-	//		PyEval_AcquireThread(interp);
-	//		PyRun_SimpleString(msg);
-	//		module = PyImport_AddModule("__main__");
-	//		obj = PyObject_GetAttrString(module, "_error_");
-	//		if (obj != Py_None) {
-	//			strcpy(msg, PyString_AsString(obj));
-	//			err = 1;
-	//		}
-	//		PyEval_ReleaseThread(interp);
-	//	}
-	//	else {
-	
-	PyEval_AcquireThread(interp);
-	//		PyRun_SimpleString(msg);
-	try {
-		boost::python::object main_module = boost::python::import("__main__");
-		boost::python::object globals = main_module.attr("__dict__");
-
-		globals["widgets"] = boost::python::ptr(ax::python::Widgets::GetInstance().get());
-		boost::python::object ignored = boost::python::exec(msg, globals);
-	}
-	catch (boost::python::error_already_set const&) {
-		ax::Print("Error");
-		PyErr_Print();
-	}
-	PyEval_ReleaseThread(interp);
-	//	}
-	return err;
-}
-
-#if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus)
-}
-#endif
+int pyo_exec_statement(PyThreadState* interp, char* msg, int debug);
 
 #define __m_pyo_h_
 #endif /* __m_pyo_h_  */

@@ -41,10 +41,11 @@ public:
 	Console(const ax::Rect& rect);
 	
 private:
-	std::stringstream _buffer;
+//	std::stringstream _buffer;
 	ax::Font _font;
-	char _buf[100000];
+//	char _buf[100000];
 	
+	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnConsoleUpdate);
 	void OnResize(const ax::Size& size);
 	void OnPaint(ax::GC gc);
 };

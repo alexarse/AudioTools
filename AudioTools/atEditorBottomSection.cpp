@@ -128,7 +128,7 @@ namespace editor {
 	
 	void BottomSection::OnMouseLeftDoubleClick(const ax::Point& pos)
 	{
-		ax::Print("Double click bottom menu");
+//		ax::Print("Double click bottom menu");
 		
 		ax::Rect rect(win->dimension.GetRect());
 		
@@ -181,7 +181,7 @@ namespace editor {
 			_delta_resize_click = pos;
 			_resize_click_old_rect = win->dimension.GetRect();
 			win->event.GrabMouse();
-			ax::Print("Resize editor.");
+//			ax::Print("Resize editor.");
 		}
 	}
 
@@ -189,7 +189,7 @@ namespace editor {
 	{
 		int delta_y = _delta_resize_click.y - pos.y;
 
-		ax::Print("Resize editor delta :", delta_y);
+//		ax::Print("Resize editor delta :", delta_y);
 
 		if (delta_y > 0) {
 			ax::Rect rect(win->dimension.GetRect());
@@ -197,7 +197,7 @@ namespace editor {
 			rect.size.y += delta_y;
 
 			if (rect.position.y < 30) {
-				ax::Print("Maximum height");
+//				ax::Print("Maximum height");
 				int delta_pos_y = 30 - rect.position.y;
 				rect.size.y -= delta_pos_y;
 				rect.position.y = 30;
@@ -211,7 +211,7 @@ namespace editor {
 			rect.size.y += delta_y;
 
 			if (rect.size.y < MINIMUM_HEIGHT) {
-				ax::Print("Minimum height");
+//				ax::Print("Minimum height");
 				int delta_pos_y = MINIMUM_HEIGHT - rect.size.y;
 				rect.size.y = MINIMUM_HEIGHT;
 				rect.position.y -= delta_pos_y;
@@ -241,7 +241,7 @@ namespace editor {
 				rect.size.y += delta_y;
 
 				if (rect.size.y < MINIMUM_HEIGHT) {
-					ax::Print("Minimum height");
+//					ax::Print("Minimum height");
 					int delta_pos_y = MINIMUM_HEIGHT - rect.size.y;
 					rect.size.y = MINIMUM_HEIGHT;
 					rect.position.y -= delta_pos_y;
