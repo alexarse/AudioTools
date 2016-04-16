@@ -37,6 +37,40 @@ std::string handle_pyerror()
 	return extract<std::string>(formatted);
 }
 
+int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int add)
+{
+	int err = 0;
+	PyEval_AcquireThread(interp);
+	
+	try {
+		boost::python::object main_module = boost::python::import("__main__");
+		boost::python::object globals = main_module.attr("__dict__");
+		
+		ax::python::InitWrapper();
+		
+		globals["widgets"] = boost::python::ptr(ax::python::Widgets::GetInstance().get());
+		
+		boost::python::object ignored = boost::python::exec_file(file, globals);
+	}
+	catch (boost::python::error_already_set const&) {
+		std::string msg;
+		
+		if (PyErr_Occurred()) {
+			msg = handle_pyerror();
+		}
+		
+		PyErr_Clear();
+		
+		if(!msg.empty()) {
+			at::ConsoleStream::GetInstance()->Error(msg);
+		}
+
+	}
+	
+	PyEval_ReleaseThread(interp);
+	return err;
+}
+
 int pyo_exec_statement(PyThreadState* interp, char* msg, int debug)
 {
 	int err = 0;

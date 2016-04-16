@@ -265,62 +265,7 @@ inline int pyo_is_server_started(PyThreadState* interp)
 **            is already running in the pyo server. If 0, the server will be
 **            shutdown and reboot before executing the file.
 */
-inline int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int add)
-{
-	int err = 0;
-	PyEval_AcquireThread(interp);
-
-	//	sprintf(msg, "import os\n_ok_ = os.path.isfile('./%s')", file);
-	//
-	//    PyRun_SimpleString(msg);
-	//    sprintf(msg, "if not _ok_:\n    _ok_ = os.path.isfile('%s')", file);
-	//    PyRun_SimpleString(msg);
-
-	//	PyObject* module = PyImport_AddModule("__main__");
-	//    PyObject* obj = PyObject_GetAttrString(module, "_ok_");
-
-	try {
-		boost::python::object main_module = boost::python::import("__main__");
-		boost::python::object globals = main_module.attr("__dict__");
-
-		ax::python::InitWrapper();
-
-		globals["widgets"] = boost::python::ptr(ax::python::Widgets::GetInstance().get());
-
-		boost::python::object ignored = boost::python::exec_file(file, globals);
-	}
-	catch (boost::python::error_already_set const&) {
-		ax::Print("Error");
-		PyErr_Print();
-	}
-
-	//	PyRun_SimpleString(
-	//	"import sys\n"
-	//	"class StdoutCatcher:\n"
-	//	"\tdef __init__(self):\n"
-	//	"\t\tself.data = ''\n"
-	//	"\tdef write(self, stuff):\n"
-	//	"\t\tself.data = self.data + stuff\n"
-	//	"catcher = StdoutCatcher()\n"
-	//	"sys.stdout = catcher");
-
-	//	int ok = (int)PyInt_AsLong(obj);
-	//    if (ok) {
-	//        sprintf(msg, "try:\n\texecfile('./%s')\nexcept BaseException, _e_:\n\tprint str(_e_);",
-	//                file);
-	//        if (!add) {
-	//            PyRun_SimpleString("_s_.setServer()\n_s_.stop()\n_s_.shutdown()");
-	//            PyRun_SimpleString("_s_.boot(newBuffer=False).start()");
-	//        }
-	//        PyRun_SimpleString(msg);
-	//		ax::Print("Last python file");
-	//    }
-	//    else
-	//        err = 1;
-
-	PyEval_ReleaseThread(interp);
-	return err;
-}
+int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int add);
 
 //	std::string handle_pyerror()
 //	{
