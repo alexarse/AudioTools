@@ -30,6 +30,7 @@
 
 #include "atSkin.hpp"
 #include "PyoAudio.h"
+#include "atMidi.h"
 
 namespace at {
 namespace editor {
@@ -66,13 +67,15 @@ namespace editor {
 		
 		_menu_boxes[AUDIO_OUT] = btn_out.get();
 
-
-		ax::StringVector midi_in_opts = {"Banane", "Patate"};
+		at::Midi* midi = at::Midi::GetInstance();
+		ax::StringVector midi_in_opts = midi->GetMidiInputList();
 		
 		// Midi input device.
 		auto btn_midi_in = ax::shared<ax::DropMenuBox>(
 			ax::Rect(ax::Point(_midi_label_rect.position.x + 95, _midi_label_rect.position.y + 30),
-				ax::Size(175, 25)), "None", midi_in_opts);
+				ax::Size(175, 25)), midi->GetCurrentPortName(), midi_in_opts);
+		
+		btn_midi_in->GetWindow()->AddConnection(ax::DropMenuBox::VALUE_CHANGE, GetOnMidiInputDevice());
 		win->node.Add(btn_midi_in);
 		_menu_boxes[MIDI_IN] = btn_midi_in.get();
 	}
@@ -91,6 +94,12 @@ namespace editor {
 	{
 		PyoAudio* audio = PyoAudio::GetInstance();
 		audio->SetCurrentOutputDevice(msg.GetMsg());
+	}
+	
+	void PreferencePanel::OnMidiInputDevice(const ax::DropMenuBox::Msg& msg)
+	{
+		at::Midi* midi = at::Midi::GetInstance();
+		midi->SetInputPort(msg.GetMsg());
 	}
 	
 	bool PreferencePanel::IsMouseInDropMenu()
