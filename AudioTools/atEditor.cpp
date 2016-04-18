@@ -33,33 +33,35 @@
 #include <unistd.h>
 
 #include "PyoAudio.h"
-#include <OpenAX/axMidiCore.h>
+#include "atMidi.h"
+
+//#include <OpenAX/axMidiCore.h>
 
 #include "atSplashDialog.hpp"
 #include "atSkin.hpp"
 
-class Midi : public ax::midi::Core {
-public:
-	Midi(PyoAudio* audio)
-		: _audio(audio)
-	{
-	}
-
-	virtual void OnMidiNoteOn(const ax::midi::Note& msg)
-	{
-		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
-		ax::Print("ON", msg.GetNote(), msg.GetVelocity());
-	}
-
-	virtual void OnMidiNoteOff(const ax::midi::Note& msg)
-	{
-		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
-		ax::Print("OFF", msg.GetNote(), msg.GetVelocity());
-	}
-
-private:
-	PyoAudio* _audio;
-};
+//class Midi : public ax::midi::Core {
+//public:
+//	Midi(PyoAudio* audio)
+//		: _audio(audio)
+//	{
+//	}
+//
+//	virtual void OnMidiNoteOn(const ax::midi::Note& msg)
+//	{
+//		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
+//		ax::Print("ON", msg.GetNote(), msg.GetVelocity());
+//	}
+//
+//	virtual void OnMidiNoteOff(const ax::midi::Note& msg)
+//	{
+//		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
+//		ax::Print("OFF", msg.GetNote(), msg.GetVelocity());
+//	}
+//
+//private:
+//	PyoAudio* _audio;
+//};
 
 namespace at {
 namespace editor {
@@ -118,7 +120,7 @@ namespace editor {
 						new MsgType(at::SplashDialog::LoadInfoMsg(0.7, "Load midi ...")));
 					
 					/// @todo Save this somewhere.
-					Midi* midi = new Midi(audio);
+					at::Midi* midi = at::Midi::GetInstance();
 
 					obj.PushEvent(
 						Events::LOADING_EVT_ID, new MsgType(at::SplashDialog::LoadInfoMsg(1.0, "Done")));
