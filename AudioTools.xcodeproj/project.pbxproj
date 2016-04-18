@@ -22,7 +22,6 @@
 		7C74768A1CA76A34009CBE23 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476891CA76A34009CBE23 /* libbz2.dylib */; };
 		7C7B74681CC08778006EF72E /* PythonWrapperUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74641CC08778006EF72E /* PythonWrapperUtils.cpp */; };
 		7C7B74691CC08778006EF72E /* PythonWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74661CC08778006EF72E /* PythonWrapper.cpp */; };
-		7C7B746B1CC087C3006EF72E /* libboost_python.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7B746A1CC087C3006EF72E /* libboost_python.a */; };
 		7C7B746E1CC0B0B5006EF72E /* PanelPyWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B746C1CC0B0B5006EF72E /* PanelPyWrapper.cpp */; };
 		7C7B74711CC195CD006EF72E /* atUniqueNameComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B746F1CC195CD006EF72E /* atUniqueNameComponent.cpp */; };
 		7C7B74741CC1A0EA006EF72E /* ButtonPyWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74721CC1A0EA006EF72E /* ButtonPyWrapper.cpp */; };
@@ -120,9 +119,9 @@
 		7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorBottomSection.cpp; sourceTree = "<group>"; };
 		7CE7BF2F1CBC4629004350B6 /* atEditorBottomSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorBottomSection.h; sourceTree = "<group>"; };
 		7CF1D82A1C9207DD00AAAC01 /* AudioTools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioTools.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7CF1D8381C9207DE00AAAC01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7CF1D83E1C9207F400AAAC01 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = ../MainMenu.xib; sourceTree = "<group>"; };
+		7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = AudioTools/Assets.xcassets; sourceTree = "<group>"; };
+		7CF1D8381C9207DE00AAAC01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = AudioTools/Info.plist; sourceTree = "<group>"; };
+		7CF1D83E1C9207F400AAAC01 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		7CF1D8451C9208A500AAAC01 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Python.framework; sourceTree = "<absolute>"; };
 		7CF1D8461C9208A500AAAC01 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/CoreMIDI.framework; sourceTree = "<absolute>"; };
 		7CF1D8471C9208A500AAAC01 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
@@ -171,7 +170,6 @@
 				7C7476841CA76956009CBE23 /* AudioToolbox.framework in Frameworks */,
 				7C7476821CA7680A009CBE23 /* CoreFoundation.framework in Frameworks */,
 				7C7476801CA767FF009CBE23 /* CoreServices.framework in Frameworks */,
-				7C7B746B1CC087C3006EF72E /* libboost_python.a in Frameworks */,
 				7C74767E1CA7677E009CBE23 /* Carbon.framework in Frameworks */,
 				7C74768A1CA76A34009CBE23 /* libbz2.dylib in Frameworks */,
 				7C74767C1CA76766009CBE23 /* AudioUnit.framework in Frameworks */,
@@ -310,6 +308,45 @@
 			name = source;
 			sourceTree = "<group>";
 		};
+		7C7B749D1CC50FF1006EF72E /* PythonWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				7C7B74641CC08778006EF72E /* PythonWrapperUtils.cpp */,
+				7C7B74651CC08778006EF72E /* PythonWrapperUtils.h */,
+				7C7B74661CC08778006EF72E /* PythonWrapper.cpp */,
+				7C7B74671CC08778006EF72E /* PythonWrapper.h */,
+				7C7B746C1CC0B0B5006EF72E /* PanelPyWrapper.cpp */,
+				7C7B746D1CC0B0B5006EF72E /* PanelPyWrapper.h */,
+				7C7B74721CC1A0EA006EF72E /* ButtonPyWrapper.cpp */,
+				7C7B74731CC1A0EA006EF72E /* ButtonPyWrapper.h */,
+				7C7B74751CC1A5A5006EF72E /* WindowPyWrapper.cpp */,
+				7C7B74761CC1A5A5006EF72E /* WindowPyWrapper.h */,
+			);
+			name = PythonWrapper;
+			sourceTree = "<group>";
+		};
+		7C7B749E1CC5102E006EF72E /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				7C7B746F1CC195CD006EF72E /* atUniqueNameComponent.cpp */,
+				7C7B74701CC195CD006EF72E /* atUniqueNameComponent.h */,
+				7CF1D8B21C921DF800AAAC01 /* PyoComponent.cpp */,
+				7CF1D8B31C921DF800AAAC01 /* PyoComponent.h */,
+			);
+			name = Component;
+			sourceTree = "<group>";
+		};
+		7C7B749F1CC51050006EF72E /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				7C5AD9521CBEBE4B002D8E57 /* DropMenuBox.cpp */,
+				7C5AD9531CBEBE4B002D8E57 /* DropMenuBox.h */,
+				7C2138D31C9B252C0050F676 /* atVolumeMeter.hpp */,
+				7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */,
+			);
+			name = Widgets;
+			sourceTree = "<group>";
+		};
 		7C9219341CB7F7BD00AB6AF6 /* Dialog */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +380,9 @@
 				7C7476711CA76288009CBE23 /* libpng16.a */,
 				7C7476721CA76288009CBE23 /* libsndfile.a */,
 				7CF1D82C1C9207DD00AAAC01 /* AudioTools */,
+				7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */,
+				7CF1D8381C9207DE00AAAC01 /* Info.plist */,
+				7CF1D83E1C9207F400AAAC01 /* MainMenu.xib */,
 				7CF1D82B1C9207DD00AAAC01 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -358,50 +398,18 @@
 		7CF1D82C1C9207DD00AAAC01 /* AudioTools */ = {
 			isa = PBXGroup;
 			children = (
-				7C5AD9521CBEBE4B002D8E57 /* DropMenuBox.cpp */,
-				7C5AD9531CBEBE4B002D8E57 /* DropMenuBox.h */,
-				7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */,
-				7CF1D9D01C944C8500AAAC01 /* atCommon.h */,
-				7C7B746F1CC195CD006EF72E /* atUniqueNameComponent.cpp */,
-				7C7B74701CC195CD006EF72E /* atUniqueNameComponent.h */,
-				7CF1D9CF1C938FC400AAAC01 /* pyo */,
-				7C9219341CB7F7BD00AB6AF6 /* Dialog */,
-				7C213B131CA0318B0050F676 /* Editor */,
-				7CF1D86E1C921DBB00AAAC01 /* include */,
-				7CF1D8381C9207DE00AAAC01 /* Info.plist */,
 				7CF1D8AC1C921DF800AAAC01 /* main.cpp */,
-				7CF1D83E1C9207F400AAAC01 /* MainMenu.xib */,
-				7CF1D86F1C921DC100AAAC01 /* source */,
-				7C7B74641CC08778006EF72E /* PythonWrapperUtils.cpp */,
-				7C7B74651CC08778006EF72E /* PythonWrapperUtils.h */,
-				7C7B74661CC08778006EF72E /* PythonWrapper.cpp */,
-				7C7B74671CC08778006EF72E /* PythonWrapper.h */,
-				7C7B746C1CC0B0B5006EF72E /* PanelPyWrapper.cpp */,
-				7C7B746D1CC0B0B5006EF72E /* PanelPyWrapper.h */,
-				7C7B74721CC1A0EA006EF72E /* ButtonPyWrapper.cpp */,
-				7C7B74731CC1A0EA006EF72E /* ButtonPyWrapper.h */,
-				7C7B74751CC1A5A5006EF72E /* WindowPyWrapper.cpp */,
-				7C7B74761CC1A5A5006EF72E /* WindowPyWrapper.h */,
+				7CF1D9D01C944C8500AAAC01 /* atCommon.h */,
 				7C7B74781CC1A890006EF72E /* atConsoleStream.cpp */,
 				7C7B74791CC1A890006EF72E /* atConsoleStream.h */,
+				7C7B749E1CC5102E006EF72E /* Component */,
+				7C9219341CB7F7BD00AB6AF6 /* Dialog */,
+				7C213B131CA0318B0050F676 /* Editor */,
+				7CF1D9CF1C938FC400AAAC01 /* pyo */,
+				7C7B749D1CC50FF1006EF72E /* PythonWrapper */,
+				7C7B749F1CC51050006EF72E /* Widgets */,
 			);
 			path = AudioTools;
-			sourceTree = "<group>";
-		};
-		7CF1D86E1C921DBB00AAAC01 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7C2138D31C9B252C0050F676 /* atVolumeMeter.hpp */,
-			);
-			name = include;
-			sourceTree = "<group>";
-		};
-		7CF1D86F1C921DC100AAAC01 /* source */ = {
-			isa = PBXGroup;
-			children = (
-				7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */,
-			);
-			name = source;
 			sourceTree = "<group>";
 		};
 		7CF1D8DB1C93801B00AAAC01 /* CodeEditor */ = {
@@ -422,8 +430,6 @@
 				7C7B747B1CC1B9EE006EF72E /* m_pyo.cpp */,
 				7CF1D8B01C921DF800AAAC01 /* Pyo.cpp */,
 				7CF1D8B11C921DF800AAAC01 /* Pyo.h */,
-				7CF1D8B21C921DF800AAAC01 /* PyoComponent.cpp */,
-				7CF1D8B31C921DF800AAAC01 /* PyoComponent.h */,
 			);
 			name = pyo;
 			sourceTree = "<group>";
@@ -654,6 +660,7 @@
 					/usr/local/lib/libsndfile.a,
 					/usr/local/lib/libpng16.a,
 					/usr/local/lib/libOpenAX.a,
+					/usr/local/lib/libboost_python.a,
 				);
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = ax.AudioTools;
@@ -683,6 +690,7 @@
 					/usr/local/lib/libsndfile.a,
 					/usr/local/lib/libpng16.a,
 					/usr/local/lib/libOpenAX.a,
+					/usr/local/lib/libboost_python.a,
 				);
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = ax.AudioTools;

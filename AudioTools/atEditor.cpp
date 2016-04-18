@@ -89,7 +89,7 @@ namespace editor {
 		ax::App& app(ax::App::GetInstance());
 
 		at::Skin::GetInstance()->SetLightSkin();
-		//at::Skin::GetInstance()->SetDarkSkin();
+//		at::Skin::GetInstance()->SetDarkSkin();
 
 		app.AddMainEntry([&]() {
 			app.SetFrameSize(ax::Size(400, 500));
@@ -150,7 +150,9 @@ namespace editor {
 		const char* homedir = pw->pw_dir;
 		ax::Print("Home dir :", homedir);
 
-		std::string path(homedir + std::string("/Library/Application Support/AudioTools"));
+//		std::string path(homedir + std::string("/Library/Application Support/AudioTools"));
+//		std::string path("/Users/Shared/Library/Application Support/AudioTools");
+		std::string path("/Users/Shared/AudioTools");
 
 		if (chdir(path.c_str()) == -1) {
 			ax::Error("Could not set current directory : ", path, ".");

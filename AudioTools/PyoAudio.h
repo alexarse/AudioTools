@@ -40,6 +40,8 @@ public:
 	void ProcessString(const std::string& script);
 	bool IsServerStarted();
 	
+	void StopServer();
+	
 	void ProcessMidi(int status, int byte1, int byte2)
 	{
 		pyo_add_midi_event(_pyo, status, byte1, byte2);

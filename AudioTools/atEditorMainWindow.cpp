@@ -59,6 +59,7 @@ namespace editor {
 		sb_win->AddConnection(StatusBar::SAVE_LAYOUT, GetOnSaveLayout());
 		sb_win->AddConnection(StatusBar::OPEN_LAYOUT, GetOnOpenLayout());
 		sb_win->AddConnection(StatusBar::RELOAD_SCRIPT, GetOnReloadScript());
+		sb_win->AddConnection(StatusBar::STOP_SCRIPT, GetOnStopScript());
 
 		sb_win->AddConnection(StatusBar::TOGGLE_LEFT_PANEL, GetOnToggleLeftPanel());
 		sb_win->AddConnection(StatusBar::TOGGLE_BOTTOM_PANEL, GetOnToggleBottomPanel());
@@ -211,6 +212,18 @@ namespace editor {
 		PyoAudio::GetInstance()->ReloadScript(_bottom_section->GetScriptPath());
 		//----------------------------------------------------------------------
 	}
+	
+	void MainWindow::OnStopScript(const ax::Event::SimpleMsg<int>& msg)
+	{
+		ax::Print("Stop script");
+		
+		/// @todo Do this in another thread and add a feedback to user somehow.
+		//----------------------------------------------------------------------
+		//		_codeEditor->SaveFile(_codeEditor->GetScriptPath());
+//		_bottom_section->SaveFile(_bottom_section->GetScriptPath());
+		PyoAudio::GetInstance()->StopServer();
+		//----------------------------------------------------------------------
+	}
 
 	void MainWindow::OnToggleLeftPanel(const ax::Toggle::Msg& msg)
 	{
@@ -225,6 +238,8 @@ namespace editor {
 
 		win->event.OnResize(win->dimension.GetSize());
 	}
+	
+	
 
 	void MainWindow::OnToggleBottomPanel(const ax::Toggle::Msg& msg)
 	{

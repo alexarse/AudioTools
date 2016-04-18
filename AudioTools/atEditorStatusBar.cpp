@@ -140,17 +140,23 @@ namespace editor {
 			"resources/view.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(view_btn);
 
-		// Refresh button.
-		pos = view_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
-		auto refresh_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnReload(), btn_info,
-			"resources/refresh.png", "", ax::Button::Flags::SINGLE_IMG);
-		win->node.Add(refresh_btn);
-
 		// Settings button.
-		pos = refresh_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+		pos = view_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto settings_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSettings(), btn_info,
 			"resources/settings.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(settings_btn);
+		
+		// Play / Refresh button.
+		pos = settings_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+		auto refresh_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnReload(), btn_info,
+												  "resources/play.png", "", ax::Button::Flags::SINGLE_IMG);
+		win->node.Add(refresh_btn);
+		
+		// Stop button.
+		pos = refresh_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+		auto stop_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnStop(), btn_info,
+												  "resources/stop.png", "", ax::Button::Flags::SINGLE_IMG);
+		win->node.Add(stop_btn);
 	}
 
 	void StatusBar::OnSaveLayout(const ax::Button::Msg& msg)
@@ -203,6 +209,12 @@ namespace editor {
 	{
 		ax::Print("On reload script.");
 		win->PushEvent(RELOAD_SCRIPT, new ax::Event::SimpleMsg<int>(0));
+	}
+	
+	void StatusBar::OnStop(const ax::Button::Msg& msg)
+	{
+		ax::Print("On stop script.");
+		win->PushEvent(STOP_SCRIPT, new ax::Event::SimpleMsg<int>(0));
 	}
 
 	void StatusBar::OnSettings(const ax::Button::Msg& msg)

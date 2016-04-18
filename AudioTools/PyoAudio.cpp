@@ -40,15 +40,16 @@ PyoAudio::PyoAudio()
 	: _connected_obj(nullptr)
 	, _rms_values(0.0, 0.0)
 	, _rms_count(0)
+	, _pyo(nullptr)
 {
 	CreateServer(44100, 1024, 2);
 
-	char msg[2048];
-	int err = pyo_exec_file(_pyo, "scripts/default.py", msg, 1);
-
-	if (err) {
-		ax::Error("Load python script.");
-	}
+//	char msg[2048];
+//	int err = pyo_exec_file(_pyo, "scripts/default.py", msg, 1);
+//
+//	if (err) {
+//		ax::Error("Load python script.");
+//	}
 }
 
 PyoAudio::~PyoAudio()
@@ -61,7 +62,9 @@ void PyoAudio::ReloadScript(const std::string& path)
 	ax::Print("Debug reload");
 	StopAudio();
 
-	pyo_end_interpreter(_pyo);
+	if(_pyo != nullptr) {
+		pyo_end_interpreter(_pyo);
+	}
 
 	char msg[6000];
 	CreateServer(44100, 1024, 2);
@@ -70,6 +73,13 @@ void PyoAudio::ReloadScript(const std::string& path)
 
 	StartAudio();
 	ax::Print("Done reset pyo server.");
+}
+
+void PyoAudio::StopServer()
+{
+	StopAudio();
+	pyo_end_interpreter(_pyo);
+	_pyo = nullptr;
 }
 
 void PyoAudio::CreateServer(float sr, int bufsize, int chnls)

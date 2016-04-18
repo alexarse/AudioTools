@@ -47,6 +47,7 @@ namespace editor {
 			OPEN_LAYOUT,
 			VIEW_LAYOUT,
 			RELOAD_SCRIPT,
+			STOP_SCRIPT,
 			TOGGLE_LEFT_PANEL,
 			TOGGLE_BOTTOM_PANEL,
 			TOGGLE_RIGHT_PANEL
@@ -71,8 +72,9 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Button::Msg, OnSaveAsLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnOpenLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnViewLayout);
-		axEVENT_DECLARATION(ax::Button::Msg, OnReload);
 		axEVENT_DECLARATION(ax::Button::Msg, OnSettings);
+		axEVENT_DECLARATION(ax::Button::Msg, OnReload);
+		axEVENT_DECLARATION(ax::Button::Msg, OnStop);
 
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleLeftPanel);
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleBottomPanel);
