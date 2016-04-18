@@ -29,6 +29,7 @@
 		7C7B747A1CC1A890006EF72E /* atConsoleStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74781CC1A890006EF72E /* atConsoleStream.cpp */; };
 		7C7B747C1CC1B9EE006EF72E /* m_pyo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B747B1CC1B9EE006EF72E /* m_pyo.cpp */; };
 		7C7B74D31CC558C1006EF72E /* atMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74D11CC558C0006EF72E /* atMidi.cpp */; };
+		7C7B74D61CC585C7006EF72E /* atMidiFeedback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B74D41CC585C7006EF72E /* atMidiFeedback.cpp */; };
 		7C9219371CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219351CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp */; };
 		7C92193A1CB8314900AB6AF6 /* atMenuPointAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */; };
 		7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */; };
@@ -105,6 +106,8 @@
 		7C7B747B1CC1B9EE006EF72E /* m_pyo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = m_pyo.cpp; sourceTree = "<group>"; };
 		7C7B74D11CC558C0006EF72E /* atMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMidi.cpp; sourceTree = "<group>"; };
 		7C7B74D21CC558C1006EF72E /* atMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atMidi.h; sourceTree = "<group>"; };
+		7C7B74D41CC585C7006EF72E /* atMidiFeedback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMidiFeedback.cpp; sourceTree = "<group>"; };
+		7C7B74D51CC585C7006EF72E /* atMidiFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atMidiFeedback.h; sourceTree = "<group>"; };
 		7C9219351CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuIntegerAttribute.cpp; sourceTree = "<group>"; };
 		7C9219361CB8091000AB6AF6 /* atMenuIntegerAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuIntegerAttribute.hpp; sourceTree = "<group>"; };
 		7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuPointAttribute.cpp; sourceTree = "<group>"; };
@@ -411,6 +414,8 @@
 				7CF1D9CF1C938FC400AAAC01 /* pyo */,
 				7C7B749D1CC50FF1006EF72E /* PythonWrapper */,
 				7C7B749F1CC51050006EF72E /* Widgets */,
+				7C7B74D41CC585C7006EF72E /* atMidiFeedback.cpp */,
+				7C7B74D51CC585C7006EF72E /* atMidiFeedback.h */,
 			);
 			path = AudioTools;
 			sourceTree = "<group>";
@@ -531,6 +536,7 @@
 				7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */,
 				7CF1D8A71C921DDF00AAAC01 /* atOpenDialog.cpp in Sources */,
 				7CF1D8B71C921DF800AAAC01 /* PyoComponent.cpp in Sources */,
+				7C7B74D61CC585C7006EF72E /* atMidiFeedback.cpp in Sources */,
 				7CF1D89B1C921DDF00AAAC01 /* atEditorLoader.cpp in Sources */,
 				7CF1D8A81C921DDF00AAAC01 /* mdiSaveDialog.cpp in Sources */,
 				7C92193A1CB8314900AB6AF6 /* atMenuPointAttribute.cpp in Sources */,

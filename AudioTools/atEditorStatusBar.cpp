@@ -81,6 +81,11 @@ namespace editor {
 		win->AddConnection(PyoAudio::Events::RMS_VALUE_CHANGE, GetOnAudioRmsValue());
 		PyoAudio::GetInstance()->SetConnectedObject(win);
 
+		auto midi_feedback
+			= ax::shared<at::MidiFeedback>(ax::Rect(volume_rect.GetNextPosRight(5), ax::Size(12, 12)));
+		_midi_feedback = midi_feedback.get();
+		win->node.Add(midi_feedback);
+
 		const ax::Size tog_size(25, 25);
 
 		// Left panel toggle.
@@ -145,17 +150,17 @@ namespace editor {
 		auto settings_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSettings(), btn_info,
 			"resources/settings.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(settings_btn);
-		
+
 		// Play / Refresh button.
 		pos = settings_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto refresh_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnReload(), btn_info,
-												  "resources/play.png", "", ax::Button::Flags::SINGLE_IMG);
+			"resources/play.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(refresh_btn);
-		
+
 		// Stop button.
 		pos = refresh_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto stop_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnStop(), btn_info,
-												  "resources/stop.png", "", ax::Button::Flags::SINGLE_IMG);
+			"resources/stop.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(stop_btn);
 	}
 
@@ -210,7 +215,7 @@ namespace editor {
 		ax::Print("On reload script.");
 		win->PushEvent(RELOAD_SCRIPT, new ax::Event::SimpleMsg<int>(0));
 	}
-	
+
 	void StatusBar::OnStop(const ax::Button::Msg& msg)
 	{
 		ax::Print("On stop script.");

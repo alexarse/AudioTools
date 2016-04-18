@@ -282,9 +282,35 @@ void TextEditor::OnDownArrowDown(const char& key)
 
 void TextEditor::OnKeyDown(const char& key)
 {
-	_logic.AddChar(key);
-	MoveToCursorPosition();
-	_scrollPanel->Update();
+	// If command is down.
+	if(ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+		
+		if(key == 'v' || key == 'V') {
+			std::string content = ax::App::GetInstance().GetPasteboardConent();
+			ax::Utils::String::ReplaceCharWithString(content, '\t', "    ");
+			
+			if(!content.empty()) {
+				ax::StringVector& file_data = _logic.GetFileData();
+				ax::Point cur_pos(_logic.GetCursorPosition());
+			
+				ax::StringVector paste_content(ax::Utils::String::Split(content, "\n"));
+			
+				file_data[cur_pos.y].insert(cur_pos.x, paste_content[0]);
+				
+				for(int i = 1; i < paste_content.size(); i++) {
+					file_data.insert(file_data.begin() + cur_pos.y + i, paste_content[i]);
+				}
+			
+				_scrollPanel->Update();
+//				ax::Print("Pasteboard content :", content);
+			}
+		}
+	}
+	else {
+		_logic.AddChar(key);
+		MoveToCursorPosition();
+		_scrollPanel->Update();
+	}
 }
 
 void TextEditor::OnEnterDown(const char& key)
@@ -310,7 +336,6 @@ void TextEditor::OnBackSpaceDown(const char& key)
 
 void TextEditor::OnKeyDeleteDown(const char& key)
 {
-
 	_logic.Delete();
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
 	_scrollBar->UpdateWindowSize(ax::Size(_scrollPanel->dimension.GetRect().size.x, h_size));
