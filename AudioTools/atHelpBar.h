@@ -14,8 +14,9 @@
 
 namespace at {
 namespace editor {
-	void AttachHelpInfo(ax::Button* btn, const std::string& help_msg);
-	void AttachHelpInfo(ax::Toggle* tog, const std::string& help_msg);
+//	void AttachHelpInfo(ax::Button* btn, const std::string& help_msg);
+//	void AttachHelpInfo(ax::Toggle* tog, const std::string& help_msg);
+	void AttachHelpInfo(ax::Window* window, const std::string& help_msg);
 }
 }
 

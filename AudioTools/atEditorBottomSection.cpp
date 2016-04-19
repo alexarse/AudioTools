@@ -81,7 +81,7 @@ namespace editor {
 		_txt_btn = txt_btn.get();
 		win->node.Add(txt_btn);
 		
-		AttachHelpInfo(txt_btn.get(), "Switch to code editor.");
+		AttachHelpInfo(txt_btn->GetWindow(), "Switch to code editor.");
 
 		ax::Point pos = _txt_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
@@ -90,7 +90,7 @@ namespace editor {
 		_console_btn = console_btn.get();
 		win->node.Add(console_btn);
 		
-		AttachHelpInfo(console_btn.get(), "Switch to console.");
+		AttachHelpInfo(console_btn->GetWindow(), "Switch to console.");
 	}
 
 	bool BottomSection::OpenFile(const std::string& path)

@@ -31,7 +31,7 @@
 #include <OpenAX/Toggle.h>
 
 #include "atVolumeMeter.hpp"
-#include "atMidiFeedback.h"
+//#include "atMidiFeedback.h"
 
 namespace at {
 namespace editor {
@@ -68,7 +68,7 @@ namespace editor {
 		at::VolumeMeter* _volumeMeterLeft;
 		at::VolumeMeter* _volumeMeterRight;
 		std::string _layout_file_path;
-		at::MidiFeedback* _midi_feedback;
+//		at::MidiFeedback* _midi_feedback;
 		
 		axEVENT_DECLARATION(ax::Button::Msg, OnSaveLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnSaveAsLayout);

@@ -23,6 +23,7 @@
  */
 
 #include "atOpenDialog.hpp"
+#include "atEditorMainWindow.h"
 
 #include <OpenAX/Core.h>
 #include <OpenAX/OSFileSystem.h>
@@ -73,17 +74,17 @@ namespace editor {
 		}
 
 		//	ax::Size fsize(ax::App::GetInstance().GetFrameSize());
-		ax::Size size(150, 300);
+		ax::Size size(at::editor::MainWindow::WIDGET_MENU_WIDTH, rect.size.y);
 
 		_menu = ax::shared<ax::DropMenu>(
-			ax::Rect(ax::Point(rect.position.x, 0), size), GetOnMenuSelection(), menu_info, layout_files);
+			ax::Rect(ax::Point(0, 0), size), GetOnMenuSelection(), menu_info, layout_files);
 
 		win->node.Add(_menu);
 
 		ax::Size menu_size(_menu->GetWindow()->dimension.GetSize());
 
 		auto open = ax::shared<ax::Button>(ax::Rect(rect.position.x, menu_size.y, size.x * 0.5, 30),
-			GetOnOpen(), ax::Button::Info(), "", "Open");
+			GetOnOpen(), ax::Button::Info(), "", "New");
 
 		auto cancel = ax::shared<ax::Button>(
 			ax::Rect(ax::Point(size.x * 0.5, menu_size.y), ax::Size(size.x * 0.5, 30)), GetOnCancel(),
@@ -182,6 +183,7 @@ namespace editor {
 
 		gc.SetColor(ax::Color(0.0, 0.6));
 		gc.DrawRectangle(rect);
+		gc.DrawRectangleContour(rect);
 	}
 }
 }

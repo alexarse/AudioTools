@@ -32,6 +32,8 @@
 #include "atEditorInspectorMenu.h"
 #include "atEditorBottomSection.h"
 
+#include "atMidiFeedback.h"
+
 class CodeEditor;
 
 namespace at {
@@ -46,7 +48,6 @@ public:
 	
 	void DeleteCurrentWidgets();
 	
-private:
 	//	std::shared_ptr<StatusBar> _statusBar;
 	static const int STATUS_BAR_HEIGHT = 30;
 	static const int INSPECTOR_MENU_WIDTH = 250;
@@ -54,12 +55,15 @@ private:
 	static const int WIDGET_MENU_WIDTH = 250;
 	static const int BOTTOM_BAR_HEIGHT = 18;
 	
+private:
+	
 	ax::Font _font;
 	StatusBar* _statusBar;
 	std::shared_ptr<WidgetMenu> _widgetMenu;
 	std::shared_ptr<GridWindow> _gridWindow;
 	std::shared_ptr<InspectorMenu> _inspectorMenu;
 	BottomSection* _bottom_section;
+	at::MidiFeedback* _midi_feedback;
 	
 	std::vector<ax::Window*> _selected_windows;
 	

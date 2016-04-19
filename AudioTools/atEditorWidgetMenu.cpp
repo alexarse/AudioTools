@@ -203,7 +203,7 @@ namespace editor {
 		auto view_btn = ax::shared<ax::Button>(ax::Rect(ax::Point(5, 2), ax::Size(20, 20)),
 			GetOnSmallerMenu(), btn_info, "resources/menu.png", "", ax::Button::Flags::SINGLE_IMG);
 
-		AttachHelpInfo(view_btn.get(), "Toggle small size widget menu.");
+		AttachHelpInfo(view_btn->GetWindow(), "Show / Hide widgets information.");
 		win->node.Add(view_btn);
 
 		// Create scrolling window.

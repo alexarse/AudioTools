@@ -25,12 +25,13 @@
 #include "PyoAudio.h"
 #include "atCommon.h"
 #include "atEditor.h"
+#include "atEditorMainWindow.h"
 #include "atEditorStatusBar.h"
+#include "atHelpBar.h"
 #include "atOpenDialog.hpp"
 #include "atPreferenceDialog.h"
 #include "atSaveDialog.hpp"
 #include "atSkin.hpp"
-#include "atHelpBar.h"
 
 #include <OpenAX/Core.h>
 #include <OpenAX/Toggle.h>
@@ -83,31 +84,32 @@ namespace editor {
 		win->AddConnection(PyoAudio::Events::RMS_VALUE_CHANGE, GetOnAudioRmsValue());
 		PyoAudio::GetInstance()->SetConnectedObject(win);
 
-		auto midi_feedback
-			= ax::shared<at::MidiFeedback>(ax::Rect(volume_rect.GetNextPosRight(5), ax::Size(12, 12)));
-		_midi_feedback = midi_feedback.get();
-		win->node.Add(midi_feedback);
+		//		auto midi_feedback
+		//			= ax::shared<at::MidiFeedback>(ax::Rect(volume_rect.GetNextPosRight(5), ax::Size(12,
+		// 12)));
+		//		_midi_feedback = midi_feedback.get();
+		//		win->node.Add(midi_feedback);
 
 		const ax::Size tog_size(25, 25);
 
 		// Left panel toggle.
 		auto tog_left = ax::shared<ax::Toggle>(ax::Rect(pos, tog_size), GetOnToggleLeftPanel(), tog_info);
-		AttachHelpInfo(tog_left.get(), "Toggle widget menu.");
-		
+		AttachHelpInfo(tog_left->GetWindow(), "Show / Hide widget menu.");
+
 		// Bottom panel toggle.
 		pos = tog_left->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		tog_info.img = "resources/top_menu_toggle_bottom.png";
-		
+
 		auto tog_middle = ax::shared<ax::Toggle>(ax::Rect(pos, tog_size), GetOnToggleBottomPanel(), tog_info);
-		AttachHelpInfo(tog_middle.get(), "Toggle code editor.");
-		
+		AttachHelpInfo(tog_middle->GetWindow(), "Show / Hide code editor.");
+
 		// Right panel toggle.
 		pos = tog_middle->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		tog_info.img = "resources/top_menu_toggle_right.png";
-		
+
 		auto tog_right = ax::shared<ax::Toggle>(ax::Rect(pos, tog_size), GetOnToggleRightPanel(), tog_info);
-		AttachHelpInfo(tog_right.get(), "Toggle inspector menu.");
-		
+		AttachHelpInfo(tog_right->GetWindow(), "Show / Hide inspector menu.");
+
 		tog_left->SetSelected(true);
 		tog_middle->SetSelected(true);
 		tog_right->SetSelected(true);
@@ -130,60 +132,65 @@ namespace editor {
 
 		// Open button.
 		pos = ax::Point(5, 2);
+		auto create_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnOpenLayout(), btn_info,
+			"resources/create.png", "", ax::Button::Flags::SINGLE_IMG);
+		win->node.Add(create_btn);
+		AttachHelpInfo(create_btn->GetWindow(), "Create new layout file.");
+		pos = create_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+
 		auto open_menu = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnOpenLayout(), btn_info,
 			"resources/folder.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(open_menu);
-		
-		AttachHelpInfo(open_menu.get(), "Open layout file.");
+
+		AttachHelpInfo(open_menu->GetWindow(), "Open layout file.");
 
 		// Save button.
 		pos = open_menu->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto save_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveLayout(), btn_info,
 			"resources/save.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(save_btn);
-		
-		AttachHelpInfo(save_btn.get(), "Save current layout file.");
+
+		AttachHelpInfo(save_btn->GetWindow(), "Save current layout file.");
 
 		// Save as button.
 		pos = save_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto save_as_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveAsLayout(),
 			btn_info, "resources/save_as.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(save_as_btn);
-		
-		AttachHelpInfo(save_as_btn.get(), "Save as current layout file.");
+
+		AttachHelpInfo(save_as_btn->GetWindow(), "Save as current layout file.");
 
 		// View button.
 		pos = save_as_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto view_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnViewLayout(), btn_info,
 			"resources/view.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(view_btn);
-		
-		AttachHelpInfo(view_btn.get(), "Switch layout to view mode.");
+
+		AttachHelpInfo(view_btn->GetWindow(), "Switch layout to view mode.");
 
 		// Settings button.
 		pos = view_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto settings_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSettings(), btn_info,
 			"resources/settings.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(settings_btn);
-		
-		AttachHelpInfo(settings_btn.get(), "Open preference.");
+
+		AttachHelpInfo(settings_btn->GetWindow(), "Open preference.");
 
 		// Play / Refresh button.
 		pos = settings_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto refresh_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnReload(), btn_info,
 			"resources/play.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(refresh_btn);
-		
-		AttachHelpInfo(refresh_btn.get(), "Start script interpreter.");
+
+		AttachHelpInfo(refresh_btn->GetWindow(), "Start script interpreter.");
 
 		// Stop button.
 		pos = refresh_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto stop_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnStop(), btn_info,
 			"resources/stop.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(stop_btn);
-		
-		AttachHelpInfo(stop_btn.get(), "Stop script interpreter.");
 
+		AttachHelpInfo(stop_btn->GetWindow(), "Stop script interpreter.");
 	}
 
 	void StatusBar::OnSaveLayout(const ax::Button::Msg& msg)
@@ -210,12 +217,14 @@ namespace editor {
 	void StatusBar::OnOpenLayout(const ax::Button::Msg& msg)
 	{
 		if (ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel() == nullptr) {
-			const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
-			ax::Point pos = rect.position;
-			pos.y += rect.size.y;
+			//			const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
+			//			ax::Point pos = rect.position;
+			//			pos.y += rect.size.y;
 
 			ax::Size size = ax::App::GetInstance().GetFrameSize();
-
+			size.y -= (at::editor::MainWindow::STATUS_BAR_HEIGHT + at::editor::MainWindow::BOTTOM_BAR_HEIGHT);
+			const ax::Point pos(0, at::editor::MainWindow::STATUS_BAR_HEIGHT);
+			//			const ax::Size size(0, at::editor::MainWindow::STATUS_BAR_HEIGHT);
 			auto open_dialog = ax::shared<OpenDialog>(ax::Rect(pos, size));
 
 			ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
@@ -320,9 +329,8 @@ namespace editor {
 
 	void StatusBar::OnPaint(ax::GC gc)
 	{
-		ax::Rect rect(win->dimension.GetDrawingRect());
+		const ax::Rect rect(win->dimension.GetDrawingRect());
 
-		//		gc.SetColor(ax::Color(0.30));
 		gc.SetColor(at::Skin::GetInstance()->data.status_bar_bg);
 		gc.DrawRectangle(rect);
 
@@ -332,7 +340,6 @@ namespace editor {
 			gc.DrawStringAlignedCenter(_font, _layout_file_path, rect);
 		}
 
-		//		gc.SetColor(ax::Color(0.30));
 		gc.SetColor(at::Skin::GetInstance()->data.status_bar_bg);
 		gc.DrawRectangleContour(rect);
 	}

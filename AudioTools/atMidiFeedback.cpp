@@ -11,7 +11,8 @@ MidiFeedback::MidiFeedback(const ax::Rect& rect)
 void MidiFeedback::OnPaint(ax::GC gc)
 {
 	const ax::Rect rect(win->dimension.GetDrawingRect());
-	gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f));
-	gc.DrawRectangle(rect);
+	gc.SetColor(ax::Color(0.58));
+//	gc.DrawRectangle(rect);
+	gc.DrawRectangleContour(rect);
 }
 }

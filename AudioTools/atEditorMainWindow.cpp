@@ -36,6 +36,7 @@
 #include "PyoAudio.h"
 #include "atCommon.h"
 #include "atEditorLoader.h"
+#include "atHelpBar.h"
 
 namespace at {
 namespace editor {
@@ -124,6 +125,13 @@ namespace editor {
 		win->AddConnection(8000, GetOnCreateDraggingWidget());
 		win->AddConnection(8001, GetOnDraggingWidget());
 		win->AddConnection(8002, GetOnReleaseObjWidget());
+
+		// Midi feedback.
+		auto midi_feedback = ax::shared<at::MidiFeedback>(
+			ax::Rect(ax::Point(rect.size.x - 17, rect.size.y - 15), ax::Size(10, 10)));
+		_midi_feedback = midi_feedback.get();
+
+		win->node.Add(midi_feedback);
 	}
 
 	std::vector<ax::Window*> MainWindow::GetSelectedWindows() const
@@ -654,8 +662,13 @@ namespace editor {
 				_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}
+		
+		// Midi feedback.
+		_midi_feedback->GetWindow()->dimension.SetPosition(ax::Point(size.x - 17, size.y - 15));
+		
+		AttachHelpInfo(_midi_feedback->GetWindow(), "Midi input activity.");
 	}
-	
+
 	void MainWindow::OnPaint(ax::GC gc)
 	{
 		const ax::Rect rect(ax::Point(0, 0), win->dimension.GetSize());

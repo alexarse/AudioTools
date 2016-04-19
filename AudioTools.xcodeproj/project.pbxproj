@@ -343,6 +343,8 @@
 		7C7B749F1CC51050006EF72E /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				7C7B74D41CC585C7006EF72E /* atMidiFeedback.cpp */,
+				7C7B74D51CC585C7006EF72E /* atMidiFeedback.h */,
 				7C5AD9521CBEBE4B002D8E57 /* DropMenuBox.cpp */,
 				7C5AD9531CBEBE4B002D8E57 /* DropMenuBox.h */,
 				7C2138D31C9B252C0050F676 /* atVolumeMeter.hpp */,
@@ -414,8 +416,6 @@
 				7CF1D9CF1C938FC400AAAC01 /* pyo */,
 				7C7B749D1CC50FF1006EF72E /* PythonWrapper */,
 				7C7B749F1CC51050006EF72E /* Widgets */,
-				7C7B74D41CC585C7006EF72E /* atMidiFeedback.cpp */,
-				7C7B74D51CC585C7006EF72E /* atMidiFeedback.h */,
 			);
 			path = AudioTools;
 			sourceTree = "<group>";
