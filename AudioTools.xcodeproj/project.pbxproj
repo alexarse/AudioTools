@@ -11,6 +11,7 @@
 		7C2138D41C9B252C0050F676 /* atVolumeMeter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */; };
 		7C213B181CA05E460050F676 /* atSplashDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C213B161CA05E460050F676 /* atSplashDialog.cpp */; };
 		7C48A6DE1CC5BC1500ABB3AD /* atHelpBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C48A6DC1CC5BC1500ABB3AD /* atHelpBar.cpp */; };
+		7C48A6E11CC6842200ABB3AD /* atEditorRightSideMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C48A6DF1CC6842200ABB3AD /* atEditorRightSideMenu.cpp */; };
 		7C5AD94E1CBDDE1A002D8E57 /* atPreferenceDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C5AD94C1CBDDE1A002D8E57 /* atPreferenceDialog.cpp */; };
 		7C5AD9541CBEBE4B002D8E57 /* DropMenuBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C5AD9521CBEBE4B002D8E57 /* DropMenuBox.cpp */; };
 		7C74767A1CA7675E009CBE23 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476791CA7675E009CBE23 /* CoreAudioKit.framework */; };
@@ -72,6 +73,8 @@
 		7C213B171CA05E460050F676 /* atSplashDialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atSplashDialog.hpp; sourceTree = "<group>"; };
 		7C48A6DC1CC5BC1500ABB3AD /* atHelpBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atHelpBar.cpp; sourceTree = "<group>"; };
 		7C48A6DD1CC5BC1500ABB3AD /* atHelpBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atHelpBar.h; sourceTree = "<group>"; };
+		7C48A6DF1CC6842200ABB3AD /* atEditorRightSideMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorRightSideMenu.cpp; sourceTree = "<group>"; };
+		7C48A6E01CC6842200ABB3AD /* atEditorRightSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorRightSideMenu.h; sourceTree = "<group>"; };
 		7C5AD94C1CBDDE1A002D8E57 /* atPreferenceDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atPreferenceDialog.cpp; sourceTree = "<group>"; };
 		7C5AD94D1CBDDE1A002D8E57 /* atPreferenceDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atPreferenceDialog.h; sourceTree = "<group>"; };
 		7C5AD9521CBEBE4B002D8E57 /* DropMenuBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DropMenuBox.cpp; sourceTree = "<group>"; };
@@ -215,6 +218,7 @@
 		7C213B141CA031A20050F676 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				7C48A6DF1CC6842200ABB3AD /* atEditorRightSideMenu.cpp */,
 				7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */,
 				7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */,
 				7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */,
@@ -240,6 +244,7 @@
 				7CF1D8741C921DCC00AAAC01 /* atEditorMainWindow.h */,
 				7CF1D8751C921DCC00AAAC01 /* atEditorStatusBar.h */,
 				7CF1D8761C921DCC00AAAC01 /* atEditorWidgetMenu.h */,
+				7C48A6E01CC6842200ABB3AD /* atEditorRightSideMenu.h */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -519,6 +524,7 @@
 				7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */,
 				7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */,
 				7C7B74691CC08778006EF72E /* PythonWrapper.cpp in Sources */,
+				7C48A6E11CC6842200ABB3AD /* atEditorRightSideMenu.cpp in Sources */,
 				7CF1D8991C921DDF00AAAC01 /* atEditorGridWindow.cpp in Sources */,
 				7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */,
 				7C7B747A1CC1A890006EF72E /* atConsoleStream.cpp in Sources */,

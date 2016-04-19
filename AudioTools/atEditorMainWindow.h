@@ -29,9 +29,9 @@
 #include "atEditorGridWindow.h"
 #include "atEditorWidgetMenu.h"
 #include "atEditorStatusBar.h"
-#include "atEditorInspectorMenu.h"
+//#include "atEditorInspectorMenu.h"
 #include "atEditorBottomSection.h"
-
+#include "atEditorRightSideMenu.h"
 #include "atMidiFeedback.h"
 
 class CodeEditor;
@@ -61,7 +61,9 @@ private:
 	StatusBar* _statusBar;
 	std::shared_ptr<WidgetMenu> _widgetMenu;
 	std::shared_ptr<GridWindow> _gridWindow;
-	std::shared_ptr<InspectorMenu> _inspectorMenu;
+//	std::shared_ptr<InspectorMenu> _inspectorMenu;
+	RightSideMenu* _right_menu;
+	
 	BottomSection* _bottom_section;
 	at::MidiFeedback* _midi_feedback;
 	

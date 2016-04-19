@@ -202,16 +202,37 @@ namespace editor {
 
 		auto view_btn = ax::shared<ax::Button>(ax::Rect(ax::Point(5, 2), ax::Size(20, 20)),
 			GetOnSmallerMenu(), btn_info, "resources/menu.png", "", ax::Button::Flags::SINGLE_IMG);
-
 		AttachHelpInfo(view_btn->GetWindow(), "Show / Hide widgets information.");
 		win->node.Add(view_btn);
+
+		ax::Point pos = view_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+
+		// Documentation button.
+		auto doc_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(20, 20)), ax::Button::Events(), btn_info,
+			"resources/work.png", "", ax::Button::Flags::SINGLE_IMG);
+		AttachHelpInfo(doc_btn->GetWindow(), "Show work.");
+		win->node.Add(doc_btn);
+
+		pos = doc_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+
+		auto cloud_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(20, 20)), ax::Button::Events(),
+			btn_info, "resources/cloud.png", "", ax::Button::Flags::SINGLE_IMG);
+		AttachHelpInfo(cloud_btn->GetWindow(), "Download widgets.");
+		win->node.Add(cloud_btn);
+		
+		pos = cloud_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+
+		auto att_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(20, 20)), ax::Button::Events(), btn_info,
+			"resources/attachment.png", "", ax::Button::Flags::SINGLE_IMG);
+		AttachHelpInfo(att_btn->GetWindow(), "Show work.");
+		win->node.Add(att_btn);
 
 		// Create scrolling window.
 		_panel = ax::Window::Create(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
 
 		win->node.Add(ax::Window::Ptr(_panel));
 
-		ax::Point pos(0, 0);
+		pos = ax::Point(0, 0);
 		ax::Size size(rect.size.x, 50);
 		ax::Size separator_size(rect.size.x, 20);
 
