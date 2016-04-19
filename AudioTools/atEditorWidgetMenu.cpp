@@ -26,6 +26,7 @@
 #include "atEditor.h"
 #include "atEditorWidgetMenu.h"
 #include "atSkin.hpp"
+#include "atHelpBar.h"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Xml.h>
@@ -202,11 +203,21 @@ namespace editor {
 		auto view_btn = ax::shared<ax::Button>(ax::Rect(ax::Point(5, 2), ax::Size(20, 20)),
 			GetOnSmallerMenu(), btn_info, "resources/menu.png", "", ax::Button::Flags::SINGLE_IMG);
 
+		AttachHelpInfo(view_btn.get(), "Toggle small size widget menu.");
 		win->node.Add(view_btn);
 
+//		ax::Rect sRect(size.x - 9, TOP_BAR_HEIGHT, 10, size.y - (TOP_BAR_HEIGHT + 1));
+//		_scrollBar->GetWindow()->dimension.SetRect(sRect);
+//		_panel->dimension.SetShownRect(ax::Rect(0, TOP_BAR_HEIGHT, size.x, size.y - TOP_BAR_HEIGHT));
+//		_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
+
 		// Create scrolling window.
+//		_panel = ax::Window::Create(
+//			ax::Rect(0, TOP_BAR_HEIGHT, rect.size - ax::Size(2, TOP_BAR_HEIGHT + 2)));
 		_panel = ax::Window::Create(
-			ax::Rect(ax::Point(1, TOP_BAR_HEIGHT), rect.size - ax::Size(2, TOP_BAR_HEIGHT + 2)));
+									ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
+		
+//			_panel->dimension.SetShownRect(ax::Rect(0, TOP_BAR_HEIGHT, size.x, size.y - TOP_BAR_HEIGHT));
 
 		win->node.Add(ax::Window::Ptr(_panel));
 
@@ -275,7 +286,7 @@ namespace editor {
 		sInfo.bg_top = ax::Color(0.8, 0.2);
 		sInfo.bg_bottom = ax::Color(0.82, 0.2);
 
-		ax::Rect sRect(rect.size.x - 9, TOP_BAR_HEIGHT, 10, rect.size.y - (TOP_BAR_HEIGHT + 1));
+		ax::Rect sRect(rect.size.x - 9, TOP_BAR_HEIGHT, 10, rect.size.y - TOP_BAR_HEIGHT);
 		_scrollBar = ax::shared<ax::ScrollBar>(sRect, ax::ScrollBar::Events(), sInfo);
 
 		win->node.Add(_scrollBar);
@@ -284,7 +295,7 @@ namespace editor {
 		_panel->dimension.SetSizeNoShowRect(ax::Size(rect.size.x, pos.y));
 
 		_scrollBar->SetWindowHandle(_panel);
-		_scrollBar->UpdateWindowSize(ax::Size(rect.size.x, pos.y));
+		_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 
 		SetOnlyMainWindowWidgetSelectable();
 	}
@@ -367,6 +378,7 @@ namespace editor {
 		ax::Rect sRect(size.x - 9, TOP_BAR_HEIGHT, 10, size.y - (TOP_BAR_HEIGHT + 1));
 		_scrollBar->GetWindow()->dimension.SetRect(sRect);
 		_panel->dimension.SetShownRect(ax::Rect(0, TOP_BAR_HEIGHT, size.x, size.y - TOP_BAR_HEIGHT));
+		
 		_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 	}
 

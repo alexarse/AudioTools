@@ -10,6 +10,7 @@
 		7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C055FAB1C947DA8004527C3 /* atMenuAttribute.cpp */; };
 		7C2138D41C9B252C0050F676 /* atVolumeMeter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */; };
 		7C213B181CA05E460050F676 /* atSplashDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C213B161CA05E460050F676 /* atSplashDialog.cpp */; };
+		7C48A6DE1CC5BC1500ABB3AD /* atHelpBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C48A6DC1CC5BC1500ABB3AD /* atHelpBar.cpp */; };
 		7C5AD94E1CBDDE1A002D8E57 /* atPreferenceDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C5AD94C1CBDDE1A002D8E57 /* atPreferenceDialog.cpp */; };
 		7C5AD9541CBEBE4B002D8E57 /* DropMenuBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C5AD9521CBEBE4B002D8E57 /* DropMenuBox.cpp */; };
 		7C74767A1CA7675E009CBE23 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476791CA7675E009CBE23 /* CoreAudioKit.framework */; };
@@ -70,6 +71,8 @@
 		7C2138D31C9B252C0050F676 /* atVolumeMeter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atVolumeMeter.hpp; sourceTree = "<group>"; };
 		7C213B161CA05E460050F676 /* atSplashDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atSplashDialog.cpp; sourceTree = "<group>"; };
 		7C213B171CA05E460050F676 /* atSplashDialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atSplashDialog.hpp; sourceTree = "<group>"; };
+		7C48A6DC1CC5BC1500ABB3AD /* atHelpBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atHelpBar.cpp; sourceTree = "<group>"; };
+		7C48A6DD1CC5BC1500ABB3AD /* atHelpBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atHelpBar.h; sourceTree = "<group>"; };
 		7C5AD94C1CBDDE1A002D8E57 /* atPreferenceDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atPreferenceDialog.cpp; sourceTree = "<group>"; };
 		7C5AD94D1CBDDE1A002D8E57 /* atPreferenceDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atPreferenceDialog.h; sourceTree = "<group>"; };
 		7C5AD9521CBEBE4B002D8E57 /* DropMenuBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DropMenuBox.cpp; sourceTree = "<group>"; };
@@ -406,6 +409,8 @@
 			children = (
 				7CF1D8AC1C921DF800AAAC01 /* main.cpp */,
 				7CF1D9D01C944C8500AAAC01 /* atCommon.h */,
+				7C48A6DC1CC5BC1500ABB3AD /* atHelpBar.cpp */,
+				7C48A6DD1CC5BC1500ABB3AD /* atHelpBar.h */,
 				7C7B74781CC1A890006EF72E /* atConsoleStream.cpp */,
 				7C7B74791CC1A890006EF72E /* atConsoleStream.h */,
 				7C7B749E1CC5102E006EF72E /* Component */,
@@ -538,6 +543,7 @@
 				7CF1D8B71C921DF800AAAC01 /* PyoComponent.cpp in Sources */,
 				7C7B74D61CC585C7006EF72E /* atMidiFeedback.cpp in Sources */,
 				7CF1D89B1C921DDF00AAAC01 /* atEditorLoader.cpp in Sources */,
+				7C48A6DE1CC5BC1500ABB3AD /* atHelpBar.cpp in Sources */,
 				7CF1D8A81C921DDF00AAAC01 /* mdiSaveDialog.cpp in Sources */,
 				7C92193A1CB8314900AB6AF6 /* atMenuPointAttribute.cpp in Sources */,
 				7CF1D89A1C921DDF00AAAC01 /* axEditorInspectorMenu.cpp in Sources */,

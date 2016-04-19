@@ -42,14 +42,19 @@ namespace at {
 namespace editor {
 	MainWindow::MainWindow(const ax::Rect& rect)
 		: _has_tmp_widget(false)
+		, _font(0)
 	{
 		// Create window.
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &MainWindow::OnPaint);
 		win->event.OnResize = ax::WBind<ax::Size>(this, &MainWindow::OnResize);
 
+		win->AddConnection(999, GetOnHelpBar());
+
+		_font.SetFontSize(10);
+
 		// Create top menu.
-		ax::Rect top_menu_rect(0, 0, rect.size.x, 30);
+		ax::Rect top_menu_rect(0, 0, rect.size.x, STATUS_BAR_HEIGHT);
 		_statusBar = new StatusBar(top_menu_rect);
 		win->node.Add(std::shared_ptr<ax::Window::Backbone>(_statusBar));
 
@@ -68,23 +73,26 @@ namespace editor {
 		sb_win->AddConnection(StatusBar::VIEW_LAYOUT, GetOnViewLayout());
 
 		// Create grid window.
-		ax::Rect grid_rect(WIDGET_MENU_WIDTH, 30, rect.size.x - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH,
-			rect.size.y - 30 - 200 - 18);
+		ax::Rect grid_rect(WIDGET_MENU_WIDTH, STATUS_BAR_HEIGHT,
+			rect.size.x - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH,
+			rect.size.y - STATUS_BAR_HEIGHT - 200 - BOTTOM_BAR_HEIGHT);
 		win->node.Add(_gridWindow = ax::shared<GridWindow>(grid_rect));
 
 		_gridWindow->GetWindow()->AddConnection(GridWindow::SELECT_WIDGET, GetOnSelectWidget());
 		_gridWindow->GetWindow()->AddConnection(GridWindow::UNSELECT_ALL, GetOnUnSelectAllWidget());
 
 		// Create widget menu. // 75
-		ax::Rect widget_menu_rect(0, 30, WIDGET_MENU_WIDTH, rect.size.y - 30 - 18);
+
+		ax::Rect widget_menu_rect(
+			0, STATUS_BAR_HEIGHT, WIDGET_MENU_WIDTH, rect.size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
 		_widgetMenu = ax::shared<WidgetMenu>(widget_menu_rect);
 		win->node.Add(_widgetMenu);
 
 		_widgetMenu->GetWindow()->AddConnection(WidgetMenu::SMALLER_MENU, GetOnSmallerLeftMenu());
 
 		// Create info menu.
-		ax::Rect info_rect(
-			rect.size.x - INSPECTOR_MENU_WIDTH, 30, INSPECTOR_MENU_WIDTH, rect.size.y - 30 - 18);
+		ax::Rect info_rect(rect.size.x - INSPECTOR_MENU_WIDTH, STATUS_BAR_HEIGHT, INSPECTOR_MENU_WIDTH,
+			rect.size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
 		win->node.Add(_inspectorMenu = ax::shared<InspectorMenu>(info_rect));
 
 		// Create code editor.
@@ -95,14 +103,14 @@ namespace editor {
 		txt_info.line_number_color = ax::Color(0.4);
 		txt_info.text_color = ax::Color(0.0);
 
-		ax::Rect bottom_rect(WIDGET_MENU_WIDTH + 1, rect.size.y - 200 - 18,
+		ax::Rect bottom_rect(WIDGET_MENU_WIDTH + 1, rect.size.y - 200 - BOTTOM_BAR_HEIGHT,
 			rect.size.x - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH, 200);
 
 		auto b_section = ax::shared<BottomSection>(bottom_rect);
 		win->node.Add(b_section);
 		_bottom_section = b_section.get();
 		_bottom_section->GetWindow()->AddConnection(BottomSection::RESIZE, GetOnResizeCodeEditor());
-		
+
 		_bottom_section->GetWindow()->AddConnection(10020, ax::Event::Function([&](ax::Event::Msg* msg) {
 														ax::Print("Save");
 														std::vector<ax::Window::Ptr>& children
@@ -190,6 +198,12 @@ namespace editor {
 		}
 	}
 
+	void MainWindow::OnHelpBar(const ax::Event::StringMsg& msg)
+	{
+		_help_bar_str = msg.GetMsg();
+		win->Update();
+	}
+
 	void MainWindow::OnUnSelectAllWidget(const ax::Event::SimpleMsg<int>& msg)
 	{
 		_selected_windows.clear();
@@ -212,15 +226,15 @@ namespace editor {
 		PyoAudio::GetInstance()->ReloadScript(_bottom_section->GetScriptPath());
 		//----------------------------------------------------------------------
 	}
-	
+
 	void MainWindow::OnStopScript(const ax::Event::SimpleMsg<int>& msg)
 	{
 		ax::Print("Stop script");
-		
+
 		/// @todo Do this in another thread and add a feedback to user somehow.
 		//----------------------------------------------------------------------
 		//		_codeEditor->SaveFile(_codeEditor->GetScriptPath());
-//		_bottom_section->SaveFile(_bottom_section->GetScriptPath());
+		//		_bottom_section->SaveFile(_bottom_section->GetScriptPath());
 		PyoAudio::GetInstance()->StopServer();
 		//----------------------------------------------------------------------
 	}
@@ -238,8 +252,6 @@ namespace editor {
 
 		win->event.OnResize(win->dimension.GetSize());
 	}
-	
-	
 
 	void MainWindow::OnToggleBottomPanel(const ax::Toggle::Msg& msg)
 	{
@@ -280,7 +292,7 @@ namespace editor {
 		if (!msg.GetMsg().empty()) {
 			_selected_windows.clear();
 			_inspectorMenu->SetWidgetHandle(nullptr);
-			
+
 			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
 
 			if (!script_path.empty()) {
@@ -378,7 +390,7 @@ namespace editor {
 		ax::Window* main_win = _gridWindow->GetMainWindow();
 		main_win->dimension.SetPosition(_view_info.old_main_window_position);
 
-		_gridWindow->GetWindow()->dimension.SetPosition(ax::Point(WIDGET_MENU_WIDTH, 30));
+		_gridWindow->GetWindow()->dimension.SetPosition(ax::Point(WIDGET_MENU_WIDTH, STATUS_BAR_HEIGHT));
 
 		// Find tmp back button and delete it.
 		ax::Window* main_window = _gridWindow->GetMainWindow();
@@ -570,7 +582,6 @@ namespace editor {
 
 		bool widget_menu = _widgetMenu->GetWindow()->IsShown();
 		bool inspector = _inspectorMenu->GetWindow()->IsShown();
-		//		bool code_editor = _codeEditor->GetWindow()->IsShown();
 		bool code_editor = _bottom_section->GetWindow()->IsShown();
 
 		int editor_height = 0;
@@ -602,7 +613,6 @@ namespace editor {
 			if (code_editor) {
 				ax::Rect editor_rect(widget_menu_width + 1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
 					size.x - widget_menu_width - INSPECTOR_MENU_WIDTH, editor_height);
-				//				_codeEditor->GetWindow()->dimension.SetRect(editor_rect);
 				_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}
@@ -616,7 +626,7 @@ namespace editor {
 			if (code_editor) {
 				ax::Rect editor_rect(widget_menu_width + 1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
 					size.x - widget_menu_width, editor_height);
-				//				_codeEditor->GetWindow()->dimension.SetRect(editor_rect);
+
 				_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}
@@ -631,7 +641,7 @@ namespace editor {
 			if (code_editor) {
 				ax::Rect editor_rect(1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
 					size.x - INSPECTOR_MENU_WIDTH, editor_height);
-				//				_codeEditor->GetWindow()->dimension.SetRect(editor_rect);
+
 				_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}
@@ -641,22 +651,22 @@ namespace editor {
 
 			if (code_editor) {
 				ax::Rect editor_rect(1, size.y - editor_height - BOTTOM_BAR_HEIGHT, size.x, editor_height);
-				//				_codeEditor->GetWindow()->dimension.SetRect(editor_rect);
+
 				_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}
 	}
-
+	
 	void MainWindow::OnPaint(ax::GC gc)
 	{
-		ax::Rect rect(ax::Point(0, 0), win->dimension.GetSize());
+		const ax::Rect rect(ax::Point(0, 0), win->dimension.GetSize());
 
 		gc.SetColor(ax::Color(0.3));
 		gc.DrawRectangle(rect);
 		gc.DrawRectangleContour(rect);
 
-		gc.SetColor(ax::Color(0.30));
-		gc.DrawRectangle(ax::Rect(0, rect.size.y - 18, rect.size.x, 18));
+		gc.SetColor(ax::Color(1.0));
+		gc.DrawString(_font, _help_bar_str, ax::Point(5, rect.size.y - 16));
 	}
 }
 }

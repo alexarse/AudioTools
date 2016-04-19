@@ -54,6 +54,7 @@ private:
 	static const int WIDGET_MENU_WIDTH = 250;
 	static const int BOTTOM_BAR_HEIGHT = 18;
 	
+	ax::Font _font;
 	StatusBar* _statusBar;
 	std::shared_ptr<WidgetMenu> _widgetMenu;
 	std::shared_ptr<GridWindow> _gridWindow;
@@ -61,6 +62,8 @@ private:
 	BottomSection* _bottom_section;
 	
 	std::vector<ax::Window*> _selected_windows;
+	
+	std::string _help_bar_str;
 	
 	
 	bool _has_tmp_widget;
@@ -100,10 +103,11 @@ private:
 	
 	axEVENT_DECLARATION(ax::Button::Msg, OnSmallerLeftMenu);
 	
+	axEVENT_DECLARATION(ax::Event::StringMsg, OnHelpBar);
+	
 	void OnCreateDraggingWidget(const ax::Event::SimpleMsg<ObjMsg>& msg);
 	void OnDraggingWidget(const ax::Event::SimpleMsg<ax::Point>& msg);
 	void OnReleaseObjWidget(const ax::Event::SimpleMsg<ax::Point>& msg);
-	
 	void OnResize(const ax::Size& size);
 	
 	void OnPaint(ax::GC gc);

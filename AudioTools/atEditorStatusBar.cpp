@@ -24,11 +24,13 @@
 
 #include "PyoAudio.h"
 #include "atCommon.h"
+#include "atEditor.h"
 #include "atEditorStatusBar.h"
 #include "atOpenDialog.hpp"
 #include "atPreferenceDialog.h"
 #include "atSaveDialog.hpp"
 #include "atSkin.hpp"
+#include "atHelpBar.h"
 
 #include <OpenAX/Core.h>
 #include <OpenAX/Toggle.h>
@@ -90,17 +92,22 @@ namespace editor {
 
 		// Left panel toggle.
 		auto tog_left = ax::shared<ax::Toggle>(ax::Rect(pos, tog_size), GetOnToggleLeftPanel(), tog_info);
-
+		AttachHelpInfo(tog_left.get(), "Toggle widget menu.");
+		
 		// Bottom panel toggle.
 		pos = tog_left->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		tog_info.img = "resources/top_menu_toggle_bottom.png";
+		
 		auto tog_middle = ax::shared<ax::Toggle>(ax::Rect(pos, tog_size), GetOnToggleBottomPanel(), tog_info);
-
+		AttachHelpInfo(tog_middle.get(), "Toggle code editor.");
+		
 		// Right panel toggle.
 		pos = tog_middle->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		tog_info.img = "resources/top_menu_toggle_right.png";
+		
 		auto tog_right = ax::shared<ax::Toggle>(ax::Rect(pos, tog_size), GetOnToggleRightPanel(), tog_info);
-
+		AttachHelpInfo(tog_right.get(), "Toggle inspector menu.");
+		
 		tog_left->SetSelected(true);
 		tog_middle->SetSelected(true);
 		tog_right->SetSelected(true);
@@ -126,42 +133,57 @@ namespace editor {
 		auto open_menu = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnOpenLayout(), btn_info,
 			"resources/folder.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(open_menu);
+		
+		AttachHelpInfo(open_menu.get(), "Open layout file.");
 
 		// Save button.
 		pos = open_menu->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto save_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveLayout(), btn_info,
 			"resources/save.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(save_btn);
+		
+		AttachHelpInfo(save_btn.get(), "Save current layout file.");
 
 		// Save as button.
 		pos = save_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto save_as_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveAsLayout(),
 			btn_info, "resources/save_as.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(save_as_btn);
+		
+		AttachHelpInfo(save_as_btn.get(), "Save as current layout file.");
 
 		// View button.
 		pos = save_as_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto view_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnViewLayout(), btn_info,
 			"resources/view.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(view_btn);
+		
+		AttachHelpInfo(view_btn.get(), "Switch layout to view mode.");
 
 		// Settings button.
 		pos = view_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto settings_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSettings(), btn_info,
 			"resources/settings.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(settings_btn);
+		
+		AttachHelpInfo(settings_btn.get(), "Preference.");
 
 		// Play / Refresh button.
 		pos = settings_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto refresh_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnReload(), btn_info,
 			"resources/play.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(refresh_btn);
+		
+		AttachHelpInfo(refresh_btn.get(), "Start script interpreter.");
 
 		// Stop button.
 		pos = refresh_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		auto stop_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnStop(), btn_info,
 			"resources/stop.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(stop_btn);
+		
+		AttachHelpInfo(stop_btn.get(), "Stop script interpreter.");
+
 	}
 
 	void StatusBar::OnSaveLayout(const ax::Button::Msg& msg)

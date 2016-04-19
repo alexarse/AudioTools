@@ -24,6 +24,7 @@
 
 #include "atEditorBottomSection.h"
 #include "atSkin.hpp"
+#include "atHelpBar.h"
 
 namespace at {
 namespace editor {
@@ -79,6 +80,8 @@ namespace editor {
 			"resources/txt_btn.png", "", ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
 		_txt_btn = txt_btn.get();
 		win->node.Add(txt_btn);
+		
+		AttachHelpInfo(txt_btn.get(), "Switch to code editor.");
 
 		ax::Point pos = _txt_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
@@ -86,6 +89,8 @@ namespace editor {
 			"resources/console_btn.png", "", ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
 		_console_btn = console_btn.get();
 		win->node.Add(console_btn);
+		
+		AttachHelpInfo(console_btn.get(), "Switch to console.");
 	}
 
 	bool BottomSection::OpenFile(const std::string& path)
