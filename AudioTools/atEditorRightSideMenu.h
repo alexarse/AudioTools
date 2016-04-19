@@ -10,8 +10,11 @@
 #define atEditorRightSideMenu_hpp
 
 #include <OpenAX/OpenAX.h>
+#include <OpenAX/Button.h>
 
 #include "atEditorInspectorMenu.h"
+#include "atEditorPyDoc.h"
+#include "atEditorAccount.h"
 
 namespace at {
 namespace editor {
@@ -25,13 +28,17 @@ namespace editor {
 		void SetInspectorHandle(ax::Window* handle);
 		void RemoveInspectorHandle();
 		
-		
-
 	private:
 		static const int TOP_BAR_HEIGHT = 25;
 		
 		InspectorMenu* _inspector;
-	
+		PyDoc* _pydoc;
+		Account* _account;
+		
+		axEVENT_DECLARATION(ax::Button::Msg, OnInspectorButton);
+		axEVENT_DECLARATION(ax::Button::Msg, OnPyDocButton);
+		axEVENT_DECLARATION(ax::Button::Msg, OnAccountButton);
+		
 		void OnResize(const ax::Size& size);
 		void OnPaint(ax::GC gc);
 	};

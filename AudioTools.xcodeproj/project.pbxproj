@@ -12,6 +12,8 @@
 		7C213B181CA05E460050F676 /* atSplashDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C213B161CA05E460050F676 /* atSplashDialog.cpp */; };
 		7C48A6DE1CC5BC1500ABB3AD /* atHelpBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C48A6DC1CC5BC1500ABB3AD /* atHelpBar.cpp */; };
 		7C48A6E11CC6842200ABB3AD /* atEditorRightSideMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C48A6DF1CC6842200ABB3AD /* atEditorRightSideMenu.cpp */; };
+		7C48A6E41CC69D5A00ABB3AD /* atEditorPyDoc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C48A6E21CC69D5A00ABB3AD /* atEditorPyDoc.cpp */; };
+		7C48A6E81CC69F7200ABB3AD /* atEditorAccount.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C48A6E61CC69F7200ABB3AD /* atEditorAccount.cpp */; };
 		7C5AD94E1CBDDE1A002D8E57 /* atPreferenceDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C5AD94C1CBDDE1A002D8E57 /* atPreferenceDialog.cpp */; };
 		7C5AD9541CBEBE4B002D8E57 /* DropMenuBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C5AD9521CBEBE4B002D8E57 /* DropMenuBox.cpp */; };
 		7C74767A1CA7675E009CBE23 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C7476791CA7675E009CBE23 /* CoreAudioKit.framework */; };
@@ -75,6 +77,10 @@
 		7C48A6DD1CC5BC1500ABB3AD /* atHelpBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atHelpBar.h; sourceTree = "<group>"; };
 		7C48A6DF1CC6842200ABB3AD /* atEditorRightSideMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorRightSideMenu.cpp; sourceTree = "<group>"; };
 		7C48A6E01CC6842200ABB3AD /* atEditorRightSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorRightSideMenu.h; sourceTree = "<group>"; };
+		7C48A6E21CC69D5A00ABB3AD /* atEditorPyDoc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorPyDoc.cpp; sourceTree = "<group>"; };
+		7C48A6E31CC69D5A00ABB3AD /* atEditorPyDoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorPyDoc.h; sourceTree = "<group>"; };
+		7C48A6E61CC69F7200ABB3AD /* atEditorAccount.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorAccount.cpp; sourceTree = "<group>"; };
+		7C48A6E71CC69F7200ABB3AD /* atEditorAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorAccount.h; sourceTree = "<group>"; };
 		7C5AD94C1CBDDE1A002D8E57 /* atPreferenceDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atPreferenceDialog.cpp; sourceTree = "<group>"; };
 		7C5AD94D1CBDDE1A002D8E57 /* atPreferenceDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atPreferenceDialog.h; sourceTree = "<group>"; };
 		7C5AD9521CBEBE4B002D8E57 /* DropMenuBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DropMenuBox.cpp; sourceTree = "<group>"; };
@@ -207,7 +213,7 @@
 		7C213B131CA0318B0050F676 /* Editor */ = {
 			isa = PBXGroup;
 			children = (
-				7C055FAA1C947D78004527C3 /* InspectorMenu */,
+				7C48A6E51CC69D9400ABB3AD /* RightSideMenu */,
 				7CF1D8DB1C93801B00AAAC01 /* CodeEditor */,
 				7C213B151CA031A90050F676 /* include */,
 				7C213B141CA031A20050F676 /* source */,
@@ -247,6 +253,18 @@
 				7C48A6E01CC6842200ABB3AD /* atEditorRightSideMenu.h */,
 			);
 			name = include;
+			sourceTree = "<group>";
+		};
+		7C48A6E51CC69D9400ABB3AD /* RightSideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				7C48A6E21CC69D5A00ABB3AD /* atEditorPyDoc.cpp */,
+				7C48A6E31CC69D5A00ABB3AD /* atEditorPyDoc.h */,
+				7C48A6E61CC69F7200ABB3AD /* atEditorAccount.cpp */,
+				7C48A6E71CC69F7200ABB3AD /* atEditorAccount.h */,
+				7C055FAA1C947D78004527C3 /* InspectorMenu */,
+			);
+			name = RightSideMenu;
 			sourceTree = "<group>";
 		};
 		7C5AD9481CBDD2D6002D8E57 /* include */ = {
@@ -525,6 +543,7 @@
 				7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */,
 				7C7B74691CC08778006EF72E /* PythonWrapper.cpp in Sources */,
 				7C48A6E11CC6842200ABB3AD /* atEditorRightSideMenu.cpp in Sources */,
+				7C48A6E81CC69F7200ABB3AD /* atEditorAccount.cpp in Sources */,
 				7CF1D8991C921DDF00AAAC01 /* atEditorGridWindow.cpp in Sources */,
 				7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */,
 				7C7B747A1CC1A890006EF72E /* atConsoleStream.cpp in Sources */,
@@ -532,6 +551,7 @@
 				7CF1D8B41C921DF800AAAC01 /* main.cpp in Sources */,
 				7C7B74681CC08778006EF72E /* PythonWrapperUtils.cpp in Sources */,
 				7C7B74771CC1A5A5006EF72E /* WindowPyWrapper.cpp in Sources */,
+				7C48A6E41CC69D5A00ABB3AD /* atEditorPyDoc.cpp in Sources */,
 				7C7B74D31CC558C1006EF72E /* atMidi.cpp in Sources */,
 				7C2138D41C9B252C0050F676 /* atVolumeMeter.cpp in Sources */,
 				7CF1D89C1C921DDF00AAAC01 /* atEditorMainWindow.cpp in Sources */,

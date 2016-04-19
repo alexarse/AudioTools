@@ -40,7 +40,7 @@ namespace editor {
 			= ax::WBind<ax::Window::Event::GlobalClick>(this, &OpenDialog::OnGlobalClick);
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &OpenDialog::OnMouseLeftDown);
 
-		ax::App::GetInstance().GetWindowManager()->AddGlobalClickListener(win);
+		ax::App::GetInstance().GetPopupManager()->AddGlobalClickListener(win);
 
 		ax::DropMenu::Info menu_info;
 		menu_info.normal = ax::Color(240, 240, 240);
@@ -84,7 +84,7 @@ namespace editor {
 		ax::Size menu_size(_menu->GetWindow()->dimension.GetSize());
 
 		auto open = ax::shared<ax::Button>(ax::Rect(rect.position.x, menu_size.y, size.x * 0.5, 30),
-			GetOnOpen(), ax::Button::Info(), "", "New");
+			GetOnOpen(), ax::Button::Info(), "", "Open");
 
 		auto cancel = ax::shared<ax::Button>(
 			ax::Rect(ax::Point(size.x * 0.5, menu_size.y), ax::Size(size.x * 0.5, 30)), GetOnCancel(),
@@ -153,21 +153,15 @@ namespace editor {
 
 	void OpenDialog::DeleteDialog()
 	{
-		ax::App::GetInstance().GetWindowManager()->RemoveGlobalClickListener(win);
 		ax::App::GetInstance().GetWindowManager()->SetPastWindow(nullptr);
 		ax::App::GetInstance().GetWindowManager()->UnGrabKey();
 		ax::App::GetInstance().GetWindowManager()->UnGrabMouse();
-
-		win->event.UnGrabKey();
-		win->event.UnGrabMouse();
-
-		win->backbone = nullptr;
-
+		
+		ax::App::GetInstance().GetPopupManager()->RemoveGlobalClickListener(win);
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-
+		ax::App::GetInstance().GetPopupManager()->UnGrabKey();
+		ax::App::GetInstance().GetPopupManager()->UnGrabMouse();
 		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
-//		ax::Print("Delete window.");
-
 		ax::App::GetInstance().UpdateAll();
 	}
 

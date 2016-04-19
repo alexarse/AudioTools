@@ -1,0 +1,35 @@
+//
+//  atEditorAccount.cpp
+//  AudioTools
+//
+//  Created by Alexandre Arsenault on 2016-04-19.
+//  Copyright © 2016 Alexandre Arsenault. All rights reserved.
+//
+
+#include "atEditorAccount.h"
+
+namespace at {
+namespace editor {
+	Account::Account(const ax::Rect& rect)
+		: _font(0)
+	{
+		// Create window.
+		win = ax::Window::Create(rect);
+		win->event.OnPaint = ax::WBind<ax::GC>(this, &Account::OnPaint);
+	}
+
+	void Account::OnPaint(ax::GC gc)
+	{
+		const ax::Rect rect(win->dimension.GetDrawingRect());
+
+		gc.SetColor(ax::Color(1.0));
+		gc.DrawRectangle(rect);
+		
+		gc.SetColor(ax::Color(0.0));
+		gc.DrawString(_font, "No user logged in.", ax::Point(20, 20));
+
+		gc.SetColor(ax::Color(0.7));
+		gc.DrawRectangleContour(rect);
+	}
+}
+}

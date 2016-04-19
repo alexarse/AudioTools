@@ -159,7 +159,7 @@ void TextEditor::MoveToCursorPosition()
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		// Possible problem when file size is smaller than _n_line_shown.
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		ax::Print("Problme");
+//		ax::Print("Problme");
 		_file_start_index = cur_pos.y - _n_line_shown + 1;
 		
 		if(_file_start_index < 0) {
@@ -178,7 +178,7 @@ void TextEditor::MoveToCursorPosition()
 		return;
 	}
 	
-	ax::Print("F start :", _file_start_index);
+//	ax::Print("F start :", _file_start_index);
 	double scroll_ratio = _file_start_index / double(diff);
 	_scrollBar->SetZeroToOneValue(scroll_ratio);
 }
