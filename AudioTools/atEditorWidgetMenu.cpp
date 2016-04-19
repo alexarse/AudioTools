@@ -25,8 +25,8 @@
 #include "atCommon.h"
 #include "atEditor.h"
 #include "atEditorWidgetMenu.h"
-#include "atSkin.hpp"
 #include "atHelpBar.h"
+#include "atSkin.hpp"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Xml.h>
@@ -206,18 +206,8 @@ namespace editor {
 		AttachHelpInfo(view_btn.get(), "Toggle small size widget menu.");
 		win->node.Add(view_btn);
 
-//		ax::Rect sRect(size.x - 9, TOP_BAR_HEIGHT, 10, size.y - (TOP_BAR_HEIGHT + 1));
-//		_scrollBar->GetWindow()->dimension.SetRect(sRect);
-//		_panel->dimension.SetShownRect(ax::Rect(0, TOP_BAR_HEIGHT, size.x, size.y - TOP_BAR_HEIGHT));
-//		_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
-
 		// Create scrolling window.
-//		_panel = ax::Window::Create(
-//			ax::Rect(0, TOP_BAR_HEIGHT, rect.size - ax::Size(2, TOP_BAR_HEIGHT + 2)));
-		_panel = ax::Window::Create(
-									ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
-		
-//			_panel->dimension.SetShownRect(ax::Rect(0, TOP_BAR_HEIGHT, size.x, size.y - TOP_BAR_HEIGHT));
+		_panel = ax::Window::Create(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
 
 		win->node.Add(ax::Window::Ptr(_panel));
 
@@ -378,7 +368,7 @@ namespace editor {
 		ax::Rect sRect(size.x - 9, TOP_BAR_HEIGHT, 10, size.y - (TOP_BAR_HEIGHT + 1));
 		_scrollBar->GetWindow()->dimension.SetRect(sRect);
 		_panel->dimension.SetShownRect(ax::Rect(0, TOP_BAR_HEIGHT, size.x, size.y - TOP_BAR_HEIGHT));
-		
+
 		_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 	}
 

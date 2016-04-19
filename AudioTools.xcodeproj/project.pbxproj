@@ -53,7 +53,6 @@
 		7CF1D89C1C921DDF00AAAC01 /* atEditorMainWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8871C921DDF00AAAC01 /* atEditorMainWindow.cpp */; };
 		7CF1D89E1C921DDF00AAAC01 /* atEditorStatusBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8891C921DDF00AAAC01 /* atEditorStatusBar.cpp */; };
 		7CF1D89F1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D88A1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp */; };
-		7CF1D8A11C921DDF00AAAC01 /* CodeEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D88C1C921DDF00AAAC01 /* CodeEditor.cpp */; };
 		7CF1D8A71C921DDF00AAAC01 /* atOpenDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8921C921DDF00AAAC01 /* atOpenDialog.cpp */; };
 		7CF1D8A81C921DDF00AAAC01 /* mdiSaveDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8931C921DDF00AAAC01 /* mdiSaveDialog.cpp */; };
 		7CF1D8AA1C921DDF00AAAC01 /* TextEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8951C921DDF00AAAC01 /* TextEditor.cpp */; };
@@ -143,7 +142,6 @@
 		7CF1D8741C921DCC00AAAC01 /* atEditorMainWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = atEditorMainWindow.h; sourceTree = "<group>"; };
 		7CF1D8751C921DCC00AAAC01 /* atEditorStatusBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = atEditorStatusBar.h; sourceTree = "<group>"; };
 		7CF1D8761C921DCC00AAAC01 /* atEditorWidgetMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = atEditorWidgetMenu.h; sourceTree = "<group>"; };
-		7CF1D8771C921DCC00AAAC01 /* CodeEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodeEditor.h; sourceTree = "<group>"; };
 		7CF1D87D1C921DCC00AAAC01 /* atOpenDialog.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = atOpenDialog.hpp; sourceTree = "<group>"; };
 		7CF1D87E1C921DCC00AAAC01 /* atSaveDialog.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = atSaveDialog.hpp; sourceTree = "<group>"; };
 		7CF1D8801C921DCC00AAAC01 /* TextEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextEditor.h; sourceTree = "<group>"; };
@@ -155,7 +153,6 @@
 		7CF1D8871C921DDF00AAAC01 /* atEditorMainWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorMainWindow.cpp; sourceTree = "<group>"; };
 		7CF1D8891C921DDF00AAAC01 /* atEditorStatusBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorStatusBar.cpp; sourceTree = "<group>"; };
 		7CF1D88A1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorWidgetMenu.cpp; sourceTree = "<group>"; };
-		7CF1D88C1C921DDF00AAAC01 /* CodeEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CodeEditor.cpp; sourceTree = "<group>"; };
 		7CF1D8921C921DDF00AAAC01 /* atOpenDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atOpenDialog.cpp; sourceTree = "<group>"; };
 		7CF1D8931C921DDF00AAAC01 /* mdiSaveDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mdiSaveDialog.cpp; sourceTree = "<group>"; };
 		7CF1D8951C921DDF00AAAC01 /* TextEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextEditor.cpp; sourceTree = "<group>"; };
@@ -278,7 +275,6 @@
 		7C5AD94A1CBDD322002D8E57 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				7CF1D8771C921DCC00AAAC01 /* CodeEditor.h */,
 				7CF1D8801C921DCC00AAAC01 /* TextEditor.h */,
 				7CF1D8811C921DCC00AAAC01 /* TextEditorLogic.h */,
 			);
@@ -288,7 +284,6 @@
 		7C5AD94B1CBDD327002D8E57 /* source */ = {
 			isa = PBXGroup;
 			children = (
-				7CF1D88C1C921DDF00AAAC01 /* CodeEditor.cpp */,
 				7CF1D8951C921DDF00AAAC01 /* TextEditor.cpp */,
 				7CF1D8961C921DDF00AAAC01 /* TextEditorLogic.cpp */,
 			);
@@ -532,7 +527,6 @@
 				7C7B74681CC08778006EF72E /* PythonWrapperUtils.cpp in Sources */,
 				7C7B74771CC1A5A5006EF72E /* WindowPyWrapper.cpp in Sources */,
 				7C7B74D31CC558C1006EF72E /* atMidi.cpp in Sources */,
-				7CF1D8A11C921DDF00AAAC01 /* CodeEditor.cpp in Sources */,
 				7C2138D41C9B252C0050F676 /* atVolumeMeter.cpp in Sources */,
 				7CF1D89C1C921DDF00AAAC01 /* atEditorMainWindow.cpp in Sources */,
 				7CBD415E1CB6973C000A22C5 /* atMenuBoolAttribute.cpp in Sources */,

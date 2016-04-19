@@ -33,7 +33,6 @@
 #include <OpenAX/WindowManager.h>
 #include <OpenAX/WindowTree.h>
 
-#include "CodeEditor.h"
 #include "PyoAudio.h"
 #include "atCommon.h"
 #include "atEditorLoader.h"

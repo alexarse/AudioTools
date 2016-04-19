@@ -90,7 +90,16 @@ ax::Point TextEditorLogic::GetCursorPosition() const
 void TextEditorLogic::SetCursorPosition(const ax::Point& cursor_pos)
 {
 	/// @todo Check if position is valid.
-	_cursor_pos = cursor_pos;
+	
+	if(cursor_pos.y < _file_data.size()) {
+		if(cursor_pos.x < _file_data[cursor_pos.y].size()) {
+			_cursor_pos = cursor_pos;
+		}
+		else {
+			_cursor_pos = ax::Point(_file_data[cursor_pos.y].size(), cursor_pos.y);
+		}
+	}
+	
 }
 
 void TextEditorLogic::MoveCursorRight()

@@ -166,7 +166,7 @@ namespace editor {
 			"resources/settings.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(settings_btn);
 		
-		AttachHelpInfo(settings_btn.get(), "Preference.");
+		AttachHelpInfo(settings_btn.get(), "Open preference.");
 
 		// Play / Refresh button.
 		pos = settings_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);

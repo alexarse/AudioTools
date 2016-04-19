@@ -182,7 +182,6 @@ void TextEditor::MoveToCursorPosition()
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		// Possible problem when file size is smaller than _n_line_shown.
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 		_file_start_index = cur_pos.y - _n_line_shown + 1;
 	}
 	else if (cur_pos.y < _file_start_index) {
@@ -197,20 +196,33 @@ void TextEditor::MoveToCursorPosition()
 
 void TextEditor::OnResize(const ax::Size& size)
 {
+	const int file_size((int)_logic.GetFileData().size());
+//	double r = (_file_start_index / double(file_size));
+	
 	_n_line_shown = size.y / _line_height;
-
 	_scrollPanel->dimension.SetSize(size);
 
-	ax::Rect scroll_rect(size.x - 9, 0, 10, size.y - 1);
-	_scrollBar->GetWindow()->dimension.SetRect(scroll_rect);
+	_scrollBar->GetWindow()->dimension.SetRect(ax::Rect(size.x - 9, 0, 10, size.y));
 
-	int h_size = (int)_logic.GetFileData().size() * _line_height;
-	_scrollBar->UpdateWindowSize(ax::Size(size.x, h_size));
+	int h_size = file_size * _line_height;
+
+	if (h_size < size.y) {
+		h_size = size.y;
+		ax::Print("bb");
+		_file_start_index = 0;
+		_scrollBar->UpdateWindowSize(ax::Size(size.x, size.y));
+	}
+	else {
+		_scrollBar->UpdateWindowSize(ax::Size(size.x, h_size));
+	}
+
+	
 
 	// Move scroll bar.
-	int diff = (int)_logic.GetFileData().size() - _n_line_shown;
-	double scroll_ratio = _file_start_index / double(diff);
-	_scrollBar->SetZeroToOneValue(scroll_ratio);
+//	int diff = file_size - _n_line_shown;
+//	double scroll_ratio = _file_start_index / double(diff);
+//	MoveToCursorPosition();
+//	_scrollBar->SetZeroToOneValue(r);
 }
 
 void TextEditor::OnScroll(const ax::ScrollBar::Msg& msg)
@@ -283,26 +295,26 @@ void TextEditor::OnDownArrowDown(const char& key)
 void TextEditor::OnKeyDown(const char& key)
 {
 	// If command is down.
-	if(ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
-		
-		if(key == 'v' || key == 'V') {
+	if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+
+		if (key == 'v' || key == 'V') {
 			std::string content = ax::App::GetInstance().GetPasteboardConent();
 			ax::Utils::String::ReplaceCharWithString(content, '\t', "    ");
-			
-			if(!content.empty()) {
+
+			if (!content.empty()) {
 				ax::StringVector& file_data = _logic.GetFileData();
 				ax::Point cur_pos(_logic.GetCursorPosition());
-			
+
 				ax::StringVector paste_content(ax::Utils::String::Split(content, "\n"));
-			
+
 				file_data[cur_pos.y].insert(cur_pos.x, paste_content[0]);
-				
-				for(int i = 1; i < paste_content.size(); i++) {
+
+				for (int i = 1; i < paste_content.size(); i++) {
 					file_data.insert(file_data.begin() + cur_pos.y + i, paste_content[i]);
 				}
-			
+
 				_scrollPanel->Update();
-//				ax::Print("Pasteboard content :", content);
+				//				ax::Print("Pasteboard content :", content);
 			}
 		}
 	}
@@ -354,77 +366,80 @@ void TextEditor::OnScrollWheel(const ax::Point& delta)
 
 void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 {
-	ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
+	const ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
+
+	// Line number selection.
+	if(mouse_pos.x < 25) {
+		return;
+	}
 
 	// Find new cursor line.
-	int line_index = mouse_pos.y / _line_height;
+	int line_index = _file_start_index + mouse_pos.y / _line_height;
 
 	//	ax::Print(line_index);
 	const ax::StringVector& data = _logic.GetFileData();
 
-	if (line_index < data.size()) {
-		int actual_line_index = line_index + _file_start_index;
-		//		ax::Print("actualine : ", actual_line_index);
-
-		// Find x cursor position.
-		const std::string& text = data[line_index];
-
-		std::vector<int> next_vec;
-		next_vec.reserve(text.size() + 1);
-
-		ax::Point line_pos(25 + 4, 0);
-
-		if (_font) {
-			int x = line_pos.x;
-			next_vec.push_back(x);
-
-			// For all char in line.
-			for (int i = 0; i < text.size(); i++) {
-				_font.SetChar(text[i]);
-				next_vec.push_back(_font.GetNextPosition());
-			}
-		}
-
-		if (next_vec.size() > 1) {
-			int cursor_index_x = -1;
-
-			int sum_size_x = 0;
-			for (int i = 0; i < next_vec.size() - 1; i++) {
-				if (mouse_pos.x >= sum_size_x + next_vec[i]
-					&& mouse_pos.x < sum_size_x + next_vec[i] + next_vec[i + 1]) {
-					cursor_index_x = i;
-					break;
-				}
-				sum_size_x += next_vec[i];
-			}
-
-			if (cursor_index_x == -1) {
-				//				ax::Print("go to last char of line");
-				_logic.SetCursorPosition(ax::Point((int)text.size(), actual_line_index));
-				_scrollPanel->Update();
-				return;
-			}
-
-			if (cursor_index_x < text.size()) {
-				_logic.SetCursorPosition(ax::Point(cursor_index_x, actual_line_index));
-				_scrollPanel->Update();
-			}
-		}
-		// No or one char in line.
-		else {
-			//			ax::Print("Line is empty");
-			_logic.SetCursorPosition(ax::Point(0, actual_line_index));
-			_scrollPanel->Update();
-		}
-
-		//		_next_pos_data.push_back(next_vec);
-		//		std::string& line_str = _logic->
-		//		void SetChar(const unsigned long& letter)
-	}
-	else {
-		//
+	if (line_index >= data.size()) {
 		ax::Print("go to last char");
 		_logic.SetCursorPosition(ax::Point((int)data[data.size() - 1].size(), (int)data.size() - 1));
+		_scrollPanel->Update();
+		return;
+	}
+
+//	int actual_line_index = line_index + _file_start_index;
+
+	// Find x cursor position.
+	const std::string& text = data[line_index];
+
+	std::vector<int> next_vec;
+	next_vec.reserve(text.size() + 1);
+
+	ax::Point line_pos(25 + 4, 0);
+
+	if(!_font) {
+		return;
+	}
+	
+	int x = line_pos.x;
+	next_vec.push_back(x);
+	
+	// For all char in line.
+	for (int i = 0; i < text.size(); i++) {
+		_font.SetChar(text[i]);
+		next_vec.push_back(_font.GetNextPosition());
+	}
+	
+	// Line is empty.
+	// Set cursor to begnning of line.
+	if (next_vec.size() <= 1) {
+		_logic.SetCursorPosition(ax::Point(0, line_index));
+		_scrollPanel->Update();
+		return;
+	}
+
+	// Find char index in line.
+	int cursor_index_x = -1;
+	int sum_size_x = 0;
+	
+	for (int i = 0; i < next_vec.size() - 1; i++) {
+		if (mouse_pos.x >= sum_size_x + next_vec[i]
+			&& mouse_pos.x < sum_size_x + next_vec[i] + next_vec[i + 1]) {
+			cursor_index_x = i;
+			break;
+		}
+		sum_size_x += next_vec[i];
+	}
+
+	// Char is not found.
+	// Goto to last char for line.
+	if (cursor_index_x == -1) {
+		_logic.SetCursorPosition(ax::Point((int)text.size(), line_index));
+		_scrollPanel->Update();
+		return;
+	}
+	
+	if (cursor_index_x < _logic.GetFileData()[line_index].size()) {
+		_logic.SetCursorPosition(ax::Point(cursor_index_x, line_index));
 		_scrollPanel->Update();
 	}
 }
@@ -581,7 +596,7 @@ void TextEditor::OnPaint(ax::GC gc)
 							gc.SetColor(_info.text_color);
 						}
 					}
-					
+
 					last_char_str_literal = false;
 				}
 				else {
