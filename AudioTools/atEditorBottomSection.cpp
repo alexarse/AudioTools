@@ -146,8 +146,6 @@ namespace editor {
 	
 	void BottomSection::OnMouseLeftDoubleClick(const ax::Point& pos)
 	{
-//		ax::Print("Double click bottom menu");
-		
 		ax::Rect rect(win->dimension.GetRect());
 		
 		if (rect.position.y > 30) {
@@ -156,7 +154,9 @@ namespace editor {
 			int size_y = bottom_pos_y - 30;
 			
 			win->PushEvent(RESIZE, new ax::Event::SimpleMsg<int>(0));
+			ax::Print("Go up");
 			win->dimension.SetRect(ax::Rect(rect.position.x, 30, rect.size.x, size_y));
+			ax::Print("Go up 2");
 		}
 		else {
 			// Drop down.

@@ -90,29 +90,6 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	// Scrollbar is use without window handle, it behave just like a slider.
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
 	_scrollBar->UpdateWindowSize(ax::Size(rect.size.x, h_size));
-
-	_number_cpp.insert("0");
-
-	_key_words_cpp.insert("class");
-	_key_words_cpp.insert("const");
-	_key_words_cpp.insert("return");
-	_key_words_cpp.insert("void");
-	_key_words_cpp.insert("virtual");
-	_key_words_cpp.insert("private");
-	_key_words_cpp.insert("public");
-	_key_words_cpp.insert("protected");
-	_key_words_cpp.insert("virtual");
-	_key_words_cpp.insert("if");
-	_key_words_cpp.insert("else");
-	_key_words_cpp.insert("while");
-	_key_words_cpp.insert("float");
-	_key_words_cpp.insert("double");
-	_key_words_cpp.insert("unsigned");
-	_key_words_cpp.insert("char");
-	_key_words_cpp.insert("for");
-	_key_words_cpp.insert("namespace");
-	_key_words_cpp.insert("new");
-	_key_words_cpp.insert("delete");
 }
 
 void TextEditor::SaveFile(const std::string& path)
@@ -182,7 +159,12 @@ void TextEditor::MoveToCursorPosition()
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		// Possible problem when file size is smaller than _n_line_shown.
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		ax::Print("Problme");
 		_file_start_index = cur_pos.y - _n_line_shown + 1;
+		
+		if(_file_start_index < 0) {
+			_file_start_index = 0;
+		}
 	}
 	else if (cur_pos.y < _file_start_index) {
 		_file_start_index = cur_pos.y;
@@ -190,6 +172,13 @@ void TextEditor::MoveToCursorPosition()
 
 	// Move scroll bar.
 	int diff = (int)_logic.GetFileData().size() - _n_line_shown;
+	
+	if(diff < 0) {
+		_scrollBar->SetZeroToOneValue(0.0);
+		return;
+	}
+	
+	ax::Print("F start :", _file_start_index);
 	double scroll_ratio = _file_start_index / double(diff);
 	_scrollBar->SetZeroToOneValue(scroll_ratio);
 }
@@ -228,10 +217,13 @@ void TextEditor::OnResize(const ax::Size& size)
 void TextEditor::OnScroll(const ax::ScrollBar::Msg& msg)
 {
 	int diff = (int)_logic.GetFileData().size() - _n_line_shown;
-	diff = ax::Utils::Clamp<int>(diff, 0, (int)_logic.GetFileData().size());
+	
+	if(diff < 0) {
+		diff = 0;
+	}
 
-	double scroll_ratio = _scrollBar->GetZeroToOneValue();
-	_file_start_index = scroll_ratio * diff;
+	const double scroll_ratio = _scrollBar->GetZeroToOneValue();
+	_file_start_index = ceil(scroll_ratio * diff);
 	_scrollPanel->Update();
 }
 
