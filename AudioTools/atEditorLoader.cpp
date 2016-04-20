@@ -316,7 +316,12 @@ namespace editor {
 		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([gwin, win, m_right_down](const ax::Point& pos) {
 
 			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
-
+				
+				win->property.AddProperty("edit_click");
+				
+				/// @todo Change event id to enum.
+				gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
+				
 				gwin->PushEvent(128973, new ax::Event::SimpleMsg<std::pair<ax::Point, ax::Window*>>(
 											std::pair<ax::Point, ax::Window*>(pos, win)));
 

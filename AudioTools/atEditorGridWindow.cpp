@@ -48,10 +48,21 @@
 
 namespace at {
 namespace editor {
+	void ClearPopupTree()
+	{
+		// Empty popup window tree.
+		ax::App& app(ax::App::GetInstance());
+		app.GetPopupManager()->SetPastKeyWindow(nullptr);
+		app.GetPopupManager()->SetPastWindow(nullptr);
+		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
+		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+	}
+
 	GridWindow::GridWindow(const ax::Rect& rect)
 		: _grid_space(10)
 		, _selection(false, ax::Rect(0, 0, 0, 0))
 		, _bg_color(at::Skin::GetInstance()->data.grid_window_bg)
+		, _right_click_menu(false)
 	{
 		// Create window.
 		win = ax::Window::Create(rect);
@@ -61,6 +72,8 @@ namespace editor {
 		win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &GridWindow::OnMouseLeftUp);
 		win->event.OnBackSpaceDown = ax::WBind<char>(this, &GridWindow::OnBackSpaceDown);
 		win->event.OnKeyDown = ax::WBind<char>(this, &GridWindow::OnKeyDown);
+		win->event.OnGlobalClick
+			= ax::WBind<ax::Window::Event::GlobalClick>(this, &GridWindow::OnGlobalClick);
 
 		win->AddConnection(DROP_WIDGET_MENU, GetOnDropWidgetMenu());
 
@@ -180,6 +193,7 @@ namespace editor {
 	void GridWindow::OnDropWidgetMenu(const ax::Event::SimpleMsg<std::pair<ax::Point, ax::Window*>>& msg)
 	{
 		ax::Print("Drop widget menu.");
+		_right_click_menu = true;
 
 		// Open menu.
 		ax::DropMenu::Info menu_info;
@@ -199,15 +213,31 @@ namespace editor {
 
 		auto menu = ax::shared<ax::DropMenu>(
 			ax::Rect(msg.GetMsg().first, ax::Size(100, 200)), ax::DropMenu::Events(), menu_info, menu_elems);
-		
+
 		// Empty popup window tree.
-		ax::App& app(ax::App::GetInstance());
-		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-		
+		ClearPopupTree();
+
 		// Add to top level popup manager.
-		app.GetPopupManager()->GetWindowTree()->AddTopLevel(ax::Window::Ptr(menu->GetWindow()));
+		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+			ax::Window::Ptr(menu->GetWindow()));
 		menu->GetWindow()->backbone = menu;
 		ax::App::GetInstance().UpdateAll();
+	}
+
+	void GridWindow::OnGlobalClick(const ax::Window::Event::GlobalClick& gclick)
+	{
+		if (_right_click_menu) {
+
+			//			if(!win->dimension.GetAbsoluteRect().IsPointInside(gclick.pos)) {
+			_right_click_menu = false;
+
+			// Empty popup window tree.
+			ClearPopupTree();
+			ax::App& app(ax::App::GetInstance());
+
+			app.UpdateAll();
+			//			}
+		}
 	}
 
 	std::string GridWindow::OpenLayout(const std::string& path)

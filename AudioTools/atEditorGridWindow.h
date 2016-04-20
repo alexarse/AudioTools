@@ -59,8 +59,11 @@ namespace editor {
 		int _grid_space;
 		std::pair<bool, ax::Rect> _selection;
 		ax::Color _bg_color;
+		bool _right_click_menu;
 		
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<PosAndWindow>, OnDropWidgetMenu);
+
+		void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
 
 		void OnKeyDown(const char& c);
 		void OnBackSpaceDown(const char& c);
