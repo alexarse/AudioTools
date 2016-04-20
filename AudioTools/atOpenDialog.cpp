@@ -173,7 +173,7 @@ namespace editor {
 
 	void OpenDialog::OnPaint(ax::GC gc)
 	{
-		ax::Rect rect(win->dimension.GetDrawingRect());
+		const ax::Rect rect(win->dimension.GetDrawingRect());
 
 		gc.SetColor(ax::Color(0.0, 0.6));
 		gc.DrawRectangle(rect);

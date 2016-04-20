@@ -102,3 +102,38 @@ int pyo_exec_statement(PyThreadState* interp, char* msg, int debug)
 
 	return err;
 }
+
+std::string pyo_GetClassBriefDoc(PyThreadState* interp, const std::string& class_name)
+{
+	std::string output;
+	PyEval_AcquireThread(interp);
+	
+	
+	try {
+		boost::python::object main_module = boost::python::import("__main__");
+		boost::python::object globals = main_module.attr("__dict__");
+		std::string content("from pyo import *;\ndef GetClassBrief(name):\n\treturn inspect.getdoc(globals()[name]).split('\\n\\n')[0];");
+
+		boost::python::exec(content.c_str(), globals);
+		boost::python::object brief = globals["GetClassBrief"](class_name.c_str());
+		
+		output = boost::python::extract<std::string>(brief);
+	}
+	catch (boost::python::error_already_set const&) {
+		std::string msg;
+		
+		if (PyErr_Occurred()) {
+			msg = handle_pyerror();
+		}
+		
+		PyErr_Clear();
+		
+		if (!msg.empty()) {
+			at::ConsoleStream::GetInstance()->Error(msg);
+		}
+	}
+	
+	PyEval_ReleaseThread(interp);
+	
+	return output;
+}

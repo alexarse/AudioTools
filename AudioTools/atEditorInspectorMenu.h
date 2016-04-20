@@ -51,6 +51,7 @@ namespace editor {
 	private:
 		ax::Window* _selected_handle;
 		ax::Font _font;
+		ax::Font _font_bold;
 	
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnPyoCallback);
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnWidgetUpdate);

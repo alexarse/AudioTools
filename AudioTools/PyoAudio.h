@@ -54,6 +54,8 @@ public:
 		_connected_obj = obj;
 	}
 	
+	std::string GetClassBrief(const std::string& name);
+	
 protected:
 	static PyoAudio* _global_audio;
 

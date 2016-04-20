@@ -19,6 +19,7 @@ namespace editor {
 
 	private:
 		ax::Font _font;
+		ax::Font _font_bold;
 		void OnPaint(ax::GC gc);
 	};
 }

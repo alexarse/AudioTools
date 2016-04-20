@@ -168,10 +168,13 @@ inline void pyo_end_interpreter(PyThreadState* interp)
 	// Py_EndInterpreter(interp);
 	// PyEval_ReleaseLock();
 	/* New method (seems to be ok) */
-	PyThreadState_Swap(interp);
-	PyThreadState_Swap(NULL);
-	PyThreadState_Clear(interp);
-	PyThreadState_Delete(interp);
+
+	if (interp != nullptr) {
+		PyThreadState_Swap(interp);
+		PyThreadState_Swap(NULL);
+		PyThreadState_Clear(interp);
+		PyThreadState_Delete(interp);
+	}
 }
 
 /*
@@ -208,6 +211,8 @@ inline void pyo_set_server_params(PyThreadState* interp, float sr, int bufsize)
 	PyRun_SimpleString("_s_.boot(newBuffer=False).start()");
 	PyEval_ReleaseThread(interp);
 }
+
+std::string pyo_GetClassBriefDoc(PyThreadState* interp, const std::string& module_name);
 
 /*
 ** Add a MIDI event in the pyo server processing chain. When used in

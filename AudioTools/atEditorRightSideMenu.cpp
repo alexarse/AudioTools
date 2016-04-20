@@ -23,7 +23,7 @@ namespace editor {
 		win->node.Add(pydoc);
 		_pydoc = pydoc.get();
 		_pydoc->GetWindow()->Hide();
-	
+
 		// Account panel.
 		auto account
 			= ax::shared<Account>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
@@ -98,7 +98,10 @@ namespace editor {
 
 	void RightSideMenu::OnResize(const ax::Size& size)
 	{
-		_inspector->GetWindow()->dimension.SetSize(size - ax::Size(0, TOP_BAR_HEIGHT));
+		const ax::Size s(size - ax::Size(0, TOP_BAR_HEIGHT));
+		_inspector->GetWindow()->dimension.SetSize(s);
+		_pydoc->GetWindow()->dimension.SetSize(s);
+		_account->GetWindow()->dimension.SetSize(s);
 	}
 
 	void RightSideMenu::OnPaint(ax::GC gc)

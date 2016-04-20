@@ -98,6 +98,11 @@ void PyoAudio::ProcessString(const std::string& script)
 	err = pyo_exec_statement(_pyo, msg, 1);
 }
 
+std::string PyoAudio::GetClassBrief(const std::string& name)
+{
+	return pyo_GetClassBriefDoc(_pyo, name);
+}
+
 bool PyoAudio::IsServerStarted()
 {
 	return (bool)pyo_is_server_started(_pyo);

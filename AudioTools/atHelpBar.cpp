@@ -44,13 +44,13 @@ namespace editor {
 		auto old_leave_fct = window->event.OnMouseLeave.GetFunction();
 		
 		window->event.OnMouseLeave
-		= ax::WFunc<ax::Point>([old_fct](const ax::Point& pos) {
+		= ax::WFunc<ax::Point>([old_leave_fct](const ax::Point& pos) {
 			
 			ax::Event::Object* main_obj = at::editor::App::GetInstance()->GetMainEvtObj();
 			main_obj->PushEvent(999, new ax::Event::StringMsg(""));
 			
-			if(old_fct) {
-				old_fct(pos);
+			if(old_leave_fct) {
+				old_leave_fct(pos);
 			}
 		});
 	}

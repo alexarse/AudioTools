@@ -65,6 +65,7 @@ namespace editor {
 	InspectorMenu::InspectorMenu(const ax::Rect& rect)
 		: _selected_handle(nullptr)
 		, _font("fonts/Lato.ttf")
+		, _font_bold("fonts/FreeSansBold.ttf")
 	{
 		// Create window.
 		win = ax::Window::Create(rect);
@@ -296,7 +297,12 @@ namespace editor {
 
 		gc.SetColor(ax::Color(255, 255, 255));
 		gc.DrawRectangle(rect);
-
+		
+		gc.SetColor(ax::Color(0.3));
+		gc.DrawString(_font_bold, "No widget selected.", ax::Point(15, 20));
+		gc.DrawString(_font, "Command + click over a widget on the", ax::Point(15, 40));
+		gc.DrawString(_font, "grid window to select a widget.", ax::Point(15, 52));
+		
 		gc.SetColor(ax::Color(0.7));
 		gc.DrawRectangleContour(rect);
 	}

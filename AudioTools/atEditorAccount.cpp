@@ -12,6 +12,7 @@ namespace at {
 namespace editor {
 	Account::Account(const ax::Rect& rect)
 		: _font(0)
+		, _font_bold("fonts/FreeSansBold.ttf")
 	{
 		// Create window.
 		win = ax::Window::Create(rect);
@@ -25,8 +26,9 @@ namespace editor {
 		gc.SetColor(ax::Color(1.0));
 		gc.DrawRectangle(rect);
 		
-		gc.SetColor(ax::Color(0.0));
-		gc.DrawString(_font, "No user logged in.", ax::Point(20, 20));
+		gc.SetColor(ax::Color(0.3));
+//		gc.DrawString(_font, "No user logged in.", ax::Point(20, 20));
+		gc.DrawString(_font_bold, "No user logged in.", ax::Point(15, 20));
 
 		gc.SetColor(ax::Color(0.7));
 		gc.DrawRectangleContour(rect);
