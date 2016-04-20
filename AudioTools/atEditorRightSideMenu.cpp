@@ -5,6 +5,19 @@
 
 namespace at {
 namespace editor {
+
+	ax::Point AddButton(const ax::Point& pos, ax::Window* win, const ax::Button::Events& evts,
+		const ax::Button::Info& info, const std::string& img, const std::string& description)
+	{
+		auto btn = ax::shared<ax::Button>(
+			ax::Rect(pos, ax::Size(20, 20)), evts, info, img, "", ax::Button::Flags::SINGLE_IMG);
+
+		AttachHelpInfo(btn->GetWindow(), description);
+		win->node.Add(btn);
+
+		return btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+	}
+
 	RightSideMenu::RightSideMenu(const ax::Rect& rect)
 	{
 		// Create window.
@@ -40,29 +53,27 @@ namespace editor {
 		btn_info.font_color = ax::Color(0.0, 0.0);
 
 		ax::Point pos(5, 2);
-		ax::Size size(20, 20);
+		//		ax::Size size(20, 20);
 
-		auto inspector_btn = ax::shared<ax::Button>(ax::Rect(pos, size), GetOnInspectorButton(), btn_info,
-			"resources/workspace.png", "", ax::Button::Flags::SINGLE_IMG);
+		// Widget info.
+		pos = AddButton(pos, win, GetOnInspectorButton(), btn_info, "resources/workspace.png",
+			"Show widget inspector menu.");
 
-		AttachHelpInfo(inspector_btn->GetWindow(), "Show widget inspector menu.");
-		win->node.Add(inspector_btn);
+		// Project info.
+		pos = AddButton(
+			pos, win, ax::Button::Events(), btn_info, "resources/label31.png", "Show Project information.");
 
-		pos = inspector_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+		// Pyo documentation.
+		pos = AddButton(
+			pos, win, GetOnPyDocButton(), btn_info, "resources/graduate.png", "Show pyo documentation.");
 
-		// Documentation button.
-		auto doc_btn = ax::shared<ax::Button>(ax::Rect(pos, size), GetOnPyDocButton(), btn_info,
-			"resources/graduate.png", "", ax::Button::Flags::SINGLE_IMG);
-		AttachHelpInfo(doc_btn->GetWindow(), "Show pyo documentation.");
-		win->node.Add(doc_btn);
+		// User account.
+		pos = AddButton(pos, win, GetOnAccountButton(), btn_info, "resources/account.png",
+			"Show user account information.");
 
-		pos = doc_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
-
-		// Account button.
-		auto account_btn = ax::shared<ax::Button>(ax::Rect(pos, size), GetOnAccountButton(), btn_info,
-			"resources/account.png", "", ax::Button::Flags::SINGLE_IMG);
-		AttachHelpInfo(account_btn->GetWindow(), "Show user account information.");
-		win->node.Add(account_btn);
+		// Code snippet.
+		pos = AddButton(
+			pos, win, ax::Button::Events(), btn_info, "resources/attachment.png", "Show code snippet.");
 	}
 
 	void RightSideMenu::SetInspectorHandle(ax::Window* handle)

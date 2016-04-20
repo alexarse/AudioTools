@@ -105,6 +105,7 @@ private:
 	axEVENT_ACCESSOR(ax::Event::SimpleMsg<ax::Point>, OnReleaseObjWidget);
 	
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::Window*>, OnSelectWidget);
+	
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnUnSelectAllWidget);
 	
 	axEVENT_DECLARATION(ax::Button::Msg, OnSmallerLeftMenu);

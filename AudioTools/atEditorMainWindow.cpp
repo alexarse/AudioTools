@@ -212,6 +212,8 @@ namespace editor {
 			_widgetMenu->SetOnlyMainWindowWidgetSelectable();
 		}
 	}
+	
+	
 
 	void MainWindow::OnHelpBar(const ax::Event::StringMsg& msg)
 	{

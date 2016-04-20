@@ -23,6 +23,7 @@
  */
 
 #include "atEditorGridWindow.h"
+#include <OpenAX/DropMenu.h>
 #include <OpenAX/WindowManager.h>
 #include <OpenAX/rapidxml.hpp>
 #include <OpenAX/rapidxml_print.hpp>
@@ -61,7 +62,10 @@ namespace editor {
 		win->event.OnBackSpaceDown = ax::WBind<char>(this, &GridWindow::OnBackSpaceDown);
 		win->event.OnKeyDown = ax::WBind<char>(this, &GridWindow::OnKeyDown);
 
+		win->AddConnection(DROP_WIDGET_MENU, GetOnDropWidgetMenu());
+
 		ax::App::GetInstance().GetWindowManager()->AddGlobalGrabedWindow(win);
+		ax::App::GetInstance().GetWindowManager()->AddGlobalClickListener(win);
 
 		win->property.AddProperty("BlockDrawing");
 		win->property.AddProperty("AcceptWidget");
@@ -88,7 +92,7 @@ namespace editor {
 	ax::Window* GridWindow::GetMainWindow()
 	{
 		std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
-		
+
 		for (auto& n : children) {
 			if (n->property.HasProperty("MainWindow")) {
 				return n.get();
@@ -128,10 +132,11 @@ namespace editor {
 						  ax::Xml::Node pyo_node = xml.CreateNode("pyo", fct_name);
 						  child_node.AddNode(pyo_node);
 					  }
-					  
+
 					  if (child_win->component.Has("unique_name")) {
-						  at::UniqueNameComponent::Ptr comp = child_win->component.Get<at::UniqueNameComponent>("unique_name");
-						  
+						  at::UniqueNameComponent::Ptr comp
+							  = child_win->component.Get<at::UniqueNameComponent>("unique_name");
+
 						  std::string name = comp->GetName();
 						  ax::Xml::Node unique_name_node = xml.CreateNode("unique_name", name);
 						  child_node.AddNode(unique_name_node);
@@ -157,10 +162,11 @@ namespace editor {
 					ax::Xml::Node pyo_node = xml.CreateNode("pyo", fct_name);
 					node.AddNode(pyo_node);
 				}
-				
+
 				if (n->component.Has("unique_name")) {
-					at::UniqueNameComponent::Ptr comp = n->component.Get<at::UniqueNameComponent>("unique_name");
-					
+					at::UniqueNameComponent::Ptr comp
+						= n->component.Get<at::UniqueNameComponent>("unique_name");
+
 					std::string name = comp->GetName();
 					ax::Xml::Node unique_name_node = xml.CreateNode("unique_name", name);
 					node.AddNode(unique_name_node);
@@ -169,6 +175,39 @@ namespace editor {
 		}
 
 		xml.Save(path);
+	}
+
+	void GridWindow::OnDropWidgetMenu(const ax::Event::SimpleMsg<std::pair<ax::Point, ax::Window*>>& msg)
+	{
+		ax::Print("Drop widget menu.");
+
+		// Open menu.
+		ax::DropMenu::Info menu_info;
+		menu_info.normal = ax::Color(240, 240, 240);
+		menu_info.hover = ax::Color(246, 246, 246);
+		menu_info.font_color = ax::Color(0.0);
+		menu_info.selected = ax::Color(41, 222, 255);
+		menu_info.selected_hover = ax::Color(41, 226, 255);
+		menu_info.selected_font_color = ax::Color(0.0);
+		menu_info.contour = ax::Color(0.86);
+		menu_info.separation = ax::Color(0.86);
+		menu_info.up_down_arrow = ax::Color(0.35);
+		menu_info.right_arrow = ax::Color(0.70);
+		menu_info.item_height = 25;
+
+		ax::StringVector menu_elems = { "Save as", "", "Remove" };
+
+		auto menu = ax::shared<ax::DropMenu>(
+			ax::Rect(msg.GetMsg().first, ax::Size(100, 200)), ax::DropMenu::Events(), menu_info, menu_elems);
+		
+		// Empty popup window tree.
+		ax::App& app(ax::App::GetInstance());
+		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		
+		// Add to top level popup manager.
+		app.GetPopupManager()->GetWindowTree()->AddTopLevel(ax::Window::Ptr(menu->GetWindow()));
+		menu->GetWindow()->backbone = menu;
+		ax::App::GetInstance().UpdateAll();
 	}
 
 	std::string GridWindow::OpenLayout(const std::string& path)
@@ -182,51 +221,51 @@ namespace editor {
 		_bg_color = color;
 		win->Update();
 	}
-	
+
 	ax::Window* GetWidgetByNameRecursive(ax::Window* window, const std::string& name)
 	{
-		if(window == nullptr) {
+		if (window == nullptr) {
 			return nullptr;
 		}
-		
+
 		if (window->component.Has("unique_name")) {
 			at::UniqueNameComponent::Ptr comp = window->component.Get<at::UniqueNameComponent>("unique_name");
-			
-			if(name == comp->GetName()) {
+
+			if (name == comp->GetName()) {
 				return comp->GetWindow();
 			}
 		}
-		
+
 		if (window->property.HasProperty("AcceptWidget")) {
 			std::vector<ax::Window::Ptr>& children = window->node.GetChildren();
-			
+
 			for (auto& n : children) {
 				ax::Window* tmp = GetWidgetByNameRecursive(n.get(), name);
-				if(tmp != nullptr) {
+				if (tmp != nullptr) {
 					return tmp;
 				}
 			}
 		}
-		
+
 		return nullptr;
 	}
-	
+
 	ax::Window* GridWindow::GetWidgetByName(const std::string& name)
 	{
 		auto& children = win->node.GetChildren();
-		
-		if(children.empty()) {
+
+		if (children.empty()) {
 			return nullptr;
 		}
-		
-		for(auto& n : children) {
+
+		for (auto& n : children) {
 			ax::Window* tmp = GetWidgetByNameRecursive(n.get(), name);
-			
-			if(tmp != nullptr) {
+
+			if (tmp != nullptr) {
 				return tmp;
 			}
 		}
-		
+
 		return nullptr;
 	}
 
@@ -265,29 +304,30 @@ namespace editor {
 				if (sel_wins.size()) {
 					// Copy selected widgets.
 					std::shared_ptr<ax::Window::Backbone> bck_bone(sel_wins[0]->backbone->GetCopy());
-					
-					if(bck_bone == nullptr) {
+
+					if (bck_bone == nullptr) {
 						return;
 					}
-					
+
 					const ax::Rect rect(sel_wins[0]->dimension.GetRect());
-					
+
 					bck_bone->GetWindow()->dimension.SetPosition(
 						rect.position + ax::Point(rect.size.x + 2, 0));
-					
+
 					at::editor::Loader loader(win);
-					ax::widget::Component* widget = static_cast<ax::widget::Component*>(bck_bone->GetWindow()->component.Get("Widget").get());
+					ax::widget::Component* widget = static_cast<ax::widget::Component*>(
+						bck_bone->GetWindow()->component.Get("Widget").get());
 
 					ax::Window* parent = sel_wins[0]->node.GetParent();
-					
-					if(parent == nullptr) {
+
+					if (parent == nullptr) {
 						return;
 					}
-					
-					if(parent->GetId() == win->GetId()) {
+
+					if (parent->GetId() == win->GetId()) {
 						return;
 					}
-					
+
 					parent->node.Add(bck_bone);
 					loader.SetupExistingWidget(bck_bone->GetWindow(), widget->GetBuilderName());
 				}

@@ -69,13 +69,13 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	win->node.Add(ax::Window::Ptr(_scrollPanel));
 
 	ax::ScrollBar::Info sInfo;
-	sInfo.normal = ax::Color(0.60);
-	sInfo.hover = ax::Color(0.65);
-	sInfo.clicking = ax::Color(0.62);
-	sInfo.slider_contour = ax::Color(0.0, 0.2);
-	sInfo.contour = ax::Color(0.0, 0.0);
-	sInfo.bg_top = ax::Color(0.8, 0.2);
-	sInfo.bg_bottom = ax::Color(0.82, 0.2);
+	sInfo.normal = ax::Color(0.80, 0.3);
+	sInfo.hover = ax::Color(0.85, 0.3);
+	sInfo.clicking = ax::Color(0.82, 0.3);
+	sInfo.slider_contour = ax::Color(0.6, 0.2);
+	sInfo.contour = ax::Color(0.9, 0.2);
+	sInfo.bg_top = ax::Color(0.9, 0.2);
+	sInfo.bg_bottom = ax::Color(0.92, 0.2);
 
 	ax::ScrollBar::Events scrollEvents;
 	scrollEvents.value_change = GetOnScroll();

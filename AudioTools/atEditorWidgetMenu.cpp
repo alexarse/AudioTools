@@ -222,10 +222,7 @@ namespace editor {
 		
 		pos = cloud_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
-		auto att_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(20, 20)), ax::Button::Events(), btn_info,
-			"resources/attachment.png", "", ax::Button::Flags::SINGLE_IMG);
-		AttachHelpInfo(att_btn->GetWindow(), "Show work.");
-		win->node.Add(att_btn);
+		
 
 		// Create scrolling window.
 		_panel = ax::Window::Create(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
@@ -289,13 +286,13 @@ namespace editor {
 		}
 
 		ax::ScrollBar::Info sInfo;
-		sInfo.normal = ax::Color(0.60);
-		sInfo.hover = ax::Color(0.65);
-		sInfo.clicking = ax::Color(0.62);
-		sInfo.slider_contour = ax::Color(0.0, 0.2);
-		sInfo.contour = ax::Color(0.8, 0.2);
-		sInfo.bg_top = ax::Color(0.8, 0.2);
-		sInfo.bg_bottom = ax::Color(0.82, 0.2);
+		sInfo.normal = ax::Color(0.80, 0.3);
+		sInfo.hover = ax::Color(0.85, 0.3);
+		sInfo.clicking = ax::Color(0.82, 0.3);
+		sInfo.slider_contour = ax::Color(0.6, 0.2);
+		sInfo.contour = ax::Color(0.9, 0.2);
+		sInfo.bg_top = ax::Color(0.9, 0.2);
+		sInfo.bg_bottom = ax::Color(0.92, 0.2);
 
 		ax::Rect sRect(rect.size.x - 9, TOP_BAR_HEIGHT, 10, rect.size.y - TOP_BAR_HEIGHT);
 		_scrollBar = ax::shared<ax::ScrollBar>(sRect, ax::ScrollBar::Events(), sInfo);

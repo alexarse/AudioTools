@@ -219,8 +219,8 @@
 		7C213B131CA0318B0050F676 /* Editor */ = {
 			isa = PBXGroup;
 			children = (
+				7C48A6EF1CC7C90200ABB3AD /* BottomMenu */,
 				7C48A6E51CC69D9400ABB3AD /* RightSideMenu */,
-				7CF1D8DB1C93801B00AAAC01 /* CodeEditor */,
 				7C213B151CA031A90050F676 /* include */,
 				7C213B141CA031A20050F676 /* source */,
 			);
@@ -230,7 +230,6 @@
 		7C213B141CA031A20050F676 /* source */ = {
 			isa = PBXGroup;
 			children = (
-				7C48A6DF1CC6842200ABB3AD /* atEditorRightSideMenu.cpp */,
 				7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */,
 				7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */,
 				7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */,
@@ -256,7 +255,6 @@
 				7CF1D8741C921DCC00AAAC01 /* atEditorMainWindow.h */,
 				7CF1D8751C921DCC00AAAC01 /* atEditorStatusBar.h */,
 				7CF1D8761C921DCC00AAAC01 /* atEditorWidgetMenu.h */,
-				7C48A6E01CC6842200ABB3AD /* atEditorRightSideMenu.h */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -264,17 +262,21 @@
 		7C48A6E51CC69D9400ABB3AD /* RightSideMenu */ = {
 			isa = PBXGroup;
 			children = (
-				7C48A6EC1CC6C02800ABB3AD /* atEditorPyDocSeparator.cpp */,
-				7C48A6ED1CC6C02800ABB3AD /* atEditorPyDocSeparator.h */,
-				7C48A6E91CC6B6FC00ABB3AD /* atEditorPyDocElement.cpp */,
-				7C48A6EA1CC6B6FC00ABB3AD /* atEditorPyDocElement.h */,
-				7C48A6E21CC69D5A00ABB3AD /* atEditorPyDoc.cpp */,
-				7C48A6E31CC69D5A00ABB3AD /* atEditorPyDoc.h */,
-				7C48A6E61CC69F7200ABB3AD /* atEditorAccount.cpp */,
-				7C48A6E71CC69F7200ABB3AD /* atEditorAccount.h */,
+				7C48A6E01CC6842200ABB3AD /* atEditorRightSideMenu.h */,
+				7C48A6DF1CC6842200ABB3AD /* atEditorRightSideMenu.cpp */,
+				7CC9EAE11CC7D90E0032FBB4 /* Account */,
+				7CC9EAE01CC7D9000032FBB4 /* PyoDoc */,
 				7C055FAA1C947D78004527C3 /* InspectorMenu */,
 			);
 			name = RightSideMenu;
+			sourceTree = "<group>";
+		};
+		7C48A6EF1CC7C90200ABB3AD /* BottomMenu */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1D8DB1C93801B00AAAC01 /* CodeEditor */,
+			);
+			name = BottomMenu;
 			sourceTree = "<group>";
 		};
 		7C5AD9481CBDD2D6002D8E57 /* include */ = {
@@ -393,6 +395,28 @@
 				7C5AD9501CBDDE87002D8E57 /* source */,
 			);
 			name = Dialog;
+			sourceTree = "<group>";
+		};
+		7CC9EAE01CC7D9000032FBB4 /* PyoDoc */ = {
+			isa = PBXGroup;
+			children = (
+				7C48A6EC1CC6C02800ABB3AD /* atEditorPyDocSeparator.cpp */,
+				7C48A6ED1CC6C02800ABB3AD /* atEditorPyDocSeparator.h */,
+				7C48A6E91CC6B6FC00ABB3AD /* atEditorPyDocElement.cpp */,
+				7C48A6EA1CC6B6FC00ABB3AD /* atEditorPyDocElement.h */,
+				7C48A6E21CC69D5A00ABB3AD /* atEditorPyDoc.cpp */,
+				7C48A6E31CC69D5A00ABB3AD /* atEditorPyDoc.h */,
+			);
+			name = PyoDoc;
+			sourceTree = "<group>";
+		};
+		7CC9EAE11CC7D90E0032FBB4 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				7C48A6E61CC69F7200ABB3AD /* atEditorAccount.cpp */,
+				7C48A6E71CC69F7200ABB3AD /* atEditorAccount.h */,
+			);
+			name = Account;
 			sourceTree = "<group>";
 		};
 		7CF1D8211C9207DD00AAAC01 = {

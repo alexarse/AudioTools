@@ -24,6 +24,7 @@
 
 #include <OpenAX/WindowManager.h>
 
+
 namespace ax {
 DropMenuBox::DropMenuBox(const ax::Rect& rect, const std::string& current_value, const ax::StringVector& menu_options)
 	: _is_droped(false)

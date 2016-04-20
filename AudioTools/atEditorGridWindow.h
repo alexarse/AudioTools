@@ -36,7 +36,7 @@ namespace editor {
 	public:
 		GridWindow(const ax::Rect& rect);
 
-		enum : ax::Event::Id { UNSELECT_ALL = 999, SELECT_WIDGET = 1234 };
+		enum : ax::Event::Id { UNSELECT_ALL = 999, SELECT_WIDGET = 1234, DROP_WIDGET_MENU = 128973 };
 
 		/// Set number of pixels between each grid lines.
 		void SetGridSpace(const int& space);
@@ -52,11 +52,15 @@ namespace editor {
 		ax::Window* GetMainWindow();
 		
 		ax::Window* GetWidgetByName(const std::string& name);
+		
+		typedef std::pair<ax::Point, ax::Window*> PosAndWindow;
 
 	private:
 		int _grid_space;
 		std::pair<bool, ax::Rect> _selection;
 		ax::Color _bg_color;
+		
+		axEVENT_DECLARATION(ax::Event::SimpleMsg<PosAndWindow>, OnDropWidgetMenu);
 
 		void OnKeyDown(const char& c);
 		void OnBackSpaceDown(const char& c);

@@ -30,13 +30,14 @@
 #include "atUniqueNameComponent.h"
 
 #include <OpenAX/Button.h>
+#include <OpenAX/Core.h>
+#include <OpenAX/DropMenu.h>
 #include <OpenAX/Knob.h>
 #include <OpenAX/Label.h>
 #include <OpenAX/Panel.h>
 #include <OpenAX/Slider.h>
 #include <OpenAX/Toggle.h>
 #include <OpenAX/WidgetLoader.h>
-#include <OpenAX/Core.h>
 #include <OpenAX/WindowManager.h>
 
 namespace at {
@@ -86,27 +87,27 @@ namespace editor {
 		panel_builder->SetCreateCallback([&](ax::Window* win, ax::Xml::Node& node) {
 			std::string builder_name = node.GetAttribute("builder");
 			std::string pyo_fct_name;
-			
+
 			ax::Xml::Node pyo_node = node.GetNode("pyo");
 
 			if (pyo_node.IsValid()) {
 				pyo_fct_name = pyo_node.GetValue();
 			}
-			
+
 			std::string unique_name;
 			ax::Xml::Node unique_name_node = node.GetNode("unique_name");
-			
+
 			if (unique_name_node.IsValid()) {
 				unique_name = unique_name_node.GetValue();
 			}
-			
+
 			SetupExistingWidget(win, builder_name, pyo_fct_name, unique_name);
 		});
 
 		try {
 			while (node.IsValid()) {
 				std::string node_name = node.GetName();
-//				ax::Print("Node name :", node_name);
+				//				ax::Print("Node name :", node_name);
 
 				if (node_name == "Widget") {
 					std::string buider_name = node.GetAttribute("builder");
@@ -117,10 +118,10 @@ namespace editor {
 					if (pyo_node.IsValid()) {
 						pyo_fct_name = pyo_node.GetValue();
 					}
-					
+
 					std::string unique_name;
 					ax::Xml::Node unique_name_node = node.GetNode("unique_name");
-					
+
 					if (unique_name_node.IsValid()) {
 						unique_name = unique_name_node.GetValue();
 					}
@@ -151,8 +152,8 @@ namespace editor {
 		return script_path;
 	}
 
-	void Loader::SetupExistingWidget(
-		ax::Window* widget, const std::string& builder_name, const std::string& pyo_fct, const std::string& unique_name)
+	void Loader::SetupExistingWidget(ax::Window* widget, const std::string& builder_name,
+		const std::string& pyo_fct, const std::string& unique_name)
 	{
 		if (builder_name == "Button") {
 			widget->property.AddProperty("Resizable");
@@ -205,7 +206,7 @@ namespace editor {
 	void Loader::SetupEditWidget(ax::Window* win)
 	{
 		ax::Window* gwin = _win;
-		
+
 		auto m_down_fct = win->event.OnMouseLeftDown.GetFunction();
 		win->event.OnMouseLeftDown = ax::WFunc<ax::Point>([gwin, win, m_down_fct](const ax::Point& pos) {
 			bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
@@ -217,7 +218,7 @@ namespace editor {
 				win->property.AddProperty("edit_click");
 
 				if (win->property.HasProperty("Resizable")) {
-					
+
 					if (c_delta.x > win->dimension.GetShownRect().size.x - 4) {
 						win->property.AddProperty("ResizeRight");
 					}
@@ -232,7 +233,7 @@ namespace editor {
 				/// @todo Change event id to enum.
 				gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
 			}
-			
+
 			// Call widget callback.
 			else {
 				if (m_down_fct) {
@@ -240,9 +241,7 @@ namespace editor {
 				}
 			}
 		});
-		
-		
-		
+
 		auto m_drag_fct = win->event.OnMouseLeftDragging.GetFunction();
 		win->event.OnMouseLeftDragging = ax::WFunc<ax::Point>([win, m_drag_fct](const ax::Point& pos) {
 
@@ -280,7 +279,7 @@ namespace editor {
 					}
 				}
 			}
-			
+
 			// Call widget callback.
 			else {
 				if (m_drag_fct) {
@@ -313,70 +312,46 @@ namespace editor {
 			}
 		});
 
-//		auto m_right_down = win->event.OnMouseRightDown.GetFunction();
-//		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([gwin, win, m_right_down](const ax::Point& pos) {
-//
-//			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
-//				
-//				win->Hide();
-//				
-//				ax::Window* parent = win->node.GetParent();
-//
-//				if (parent == nullptr) {
-//					return;
-//				}
-//
-//				auto& children = parent->node.GetChildren();
-//				ax::Window::Ptr current_win;
-//
-//				int index = -1;
-//				for (int i = 0; i < children.size(); i++) {
-//					if (children[i]->GetId() == win->GetId()) {
-//						current_win = children[i];
-//						index = i;
-//						break;
-//					}
-//				}
-//
-//				if (current_win && index != -1) {
-//					win->event.UnGrabMouse();
-//					ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
-//					children.erase(children.begin() + index);
-//
-//					/// @todo Remove from inspector menu.
-//					gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(nullptr));
-//				}
-//
-//				return;
-//			}
-//
-//			// Call widget callback.
-//			if (m_right_down) {
-//				m_right_down(pos);
-//			}
-//		});
-		
+		auto m_right_down = win->event.OnMouseRightDown.GetFunction();
+		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([gwin, win, m_right_down](const ax::Point& pos) {
+
+			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+
+				gwin->PushEvent(128973, new ax::Event::SimpleMsg<std::pair<ax::Point, ax::Window*>>(
+											std::pair<ax::Point, ax::Window*>(pos, win)));
+
+				return;
+			}
+
+			// Call widget callback.
+			if (m_right_down) {
+				m_right_down(pos);
+			}
+		});
+
 		// Mouse motion.
 		auto m_motion = win->event.OnMouseMotion.GetFunction();
 		win->event.OnMouseMotion = ax::WFunc<ax::Point>([gwin, win, m_motion](const ax::Point& pos) {
 			bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
-			
+
 			if (cmd_down) {
 				ax::Point c_delta(pos - win->dimension.GetAbsoluteRect().position);
-				//win->resource.Add("click_delta", c_delta);
-//				win->event.GrabMouse();
-//				win->property.AddProperty("edit_click");
-				
+				// win->resource.Add("click_delta", c_delta);
+				//				win->event.GrabMouse();
+				//				win->property.AddProperty("edit_click");
+
 				if (win->property.HasProperty("Resizable")) {
-					
+
 					if (c_delta.x > win->dimension.GetShownRect().size.x - 4) {
-						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
+						ax::App::GetInstance().GetCore()->SetCursor(
+							ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
 					}
 					else if (c_delta.y > win->dimension.GetShownRect().size.y - 4) {
 						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
 					}
 					else if (c_delta.x < 4) {
-						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
+						ax::App::GetInstance().GetCore()->SetCursor(
+							ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
 					}
 					else {
 						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
@@ -386,32 +361,31 @@ namespace editor {
 			else {
 				// Set normal cursor.
 				ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
-				
+
 				// Call widget callback.
 				if (m_motion) {
 					m_motion(pos);
 				}
 			}
 		});
-		
+
 		auto m_leave = win->event.OnMouseLeave.GetFunction();
 		win->event.OnMouseLeave = ax::WFunc<ax::Point>([gwin, win, m_leave](const ax::Point& pos) {
-			
-//			ax::Print("Mouse leave");
-			
+
+			//			ax::Print("Mouse leave");
+
 			if (win->property.HasProperty("edit_click")) {
-//				ax::Print("Mouse leave has -> edit click");
+				//				ax::Print("Mouse leave has -> edit click");
 			}
 			else {
 				// Set normal cursor.
 				ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
-				
+
 				if (m_leave) {
 					m_leave(pos);
 				}
 			}
 		});
-
 
 		win->event.OnPaintOverFrameBuffer = ax::WFunc<ax::GC>([win](ax::GC gc) {
 			if (win->property.HasProperty("current_editing_widget")) {
@@ -433,27 +407,26 @@ namespace editor {
 		});
 	}
 
-	
 	void PythonCallEmpty(const std::string& fct_name)
 	{
 		std::string fct_call = fct_name + "();\n";
 		PyoAudio::GetInstance()->ProcessString(fct_call);
 	}
-	
+
 	void PythonCallReal(const std::string& fct_name, double value)
 	{
 		std::string fct_call = fct_name + "(";
 		fct_call += std::to_string(value) + ");\n";
 		PyoAudio::GetInstance()->ProcessString(fct_call);
 	}
-	
+
 	void Loader::SetupPyoComponent(ax::Window* win, const std::string& fct_name)
 	{
 		auto comp = pyo::Component::Ptr(new pyo::Component(win));
 		comp->SetFunctionName(fct_name);
 		win->component.Add("pyo", comp);
 	}
-	
+
 	void Loader::SetupUniqueNameComponent(ax::Window* win, const std::string& name)
 	{
 		auto comp = at::UniqueNameComponent::Ptr(new at::UniqueNameComponent(win));
@@ -469,7 +442,7 @@ namespace editor {
 								   const std::string fct_name = comp->GetFunctionName();
 
 								   if (!fct_name.empty()) {
-								   	   PythonCallEmpty(fct_name);
+									   PythonCallEmpty(fct_name);
 								   }
 							   }
 						   }));
