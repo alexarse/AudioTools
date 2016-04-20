@@ -28,7 +28,14 @@ namespace editor {
 		ax::Point AddSeparator(const ax::Point& pos, const std::string& name, const ax::StringVector& args);
 	
 		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnNeedResize);
+		
 	
+		void OnMouseEnter(const ax::Point& pos);
+		void OnMouseLeave(const ax::Point& pos);
+		void OnMouseEnterChild(const ax::Point& pos);
+		void OnScrollWheel(const ax::Point& delta);
+		void OnMouseLeaveChild(const ax::Point& pos);
+		void OnResize(const ax::Size& size);
 		void OnPaint(ax::GC gc);
 	};
 }

@@ -87,7 +87,8 @@ namespace editor {
 		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_bg);
 		gc.DrawRectangle(rect);
 
-		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_contour);
+//		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_contour);
+		gc.SetColor(ax::Color(0.7));
 		gc.DrawRectangleContour(rect);
 
 		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_text);

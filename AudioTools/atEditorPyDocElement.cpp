@@ -7,6 +7,7 @@
 //
 
 #include "atEditorPyDocElement.h"
+#include "atSkin.hpp"
 
 namespace at {
 namespace editor {
@@ -35,8 +36,10 @@ namespace editor {
 	{
 		const ax::Rect rect(win->dimension.GetDrawingRect());
 
-		gc.SetColor(ax::Color(1.0));
-		gc.DrawRectangle(rect);
+//		gc.SetColor(ax::Color(1.0));
+//		gc.DrawRectangle(rect);
+		gc.DrawRectangleColorFade(rect, at::Skin::GetInstance()->data.w_menu_obj_bg_0,
+								  at::Skin::GetInstance()->data.w_menu_obj_bg_1);
 
 		gc.SetColor(ax::Color(0.3));
 		gc.DrawString(_font, _name, ax::Point(5, 2));

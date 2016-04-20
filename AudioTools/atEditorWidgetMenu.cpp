@@ -351,9 +351,9 @@ namespace editor {
 
 	void WidgetMenu::OnScrollWheel(const ax::Point& delta)
 	{
-		ax::Size size = _panel->dimension.GetShownRect().size;
-		double scroll_value = (delta.y / double(size.y / 2.0)) + _scrollBar->GetZeroToOneValue();
-
+//		ax::Size size = _panel->dimension.GetShownRect().size;
+//		double scroll_value = (delta.y / double(size.y / 2.0)) + _scrollBar->GetZeroToOneValue();
+		double scroll_value = (delta.y / (double)ax::App::GetInstance().GetFrameSize().y) + _scrollBar->GetZeroToOneValue();
 		_scrollBar->SetZeroToOneValue(scroll_value);
 	}
 

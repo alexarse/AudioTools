@@ -128,7 +128,10 @@ namespace editor {
 
 	void OpenDialog::OnGlobalClick(const ax::Window::Event::GlobalClick& gclick)
 	{
-		DeleteDialog();
+		if(!win->dimension.GetAbsoluteRect().IsPointInside(gclick.pos)) {
+			DeleteDialog();
+		}
+		
 	}
 
 	void OpenDialog::OnOpen(const ax::Button::Msg& msg)

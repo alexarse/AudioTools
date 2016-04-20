@@ -43,7 +43,13 @@ namespace editor {
 		// Create window.
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &PyDoc::OnPaint);
-
+		win->event.OnResize = ax::WBind<ax::Size>(this, &PyDoc::OnResize);
+		win->event.OnScrollWheel = ax::WBind<ax::Size>(this, &PyDoc::OnScrollWheel);
+		win->event.OnMouseEnter = ax::WBind<ax::Size>(this, &PyDoc::OnMouseEnter);
+		win->event.OnMouseEnterChild = ax::WBind<ax::Size>(this, &PyDoc::OnMouseEnterChild);
+		win->event.OnMouseLeave = ax::WBind<ax::Size>(this, &PyDoc::OnMouseLeave);
+		win->event.OnMouseLeaveChild = ax::WBind<ax::Size>(this, &PyDoc::OnMouseLeaveChild);
+		
 		_scroll_panel = ax::Window::Create(ax::Rect(ax::Point(0, 0), rect.size));
 		win->node.Add(ax::Window::Ptr(_scroll_panel));
 
@@ -117,7 +123,49 @@ namespace editor {
 		_scroll_panel->dimension.SetSizeNoShowRect(size);
 		_scrollBar->UpdateWindowSize(size);
 	}
-
+	
+	
+	void PyDoc::OnMouseEnter(const ax::Point& pos)
+	{
+		win->event.GrabScroll();
+	}
+	
+	void PyDoc::OnMouseLeave(const ax::Point& pos)
+	{
+		if (!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
+			win->event.UnGrabScroll();
+		}
+	}
+	
+	void PyDoc::OnMouseEnterChild(const ax::Point& pos)
+	{
+		win->event.GrabScroll();
+	}
+	
+	void PyDoc::OnMouseLeaveChild(const ax::Point& pos)
+	{
+		if (!win->dimension.GetAbsoluteRect().IsPointInside(pos)) {
+			win->event.UnGrabScroll();
+		}
+	}
+	
+	void PyDoc::OnScrollWheel(const ax::Point& delta)
+	{
+//		ax::Size size = _scroll_panel->dimension.GetShownRect().size;
+		double scroll_value = (delta.y / (double)ax::App::GetInstance().GetFrameSize().y) + _scrollBar->GetZeroToOneValue();
+		
+		_scrollBar->SetZeroToOneValue(scroll_value);
+	}
+	
+	void PyDoc::OnResize(const ax::Size& size)
+	{
+		ax::Rect sRect(size.x - 9, 0, 10, size.y);
+		_scrollBar->GetWindow()->dimension.SetRect(sRect);
+		_scroll_panel->dimension.SetShownRect(ax::Rect(0, 0, size.x, size.y));
+		
+		_scrollBar->UpdateWindowSize(_scroll_panel->dimension.GetSize());
+	}
+	
 	void PyDoc::OnPaint(ax::GC gc)
 	{
 		const ax::Rect rect(win->dimension.GetDrawingRect());
