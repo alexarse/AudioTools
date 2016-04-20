@@ -26,6 +26,7 @@
 #define __MDI_GRID_WINDOW_H__
 
 #include <OpenAX/OpenAX.h>
+#include <OpenAX/DropMenu.h>
 
 namespace at {
 namespace editor {
@@ -62,7 +63,8 @@ namespace editor {
 		bool _right_click_menu;
 		
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<PosAndWindow>, OnDropWidgetMenu);
-
+		axEVENT_DECLARATION(ax::DropMenu::Msg, OnMenuChoice);
+		
 		void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
 
 		void OnKeyDown(const char& c);

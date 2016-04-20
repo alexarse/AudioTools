@@ -209,10 +209,10 @@ namespace editor {
 		menu_info.right_arrow = ax::Color(0.70);
 		menu_info.item_height = 25;
 
-		ax::StringVector menu_elems = { "Save as", "", "Remove" };
+		ax::StringVector menu_elems = { "Save as", "Remove" };
 
 		auto menu = ax::shared<ax::DropMenu>(
-			ax::Rect(msg.GetMsg().first, ax::Size(100, 200)), ax::DropMenu::Events(), menu_info, menu_elems);
+			ax::Rect(msg.GetMsg().first, ax::Size(100, 200)), GetOnMenuChoice(), menu_info, menu_elems);
 
 		// Empty popup window tree.
 		ClearPopupTree();
@@ -222,6 +222,15 @@ namespace editor {
 			ax::Window::Ptr(menu->GetWindow()));
 		menu->GetWindow()->backbone = menu;
 		ax::App::GetInstance().UpdateAll();
+	}
+	
+	void GridWindow::OnMenuChoice(const ax::DropMenu::Msg &msg)
+	{
+		const std::string choice = msg.GetItem();
+		
+		if(choice == "Save as") {
+			// Save as widget.
+		}
 	}
 
 	void GridWindow::OnGlobalClick(const ax::Window::Event::GlobalClick& gclick)

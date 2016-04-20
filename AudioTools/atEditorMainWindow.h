@@ -90,6 +90,7 @@ private:
 	
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveLayout);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenLayout);
+	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnViewLayout);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnStopScript);

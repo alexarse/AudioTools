@@ -310,7 +310,6 @@ namespace editor {
 	{
 		if (!msg.GetMsg().empty()) {
 			_selected_windows.clear();
-//			_inspectorMenu->SetWidgetHandle(nullptr);
 			_right_menu->SetInspectorHandle(nullptr);
 
 			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
@@ -321,6 +320,29 @@ namespace editor {
 				PyoAudio::GetInstance()->ReloadScript(script_path);
 			}
 
+			if (_gridWindow->GetMainWindow() == nullptr) {
+				_widgetMenu->SetOnlyMainWindowWidgetSelectable();
+			}
+			else {
+				_widgetMenu->SetAllSelectable();
+			}
+		}
+	}
+	
+	void MainWindow::OnOpenProject(const ax::Event::StringMsg& msg)
+	{
+		if (!msg.GetMsg().empty()) {
+			_selected_windows.clear();
+			_right_menu->SetInspectorHandle(nullptr);
+			
+			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
+			
+			if (!script_path.empty()) {
+				_statusBar->SetLayoutFilePath(msg.GetMsg());
+				_bottom_section->OpenFile(script_path);
+				PyoAudio::GetInstance()->ReloadScript(script_path);
+			}
+			
 			if (_gridWindow->GetMainWindow() == nullptr) {
 				_widgetMenu->SetOnlyMainWindowWidgetSelectable();
 			}
