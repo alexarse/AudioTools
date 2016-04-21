@@ -38,7 +38,7 @@ namespace at {
 namespace editor {
 	class BottomSection : public ax::Window::Backbone {
 	public:
-		BottomSection(const ax::Rect& rect);
+		BottomSection(const ax::Rect& rect, const std::string& open_path);
 
 		enum : ax::Event::Id { RESIZE };
 		

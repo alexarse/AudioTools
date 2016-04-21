@@ -28,7 +28,7 @@
 
 namespace at {
 namespace editor {
-	BottomSection::BottomSection(const ax::Rect& rect)
+	BottomSection::BottomSection(const ax::Rect& rect, const std::string& open_path)
 		: _font(0)
 		, _is_txt_edit(true)
 		, _file_path("Banana")
@@ -65,7 +65,7 @@ namespace editor {
 		_console->GetWindow()->AddConnection(Console::WRITE_ERROR, GetOnConsoleErrorUpdate());
 
 		// @todo Change this.
-		_txt_editor->OpenFile("scripts/default.py");
+		_txt_editor->OpenFile(open_path);
 		_file_path = _txt_editor->GetFilePath();
 
 		ax::Button::Info btn_info;

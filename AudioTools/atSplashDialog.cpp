@@ -56,7 +56,7 @@ void SplashDialog::OnLoadingPercent(const ax::Event::SimpleMsg<LoadInfoMsg>& msg
 		
 		ax::App& app(ax::App::GetInstance());
 		
-		auto main_win = ax::shared<at::editor::MainWindow>(ax::Rect(0, 0, 1000, 700));
+		auto main_win = ax::shared<at::editor::MainWindow>(ax::Rect(0, 0, 1000, 700), app.AppOpenFilePath());
 		
 		auto this_window = win_manager->GetWindowTree()->GetNodeVector()[0];
 		win_manager->GetWindowTree()->GetNodeVector().clear();

@@ -91,7 +91,7 @@ namespace editor {
 		loader->AddBuilder("Panel", new ax::Panel::Builder());
 		loader->AddBuilder("Slider", new ax::Slider::Builder());
 
-		OpenLayout("layouts/default.xml");
+//		OpenLayout("layouts/default.xml");
 	}
 
 	void GridWindow::SetGridSpace(const int& space)

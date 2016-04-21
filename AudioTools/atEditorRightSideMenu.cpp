@@ -61,7 +61,7 @@ namespace editor {
 
 		// Project info.
 		pos = AddButton(
-			pos, win, ax::Button::Events(), btn_info, "resources/label31.png", "Show Project information.");
+			pos, win, ax::Button::Events(), btn_info, "resources/info.png", "Show Project information.");
 
 		// Pyo documentation.
 		pos = AddButton(

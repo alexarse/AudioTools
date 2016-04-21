@@ -33,6 +33,8 @@
 #include <OpenAX/WindowManager.h>
 #include <OpenAX/WindowTree.h>
 
+#include <boost/filesystem.hpp>
+
 #include "PyoAudio.h"
 #include "atCommon.h"
 #include "atEditorLoader.h"
@@ -40,7 +42,7 @@
 
 namespace at {
 namespace editor {
-	MainWindow::MainWindow(const ax::Rect& rect)
+	MainWindow::MainWindow(const ax::Rect& rect, const std::string& proj_path)
 		: _has_tmp_widget(false)
 		, _font(0)
 	{
@@ -58,11 +60,18 @@ namespace editor {
 		_statusBar = new StatusBar(top_menu_rect);
 		win->node.Add(std::shared_ptr<ax::Window::Backbone>(_statusBar));
 
-		_statusBar->SetLayoutFilePath("default.xml");
+		if (!proj_path.empty()) {
+			_project.Open(proj_path);
+			_statusBar->SetLayoutFilePath(_project.GetLayoutPath());
+		}
+		else {
+			_statusBar->SetLayoutFilePath("default.xml");
+		}
 
 		ax::Window* sb_win = _statusBar->GetWindow();
-		sb_win->AddConnection(StatusBar::SAVE_LAYOUT, GetOnSaveLayout());
-		sb_win->AddConnection(StatusBar::OPEN_LAYOUT, GetOnOpenLayout());
+		sb_win->AddConnection(StatusBar::SAVE_LAYOUT, GetOnSaveProject());
+		sb_win->AddConnection(StatusBar::OPEN_LAYOUT, GetOnOpenProject());
+		
 		sb_win->AddConnection(StatusBar::RELOAD_SCRIPT, GetOnReloadScript());
 		sb_win->AddConnection(StatusBar::STOP_SCRIPT, GetOnStopScript());
 
@@ -81,6 +90,13 @@ namespace editor {
 		_gridWindow->GetWindow()->AddConnection(GridWindow::SELECT_WIDGET, GetOnSelectWidget());
 		_gridWindow->GetWindow()->AddConnection(GridWindow::UNSELECT_ALL, GetOnUnSelectAllWidget());
 
+		if (!proj_path.empty()) {
+			_gridWindow->OpenLayout(_project.GetLayoutPath());
+		}
+		else {
+			_gridWindow->OpenLayout("default.xml");
+		}
+
 		// Create widget menu.
 		ax::Rect widget_menu_rect(
 			0, STATUS_BAR_HEIGHT, WIDGET_MENU_WIDTH, rect.size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
@@ -92,12 +108,11 @@ namespace editor {
 		// Create info menu.
 		ax::Rect info_rect(rect.size.x - INSPECTOR_MENU_WIDTH, STATUS_BAR_HEIGHT, INSPECTOR_MENU_WIDTH,
 			rect.size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
-		
+
 		auto right_menu = ax::shared<RightSideMenu>(info_rect);
 		win->node.Add(right_menu);
 		_right_menu = right_menu.get();
-//		win->node.Add(_inspectorMenu = ax::shared<InspectorMenu>(info_rect));
-		
+		//		win->node.Add(_inspectorMenu = ax::shared<InspectorMenu>(info_rect));
 
 		// Create code editor.
 		TextEditor::Info txt_info;
@@ -110,7 +125,16 @@ namespace editor {
 		ax::Rect bottom_rect(WIDGET_MENU_WIDTH + 1, rect.size.y - 200 - BOTTOM_BAR_HEIGHT,
 			rect.size.x - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH, 200);
 
-		auto b_section = ax::shared<BottomSection>(bottom_rect);
+		std::string script_path;
+
+		if (!proj_path.empty()) {
+			script_path = _project.GetScriptPath();
+		}
+		else {
+			script_path = "scripts/default.py";
+		}
+
+		auto b_section = ax::shared<BottomSection>(bottom_rect, script_path);
 		win->node.Add(b_section);
 		_bottom_section = b_section.get();
 		_bottom_section->GetWindow()->AddConnection(BottomSection::RESIZE, GetOnResizeCodeEditor());
@@ -129,6 +153,8 @@ namespace editor {
 		win->AddConnection(8000, GetOnCreateDraggingWidget());
 		win->AddConnection(8001, GetOnDraggingWidget());
 		win->AddConnection(8002, GetOnReleaseObjWidget());
+
+		//		_bottom_section->OpenFile("");
 
 		// Midi feedback.
 		auto midi_feedback = ax::shared<at::MidiFeedback>(
@@ -175,7 +201,7 @@ namespace editor {
 
 		_selected_windows.clear();
 		_right_menu->RemoveInspectorHandle();
-//		_inspectorMenu->RemoveHandle();
+		//		_inspectorMenu->RemoveHandle();
 
 		if (_gridWindow->GetMainWindow() == nullptr) {
 			_widgetMenu->SetOnlyMainWindowWidgetSelectable();
@@ -199,21 +225,18 @@ namespace editor {
 			_selected_windows.push_back(selected_win);
 			selected_win->property.AddProperty("current_editing_widget");
 			selected_win->Update();
-//			_inspectorMenu->SetWidgetHandle(selected_win);
+			//			_inspectorMenu->SetWidgetHandle(selected_win);
 			_right_menu->SetInspectorHandle(selected_win);
 		}
 		else {
-//			_inspectorMenu->SetWidgetHandle(nullptr);
+			//			_inspectorMenu->SetWidgetHandle(nullptr);
 			_right_menu->SetInspectorHandle(selected_win);
-
 		}
 
 		if (_gridWindow->GetMainWindow() == nullptr) {
 			_widgetMenu->SetOnlyMainWindowWidgetSelectable();
 		}
 	}
-	
-	
 
 	void MainWindow::OnHelpBar(const ax::Event::StringMsg& msg)
 	{
@@ -224,7 +247,7 @@ namespace editor {
 	void MainWindow::OnUnSelectAllWidget(const ax::Event::SimpleMsg<int>& msg)
 	{
 		_selected_windows.clear();
-//		_inspectorMenu->RemoveHandle();
+		//		_inspectorMenu->RemoveHandle();
 		_right_menu->RemoveInspectorHandle();
 	}
 
@@ -288,7 +311,7 @@ namespace editor {
 
 	void MainWindow::OnToggleRightPanel(const ax::Toggle::Msg& msg)
 	{
-//		ax::Window* w = _inspectorMenu->GetWindow();
+		//		ax::Window* w = _inspectorMenu->GetWindow();
 		ax::Window* w = _right_menu->GetWindow();
 
 		if (w->IsShown()) {
@@ -301,56 +324,128 @@ namespace editor {
 		win->event.OnResize(win->dimension.GetSize());
 	}
 
-	void MainWindow::OnSaveLayout(const ax::Event::StringMsg& msg)
+	void MainWindow::OnSaveProject(const ax::Event::StringMsg& msg)
 	{
-		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _bottom_section->GetScriptPath());
-	}
-
-	void MainWindow::OnOpenLayout(const ax::Event::StringMsg& msg)
-	{
-		if (!msg.GetMsg().empty()) {
-			_selected_windows.clear();
-			_right_menu->SetInspectorHandle(nullptr);
-
-			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
-
-			if (!script_path.empty()) {
-				_statusBar->SetLayoutFilePath(msg.GetMsg());
-				_bottom_section->OpenFile(script_path);
-				PyoAudio::GetInstance()->ReloadScript(script_path);
-			}
-
-			if (_gridWindow->GetMainWindow() == nullptr) {
-				_widgetMenu->SetOnlyMainWindowWidgetSelectable();
-			}
-			else {
-				_widgetMenu->SetAllSelectable();
-			}
+		if(!_project.IsProjectOpen()) {
+			ax::Error("No project is currently open.");
+			return;
 		}
+		
+		PyoAudio::GetInstance()->StopServer();
+		_gridWindow->SaveLayout(_project.GetLayoutPath(), _project.GetScriptPath());
+		_bottom_section->SaveFile(_project.GetScriptPath());
+		
+		_project.Save();
+		
+		
+//		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _bottom_section->GetScriptPath());
 	}
-	
+
 	void MainWindow::OnOpenProject(const ax::Event::StringMsg& msg)
 	{
-		if (!msg.GetMsg().empty()) {
-			_selected_windows.clear();
-			_right_menu->SetInspectorHandle(nullptr);
-			
-			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
-			
-			if (!script_path.empty()) {
-				_statusBar->SetLayoutFilePath(msg.GetMsg());
-				_bottom_section->OpenFile(script_path);
-				PyoAudio::GetInstance()->ReloadScript(script_path);
-			}
-			
-			if (_gridWindow->GetMainWindow() == nullptr) {
-				_widgetMenu->SetOnlyMainWindowWidgetSelectable();
-			}
-			else {
-				_widgetMenu->SetAllSelectable();
-			}
+		const std::string project_path(msg.GetMsg());
+		boost::filesystem::path filepath(project_path);
+	
+		// Check is empty.
+		if (project_path.empty()) {
+			ax::Error("Project path is empty.");
 		}
+
+		// Check if file exist.
+		if (!boost::filesystem::exists(filepath)) {
+			ax::Error("File", filepath.string(), "doesn't exist.");
+			return;
+		}
+
+		// Check file extension.
+		if (filepath.extension() != ".atproj") {
+			ax::Error("Wrong project file format.");
+			return;
+		}
+
+		// Stop audio server.
+		PyoAudio::GetInstance()->StopServer();
+
+		// Close current project.
+		if (_project.IsProjectOpen()) {
+			_project.Close();
+		}
+
+		// Open new project.
+		_project.Open(project_path);
+
+		// Check is project is valid.
+		if (!_project.IsProjectOpen()) {
+			ax::Error("Can't open project :", project_path);
+
+			/// @todo Load empty project.
+			return;
+		}
+
+		// Remove selected widget from right side menu.
+		_selected_windows.clear();
+		_right_menu->SetInspectorHandle(nullptr);
+
+		// Open project layout.
+		_gridWindow->OpenLayout(_project.GetLayoutPath());
+		
+		// Assign project label to status bar.
+		_statusBar->SetLayoutFilePath(_project.GetLayoutPath());
+		
+		// Assign script content to text editor.
+		_bottom_section->OpenFile(_project.GetScriptPath());
+
+		// Check if layout has a MainWindow panel.
+		if (_gridWindow->GetMainWindow() == nullptr) {
+			_widgetMenu->SetOnlyMainWindowWidgetSelectable();
+		}
+		else {
+			_widgetMenu->SetAllSelectable();
+		}
+
+		//		if (!msg.GetMsg().empty()) {
+		//			_selected_windows.clear();
+		//			_right_menu->SetInspectorHandle(nullptr);
+		//
+		//			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
+		//
+		//			if (!script_path.empty()) {
+		//				_statusBar->SetLayoutFilePath(msg.GetMsg());
+		//				_bottom_section->OpenFile(script_path);
+		//				PyoAudio::GetInstance()->ReloadScript(script_path);
+		//			}
+		//
+		//			if (_gridWindow->GetMainWindow() == nullptr) {
+		//				_widgetMenu->SetOnlyMainWindowWidgetSelectable();
+		//			}
+		//			else {
+		//				_widgetMenu->SetAllSelectable();
+		//			}
+		//		}
 	}
+
+//	void MainWindow::OnOpenProject(const ax::Event::StringMsg& msg)
+//	{
+//		if (!msg.GetMsg().empty()) {
+//			_selected_windows.clear();
+//			_right_menu->SetInspectorHandle(nullptr);
+//
+//			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
+//
+//			if (!script_path.empty()) {
+//				_statusBar->SetLayoutFilePath(msg.GetMsg());
+//				_bottom_section->OpenFile(script_path);
+//				PyoAudio::GetInstance()->ReloadScript(script_path);
+//			}
+//
+//			if (_gridWindow->GetMainWindow() == nullptr) {
+//				_widgetMenu->SetOnlyMainWindowWidgetSelectable();
+//			}
+//			else {
+//				_widgetMenu->SetAllSelectable();
+//			}
+//		}
+//	}
 
 	void MainWindow::OnViewLayout(const ax::Event::SimpleMsg<int>& msg)
 	{
@@ -369,14 +464,14 @@ namespace editor {
 		_view_info.old_main_window_position = rect.position;
 		_view_info.left_menu_shown = _widgetMenu->GetWindow()->IsShown();
 		_view_info.right_menu_shown = _right_menu->GetWindow()->IsShown();
-//		_view_info.right_menu_shown = _inspectorMenu->GetWindow()->IsShown();
+		//		_view_info.right_menu_shown = _inspectorMenu->GetWindow()->IsShown();
 		//		_view_info.editor_shown = _codeEditor->GetWindow()->IsShown();
 		_view_info.editor_shown = _bottom_section->GetWindow()->IsShown();
 
 		main_win->dimension.SetPosition(ax::Point(0, 0));
 		_widgetMenu->GetWindow()->Hide();
 		_right_menu->GetWindow()->Hide();
-//		_inspectorMenu->GetWindow()->Hide();
+		//		_inspectorMenu->GetWindow()->Hide();
 		//		_codeEditor->GetWindow()->Hide();
 		_bottom_section->GetWindow()->Hide();
 		_statusBar->GetWindow()->Hide();
@@ -406,7 +501,7 @@ namespace editor {
 
 		_selected_windows.clear();
 		_gridWindow->UnSelectAllWidgets();
-//		_inspectorMenu->SetWidgetHandle(nullptr);
+		//		_inspectorMenu->SetWidgetHandle(nullptr);
 		_right_menu->SetInspectorHandle(nullptr);
 
 		ax::App::GetInstance().SetResizable(false);
@@ -424,7 +519,7 @@ namespace editor {
 		}
 
 		if (_view_info.right_menu_shown) {
-//			_inspectorMenu->GetWindow()->Show();
+			//			_inspectorMenu->GetWindow()->Show();
 			_right_menu->GetWindow()->Show();
 		}
 
@@ -586,7 +681,7 @@ namespace editor {
 					widget_win->property.AddProperty("current_editing_widget");
 					widget_win->Update();
 					_selected_windows.push_back(widget_win.get());
-//					_inspectorMenu->SetWidgetHandle(widget_win.get());
+					//					_inspectorMenu->SetWidgetHandle(widget_win.get());
 					_right_menu->SetInspectorHandle(widget_win.get());
 				}
 			}
@@ -610,7 +705,7 @@ namespace editor {
 					widget_win->property.AddProperty("current_editing_widget");
 					widget_win->Update();
 					_selected_windows.push_back(widget_win.get());
-//					_inspectorMenu->SetWidgetHandle(widget_win.get());
+					//					_inspectorMenu->SetWidgetHandle(widget_win.get());
 					_right_menu->SetInspectorHandle(widget_win.get());
 				}
 			}
@@ -703,10 +798,10 @@ namespace editor {
 				_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}
-		
+
 		// Midi feedback.
 		_midi_feedback->GetWindow()->dimension.SetPosition(ax::Point(size.x - 17, size.y - 15));
-		
+
 		AttachHelpInfo(_midi_feedback->GetWindow(), "Midi input activity.");
 	}
 

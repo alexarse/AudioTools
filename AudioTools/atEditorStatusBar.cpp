@@ -216,23 +216,28 @@ namespace editor {
 
 	void StatusBar::OnOpenLayout(const ax::Button::Msg& msg)
 	{
-		if (ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel() == nullptr) {
-			//			const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
-			//			ax::Point pos = rect.position;
-			//			pos.y += rect.size.y;
-
-			ax::Size size = ax::App::GetInstance().GetFrameSize();
-			size.y -= (at::editor::MainWindow::STATUS_BAR_HEIGHT + at::editor::MainWindow::BOTTOM_BAR_HEIGHT);
-			const ax::Point pos(0, at::editor::MainWindow::STATUS_BAR_HEIGHT);
-			//			const ax::Size size(0, at::editor::MainWindow::STATUS_BAR_HEIGHT);
-			auto open_dialog = ax::shared<OpenDialog>(ax::Rect(pos, size));
-
-			ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-				ax::Window::Ptr(open_dialog->GetWindow()));
-
-			open_dialog->GetWindow()->backbone = open_dialog;
-			open_dialog->GetWindow()->AddConnection(OpenDialog::OPEN, GetOnOpenDialog());
-		}
+		std::string filepath = ax::App::GetInstance().OpenFileDialog();
+		ax::Print("File :", filepath);
+		
+		win->PushEvent(OPEN_LAYOUT, new ax::Event::StringMsg(filepath));
+		
+//		if (ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel() == nullptr) {
+//			//			const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
+//			//			ax::Point pos = rect.position;
+//			//			pos.y += rect.size.y;
+//
+//			ax::Size size = ax::App::GetInstance().GetFrameSize();
+//			size.y -= (at::editor::MainWindow::STATUS_BAR_HEIGHT + at::editor::MainWindow::BOTTOM_BAR_HEIGHT);
+//			const ax::Point pos(0, at::editor::MainWindow::STATUS_BAR_HEIGHT);
+//			//			const ax::Size size(0, at::editor::MainWindow::STATUS_BAR_HEIGHT);
+//			auto open_dialog = ax::shared<OpenDialog>(ax::Rect(pos, size));
+//
+//			ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+//				ax::Window::Ptr(open_dialog->GetWindow()));
+//
+//			open_dialog->GetWindow()->backbone = open_dialog;
+//			open_dialog->GetWindow()->AddConnection(OpenDialog::OPEN, GetOnOpenDialog());
+//		}
 	}
 
 	void StatusBar::OnViewLayout(const ax::Button::Msg& msg)

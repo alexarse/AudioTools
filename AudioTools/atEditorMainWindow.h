@@ -34,6 +34,8 @@
 #include "atEditorRightSideMenu.h"
 #include "atMidiFeedback.h"
 
+#include "atProjectManager.h"
+
 class CodeEditor;
 
 namespace at {
@@ -41,7 +43,7 @@ namespace at {
 
 class MainWindow : public ax::Window::Backbone {
 public:
-	MainWindow(const ax::Rect& rect);
+	MainWindow(const ax::Rect& rect, const std::string& proj_path = "");
 	
 	std::vector<ax::Window*> GetSelectedWindows() const;
 	ax::Window* GetWidgetsByName(const std::string& name);
@@ -88,9 +90,11 @@ private:
 	ViewInfo _view_info;
 	bool _view_mode = false;
 	
-	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveLayout);
-	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenLayout);
+	at::ProjectManager _project;
+	
+	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveProject);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
+//	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnViewLayout);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnStopScript);

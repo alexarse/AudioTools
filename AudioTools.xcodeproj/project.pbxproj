@@ -42,6 +42,9 @@
 		7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */; };
 		7CBD415E1CB6973C000A22C5 /* atMenuBoolAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */; };
 		7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */; };
+		7CC9EB051CC8815F0032FBB4 /* atArchive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CC9EAFF1CC8815F0032FBB4 /* atArchive.cpp */; };
+		7CC9EB061CC8815F0032FBB4 /* atProjectFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CC9EB011CC8815F0032FBB4 /* atProjectFile.cpp */; };
+		7CC9EB071CC8815F0032FBB4 /* atProjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CC9EB031CC8815F0032FBB4 /* atProjectManager.cpp */; };
 		7CE7BF2D1CBC452D004350B6 /* atConsole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */; };
 		7CE7BF301CBC4629004350B6 /* atEditorBottomSection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */; };
 		7CF1D8341C9207DE00AAAC01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */; };
@@ -137,6 +140,15 @@
 		7CBD415D1CB6973C000A22C5 /* atMenuBoolAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuBoolAttribute.hpp; sourceTree = "<group>"; };
 		7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuSizeAttribute.cpp; sourceTree = "<group>"; };
 		7CBD41601CB6A251000A22C5 /* atMenuSizeAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuSizeAttribute.hpp; sourceTree = "<group>"; };
+		7CC9EAFF1CC8815F0032FBB4 /* atArchive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atArchive.cpp; sourceTree = "<group>"; };
+		7CC9EB001CC8815F0032FBB4 /* atArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atArchive.h; sourceTree = "<group>"; };
+		7CC9EB011CC8815F0032FBB4 /* atProjectFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atProjectFile.cpp; sourceTree = "<group>"; };
+		7CC9EB021CC8815F0032FBB4 /* atProjectFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atProjectFile.h; sourceTree = "<group>"; };
+		7CC9EB031CC8815F0032FBB4 /* atProjectManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atProjectManager.cpp; sourceTree = "<group>"; };
+		7CC9EB041CC8815F0032FBB4 /* atProjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atProjectManager.h; sourceTree = "<group>"; };
+		7CC9EB081CC881A00032FBB4 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = ../../../../usr/local/lib/libboost_filesystem.a; sourceTree = "<group>"; };
+		7CC9EB0A1CC881AF0032FBB4 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = ../../../../usr/local/lib/libboost_system.a; sourceTree = "<group>"; };
+		7CC9EB0C1CC881BF0032FBB4 /* libzip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzip.a; path = ../../../../usr/local/lib/libzip.a; sourceTree = "<group>"; };
 		7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atConsole.cpp; sourceTree = "<group>"; };
 		7CE7BF2C1CBC452D004350B6 /* atConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atConsole.h; sourceTree = "<group>"; };
 		7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorBottomSection.cpp; sourceTree = "<group>"; };
@@ -419,6 +431,19 @@
 			name = Account;
 			sourceTree = "<group>";
 		};
+		7CC9EAFE1CC881450032FBB4 /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				7CC9EAFF1CC8815F0032FBB4 /* atArchive.cpp */,
+				7CC9EB001CC8815F0032FBB4 /* atArchive.h */,
+				7CC9EB011CC8815F0032FBB4 /* atProjectFile.cpp */,
+				7CC9EB021CC8815F0032FBB4 /* atProjectFile.h */,
+				7CC9EB031CC8815F0032FBB4 /* atProjectManager.cpp */,
+				7CC9EB041CC8815F0032FBB4 /* atProjectManager.h */,
+			);
+			name = Project;
+			sourceTree = "<group>";
+		};
 		7CF1D8211C9207DD00AAAC01 = {
 			isa = PBXGroup;
 			children = (
@@ -442,6 +467,9 @@
 				7C7476701CA76288009CBE23 /* libOpenAX.a */,
 				7C7476711CA76288009CBE23 /* libpng16.a */,
 				7C7476721CA76288009CBE23 /* libsndfile.a */,
+				7CC9EB081CC881A00032FBB4 /* libboost_filesystem.a */,
+				7CC9EB0A1CC881AF0032FBB4 /* libboost_system.a */,
+				7CC9EB0C1CC881BF0032FBB4 /* libzip.a */,
 				7CF1D82C1C9207DD00AAAC01 /* AudioTools */,
 				7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */,
 				7CF1D8381C9207DE00AAAC01 /* Info.plist */,
@@ -461,6 +489,7 @@
 		7CF1D82C1C9207DD00AAAC01 /* AudioTools */ = {
 			isa = PBXGroup;
 			children = (
+				7CC9EAFE1CC881450032FBB4 /* Project */,
 				7CF1D8AC1C921DF800AAAC01 /* main.cpp */,
 				7CF1D9D01C944C8500AAAC01 /* atCommon.h */,
 				7C48A6DC1CC5BC1500ABB3AD /* atHelpBar.cpp */,
@@ -587,7 +616,9 @@
 				7CF1D8B41C921DF800AAAC01 /* main.cpp in Sources */,
 				7C7B74681CC08778006EF72E /* PythonWrapperUtils.cpp in Sources */,
 				7C7B74771CC1A5A5006EF72E /* WindowPyWrapper.cpp in Sources */,
+				7CC9EB071CC8815F0032FBB4 /* atProjectManager.cpp in Sources */,
 				7C48A6E41CC69D5A00ABB3AD /* atEditorPyDoc.cpp in Sources */,
+				7CC9EB061CC8815F0032FBB4 /* atProjectFile.cpp in Sources */,
 				7C7B74D31CC558C1006EF72E /* atMidi.cpp in Sources */,
 				7C2138D41C9B252C0050F676 /* atVolumeMeter.cpp in Sources */,
 				7CF1D89C1C921DDF00AAAC01 /* atEditorMainWindow.cpp in Sources */,
@@ -597,6 +628,7 @@
 				7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */,
 				7CF1D8A71C921DDF00AAAC01 /* atOpenDialog.cpp in Sources */,
 				7CF1D8B71C921DF800AAAC01 /* PyoComponent.cpp in Sources */,
+				7CC9EB051CC8815F0032FBB4 /* atArchive.cpp in Sources */,
 				7C7B74D61CC585C7006EF72E /* atMidiFeedback.cpp in Sources */,
 				7CF1D89B1C921DDF00AAAC01 /* atEditorLoader.cpp in Sources */,
 				7C48A6DE1CC5BC1500ABB3AD /* atHelpBar.cpp in Sources */,
@@ -722,6 +754,7 @@
 					/usr/local/include/freetype2/,
 					/usr/local/include/,
 					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7,
+					/usr/local/lib/libzip/include/,
 				);
 				INFOPLIST_FILE = AudioTools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -735,6 +768,9 @@
 					/usr/local/lib/libpng16.a,
 					/usr/local/lib/libOpenAX.a,
 					/usr/local/lib/libboost_python.a,
+					/usr/local/lib/libboost_filesystem.a,
+					/usr/local/lib/libboost_system.a,
+					/usr/local/lib/libzip.a,
 				);
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = ax.AudioTools;
@@ -752,6 +788,7 @@
 					/usr/local/include/freetype2/,
 					/usr/local/include/,
 					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7,
+					/usr/local/lib/libzip/include/,
 				);
 				INFOPLIST_FILE = AudioTools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -765,6 +802,9 @@
 					/usr/local/lib/libpng16.a,
 					/usr/local/lib/libOpenAX.a,
 					/usr/local/lib/libboost_python.a,
+					/usr/local/lib/libboost_filesystem.a,
+					/usr/local/lib/libboost_system.a,
+					/usr/local/lib/libzip.a,
 				);
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = ax.AudioTools;

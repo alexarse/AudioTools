@@ -201,11 +201,19 @@ namespace editor {
 		btn_info.font_color = ax::Color(0.0, 0.0);
 
 		auto view_btn = ax::shared<ax::Button>(ax::Rect(ax::Point(5, 2), ax::Size(20, 20)),
-			GetOnSmallerMenu(), btn_info, "resources/menu.png", "", ax::Button::Flags::SINGLE_IMG);
+			GetOnSmallerMenu(), btn_info, "resources/resize.png", "", ax::Button::Flags::SINGLE_IMG);
 		AttachHelpInfo(view_btn->GetWindow(), "Show / Hide widgets information.");
 		win->node.Add(view_btn);
 
 		ax::Point pos = view_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
+	
+		// Documentation button.
+		auto widget_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(20, 20)), ax::Button::Events(), btn_info,
+											  "resources/label31.png", "", ax::Button::Flags::SINGLE_IMG);
+		AttachHelpInfo(widget_btn->GetWindow(), "Show work.");
+		win->node.Add(widget_btn);
+		
+		pos = widget_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
 		// Documentation button.
 		auto doc_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(20, 20)), ax::Button::Events(), btn_info,
