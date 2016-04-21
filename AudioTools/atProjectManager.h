@@ -1,13 +1,5 @@
-//
-//  atProjectManager.hpp
-//  atZip
-//
-//  Created by Alexandre Arsenault on 2016-04-20.
-//  Copyright © 2016 OpenAX. All rights reserved.
-//
-
-#ifndef atProjectManager_hpp
-#define atProjectManager_hpp
+#ifndef __AT_PROJECT_MANAGER_H__
+#define __AT_PROJECT_MANAGER_H__
 
 #include "atProjectFile.h"
 #include <OpenAX/Utils.h>
@@ -46,6 +38,11 @@ public:
 		return ((_p_file != nullptr) && (_p_file->IsValid()));
 	}
 	
+	inline std::string GetProjectName() const
+	{
+		return _p_file->GetProjectName();
+	}
+	
 	void Close();
 	
 	void SaveAndClose();
@@ -55,4 +52,4 @@ private:
 };
 }
 
-#endif /* atProjectManager_hpp */
+#endif // __AT_PROJECT_MANAGER_H__

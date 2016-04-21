@@ -200,18 +200,24 @@ namespace editor {
 
 	void StatusBar::OnSaveAsLayout(const ax::Button::Msg& msg)
 	{
-		ax::Size fsize = ax::App::GetInstance().GetFrameSize();
-		ax::Size size(300, 200);
-		ax::Point pos((fsize.x - size.x) / 2, (fsize.y - size.y) / 2);
-
-		auto save_dialog = ax::shared<SaveDialog>(ax::Rect(pos, size), _layout_file_path);
-
-		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-			ax::Window::Ptr(save_dialog->GetWindow()));
-
-		save_dialog->GetWindow()->backbone = save_dialog;
-
-		save_dialog->GetWindow()->AddConnection(SaveDialog::SAVE, GetOnSaveDialog());
+		std::string filepath = ax::App::GetInstance().SaveFileDialog();
+		ax::Print("filepath :", filepath);
+		win->PushEvent(SAVE_AS_LAYOUT, new ax::Event::StringMsg(filepath));
+		
+		
+		
+//		ax::Size fsize = ax::App::GetInstance().GetFrameSize();
+//		ax::Size size(300, 200);
+//		ax::Point pos((fsize.x - size.x) / 2, (fsize.y - size.y) / 2);
+//
+//		auto save_dialog = ax::shared<SaveDialog>(ax::Rect(pos, size), _layout_file_path);
+//
+//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+//			ax::Window::Ptr(save_dialog->GetWindow()));
+//
+//		save_dialog->GetWindow()->backbone = save_dialog;
+//
+//		save_dialog->GetWindow()->AddConnection(SaveDialog::SAVE, GetOnSaveDialog());
 	}
 
 	void StatusBar::OnOpenLayout(const ax::Button::Msg& msg)

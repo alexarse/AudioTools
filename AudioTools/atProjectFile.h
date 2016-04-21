@@ -42,6 +42,11 @@ public:
 	{
 		return _tmp_folder_path;
 	}
+	
+	inline std::string GetProjectName() const
+	{
+		return _project_name;
+	}
 
 private:
 	std::string _project_file_path;

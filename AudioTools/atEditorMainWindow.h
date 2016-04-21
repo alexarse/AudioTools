@@ -93,7 +93,9 @@ private:
 	at::ProjectManager _project;
 	
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveProject);
+	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveAsProject);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
+	
 //	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnViewLayout);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);

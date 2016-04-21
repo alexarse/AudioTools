@@ -133,7 +133,7 @@ bool ProjectFile::SaveProject()
 	return false;
 }
 
-bool ProjectFile::SaveAsProject(const std::string& name)
+bool ProjectFile::SaveAsProject(const std::string& filepath)
 {
 	boost::filesystem::path tmp_dir(_tmp_folder_path);
 
@@ -153,8 +153,10 @@ bool ProjectFile::SaveAsProject(const std::string& name)
 		std::vector<std::pair<std::string, std::vector<char>>> data;
 
 		at::FileArchive arch_file;
-		arch_file.Open(name + ".atproj");
-
+		arch_file.Open(filepath + ".atproj");
+		
+		boost::filesystem::path f_path(filepath);
+		std::string name = f_path.filename().string();
 		arch_file.AddDirectory(name);
 
 		for (auto& n : proj_files) {

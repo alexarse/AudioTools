@@ -70,6 +70,7 @@ namespace editor {
 
 		ax::Window* sb_win = _statusBar->GetWindow();
 		sb_win->AddConnection(StatusBar::SAVE_LAYOUT, GetOnSaveProject());
+		sb_win->AddConnection(StatusBar::SAVE_AS_LAYOUT, GetOnSaveAsProject());
 		sb_win->AddConnection(StatusBar::OPEN_LAYOUT, GetOnOpenProject());
 		
 		sb_win->AddConnection(StatusBar::RELOAD_SCRIPT, GetOnReloadScript());
@@ -340,6 +341,65 @@ namespace editor {
 		
 //		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _bottom_section->GetScriptPath());
 	}
+	
+	void MainWindow::OnSaveAsProject(const ax::Event::StringMsg& msg)
+	{
+		std::string project_path(msg.GetMsg());
+		boost::filesystem::path filepath(project_path);
+		
+		// Check file extension.
+		std::string ext = filepath.extension().string();
+		
+		if(ext.empty()) {
+			ax::Print("Empty extension");
+			//project_path;// += ".atproj";
+		}
+		else if(ext == ".atproj") {
+			/// @todo Remove extension.
+			ax::Print("atproj extension");
+			return;
+		}
+		else {
+			ax::Print("extension :", ext);
+			ax::Error("incorrect file extension :", ext);
+			return;
+		}
+		
+		PyoAudio::GetInstance()->StopServer();
+		
+		filepath = boost::filesystem::path(project_path);
+		
+		// Check if file exist.
+		if (boost::filesystem::exists(filepath)) {
+			/// @todo Manage this case with message box.
+			ax::Error("File", filepath.string(), "already exist.");
+			return;
+		}
+
+		// Check is a project is already open.
+		if(!_project.IsProjectOpen()) {
+			ax::Error("No project is currently open.");
+			return;
+		}
+		
+		// Save layout to temporary file.
+		_gridWindow->SaveLayout(_project.GetLayoutPath(), _project.GetScriptPath());
+		
+		// Save script to temporary file.
+		_bottom_section->SaveFile(_project.GetScriptPath());
+		
+		// Save as new project.
+		_project.SaveAs(project_path);
+		
+		// Close current project.
+		_project.Close();
+		
+		// Open newly saved project.
+		_project.Open(project_path + ".atproj");
+		
+		// Assign new name to status bar.
+		_statusBar->SetLayoutFilePath(_project.GetProjectName());
+	}
 
 	void MainWindow::OnOpenProject(const ax::Event::StringMsg& msg)
 	{
@@ -390,7 +450,7 @@ namespace editor {
 		_gridWindow->OpenLayout(_project.GetLayoutPath());
 		
 		// Assign project label to status bar.
-		_statusBar->SetLayoutFilePath(_project.GetLayoutPath());
+		_statusBar->SetLayoutFilePath(_project.GetProjectName());
 		
 		// Assign script content to text editor.
 		_bottom_section->OpenFile(_project.GetScriptPath());
