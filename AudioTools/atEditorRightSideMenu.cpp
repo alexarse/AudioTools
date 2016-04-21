@@ -6,7 +6,7 @@
 namespace at {
 namespace editor {
 
-	ax::Point AddButton(const ax::Point& pos, ax::Window* win, const ax::Button::Events& evts,
+	ax::Point RightSideMenu::AddButton(const ax::Point& pos, ax::Window* win, const ax::Button::Events& evts,
 		const ax::Button::Info& info, const std::string& img, const std::string& description)
 	{
 		auto btn = ax::shared<ax::Button>(

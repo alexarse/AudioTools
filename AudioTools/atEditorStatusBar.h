@@ -43,6 +43,7 @@ namespace editor {
 		StatusBar(const ax::Rect& rect);
 
 		enum : ax::Event::Id {
+			CREATE_NEW_LAYOUT,
 			SAVE_LAYOUT,
 			SAVE_AS_LAYOUT,
 			OPEN_LAYOUT,
@@ -73,6 +74,7 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Button::Msg, OnSaveLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnSaveAsLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnOpenLayout);
+		axEVENT_DECLARATION(ax::Button::Msg, OnCreateNewLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnViewLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnSettings);
 		axEVENT_DECLARATION(ax::Button::Msg, OnReload);

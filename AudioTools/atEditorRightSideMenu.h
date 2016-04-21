@@ -9,12 +9,12 @@
 #ifndef atEditorRightSideMenu_hpp
 #define atEditorRightSideMenu_hpp
 
-#include <OpenAX/OpenAX.h>
 #include <OpenAX/Button.h>
+#include <OpenAX/OpenAX.h>
 
+#include "atEditorAccount.h"
 #include "atEditorInspectorMenu.h"
 #include "atEditorPyDoc.h"
-#include "atEditorAccount.h"
 
 namespace at {
 namespace editor {
@@ -24,21 +24,24 @@ namespace editor {
 	class RightSideMenu : public ax::Window::Backbone {
 	public:
 		RightSideMenu(const ax::Rect& rect);
-		
+
 		void SetInspectorHandle(ax::Window* handle);
 		void RemoveInspectorHandle();
-		
+
 	private:
 		static const int TOP_BAR_HEIGHT = 25;
-		
+
 		InspectorMenu* _inspector;
 		PyDoc* _pydoc;
 		Account* _account;
-		
+
 		axEVENT_DECLARATION(ax::Button::Msg, OnInspectorButton);
 		axEVENT_DECLARATION(ax::Button::Msg, OnPyDocButton);
 		axEVENT_DECLARATION(ax::Button::Msg, OnAccountButton);
-		
+
+		ax::Point AddButton(const ax::Point& pos, ax::Window* win, const ax::Button::Events& evts,
+			const ax::Button::Info& info, const std::string& img, const std::string& description);
+
 		void OnResize(const ax::Size& size);
 		void OnPaint(ax::GC gc);
 	};

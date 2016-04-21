@@ -39,6 +39,7 @@
 		7C9219371CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219351CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp */; };
 		7C92193A1CB8314900AB6AF6 /* atMenuPointAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */; };
 		7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */; };
+		7CB90DC21CC986C80029CEF8 /* atEditorLeftSideMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DC01CC986C80029CEF8 /* atEditorLeftSideMenu.cpp */; };
 		7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */; };
 		7CBD415E1CB6973C000A22C5 /* atMenuBoolAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */; };
 		7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */; };
@@ -134,6 +135,8 @@
 		7C9219391CB8314900AB6AF6 /* atMenuPointAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuPointAttribute.hpp; sourceTree = "<group>"; };
 		7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atSkin.cpp; sourceTree = "<group>"; };
 		7C92193C1CB894EB00AB6AF6 /* atSkin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atSkin.hpp; sourceTree = "<group>"; };
+		7CB90DC01CC986C80029CEF8 /* atEditorLeftSideMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorLeftSideMenu.cpp; sourceTree = "<group>"; };
+		7CB90DC11CC986C80029CEF8 /* atEditorLeftSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorLeftSideMenu.h; sourceTree = "<group>"; };
 		7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuColorAttribute.cpp; sourceTree = "<group>"; };
 		7CBD41571CB60033000A22C5 /* atMenuColorAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuColorAttribute.hpp; sourceTree = "<group>"; };
 		7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuBoolAttribute.cpp; sourceTree = "<group>"; };
@@ -231,6 +234,7 @@
 		7C213B131CA0318B0050F676 /* Editor */ = {
 			isa = PBXGroup;
 			children = (
+				7CB90DBF1CC986A60029CEF8 /* LeftSideMenu */,
 				7C48A6EF1CC7C90200ABB3AD /* BottomMenu */,
 				7C48A6E51CC69D9400ABB3AD /* RightSideMenu */,
 				7C213B151CA031A90050F676 /* include */,
@@ -243,14 +247,12 @@
 			isa = PBXGroup;
 			children = (
 				7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */,
-				7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */,
 				7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */,
 				7CF1D8821C921DDF00AAAC01 /* atEditor.cpp */,
 				7CF1D8841C921DDF00AAAC01 /* atEditorGridWindow.cpp */,
 				7CF1D8861C921DDF00AAAC01 /* atEditorLoader.cpp */,
 				7CF1D8871C921DDF00AAAC01 /* atEditorMainWindow.cpp */,
 				7CF1D8891C921DDF00AAAC01 /* atEditorStatusBar.cpp */,
-				7CF1D88A1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp */,
 			);
 			name = source;
 			sourceTree = "<group>";
@@ -259,14 +261,12 @@
 			isa = PBXGroup;
 			children = (
 				7C92193C1CB894EB00AB6AF6 /* atSkin.hpp */,
-				7CE7BF2C1CBC452D004350B6 /* atConsole.h */,
 				7CE7BF2F1CBC4629004350B6 /* atEditorBottomSection.h */,
 				7CF1D8701C921DCC00AAAC01 /* atEditor.h */,
 				7CF1D8711C921DCC00AAAC01 /* atEditorGridWindow.h */,
 				7CF1D8731C921DCC00AAAC01 /* atEditorLoader.h */,
 				7CF1D8741C921DCC00AAAC01 /* atEditorMainWindow.h */,
 				7CF1D8751C921DCC00AAAC01 /* atEditorStatusBar.h */,
-				7CF1D8761C921DCC00AAAC01 /* atEditorWidgetMenu.h */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -286,6 +286,8 @@
 		7C48A6EF1CC7C90200ABB3AD /* BottomMenu */ = {
 			isa = PBXGroup;
 			children = (
+				7CE7BF2C1CBC452D004350B6 /* atConsole.h */,
+				7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */,
 				7CF1D8DB1C93801B00AAAC01 /* CodeEditor */,
 			);
 			name = BottomMenu;
@@ -407,6 +409,25 @@
 				7C5AD9501CBDDE87002D8E57 /* source */,
 			);
 			name = Dialog;
+			sourceTree = "<group>";
+		};
+		7CB90DBF1CC986A60029CEF8 /* LeftSideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				7CB90DC01CC986C80029CEF8 /* atEditorLeftSideMenu.cpp */,
+				7CB90DC11CC986C80029CEF8 /* atEditorLeftSideMenu.h */,
+				7CB90DC31CC986D90029CEF8 /* WidgetMenu */,
+			);
+			name = LeftSideMenu;
+			sourceTree = "<group>";
+		};
+		7CB90DC31CC986D90029CEF8 /* WidgetMenu */ = {
+			isa = PBXGroup;
+			children = (
+				7CF1D8761C921DCC00AAAC01 /* atEditorWidgetMenu.h */,
+				7CF1D88A1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp */,
+			);
+			name = WidgetMenu;
 			sourceTree = "<group>";
 		};
 		7CC9EAE01CC7D9000032FBB4 /* PyoDoc */ = {
@@ -609,6 +630,7 @@
 				7C48A6E11CC6842200ABB3AD /* atEditorRightSideMenu.cpp in Sources */,
 				7C48A6E81CC69F7200ABB3AD /* atEditorAccount.cpp in Sources */,
 				7CF1D8991C921DDF00AAAC01 /* atEditorGridWindow.cpp in Sources */,
+				7CB90DC21CC986C80029CEF8 /* atEditorLeftSideMenu.cpp in Sources */,
 				7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */,
 				7C48A6EE1CC6C02800ABB3AD /* atEditorPyDocSeparator.cpp in Sources */,
 				7C7B747A1CC1A890006EF72E /* atConsoleStream.cpp in Sources */,

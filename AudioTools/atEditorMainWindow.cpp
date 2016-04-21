@@ -72,6 +72,7 @@ namespace editor {
 		sb_win->AddConnection(StatusBar::SAVE_LAYOUT, GetOnSaveProject());
 		sb_win->AddConnection(StatusBar::SAVE_AS_LAYOUT, GetOnSaveAsProject());
 		sb_win->AddConnection(StatusBar::OPEN_LAYOUT, GetOnOpenProject());
+		sb_win->AddConnection(StatusBar::CREATE_NEW_LAYOUT, GetOnCreateNewProject());
 		
 		sb_win->AddConnection(StatusBar::RELOAD_SCRIPT, GetOnReloadScript());
 		sb_win->AddConnection(StatusBar::STOP_SCRIPT, GetOnStopScript());
@@ -101,10 +102,11 @@ namespace editor {
 		// Create widget menu.
 		ax::Rect widget_menu_rect(
 			0, STATUS_BAR_HEIGHT, WIDGET_MENU_WIDTH, rect.size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
-		_widgetMenu = ax::shared<WidgetMenu>(widget_menu_rect);
-		win->node.Add(_widgetMenu);
-
-		_widgetMenu->GetWindow()->AddConnection(WidgetMenu::SMALLER_MENU, GetOnSmallerLeftMenu());
+		
+		auto l_side_menu = ax::shared<LeftSideMenu>(widget_menu_rect);
+		win->node.Add(l_side_menu);
+		_left_menu = l_side_menu.get();
+		l_side_menu->GetWindow()->AddConnection(WidgetMenu::SMALLER_MENU, GetOnSmallerLeftMenu());
 
 		// Create info menu.
 		ax::Rect info_rect(rect.size.x - INSPECTOR_MENU_WIDTH, STATUS_BAR_HEIGHT, INSPECTOR_MENU_WIDTH,
@@ -205,7 +207,7 @@ namespace editor {
 		//		_inspectorMenu->RemoveHandle();
 
 		if (_gridWindow->GetMainWindow() == nullptr) {
-			_widgetMenu->SetOnlyMainWindowWidgetSelectable();
+			_left_menu->SetOnlyMainWindowWidgetSelectable();
 		}
 	}
 
@@ -235,7 +237,7 @@ namespace editor {
 		}
 
 		if (_gridWindow->GetMainWindow() == nullptr) {
-			_widgetMenu->SetOnlyMainWindowWidgetSelectable();
+			_left_menu->SetOnlyMainWindowWidgetSelectable();
 		}
 	}
 
@@ -283,7 +285,7 @@ namespace editor {
 
 	void MainWindow::OnToggleLeftPanel(const ax::Toggle::Msg& msg)
 	{
-		ax::Window* w = _widgetMenu->GetWindow();
+		ax::Window* w = _left_menu->GetWindow();
 
 		if (w->IsShown()) {
 			w->Hide();
@@ -457,10 +459,10 @@ namespace editor {
 
 		// Check if layout has a MainWindow panel.
 		if (_gridWindow->GetMainWindow() == nullptr) {
-			_widgetMenu->SetOnlyMainWindowWidgetSelectable();
+			_left_menu->SetOnlyMainWindowWidgetSelectable();
 		}
 		else {
-			_widgetMenu->SetAllSelectable();
+			_left_menu->SetAllSelectable();
 		}
 
 		//		if (!msg.GetMsg().empty()) {
@@ -482,6 +484,12 @@ namespace editor {
 		//				_widgetMenu->SetAllSelectable();
 		//			}
 		//		}
+	}
+	
+	void MainWindow::OnCreateNewProject(const ax::Event::StringMsg& msg)
+	{
+		const std::string project_path(msg.GetMsg());
+		boost::filesystem::path filepath(project_path);
 	}
 
 //	void MainWindow::OnOpenProject(const ax::Event::StringMsg& msg)
@@ -522,14 +530,14 @@ namespace editor {
 
 		_view_info.old_frame_size = ax::App::GetInstance().GetFrameSize();
 		_view_info.old_main_window_position = rect.position;
-		_view_info.left_menu_shown = _widgetMenu->GetWindow()->IsShown();
+		_view_info.left_menu_shown = _left_menu->GetWindow()->IsShown();
 		_view_info.right_menu_shown = _right_menu->GetWindow()->IsShown();
 		//		_view_info.right_menu_shown = _inspectorMenu->GetWindow()->IsShown();
 		//		_view_info.editor_shown = _codeEditor->GetWindow()->IsShown();
 		_view_info.editor_shown = _bottom_section->GetWindow()->IsShown();
 
 		main_win->dimension.SetPosition(ax::Point(0, 0));
-		_widgetMenu->GetWindow()->Hide();
+		_left_menu->GetWindow()->Hide();
 		_right_menu->GetWindow()->Hide();
 		//		_inspectorMenu->GetWindow()->Hide();
 		//		_codeEditor->GetWindow()->Hide();
@@ -575,7 +583,7 @@ namespace editor {
 		_statusBar->GetWindow()->Show();
 
 		if (_view_info.left_menu_shown) {
-			_widgetMenu->GetWindow()->Show();
+			_left_menu->GetWindow()->Show();
 		}
 
 		if (_view_info.right_menu_shown) {
@@ -702,7 +710,7 @@ namespace editor {
 				return;
 			}
 
-			_widgetMenu->SetAllSelectable();
+			_left_menu->SetAllSelectable();
 
 			if (widget_win->GetId() != main_window->GetId()) {
 				bool inside_main_window = main_window->dimension.GetAbsoluteRect().IsPointInside(pos);
@@ -783,7 +791,7 @@ namespace editor {
 		top_menu_size.x = size.x;
 		_statusBar->GetWindow()->dimension.SetSize(top_menu_size);
 
-		bool widget_menu = _widgetMenu->GetWindow()->IsShown();
+		bool widget_menu = _left_menu->GetWindow()->IsShown();
 		bool inspector = _right_menu->GetWindow()->IsShown();
 		bool code_editor = _bottom_section->GetWindow()->IsShown();
 
@@ -799,11 +807,11 @@ namespace editor {
 
 		int grid_height = size.y - STATUS_BAR_HEIGHT - editor_height - BOTTOM_BAR_HEIGHT;
 
-		int widget_menu_width = _widgetMenu->GetWindow()->dimension.GetRect().size.x;
+		int widget_menu_width = _left_menu->GetWindow()->dimension.GetRect().size.x;
 
 		if (widget_menu && inspector) {
 			ax::Size widget_menu_size(widget_menu_width, size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
-			_widgetMenu->GetWindow()->dimension.SetSize(widget_menu_size);
+			_left_menu->GetWindow()->dimension.SetSize(widget_menu_size);
 
 			ax::Rect grid_rect(widget_menu_width, STATUS_BAR_HEIGHT,
 				size.x - widget_menu_width - INSPECTOR_MENU_WIDTH, grid_height);
@@ -821,7 +829,7 @@ namespace editor {
 		}
 		else if (widget_menu) {
 			ax::Size widget_menu_size(widget_menu_width, size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
-			_widgetMenu->GetWindow()->dimension.SetSize(widget_menu_size);
+			_left_menu->GetWindow()->dimension.SetSize(widget_menu_size);
 
 			ax::Rect grid_rect(widget_menu_width, STATUS_BAR_HEIGHT, size.x - widget_menu_width, grid_height);
 			_gridWindow->GetWindow()->dimension.SetRect(grid_rect);

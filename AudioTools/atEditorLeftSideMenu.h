@@ -1,0 +1,50 @@
+//
+//  atEditorLeftSideMenu.hpp
+//  AudioTools
+//
+//  Created by Alexandre Arsenault on 2016-04-21.
+//  Copyright © 2016 Alexandre Arsenault. All rights reserved.
+//
+
+#ifndef atEditorLeftSideMenu_hpp
+#define atEditorLeftSideMenu_hpp
+
+#include <OpenAX/OpenAX.h>
+
+#include <OpenAX/Button.h>
+#include <OpenAX/ScrollBar.h>
+
+#include "atEditorWidgetMenu.h"
+
+namespace at {
+namespace editor {
+
+	class LeftSideMenu : public ax::Window::Backbone {
+	public:
+		LeftSideMenu(const ax::Rect& rect);
+		
+		enum : ax::Event::Id { SMALLER_MENU };
+		
+		void SetOnlyMainWindowWidgetSelectable();
+		void SetAllSelectable();
+
+	private:
+		static const int TOP_BAR_HEIGHT = 25;
+		bool _dropped_smaller = false;
+		std::vector<ax::Button*> _menu_btns;
+		
+		WidgetMenu* _widget_menu;
+		
+		
+		axEVENT_DECLARATION(ax::Button::Msg, OnSmallerMenu);
+		
+		ax::Point AddButton(const ax::Point& pos, ax::Window* win, const ax::Button::Events& evts,
+							const ax::Button::Info& info, const std::string& img, const std::string& description);
+		
+		void OnResize(const ax::Size& size);
+		void OnPaint(ax::GC gc);
+	};
+}
+}
+
+#endif /* atEditorLeftSideMenu_hpp */

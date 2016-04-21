@@ -52,6 +52,11 @@ bool ProjectManager::Save()
 	return true;
 }
 
+bool ProjectManager::CreateNewProject(const std::string& path)
+{
+	return false;
+}
+
 void ProjectManager::Close()
 {
 	if (_p_file != nullptr) {

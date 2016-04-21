@@ -2,7 +2,7 @@
  * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
- * without prior written agreement by AutioTools.
+ * without prior written agreement by AudioTools.
  *
  * Neither the name of the AudioTools nor the names of its
  * contributors may be used to endorse or promote products derived from this
@@ -210,7 +210,7 @@ namespace editor {
 		// Documentation button.
 		auto widget_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(20, 20)), ax::Button::Events(), btn_info,
 											  "resources/label31.png", "", ax::Button::Flags::SINGLE_IMG);
-		AttachHelpInfo(widget_btn->GetWindow(), "Show work.");
+		AttachHelpInfo(widget_btn->GetWindow(), "Show widget list.");
 		win->node.Add(widget_btn);
 		
 		pos = widget_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);

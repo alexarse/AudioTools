@@ -132,7 +132,7 @@ namespace editor {
 
 		// Open button.
 		pos = ax::Point(5, 2);
-		auto create_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnOpenLayout(), btn_info,
+		auto create_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnCreateNewLayout(), btn_info,
 			"resources/create.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(create_btn);
 		AttachHelpInfo(create_btn->GetWindow(), "Create new layout file.");
@@ -244,6 +244,14 @@ namespace editor {
 //			open_dialog->GetWindow()->backbone = open_dialog;
 //			open_dialog->GetWindow()->AddConnection(OpenDialog::OPEN, GetOnOpenDialog());
 //		}
+	}
+	
+	void StatusBar::OnCreateNewLayout(const ax::Button::Msg& msg)
+	{
+		std::string filepath = ax::App::GetInstance().SaveFileDialog();
+		ax::Print("File :", filepath);
+		
+		win->PushEvent(CREATE_NEW_LAYOUT, new ax::Event::StringMsg(filepath));
 	}
 
 	void StatusBar::OnViewLayout(const ax::Button::Msg& msg)

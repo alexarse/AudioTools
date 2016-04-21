@@ -18,6 +18,8 @@ public:
 	
 	bool Save();
 	
+	bool CreateNewProject(const std::string& path);
+	
 	inline std::string GetTempPath() const
 	{
 		return _p_file->GetTempPath();

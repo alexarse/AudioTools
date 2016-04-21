@@ -27,10 +27,11 @@
 
 #include "atEditorWidgetMenu.h"
 #include "atEditorGridWindow.h"
-#include "atEditorWidgetMenu.h"
+//#include "atEditorWidgetMenu.h"
 #include "atEditorStatusBar.h"
 //#include "atEditorInspectorMenu.h"
 #include "atEditorBottomSection.h"
+#include "atEditorLeftSideMenu.h"
 #include "atEditorRightSideMenu.h"
 #include "atMidiFeedback.h"
 
@@ -61,9 +62,10 @@ private:
 	
 	ax::Font _font;
 	StatusBar* _statusBar;
-	std::shared_ptr<WidgetMenu> _widgetMenu;
+//	std::shared_ptr<WidgetMenu> _widgetMenu;
 	std::shared_ptr<GridWindow> _gridWindow;
 //	std::shared_ptr<InspectorMenu> _inspectorMenu;
+	LeftSideMenu* _left_menu;
 	RightSideMenu* _right_menu;
 	
 	BottomSection* _bottom_section;
@@ -95,6 +97,7 @@ private:
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveProject);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveAsProject);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
+	axEVENT_DECLARATION(ax::Event::StringMsg, OnCreateNewProject);
 	
 //	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnViewLayout);
