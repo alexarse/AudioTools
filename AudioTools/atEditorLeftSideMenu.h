@@ -15,6 +15,8 @@
 #include <OpenAX/ScrollBar.h>
 
 #include "atEditorWidgetMenu.h"
+#include "atEditorWorkspace.h"
+#include "atEditorProjectSpace.h"
 
 namespace at {
 namespace editor {
@@ -33,10 +35,15 @@ namespace editor {
 		bool _dropped_smaller = false;
 		std::vector<ax::Button*> _menu_btns;
 		
+		ProjectSpace* _project_space;
 		WidgetMenu* _widget_menu;
+		Workspace* _workspace;
 		
 		
 		axEVENT_DECLARATION(ax::Button::Msg, OnSmallerMenu);
+		axEVENT_DECLARATION(ax::Button::Msg, OnWidgetList);
+		axEVENT_DECLARATION(ax::Button::Msg, OnWorkspace);
+		axEVENT_DECLARATION(ax::Button::Msg, OnProjectSpace);
 		
 		ax::Point AddButton(const ax::Point& pos, ax::Window* win, const ax::Button::Events& evts,
 							const ax::Button::Info& info, const std::string& img, const std::string& description);

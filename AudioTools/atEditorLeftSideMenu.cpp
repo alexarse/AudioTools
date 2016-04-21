@@ -32,6 +32,18 @@ namespace editor {
 		win->node.Add(widget_menu);
 		_widget_menu = widget_menu.get();
 
+		auto workspace = ax::shared<Workspace>(
+			ax::Rect(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT)));
+		win->node.Add(workspace);
+		_workspace = workspace.get();
+		_workspace->GetWindow()->Hide();
+
+		auto project_space = ax::shared<ProjectSpace>(
+			ax::Rect(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT)));
+		win->node.Add(project_space);
+		_project_space = project_space.get();
+		_project_space->GetWindow()->Hide();
+
 		ax::Button::Info btn_info;
 		btn_info.normal = ax::Color(0.0, 0.0);
 		btn_info.hover = ax::Color(0.0, 0.0);
@@ -42,23 +54,26 @@ namespace editor {
 
 		ax::Point pos(5, 2);
 
-		// Widget info.
+		// Widget list.
 		pos = AddButton(pos, win, GetOnSmallerMenu(), btn_info, "resources/resize.png", "Toggle small menu.");
 
-		pos = AddButton(
-			pos, win, ax::Button::Events(), btn_info, "resources/label31.png", "Show wiget list.");
+		pos = AddButton(pos, win, GetOnProjectSpace(), btn_info, "resources/folder.png", "Project space.");
 
-		pos = AddButton(pos, win, ax::Button::Events(), btn_info, "resources/work.png", "Show work layouts");
+		pos = AddButton(pos, win, GetOnWidgetList(), btn_info, "resources/label31.png", "Show wiget list.");
+
+		pos = AddButton(pos, win, GetOnWorkspace(), btn_info, "resources/work.png", "Show workspace layouts");
 
 		pos = AddButton(pos, win, ax::Button::Events(), btn_info, "resources/cloud.png", "Download widgets.");
 	}
 
 	void LeftSideMenu::SetOnlyMainWindowWidgetSelectable()
 	{
+		_widget_menu->SetOnlyMainWindowWidgetSelectable();
 	}
 
 	void LeftSideMenu::SetAllSelectable()
 	{
+		_widget_menu->SetAllSelectable();
 	}
 
 	void LeftSideMenu::OnSmallerMenu(const ax::Button::Msg& msg)
@@ -74,6 +89,8 @@ namespace editor {
 				_menu_btns[i]->GetWindow()->Show();
 			}
 
+			_widget_menu->SetWide();
+
 			win->Update();
 		}
 		else {
@@ -86,38 +103,41 @@ namespace editor {
 				_menu_btns[i]->GetWindow()->Hide();
 			}
 
+			_widget_menu->SetSmall();
+
 			win->Update();
 		}
 
 		win->PushEvent(SMALLER_MENU, new ax::Button::Msg(msg));
 	}
-	//		void RightSideMenu::OnInspectorButton(const ax::Button::Msg& msg)
-	//		{
-	//			_inspector->GetWindow()->Show();
-	//			_pydoc->GetWindow()->Hide();
-	//			_account->GetWindow()->Hide();
-	//		}
-	//
-	//		void RightSideMenu::OnPyDocButton(const ax::Button::Msg& msg)
-	//		{
-	//			_inspector->GetWindow()->Hide();
-	//			_pydoc->GetWindow()->Show();
-	//			_account->GetWindow()->Hide();
-	//		}
-	//
-	//		void RightSideMenu::OnAccountButton(const ax::Button::Msg& msg)
-	//		{
-	//			_inspector->GetWindow()->Hide();
-	//			_pydoc->GetWindow()->Hide();
-	//			_account->GetWindow()->Show();
-	//		}
+
+	void LeftSideMenu::OnWidgetList(const ax::Button::Msg& msg)
+	{
+		_widget_menu->GetWindow()->Show();
+		_workspace->GetWindow()->Hide();
+		_project_space->GetWindow()->Hide();
+	}
+
+	void LeftSideMenu::OnWorkspace(const ax::Button::Msg& msg)
+	{
+		_widget_menu->GetWindow()->Hide();
+		_workspace->GetWindow()->Show();
+		_project_space->GetWindow()->Hide();
+	}
+
+	void LeftSideMenu::OnProjectSpace(const ax::Button::Msg& msg)
+	{
+		_widget_menu->GetWindow()->Hide();
+		_workspace->GetWindow()->Hide();
+		_project_space->GetWindow()->Show();
+	}
 
 	void LeftSideMenu::OnResize(const ax::Size& size)
 	{
 		const ax::Size s(size - ax::Size(0, TOP_BAR_HEIGHT));
-		//			_inspector->GetWindow()->dimension.SetSize(s);
-		//			_pydoc->GetWindow()->dimension.SetSize(s);
-		//			_account->GetWindow()->dimension.SetSize(s);
+		_widget_menu->GetWindow()->dimension.SetSize(s);
+		_workspace->GetWindow()->dimension.SetSize(s);
+		_project_space->GetWindow()->dimension.SetSize(s);
 	}
 
 	void LeftSideMenu::OnPaint(ax::GC gc)

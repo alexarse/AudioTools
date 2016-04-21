@@ -40,6 +40,10 @@
 		7C92193A1CB8314900AB6AF6 /* atMenuPointAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */; };
 		7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */; };
 		7CB90DC21CC986C80029CEF8 /* atEditorLeftSideMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DC01CC986C80029CEF8 /* atEditorLeftSideMenu.cpp */; };
+		7CB90DC61CC98D260029CEF8 /* atEditorWidgetMenuSeparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DC41CC98D260029CEF8 /* atEditorWidgetMenuSeparator.cpp */; };
+		7CB90DC91CC98D3B0029CEF8 /* atEditorWidgetMenuObj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DC71CC98D3B0029CEF8 /* atEditorWidgetMenuObj.cpp */; };
+		7CB90DCD1CC9911C0029CEF8 /* atEditorWorkspace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DCB1CC9911C0029CEF8 /* atEditorWorkspace.cpp */; };
+		7CB90DD11CC993170029CEF8 /* atEditorProjectSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DCF1CC993170029CEF8 /* atEditorProjectSpace.cpp */; };
 		7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */; };
 		7CBD415E1CB6973C000A22C5 /* atMenuBoolAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */; };
 		7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */; };
@@ -137,6 +141,14 @@
 		7C92193C1CB894EB00AB6AF6 /* atSkin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atSkin.hpp; sourceTree = "<group>"; };
 		7CB90DC01CC986C80029CEF8 /* atEditorLeftSideMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorLeftSideMenu.cpp; sourceTree = "<group>"; };
 		7CB90DC11CC986C80029CEF8 /* atEditorLeftSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorLeftSideMenu.h; sourceTree = "<group>"; };
+		7CB90DC41CC98D260029CEF8 /* atEditorWidgetMenuSeparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorWidgetMenuSeparator.cpp; sourceTree = "<group>"; };
+		7CB90DC51CC98D260029CEF8 /* atEditorWidgetMenuSeparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorWidgetMenuSeparator.h; sourceTree = "<group>"; };
+		7CB90DC71CC98D3B0029CEF8 /* atEditorWidgetMenuObj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorWidgetMenuObj.cpp; sourceTree = "<group>"; };
+		7CB90DC81CC98D3B0029CEF8 /* atEditorWidgetMenuObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorWidgetMenuObj.h; sourceTree = "<group>"; };
+		7CB90DCB1CC9911C0029CEF8 /* atEditorWorkspace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorWorkspace.cpp; sourceTree = "<group>"; };
+		7CB90DCC1CC9911C0029CEF8 /* atEditorWorkspace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorWorkspace.h; sourceTree = "<group>"; };
+		7CB90DCF1CC993170029CEF8 /* atEditorProjectSpace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorProjectSpace.cpp; sourceTree = "<group>"; };
+		7CB90DD01CC993170029CEF8 /* atEditorProjectSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorProjectSpace.h; sourceTree = "<group>"; };
 		7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuColorAttribute.cpp; sourceTree = "<group>"; };
 		7CBD41571CB60033000A22C5 /* atMenuColorAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuColorAttribute.hpp; sourceTree = "<group>"; };
 		7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuBoolAttribute.cpp; sourceTree = "<group>"; };
@@ -416,6 +428,8 @@
 			children = (
 				7CB90DC01CC986C80029CEF8 /* atEditorLeftSideMenu.cpp */,
 				7CB90DC11CC986C80029CEF8 /* atEditorLeftSideMenu.h */,
+				7CB90DCE1CC993050029CEF8 /* ProjectSpace */,
+				7CB90DCA1CC990FE0029CEF8 /* Workspace */,
 				7CB90DC31CC986D90029CEF8 /* WidgetMenu */,
 			);
 			name = LeftSideMenu;
@@ -426,8 +440,30 @@
 			children = (
 				7CF1D8761C921DCC00AAAC01 /* atEditorWidgetMenu.h */,
 				7CF1D88A1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp */,
+				7CB90DC41CC98D260029CEF8 /* atEditorWidgetMenuSeparator.cpp */,
+				7CB90DC51CC98D260029CEF8 /* atEditorWidgetMenuSeparator.h */,
+				7CB90DC71CC98D3B0029CEF8 /* atEditorWidgetMenuObj.cpp */,
+				7CB90DC81CC98D3B0029CEF8 /* atEditorWidgetMenuObj.h */,
 			);
 			name = WidgetMenu;
+			sourceTree = "<group>";
+		};
+		7CB90DCA1CC990FE0029CEF8 /* Workspace */ = {
+			isa = PBXGroup;
+			children = (
+				7CB90DCB1CC9911C0029CEF8 /* atEditorWorkspace.cpp */,
+				7CB90DCC1CC9911C0029CEF8 /* atEditorWorkspace.h */,
+			);
+			name = Workspace;
+			sourceTree = "<group>";
+		};
+		7CB90DCE1CC993050029CEF8 /* ProjectSpace */ = {
+			isa = PBXGroup;
+			children = (
+				7CB90DCF1CC993170029CEF8 /* atEditorProjectSpace.cpp */,
+				7CB90DD01CC993170029CEF8 /* atEditorProjectSpace.h */,
+			);
+			name = ProjectSpace;
 			sourceTree = "<group>";
 		};
 		7CC9EAE01CC7D9000032FBB4 /* PyoDoc */ = {
@@ -624,12 +660,14 @@
 				7C213B181CA05E460050F676 /* atSplashDialog.cpp in Sources */,
 				7CF1D8B61C921DF800AAAC01 /* Pyo.cpp in Sources */,
 				7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */,
+				7CB90DD11CC993170029CEF8 /* atEditorProjectSpace.cpp in Sources */,
 				7C48A6EB1CC6B6FC00ABB3AD /* atEditorPyDocElement.cpp in Sources */,
 				7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */,
 				7C7B74691CC08778006EF72E /* PythonWrapper.cpp in Sources */,
 				7C48A6E11CC6842200ABB3AD /* atEditorRightSideMenu.cpp in Sources */,
 				7C48A6E81CC69F7200ABB3AD /* atEditorAccount.cpp in Sources */,
 				7CF1D8991C921DDF00AAAC01 /* atEditorGridWindow.cpp in Sources */,
+				7CB90DC91CC98D3B0029CEF8 /* atEditorWidgetMenuObj.cpp in Sources */,
 				7CB90DC21CC986C80029CEF8 /* atEditorLeftSideMenu.cpp in Sources */,
 				7C92193D1CB894EB00AB6AF6 /* atSkin.cpp in Sources */,
 				7C48A6EE1CC6C02800ABB3AD /* atEditorPyDocSeparator.cpp in Sources */,
@@ -639,6 +677,7 @@
 				7C7B74681CC08778006EF72E /* PythonWrapperUtils.cpp in Sources */,
 				7C7B74771CC1A5A5006EF72E /* WindowPyWrapper.cpp in Sources */,
 				7CC9EB071CC8815F0032FBB4 /* atProjectManager.cpp in Sources */,
+				7CB90DC61CC98D260029CEF8 /* atEditorWidgetMenuSeparator.cpp in Sources */,
 				7C48A6E41CC69D5A00ABB3AD /* atEditorPyDoc.cpp in Sources */,
 				7CC9EB061CC8815F0032FBB4 /* atProjectFile.cpp in Sources */,
 				7C7B74D31CC558C1006EF72E /* atMidi.cpp in Sources */,
@@ -647,6 +686,7 @@
 				7CBD415E1CB6973C000A22C5 /* atMenuBoolAttribute.cpp in Sources */,
 				7C9219371CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp in Sources */,
 				7CE7BF301CBC4629004350B6 /* atEditorBottomSection.cpp in Sources */,
+				7CB90DCD1CC9911C0029CEF8 /* atEditorWorkspace.cpp in Sources */,
 				7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */,
 				7CF1D8A71C921DDF00AAAC01 /* atOpenDialog.cpp in Sources */,
 				7CF1D8B71C921DF800AAAC01 /* PyoComponent.cpp in Sources */,
