@@ -48,6 +48,8 @@ namespace editor {
 		: _has_tmp_widget(false)
 		, _font(0)
 		, _view_handler(this)
+		, _widget_handler(this)
+		, _project_handler(this)
 	{
 		// Create window.
 		win = ax::Window::Create(rect);
@@ -74,10 +76,10 @@ namespace editor {
 		}
 
 		ax::Window* sb_win = _statusBar->GetWindow();
-		sb_win->AddConnection(StatusBar::SAVE_LAYOUT, GetOnSaveProject());
-		sb_win->AddConnection(StatusBar::SAVE_AS_LAYOUT, GetOnSaveAsProject());
-		sb_win->AddConnection(StatusBar::OPEN_LAYOUT, GetOnOpenProject());
-		sb_win->AddConnection(StatusBar::CREATE_NEW_LAYOUT, GetOnCreateNewProject());
+		sb_win->AddConnection(StatusBar::SAVE_LAYOUT, _project_handler.GetOnSaveProject());
+		sb_win->AddConnection(StatusBar::SAVE_AS_LAYOUT, _project_handler.GetOnSaveAsProject());
+		sb_win->AddConnection(StatusBar::OPEN_LAYOUT, _project_handler.GetOnOpenProject());
+		sb_win->AddConnection(StatusBar::CREATE_NEW_LAYOUT, _project_handler.GetOnCreateNewProject());
 
 		sb_win->AddConnection(StatusBar::RELOAD_SCRIPT, GetOnReloadScript());
 		sb_win->AddConnection(StatusBar::STOP_SCRIPT, GetOnStopScript());
@@ -94,8 +96,10 @@ namespace editor {
 			rect.size.y - STATUS_BAR_HEIGHT - 200 - BOTTOM_BAR_HEIGHT);
 		win->node.Add(_gridWindow = ax::shared<GridWindow>(grid_rect));
 
-		_gridWindow->GetWindow()->AddConnection(GridWindow::SELECT_WIDGET, GetOnSelectWidget());
-		_gridWindow->GetWindow()->AddConnection(GridWindow::UNSELECT_ALL, GetOnUnSelectAllWidget());
+		_gridWindow->GetWindow()->AddConnection(
+			GridWindow::SELECT_WIDGET, _widget_handler.GetOnSelectWidget());
+		_gridWindow->GetWindow()->AddConnection(
+			GridWindow::UNSELECT_ALL, _widget_handler.GetOnUnSelectAllWidget());
 		_gridWindow->GetWindow()->AddConnection(
 			GridWindow::SAVE_PANEL_TO_WORKSPACE, GetOnSavePanelToWorkspace());
 
@@ -162,11 +166,9 @@ namespace editor {
 													}));
 
 		/// @todo Add enum for events.
-		win->AddConnection(8000, GetOnCreateDraggingWidget());
-		win->AddConnection(8001, GetOnDraggingWidget());
-		win->AddConnection(8002, GetOnReleaseObjWidget());
-
-		//		_bottom_section->OpenFile("");
+		win->AddConnection(8000, _widget_handler.GetOnCreateDraggingWidget());
+		win->AddConnection(8001, _widget_handler.GetOnDraggingWidget());
+		win->AddConnection(8002, _widget_handler.GetOnReleaseObjWidget());
 
 		// Midi feedback.
 		auto midi_feedback = ax::shared<at::MidiFeedback>(
@@ -251,38 +253,10 @@ namespace editor {
 	{
 	}
 
-	void MainWindow::OnSelectWidget(const ax::Event::SimpleMsg<ax::Window*>& msg)
-	{
-		ax::Window* selected_win = msg.GetMsg();
-		_selected_windows.clear();
-
-		_gridWindow->UnSelectAllWidgets();
-
-		if (selected_win != nullptr) {
-			_selected_windows.push_back(selected_win);
-			selected_win->property.AddProperty("current_editing_widget");
-			selected_win->Update();
-			_right_menu->SetInspectorHandle(selected_win);
-		}
-		else {
-			_right_menu->SetInspectorHandle(selected_win);
-		}
-
-		if (_gridWindow->GetMainWindow() == nullptr) {
-			_left_menu->SetOnlyMainWindowWidgetSelectable();
-		}
-	}
-
 	void MainWindow::OnHelpBar(const ax::Event::StringMsg& msg)
 	{
 		_help_bar_str = msg.GetMsg();
 		win->Update();
-	}
-
-	void MainWindow::OnUnSelectAllWidget(const ax::Event::SimpleMsg<int>& msg)
-	{
-		_selected_windows.clear();
-		_right_menu->RemoveInspectorHandle();
 	}
 
 	void MainWindow::OnReloadScript(const ax::Event::SimpleMsg<int>& msg)
@@ -302,294 +276,6 @@ namespace editor {
 		PyoAudio::GetInstance()->StopServer();
 	}
 
-	void MainWindow::SaveCurrentProject()
-	{
-		if (!_project.IsProjectOpen()) {
-			ax::Error("No project is currently open.");
-			return;
-		}
-
-		PyoAudio::GetInstance()->StopServer();
-		_gridWindow->SaveLayout(_project.GetLayoutPath(), _project.GetScriptPath());
-		_bottom_section->SaveFile(_project.GetScriptPath());
-
-		_project.Save();
-	}
-
-	void MainWindow::OnSaveProject(const ax::Event::StringMsg& msg)
-	{
-		SaveCurrentProject();
-	}
-
-	void MainWindow::OnSaveAsProject(const ax::Event::StringMsg& msg)
-	{
-		std::string project_path(msg.GetMsg());
-		boost::filesystem::path filepath(project_path);
-
-		// Check file extension.
-		std::string ext = filepath.extension().string();
-
-		if (ext.empty()) {
-			ax::Print("Empty extension");
-			// project_path;// += ".atproj";
-		}
-		else if (ext == ".atproj") {
-			/// @todo Remove extension.
-			ax::Print("atproj extension");
-			return;
-		}
-		else {
-			ax::Print("extension :", ext);
-			ax::Error("incorrect file extension :", ext);
-			return;
-		}
-
-		PyoAudio::GetInstance()->StopServer();
-
-		filepath = boost::filesystem::path(project_path);
-
-		// Check if file exist.
-		if (boost::filesystem::exists(filepath)) {
-			/// @todo Manage this case with message box.
-			ax::Error("File", filepath.string(), "already exist.");
-			return;
-		}
-
-		// Check is a project is already open.
-		if (!_project.IsProjectOpen()) {
-			ax::Error("No project is currently open.");
-			return;
-		}
-
-		// Save layout to temporary file.
-		_gridWindow->SaveLayout(_project.GetLayoutPath(), _project.GetScriptPath());
-
-		// Save script to temporary file.
-		_bottom_section->SaveFile(_project.GetScriptPath());
-
-		// Save as new project.
-		_project.SaveAs(project_path);
-
-		// Close current project.
-		_project.Close();
-
-		// Open newly saved project.
-		_project.Open(project_path + ".atproj");
-
-		// Assign new name to status bar.
-		_statusBar->SetLayoutFilePath(_project.GetProjectName());
-	}
-
-	void MainWindow::OnOpenProject(const ax::Event::StringMsg& msg)
-	{
-		const std::string project_path(msg.GetMsg());
-		boost::filesystem::path filepath(project_path);
-
-		// Check is empty.
-		if (project_path.empty()) {
-			ax::Error("Project path is empty.");
-		}
-
-		// Check if file exist.
-		if (!boost::filesystem::exists(filepath)) {
-			ax::Error("File", filepath.string(), "doesn't exist.");
-			return;
-		}
-
-		// Check file extension.
-		if (filepath.extension() != ".atproj") {
-			ax::Error("Wrong project file format.");
-			return;
-		}
-
-		// Stop audio server.
-		PyoAudio::GetInstance()->StopServer();
-
-		// Close current project.
-		if (_project.IsProjectOpen()) {
-			_project.Close();
-		}
-
-		// Open new project.
-		_project.Open(project_path);
-
-		// Check is project is valid.
-		if (!_project.IsProjectOpen()) {
-			ax::Error("Can't open project :", project_path);
-
-			/// @todo Load empty project.
-			return;
-		}
-
-		// Remove selected widget from right side menu.
-		_selected_windows.clear();
-		_right_menu->SetInspectorHandle(nullptr);
-
-		// Open project layout.
-		_gridWindow->OpenLayout(_project.GetLayoutPath());
-
-		// Assign project label to status bar.
-		_statusBar->SetLayoutFilePath(_project.GetProjectName());
-
-		// Assign script content to text editor.
-		_bottom_section->OpenFile(_project.GetScriptPath());
-
-		// Check if layout has a MainWindow panel.
-		if (_gridWindow->GetMainWindow() == nullptr) {
-			_left_menu->SetOnlyMainWindowWidgetSelectable();
-		}
-		else {
-			_left_menu->SetAllSelectable();
-		}
-	}
-
-	void MainWindow::OnCreateNewProject(const ax::Event::StringMsg& msg)
-	{
-		const std::string project_path(msg.GetMsg());
-		boost::filesystem::path filepath(project_path);
-	}
-
-	void MainWindow::OnCreateDraggingWidget(const ax::Event::SimpleMsg<ObjMsg>& msg)
-	{
-		ax::StringPair obj_info = msg.GetMsg().first;
-		std::string builder_name = obj_info.first;
-		std::string file_path = obj_info.second;
-		ax::Point pos(msg.GetMsg().second);
-
-		ax::widget::Loader* loader = ax::widget::Loader::GetInstance();
-		ax::widget::Builder* builder = loader->GetBuilder(builder_name);
-
-		if (builder == nullptr) {
-			ax::Error("Builder", builder_name, "doesn't exist.");
-		}
-
-		auto obj(builder->Create(pos, file_path));
-		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-			ax::Window::Ptr(obj->GetWindow()));
-		obj->GetWindow()->backbone = obj;
-		_has_tmp_widget = true;
-		_tmp_widget_builder_name = builder_name;
-	}
-
-	void MainWindow::OnDraggingWidget(const ax::Event::SimpleMsg<ax::Point>& msg)
-	{
-		if (_has_tmp_widget) {
-			ax::Point pos(msg.GetMsg());
-			ax::Window::Ptr wobj = ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel();
-
-			if (wobj) {
-				wobj->dimension.SetPosition(pos);
-			}
-		}
-	}
-
-	void MainWindow::OnReleaseObjWidget(const ax::Event::SimpleMsg<ax::Point>& msg)
-	{
-		ax::Point pos(msg.GetMsg());
-
-		if (_has_tmp_widget) {
-			_has_tmp_widget = false;
-			std::vector<ax::Window::Ptr>& nodes
-				= ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector();
-			ax::Window::Ptr widget_win = nodes[0];
-
-			// Remove all window from Popup manager window tree.
-			nodes.clear();
-
-			// Check if a MainWindow exist first.
-			ax::Window* main_window = _gridWindow->GetMainWindow();
-
-			if (main_window == nullptr) {
-				// Assign MainWindow name to first ax::Panel added.
-				if (_tmp_widget_builder_name == "Panel") {
-					ax::Panel* panel = static_cast<ax::Panel*>(widget_win->backbone.get());
-					panel->SetName("MainWindow");
-					widget_win->property.AddProperty("MainWindow");
-					main_window = widget_win.get();
-				}
-				else {
-					ax::Print("A MainWindow Panel shall be created first to add widget.");
-					return;
-				}
-			}
-
-			bool inside_grid(_gridWindow->GetWindow()->dimension.GetAbsoluteRect().IsPointInside(pos));
-
-			// Not dragging above grid window then do nothing.
-			if (!inside_grid) {
-				// The temporary widget will be deleted.
-				return;
-			}
-
-			_left_menu->SetAllSelectable();
-
-			if (widget_win->GetId() != main_window->GetId()) {
-				bool inside_main_window = main_window->dimension.GetAbsoluteRect().IsPointInside(pos);
-
-				if (!inside_main_window) {
-					// The temporary widget will be deleted.
-					ax::Print("Drag widget over the MainWindow.");
-					return;
-				}
-			}
-
-			// Is inside grid window.
-			ax::Window* hover_window
-				= ax::App::GetInstance().GetWindowManager()->GetWindowTree()->FindMousePosition(pos);
-
-			/// @todo Make sure this doesn't loop for ever.
-			while (!hover_window->property.HasProperty("AcceptWidget")) {
-				hover_window = hover_window->node.GetParent();
-			}
-
-			if (hover_window) {
-				ax::Print("FOUND WINDOW");
-				// Reparent.
-				widget_win->node.SetParent(hover_window);
-				hover_window->node.GetChildren().push_back(widget_win);
-				widget_win->dimension.SetPosition(pos - hover_window->dimension.GetAbsoluteRect().position);
-
-				// Setup widget.
-				Loader loader(_gridWindow->GetWindow());
-				loader.SetupExistingWidget(widget_win.get(), _tmp_widget_builder_name);
-
-				_selected_windows.clear();
-				_gridWindow->UnSelectAllWidgets();
-
-				if (widget_win != nullptr) {
-					widget_win->property.AddProperty("current_editing_widget");
-					widget_win->Update();
-					_selected_windows.push_back(widget_win.get());
-					//					_inspectorMenu->SetWidgetHandle(widget_win.get());
-					_right_menu->SetInspectorHandle(widget_win.get());
-				}
-			}
-
-			else {
-				// Reparent.
-				widget_win->node.SetParent(_gridWindow->GetWindow());
-				_gridWindow->GetWindow()->node.GetChildren().push_back(widget_win);
-
-				widget_win->dimension.SetPosition(
-					pos - _gridWindow->GetWindow()->dimension.GetAbsoluteRect().position);
-
-				// Setup widget.
-				Loader loader(_gridWindow->GetWindow());
-				loader.SetupExistingWidget(widget_win.get(), _tmp_widget_builder_name);
-
-				_gridWindow->UnSelectAllWidgets();
-				_selected_windows.clear();
-
-				if (widget_win != nullptr) {
-					widget_win->property.AddProperty("current_editing_widget");
-					widget_win->Update();
-					_selected_windows.push_back(widget_win.get());
-					//					_inspectorMenu->SetWidgetHandle(widget_win.get());
-					_right_menu->SetInspectorHandle(widget_win.get());
-				}
-			}
-		}
-	}
 
 	void MainWindow::OnGlobalKey(const char& c)
 	{
@@ -599,7 +285,7 @@ namespace editor {
 
 		if (c == 's' || c == 'S') {
 			// Save current project.
-			SaveCurrentProject();
+			_project_handler.SaveCurrentProject();
 		}
 	}
 

@@ -37,6 +37,8 @@
 #include "atSaveWorkDialog.h"
 
 #include "atMainWindowViewHandler.h"
+#include "atMainWindowWidgetHandler.h"
+#include "atMainWindowProjectHandler.h"
 
 class CodeEditor;
 
@@ -52,7 +54,7 @@ public:
 	
 	void DeleteCurrentWidgets();
 	
-	void SaveCurrentProject();
+//	void SaveCurrentProject();
 	
 	static const int STATUS_BAR_HEIGHT = 30;
 	static const int INSPECTOR_MENU_WIDTH = 250;
@@ -68,7 +70,6 @@ private:
 	LeftSideMenu* _left_menu;
 	RightSideMenu* _right_menu;
 	BottomSection* _bottom_section;
-	
 	at::MidiFeedback* _midi_feedback;
 	
 	std::vector<ax::Window*> _selected_windows;
@@ -96,40 +97,29 @@ private:
 	friend class MainWindowViewHandler;
 	MainWindowViewHandler _view_handler;
 	
-	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveProject);
-	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveAsProject);
-	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
-	axEVENT_DECLARATION(ax::Event::StringMsg, OnCreateNewProject);
+	friend class MainWindowWidgetHandler;
+	MainWindowWidgetHandler _widget_handler;
+	
+	friend class MainWindowProjectHandler;
+	MainWindowProjectHandler _project_handler;
+	
+//	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveProject);
+//	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveAsProject);
+//	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
+//	axEVENT_DECLARATION(ax::Event::StringMsg, OnCreateNewProject);
 	
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnStopScript);
 	
-	axEVENT_ACCESSOR(ax::Event::SimpleMsg<ObjMsg>, OnCreateDraggingWidget);
-	axEVENT_ACCESSOR(ax::Event::SimpleMsg<ax::Point>, OnDraggingWidget);
-	axEVENT_ACCESSOR(ax::Event::SimpleMsg<ax::Point>, OnReleaseObjWidget);
-	
-	axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::Window*>, OnSelectWidget);
-	
-	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnUnSelectAllWidget);
-	
-	axEVENT_DECLARATION(ax::Event::StringMsg, OnHelpBar);
-	
 	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnSavePanelToWorkspace);
-	
 	axEVENT_DECLARATION(at::SaveWorkPanel::Msg, OnAcceptSavePanelToWorkpace);
 	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnCancelSavePanelToWorkpace);
 	
+	axEVENT_DECLARATION(ax::Event::StringMsg, OnHelpBar);
 	
 	void OnGlobalKey(const char& c);
-	void OnCreateDraggingWidget(const ax::Event::SimpleMsg<ObjMsg>& msg);
-	void OnDraggingWidget(const ax::Event::SimpleMsg<ax::Point>& msg);
-	void OnReleaseObjWidget(const ax::Event::SimpleMsg<ax::Point>& msg);
 	
 	void OnPaint(ax::GC gc);
-	
-	
-	
-	
 };
 }
 }
