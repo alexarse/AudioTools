@@ -49,6 +49,7 @@
 		7CB90DDE1CC9B5460029CEF8 /* atSaveWorkDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DDC1CC9B5460029CEF8 /* atSaveWorkDialog.cpp */; };
 		7CB90DE11CC9CB980029CEF8 /* atColorButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DDF1CC9CB980029CEF8 /* atColorButton.cpp */; };
 		7CB90DE51CCA55C30029CEF8 /* atEditorProjectInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DE31CCA55C30029CEF8 /* atEditorProjectInfo.cpp */; };
+		7CB90DE91CCA85690029CEF8 /* atMainWindowViewHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DE71CCA85690029CEF8 /* atMainWindowViewHandler.cpp */; };
 		7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */; };
 		7CBD415E1CB6973C000A22C5 /* atMenuBoolAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */; };
 		7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */; };
@@ -164,6 +165,8 @@
 		7CB90DE01CC9CB980029CEF8 /* atColorButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atColorButton.h; sourceTree = "<group>"; };
 		7CB90DE31CCA55C30029CEF8 /* atEditorProjectInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorProjectInfo.cpp; sourceTree = "<group>"; };
 		7CB90DE41CCA55C30029CEF8 /* atEditorProjectInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorProjectInfo.h; sourceTree = "<group>"; };
+		7CB90DE71CCA85690029CEF8 /* atMainWindowViewHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMainWindowViewHandler.cpp; sourceTree = "<group>"; };
+		7CB90DE81CCA85690029CEF8 /* atMainWindowViewHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atMainWindowViewHandler.h; sourceTree = "<group>"; };
 		7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuColorAttribute.cpp; sourceTree = "<group>"; };
 		7CBD41571CB60033000A22C5 /* atMenuColorAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuColorAttribute.hpp; sourceTree = "<group>"; };
 		7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuBoolAttribute.cpp; sourceTree = "<group>"; };
@@ -273,6 +276,7 @@
 		7C213B141CA031A20050F676 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				7CB90DE71CCA85690029CEF8 /* atMainWindowViewHandler.cpp */,
 				7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */,
 				7CF1D8821C921DDF00AAAC01 /* atEditor.cpp */,
 				7CF1D8841C921DDF00AAAC01 /* atEditorGridWindow.cpp */,
@@ -292,6 +296,7 @@
 				7CF1D8731C921DCC00AAAC01 /* atEditorLoader.h */,
 				7CF1D8741C921DCC00AAAC01 /* atEditorMainWindow.h */,
 				7CF1D8751C921DCC00AAAC01 /* atEditorStatusBar.h */,
+				7CB90DE81CCA85690029CEF8 /* atMainWindowViewHandler.h */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -694,6 +699,7 @@
 				7CF1D8B61C921DF800AAAC01 /* Pyo.cpp in Sources */,
 				7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */,
 				7CB90DD11CC993170029CEF8 /* atEditorProjectSpace.cpp in Sources */,
+				7CB90DE91CCA85690029CEF8 /* atMainWindowViewHandler.cpp in Sources */,
 				7C48A6EB1CC6B6FC00ABB3AD /* atEditorPyDocElement.cpp in Sources */,
 				7C055FAD1C947DA8004527C3 /* atMenuAttribute.cpp in Sources */,
 				7C7B74691CC08778006EF72E /* PythonWrapper.cpp in Sources */,

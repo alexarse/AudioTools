@@ -27,9 +27,7 @@
 
 #include "atEditorWidgetMenu.h"
 #include "atEditorGridWindow.h"
-//#include "atEditorWidgetMenu.h"
 #include "atEditorStatusBar.h"
-//#include "atEditorInspectorMenu.h"
 #include "atEditorBottomSection.h"
 #include "atEditorLeftSideMenu.h"
 #include "atEditorRightSideMenu.h"
@@ -37,6 +35,8 @@
 
 #include "atProjectManager.h"
 #include "atSaveWorkDialog.h"
+
+#include "atMainWindowViewHandler.h"
 
 class CodeEditor;
 
@@ -54,7 +54,6 @@ public:
 	
 	void SaveCurrentProject();
 	
-	//	std::shared_ptr<StatusBar> _statusBar;
 	static const int STATUS_BAR_HEIGHT = 30;
 	static const int INSPECTOR_MENU_WIDTH = 250;
 	static const int WIDGET_MENU_DROPPED_WIDTH = 85;
@@ -62,22 +61,19 @@ public:
 	static const int BOTTOM_BAR_HEIGHT = 18;
 	
 private:
-	
 	ax::Font _font;
+	
 	StatusBar* _statusBar;
-//	std::shared_ptr<WidgetMenu> _widgetMenu;
 	std::shared_ptr<GridWindow> _gridWindow;
-//	std::shared_ptr<InspectorMenu> _inspectorMenu;
 	LeftSideMenu* _left_menu;
 	RightSideMenu* _right_menu;
-	
 	BottomSection* _bottom_section;
+	
 	at::MidiFeedback* _midi_feedback;
 	
 	std::vector<ax::Window*> _selected_windows;
 	
 	std::string _help_bar_str;
-	
 	
 	bool _has_tmp_widget;
 	std::string _tmp_widget_builder_name;
@@ -97,21 +93,16 @@ private:
 	
 	at::ProjectManager _project;
 	
+	friend class MainWindowViewHandler;
+	MainWindowViewHandler _view_handler;
+	
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveProject);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveAsProject);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnCreateNewProject);
 	
-//	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
-	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnViewLayout);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnStopScript);
-	axEVENT_DECLARATION(ax::Button::Msg, OnBackToEditor);
-	
-	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnResizeCodeEditor);
-	axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleLeftPanel);
-	axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleBottomPanel);
-	axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleRightPanel);
 	
 	axEVENT_ACCESSOR(ax::Event::SimpleMsg<ObjMsg>, OnCreateDraggingWidget);
 	axEVENT_ACCESSOR(ax::Event::SimpleMsg<ax::Point>, OnDraggingWidget);
@@ -120,8 +111,6 @@ private:
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::Window*>, OnSelectWidget);
 	
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnUnSelectAllWidget);
-	
-	axEVENT_DECLARATION(ax::Button::Msg, OnSmallerLeftMenu);
 	
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnHelpBar);
 	
@@ -135,9 +124,12 @@ private:
 	void OnCreateDraggingWidget(const ax::Event::SimpleMsg<ObjMsg>& msg);
 	void OnDraggingWidget(const ax::Event::SimpleMsg<ax::Point>& msg);
 	void OnReleaseObjWidget(const ax::Event::SimpleMsg<ax::Point>& msg);
-	void OnResize(const ax::Size& size);
 	
 	void OnPaint(ax::GC gc);
+	
+	
+	
+	
 };
 }
 }

@@ -47,11 +47,12 @@ namespace editor {
 	MainWindow::MainWindow(const ax::Rect& rect, const std::string& proj_path)
 		: _has_tmp_widget(false)
 		, _font(0)
+		, _view_handler(this)
 	{
 		// Create window.
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &MainWindow::OnPaint);
-		win->event.OnResize = ax::WBind<ax::Size>(this, &MainWindow::OnResize);
+		win->event.OnResize = ax::WBind<ax::Size>(&_view_handler, &MainWindowViewHandler::OnResize);
 		win->event.OnKeyDown = ax::WBind<char>(this, &MainWindow::OnGlobalKey);
 		win->event.GrabGlobalKey();
 
@@ -81,11 +82,11 @@ namespace editor {
 		sb_win->AddConnection(StatusBar::RELOAD_SCRIPT, GetOnReloadScript());
 		sb_win->AddConnection(StatusBar::STOP_SCRIPT, GetOnStopScript());
 
-		sb_win->AddConnection(StatusBar::TOGGLE_LEFT_PANEL, GetOnToggleLeftPanel());
-		sb_win->AddConnection(StatusBar::TOGGLE_BOTTOM_PANEL, GetOnToggleBottomPanel());
-		sb_win->AddConnection(StatusBar::TOGGLE_RIGHT_PANEL, GetOnToggleRightPanel());
+		sb_win->AddConnection(StatusBar::TOGGLE_LEFT_PANEL, _view_handler.GetOnToggleLeftPanel());
+		sb_win->AddConnection(StatusBar::TOGGLE_BOTTOM_PANEL, _view_handler.GetOnToggleBottomPanel());
+		sb_win->AddConnection(StatusBar::TOGGLE_RIGHT_PANEL, _view_handler.GetOnToggleRightPanel());
 
-		sb_win->AddConnection(StatusBar::VIEW_LAYOUT, GetOnViewLayout());
+		sb_win->AddConnection(StatusBar::VIEW_LAYOUT, _view_handler.GetOnViewLayout());
 
 		// Create grid window.
 		ax::Rect grid_rect(WIDGET_MENU_WIDTH, STATUS_BAR_HEIGHT,
@@ -112,7 +113,9 @@ namespace editor {
 		auto l_side_menu = ax::shared<LeftSideMenu>(widget_menu_rect);
 		win->node.Add(l_side_menu);
 		_left_menu = l_side_menu.get();
-		l_side_menu->GetWindow()->AddConnection(WidgetMenu::SMALLER_MENU, GetOnSmallerLeftMenu());
+
+		l_side_menu->GetWindow()->AddConnection(
+			WidgetMenu::SMALLER_MENU, _view_handler.GetOnSmallerLeftMenu());
 
 		// Create info menu.
 		ax::Rect info_rect(rect.size.x - INSPECTOR_MENU_WIDTH, STATUS_BAR_HEIGHT, INSPECTOR_MENU_WIDTH,
@@ -121,7 +124,6 @@ namespace editor {
 		auto right_menu = ax::shared<RightSideMenu>(info_rect);
 		win->node.Add(right_menu);
 		_right_menu = right_menu.get();
-		//		win->node.Add(_inspectorMenu = ax::shared<InspectorMenu>(info_rect));
 
 		// Create code editor.
 		TextEditor::Info txt_info;
@@ -146,7 +148,8 @@ namespace editor {
 		auto b_section = ax::shared<BottomSection>(bottom_rect, script_path);
 		win->node.Add(b_section);
 		_bottom_section = b_section.get();
-		_bottom_section->GetWindow()->AddConnection(BottomSection::RESIZE, GetOnResizeCodeEditor());
+		_bottom_section->GetWindow()->AddConnection(
+			BottomSection::RESIZE, _view_handler.GetOnResizeCodeEditor());
 
 		_bottom_section->GetWindow()->AddConnection(10020, ax::Event::Function([&](ax::Event::Msg* msg) {
 														ax::Print("Save");
@@ -242,26 +245,10 @@ namespace editor {
 
 	void MainWindow::OnAcceptSavePanelToWorkpace(const at::SaveWorkPanel::Msg& msg)
 	{
-		ax::App& app(ax::App::GetInstance());
-		app.GetPopupManager()->SetPastKeyWindow(nullptr);
-		app.GetPopupManager()->SetPastWindow(nullptr);
-		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
-		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
 	}
 
 	void MainWindow::OnCancelSavePanelToWorkpace(const ax::Event::EmptyMsg& msg)
 	{
-		ax::App& app(ax::App::GetInstance());
-		app.GetPopupManager()->SetPastKeyWindow(nullptr);
-		app.GetPopupManager()->SetPastWindow(nullptr);
-		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
-		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-	}
-
-	void MainWindow::OnSmallerLeftMenu(const ax::Button::Msg& msg)
-	{
-		ax::Print("OnSmallerLeftMenu");
-		win->event.OnResize(win->dimension.GetSize());
 	}
 
 	void MainWindow::OnSelectWidget(const ax::Event::SimpleMsg<ax::Window*>& msg)
@@ -295,13 +282,7 @@ namespace editor {
 	void MainWindow::OnUnSelectAllWidget(const ax::Event::SimpleMsg<int>& msg)
 	{
 		_selected_windows.clear();
-		//		_inspectorMenu->RemoveHandle();
 		_right_menu->RemoveInspectorHandle();
-	}
-
-	void MainWindow::OnResizeCodeEditor(const ax::Event::SimpleMsg<int>& msg)
-	{
-		win->event.OnResize(win->dimension.GetSize());
 	}
 
 	void MainWindow::OnReloadScript(const ax::Event::SimpleMsg<int>& msg)
@@ -321,61 +302,17 @@ namespace editor {
 		PyoAudio::GetInstance()->StopServer();
 	}
 
-	void MainWindow::OnToggleLeftPanel(const ax::Toggle::Msg& msg)
-	{
-		ax::Window* w = _left_menu->GetWindow();
-
-		if (w->IsShown()) {
-			w->Hide();
-		}
-		else {
-			w->Show();
-		}
-
-		win->event.OnResize(win->dimension.GetSize());
-	}
-
-	void MainWindow::OnToggleBottomPanel(const ax::Toggle::Msg& msg)
-	{
-		//		ax::Window* w = _codeEditor->GetWindow();
-		ax::Window* w = _bottom_section->GetWindow();
-
-		if (w->IsShown()) {
-			w->Hide();
-		}
-		else {
-			w->Show();
-		}
-
-		win->event.OnResize(win->dimension.GetSize());
-	}
-
-	void MainWindow::OnToggleRightPanel(const ax::Toggle::Msg& msg)
-	{
-		//		ax::Window* w = _inspectorMenu->GetWindow();
-		ax::Window* w = _right_menu->GetWindow();
-
-		if (w->IsShown()) {
-			w->Hide();
-		}
-		else {
-			w->Show();
-		}
-
-		win->event.OnResize(win->dimension.GetSize());
-	}
-
 	void MainWindow::SaveCurrentProject()
 	{
 		if (!_project.IsProjectOpen()) {
 			ax::Error("No project is currently open.");
 			return;
 		}
-		
+
 		PyoAudio::GetInstance()->StopServer();
 		_gridWindow->SaveLayout(_project.GetLayoutPath(), _project.GetScriptPath());
 		_bottom_section->SaveFile(_project.GetScriptPath());
-		
+
 		_project.Save();
 	}
 
@@ -504,178 +441,12 @@ namespace editor {
 		else {
 			_left_menu->SetAllSelectable();
 		}
-
-		//		if (!msg.GetMsg().empty()) {
-		//			_selected_windows.clear();
-		//			_right_menu->SetInspectorHandle(nullptr);
-		//
-		//			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
-		//
-		//			if (!script_path.empty()) {
-		//				_statusBar->SetLayoutFilePath(msg.GetMsg());
-		//				_bottom_section->OpenFile(script_path);
-		//				PyoAudio::GetInstance()->ReloadScript(script_path);
-		//			}
-		//
-		//			if (_gridWindow->GetMainWindow() == nullptr) {
-		//				_widgetMenu->SetOnlyMainWindowWidgetSelectable();
-		//			}
-		//			else {
-		//				_widgetMenu->SetAllSelectable();
-		//			}
-		//		}
 	}
 
 	void MainWindow::OnCreateNewProject(const ax::Event::StringMsg& msg)
 	{
 		const std::string project_path(msg.GetMsg());
 		boost::filesystem::path filepath(project_path);
-	}
-
-	//	void MainWindow::OnOpenProject(const ax::Event::StringMsg& msg)
-	//	{
-	//		if (!msg.GetMsg().empty()) {
-	//			_selected_windows.clear();
-	//			_right_menu->SetInspectorHandle(nullptr);
-	//
-	//			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
-	//
-	//			if (!script_path.empty()) {
-	//				_statusBar->SetLayoutFilePath(msg.GetMsg());
-	//				_bottom_section->OpenFile(script_path);
-	//				PyoAudio::GetInstance()->ReloadScript(script_path);
-	//			}
-	//
-	//			if (_gridWindow->GetMainWindow() == nullptr) {
-	//				_widgetMenu->SetOnlyMainWindowWidgetSelectable();
-	//			}
-	//			else {
-	//				_widgetMenu->SetAllSelectable();
-	//			}
-	//		}
-	//	}
-
-	void MainWindow::OnViewLayout(const ax::Event::SimpleMsg<int>& msg)
-	{
-		ax::Print("Main window view.");
-		ax::Window* main_win = _gridWindow->GetMainWindow();
-
-		if (main_win == nullptr) {
-			ax::Print("No main window setup.");
-			/// @todo Add a message box to tell user.
-			return;
-		}
-
-		ax::Rect rect(main_win->dimension.GetRect());
-
-		_view_info.old_frame_size = ax::App::GetInstance().GetFrameSize();
-		_view_info.old_main_window_position = rect.position;
-		_view_info.left_menu_shown = _left_menu->GetWindow()->IsShown();
-		_view_info.right_menu_shown = _right_menu->GetWindow()->IsShown();
-		//		_view_info.right_menu_shown = _inspectorMenu->GetWindow()->IsShown();
-		//		_view_info.editor_shown = _codeEditor->GetWindow()->IsShown();
-		_view_info.editor_shown = _bottom_section->GetWindow()->IsShown();
-
-		main_win->dimension.SetPosition(ax::Point(0, 0));
-		_left_menu->GetWindow()->Hide();
-		_right_menu->GetWindow()->Hide();
-		//		_inspectorMenu->GetWindow()->Hide();
-		//		_codeEditor->GetWindow()->Hide();
-		_bottom_section->GetWindow()->Hide();
-		_statusBar->GetWindow()->Hide();
-
-		_gridWindow->GetWindow()->dimension.SetPosition(ax::Point(0, 0));
-		_gridWindow->GetWindow()->dimension.SetSize(main_win->dimension.GetSize());
-		_view_mode = true;
-
-		ax::App::GetInstance().SetFrameSize(rect.size);
-
-		ax::Button::Info btn_info;
-		btn_info.normal = ax::Color(0.0, 0.0);
-		btn_info.hover = ax::Color(0.0, 0.0);
-		btn_info.clicking = ax::Color(0.0, 0.0);
-		btn_info.selected = ax::Color(0.0, 0.0);
-		btn_info.contour = ax::Color(0.0, 0.0);
-		btn_info.font_color = ax::Color(0.0, 0.0);
-
-		ax::Point back_btn_pos(rect.size - ax::Point(25, 25));
-
-		auto tmp_back_btn = ax::shared<ax::Button>(ax::Rect(back_btn_pos, ax::Size(25, 25)),
-			GetOnBackToEditor(), btn_info, "resources/back.png", "", ax::Button::Flags::SINGLE_IMG);
-
-		tmp_back_btn->GetWindow()->property.AddProperty("TemporaryBackButton");
-
-		main_win->node.Add(tmp_back_btn);
-
-		_selected_windows.clear();
-		_gridWindow->UnSelectAllWidgets();
-		//		_inspectorMenu->SetWidgetHandle(nullptr);
-		_right_menu->SetInspectorHandle(nullptr);
-
-		ax::App::GetInstance().SetResizable(false);
-		ax::App::GetInstance().SetFocusAndCenter();
-	}
-
-	void MainWindow::OnBackToEditor(const ax::Button::Msg& msg)
-	{
-		_view_mode = false;
-
-		_statusBar->GetWindow()->Show();
-
-		if (_view_info.left_menu_shown) {
-			_left_menu->GetWindow()->Show();
-		}
-
-		if (_view_info.right_menu_shown) {
-			//			_inspectorMenu->GetWindow()->Show();
-			_right_menu->GetWindow()->Show();
-		}
-
-		if (_view_info.editor_shown) {
-			//			_codeEditor->GetWindow()->Show();
-			_bottom_section->GetWindow()->Show();
-		}
-
-		ax::Window* main_win = _gridWindow->GetMainWindow();
-		main_win->dimension.SetPosition(_view_info.old_main_window_position);
-
-		_gridWindow->GetWindow()->dimension.SetPosition(ax::Point(WIDGET_MENU_WIDTH, STATUS_BAR_HEIGHT));
-
-		// Find tmp back button and delete it.
-		ax::Window* main_window = _gridWindow->GetMainWindow();
-
-		if (main_window == nullptr) {
-			ax::Error("Main window doesn't exist when comming back from view mode.");
-			ax::App::GetInstance().SetFrameSize(_view_info.old_frame_size);
-			return;
-		}
-
-		auto& children = main_window->node.GetChildren();
-
-		ax::Window* back_btn = nullptr;
-		int index = -1;
-
-		for (int i = 0; i < children.size(); i++) {
-			if (children[i]->property.HasProperty("TemporaryBackButton")) {
-				back_btn = children[i].get();
-				index = i;
-				break;
-			}
-		}
-
-		if (back_btn != nullptr && index != -1) {
-			back_btn->event.UnGrabMouse();
-			ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
-			children.erase(children.begin() + index);
-		}
-		else {
-			ax::Error("Back to editor button wasn't found when comming back "
-					  "from view mode.");
-		}
-
-		ax::App::GetInstance().SetResizable(true);
-		ax::App::GetInstance().SetFrameSize(_view_info.old_frame_size);
-		ax::App::GetInstance().SetFocusAndCenter();
 	}
 
 	void MainWindow::OnCreateDraggingWidget(const ax::Event::SimpleMsg<ObjMsg>& msg)
@@ -819,109 +590,17 @@ namespace editor {
 			}
 		}
 	}
-	
+
 	void MainWindow::OnGlobalKey(const char& c)
 	{
-		if(!ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+		if (!ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
 			return;
 		}
-		
-		if(c == 's' || c == 'S') {
+
+		if (c == 's' || c == 'S') {
 			// Save current project.
 			SaveCurrentProject();
 		}
-	}
-
-	void MainWindow::OnResize(const ax::Size& size)
-	{
-		if (_view_mode) {
-			return;
-		}
-
-		// Resize status bar.
-		ax::Size top_menu_size(_statusBar->GetWindow()->dimension.GetSize());
-		top_menu_size.x = size.x;
-		_statusBar->GetWindow()->dimension.SetSize(top_menu_size);
-
-		bool widget_menu = _left_menu->GetWindow()->IsShown();
-		bool inspector = _right_menu->GetWindow()->IsShown();
-		bool code_editor = _bottom_section->GetWindow()->IsShown();
-
-		int editor_height = 0;
-
-		if (code_editor) {
-			editor_height = _bottom_section->GetWindow()->dimension.GetSize().y;
-			if (editor_height > size.y - STATUS_BAR_HEIGHT) {
-				editor_height = size.y - STATUS_BAR_HEIGHT;
-			}
-		}
-
-		int grid_height = size.y - STATUS_BAR_HEIGHT - editor_height - BOTTOM_BAR_HEIGHT;
-
-		int widget_menu_width = _left_menu->GetWindow()->dimension.GetRect().size.x;
-
-		if (widget_menu && inspector) {
-			ax::Size widget_menu_size(widget_menu_width, size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
-			_left_menu->GetWindow()->dimension.SetSize(widget_menu_size);
-
-			ax::Rect grid_rect(widget_menu_width, STATUS_BAR_HEIGHT,
-				size.x - widget_menu_width - INSPECTOR_MENU_WIDTH, grid_height);
-			_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
-
-			ax::Rect info_rect(size.x - INSPECTOR_MENU_WIDTH, STATUS_BAR_HEIGHT, INSPECTOR_MENU_WIDTH,
-				size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
-			_right_menu->GetWindow()->dimension.SetRect(info_rect);
-
-			if (code_editor) {
-				ax::Rect editor_rect(widget_menu_width + 1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
-					size.x - widget_menu_width - INSPECTOR_MENU_WIDTH, editor_height);
-				_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
-			}
-		}
-		else if (widget_menu) {
-			ax::Size widget_menu_size(widget_menu_width, size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
-			_left_menu->GetWindow()->dimension.SetSize(widget_menu_size);
-
-			ax::Rect grid_rect(widget_menu_width, STATUS_BAR_HEIGHT, size.x - widget_menu_width, grid_height);
-			_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
-
-			if (code_editor) {
-				ax::Rect editor_rect(widget_menu_width + 1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
-					size.x - widget_menu_width, editor_height);
-
-				_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
-			}
-		}
-		else if (inspector) {
-			ax::Rect grid_rect(0, STATUS_BAR_HEIGHT, size.x - INSPECTOR_MENU_WIDTH, grid_height);
-			_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
-
-			ax::Rect info_rect(size.x - INSPECTOR_MENU_WIDTH, STATUS_BAR_HEIGHT, INSPECTOR_MENU_WIDTH,
-				size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
-			_right_menu->GetWindow()->dimension.SetRect(info_rect);
-
-			if (code_editor) {
-				ax::Rect editor_rect(1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
-					size.x - INSPECTOR_MENU_WIDTH, editor_height);
-
-				_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
-			}
-		}
-		else {
-			ax::Rect grid_rect(0, STATUS_BAR_HEIGHT, size.x, grid_height);
-			_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
-
-			if (code_editor) {
-				ax::Rect editor_rect(1, size.y - editor_height - BOTTOM_BAR_HEIGHT, size.x, editor_height);
-
-				_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
-			}
-		}
-
-		// Midi feedback.
-		_midi_feedback->GetWindow()->dimension.SetPosition(ax::Point(size.x - 17, size.y - 15));
-
-		AttachHelpInfo(_midi_feedback->GetWindow(), "Midi input activity.");
 	}
 
 	void MainWindow::OnPaint(ax::GC gc)

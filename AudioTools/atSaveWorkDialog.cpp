@@ -117,12 +117,12 @@ void SaveWorkPanel::OnSave(const ax::Button::Msg& msg)
 	}
 
 	ax::Print(name, description, author);
-	win->node.GetParent()->PushEvent(SAVE, new Msg(name, description, author));
+	win->PushEvent(SAVE, new Msg(name, description, author));
 }
 
 void SaveWorkPanel::OnCancel(const ax::Button::Msg& msg)
 {
-	win->node.GetParent()->PushEvent(CANCEL, new ax::Event::EmptyMsg());
+	win->PushEvent(CANCEL, new ax::Event::EmptyMsg());
 }
 
 void SaveWorkPanel::OnPaint(ax::GC gc)
@@ -190,16 +190,18 @@ SaveWorkDialog::SaveWorkDialog(const ax::Rect& rect)
 	auto save_work = ax::shared<SaveWorkPanel>(ax::Rect(pos, pref_size));
 	win->node.Add(save_work);
 	_save_work_panel = save_work.get();
+
+	_save_work_panel->GetWindow()->AddConnection(SaveWorkPanel::SAVE, GetOnAcceptSavePanelToWorkpace());
+	_save_work_panel->GetWindow()->AddConnection(SaveWorkPanel::CANCEL, GetOnCancelSavePanelToWorkpace());
 }
 
 void SaveWorkDialog::OnGlobalClick(const ax::Window::Event::GlobalClick& gclick)
 {
 	if (_save_work_panel != nullptr) {
-		if (!ax::App::GetInstance().GetPopupManager()->IsMouseStillInChildWindow(_save_work_panel->GetWindow())) {
+		if (!ax::App::GetInstance().GetPopupManager()->IsMouseStillInChildWindow(
+				_save_work_panel->GetWindow())) {
 
-			//if (!_save_work_panel->IsMouseInDropMenu()) {
-				DeleteDialog();
-			//}
+			DeleteDialog();
 		}
 	}
 }
@@ -220,6 +222,18 @@ void SaveWorkDialog::DeleteDialog()
 	ax::App::GetInstance().GetPopupManager()->UnGrabMouse();
 	ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
 	ax::App::GetInstance().UpdateAll();
+}
+
+void SaveWorkDialog::OnAcceptSavePanelToWorkpace(const at::SaveWorkPanel::Msg& msg)
+{
+	win->PushEvent(at::SaveWorkPanel::SAVE, new at::SaveWorkPanel::Msg(msg));
+	DeleteDialog();
+}
+
+void SaveWorkDialog::OnCancelSavePanelToWorkpace(const ax::Event::EmptyMsg& msg)
+{
+	win->PushEvent(at::SaveWorkPanel::CANCEL, new ax::Event::EmptyMsg());
+	DeleteDialog();
 }
 
 void SaveWorkDialog::OnMouseLeftDown(const ax::Point& pos)
