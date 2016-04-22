@@ -48,6 +48,7 @@
 		7CB90DD81CC99A0F0029CEF8 /* atEditorWorkspaceObj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DD61CC99A0F0029CEF8 /* atEditorWorkspaceObj.cpp */; };
 		7CB90DDE1CC9B5460029CEF8 /* atSaveWorkDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DDC1CC9B5460029CEF8 /* atSaveWorkDialog.cpp */; };
 		7CB90DE11CC9CB980029CEF8 /* atColorButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DDF1CC9CB980029CEF8 /* atColorButton.cpp */; };
+		7CB90DE51CCA55C30029CEF8 /* atEditorProjectInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DE31CCA55C30029CEF8 /* atEditorProjectInfo.cpp */; };
 		7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */; };
 		7CBD415E1CB6973C000A22C5 /* atMenuBoolAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */; };
 		7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */; };
@@ -161,6 +162,8 @@
 		7CB90DDD1CC9B5460029CEF8 /* atSaveWorkDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atSaveWorkDialog.h; sourceTree = "<group>"; };
 		7CB90DDF1CC9CB980029CEF8 /* atColorButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atColorButton.cpp; sourceTree = "<group>"; };
 		7CB90DE01CC9CB980029CEF8 /* atColorButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atColorButton.h; sourceTree = "<group>"; };
+		7CB90DE31CCA55C30029CEF8 /* atEditorProjectInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atEditorProjectInfo.cpp; sourceTree = "<group>"; };
+		7CB90DE41CCA55C30029CEF8 /* atEditorProjectInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorProjectInfo.h; sourceTree = "<group>"; };
 		7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuColorAttribute.cpp; sourceTree = "<group>"; };
 		7CBD41571CB60033000A22C5 /* atMenuColorAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuColorAttribute.hpp; sourceTree = "<group>"; };
 		7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuBoolAttribute.cpp; sourceTree = "<group>"; };
@@ -298,6 +301,7 @@
 			children = (
 				7C48A6E01CC6842200ABB3AD /* atEditorRightSideMenu.h */,
 				7C48A6DF1CC6842200ABB3AD /* atEditorRightSideMenu.cpp */,
+				7CB90DE21CCA55A30029CEF8 /* ProjectInfo */,
 				7CC9EAE11CC7D90E0032FBB4 /* Account */,
 				7CC9EAE01CC7D9000032FBB4 /* PyoDoc */,
 				7C055FAA1C947D78004527C3 /* InspectorMenu */,
@@ -310,6 +314,8 @@
 			children = (
 				7CE7BF2F1CBC4629004350B6 /* atEditorBottomSection.h */,
 				7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */,
+				7C7B74781CC1A890006EF72E /* atConsoleStream.cpp */,
+				7C7B74791CC1A890006EF72E /* atConsoleStream.h */,
 				7CE7BF2C1CBC452D004350B6 /* atConsole.h */,
 				7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */,
 				7CF1D8DB1C93801B00AAAC01 /* CodeEditor */,
@@ -494,6 +500,15 @@
 			name = StoreMenu;
 			sourceTree = "<group>";
 		};
+		7CB90DE21CCA55A30029CEF8 /* ProjectInfo */ = {
+			isa = PBXGroup;
+			children = (
+				7CB90DE31CCA55C30029CEF8 /* atEditorProjectInfo.cpp */,
+				7CB90DE41CCA55C30029CEF8 /* atEditorProjectInfo.h */,
+			);
+			name = ProjectInfo;
+			sourceTree = "<group>";
+		};
 		7CC9EAE01CC7D9000032FBB4 /* PyoDoc */ = {
 			isa = PBXGroup;
 			children = (
@@ -574,13 +589,11 @@
 		7CF1D82C1C9207DD00AAAC01 /* AudioTools */ = {
 			isa = PBXGroup;
 			children = (
-				7CC9EAFE1CC881450032FBB4 /* Project */,
 				7CF1D8AC1C921DF800AAAC01 /* main.cpp */,
 				7CF1D9D01C944C8500AAAC01 /* atCommon.h */,
 				7C48A6DC1CC5BC1500ABB3AD /* atHelpBar.cpp */,
 				7C48A6DD1CC5BC1500ABB3AD /* atHelpBar.h */,
-				7C7B74781CC1A890006EF72E /* atConsoleStream.cpp */,
-				7C7B74791CC1A890006EF72E /* atConsoleStream.h */,
+				7CC9EAFE1CC881450032FBB4 /* Project */,
 				7C7B749E1CC5102E006EF72E /* Component */,
 				7C9219341CB7F7BD00AB6AF6 /* Dialog */,
 				7C213B131CA0318B0050F676 /* Editor */,
@@ -734,6 +747,7 @@
 				7C7B747C1CC1B9EE006EF72E /* m_pyo.cpp in Sources */,
 				7C5AD9541CBEBE4B002D8E57 /* DropMenuBox.cpp in Sources */,
 				7C5AD94E1CBDDE1A002D8E57 /* atPreferenceDialog.cpp in Sources */,
+				7CB90DE51CCA55C30029CEF8 /* atEditorProjectInfo.cpp in Sources */,
 				7CF1D8971C921DDF00AAAC01 /* atEditor.cpp in Sources */,
 				7CF1D89F1C921DDF00AAAC01 /* atEditorWidgetMenu.cpp in Sources */,
 				7C7B746E1CC0B0B5006EF72E /* PanelPyWrapper.cpp in Sources */,

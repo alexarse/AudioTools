@@ -30,6 +30,13 @@ namespace editor {
 			ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
 		win->node.Add(inspector);
 		_inspector = inspector.get();
+		
+		// Account panel.
+		auto proj_info
+		= ax::shared<ProjectInfo>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
+		win->node.Add(proj_info);
+		_project_info = proj_info.get();
+		_project_info->GetWindow()->Hide();
 
 		// Documentation panel.
 		auto pydoc
@@ -62,7 +69,7 @@ namespace editor {
 
 		// Project info.
 		pos = AddButton(
-			pos, win, ax::Button::Events(), btn_info, "resources/info.png", "Show Project information.");
+			pos, win, GetOnProjectInfoButton(), btn_info, "resources/info.png", "Show Project information.");
 
 		// Pyo documentation.
 		pos = AddButton(
@@ -94,6 +101,7 @@ namespace editor {
 		_inspector->GetWindow()->Show();
 		_pydoc->GetWindow()->Hide();
 		_account->GetWindow()->Hide();
+		_project_info->GetWindow()->Hide();
 		
 		for(auto& n : _btns) {
 			n->SetSelected(false);
@@ -102,11 +110,26 @@ namespace editor {
 		_btns[0]->SetSelected(true);
 	}
 
+	void RightSideMenu::OnProjectInfoButton(const ax::Button::Msg& msg)
+	{
+		_inspector->GetWindow()->Hide();
+		_pydoc->GetWindow()->Hide();
+		_account->GetWindow()->Hide();
+		_project_info->GetWindow()->Show();
+		
+		for(auto& n : _btns) {
+			n->SetSelected(false);
+		}
+		
+		_btns[1]->SetSelected(true);
+	}
+
 	void RightSideMenu::OnPyDocButton(const ax::Button::Msg& msg)
 	{
 		_inspector->GetWindow()->Hide();
 		_pydoc->GetWindow()->Show();
 		_account->GetWindow()->Hide();
+		_project_info->GetWindow()->Hide();
 		
 		for(auto& n : _btns) {
 			n->SetSelected(false);
@@ -120,6 +143,7 @@ namespace editor {
 		_inspector->GetWindow()->Hide();
 		_pydoc->GetWindow()->Hide();
 		_account->GetWindow()->Show();
+		_project_info->GetWindow()->Hide();
 		
 		for(auto& n : _btns) {
 			n->SetSelected(false);
@@ -134,6 +158,7 @@ namespace editor {
 		_inspector->GetWindow()->dimension.SetSize(s);
 		_pydoc->GetWindow()->dimension.SetSize(s);
 		_account->GetWindow()->dimension.SetSize(s);
+		_project_info->GetWindow()->dimension.SetSize(s);
 	}
 
 	void RightSideMenu::OnPaint(ax::GC gc)

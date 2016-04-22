@@ -16,6 +16,7 @@
 #include "atEditorAccount.h"
 #include "atEditorInspectorMenu.h"
 #include "atEditorPyDoc.h"
+#include "atEditorProjectInfo.h"
 
 namespace at {
 namespace editor {
@@ -33,12 +34,15 @@ namespace editor {
 		static const int TOP_BAR_HEIGHT = 25;
 
 		InspectorMenu* _inspector;
+		ProjectInfo* _project_info;
 		PyDoc* _pydoc;
 		Account* _account;
+		
 		
 		std::vector<at::ColorButton*> _btns;
 
 		axEVENT_DECLARATION(ax::Button::Msg, OnInspectorButton);
+		axEVENT_DECLARATION(ax::Button::Msg, OnProjectInfoButton);
 		axEVENT_DECLARATION(ax::Button::Msg, OnPyDocButton);
 		axEVENT_DECLARATION(ax::Button::Msg, OnAccountButton);
 

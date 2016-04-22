@@ -2,7 +2,7 @@
  * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
- * without prior written agreement by AutioTools.
+ * without prior written agreement by AudioTools.
  *
  * Neither the name of the AudioTools nor the names of its
  * contributors may be used to endorse or promote products derived from this
@@ -93,9 +93,11 @@ void PyoAudio::CreateServer(float sr, int bufsize, int chnls)
 
 void PyoAudio::ProcessString(const std::string& script)
 {
-	char msg[2048];
-	sprintf(msg, script.c_str());
-	err = pyo_exec_statement(_pyo, msg, 1);
+	if(_pyo != nullptr) {
+		char msg[2048];
+		sprintf(msg, script.c_str());
+		err = pyo_exec_statement(_pyo, msg, 1);
+	}
 }
 
 std::string PyoAudio::GetClassBrief(const std::string& name)
