@@ -9,11 +9,12 @@ namespace editor {
 	ax::Point RightSideMenu::AddButton(const ax::Point& pos, ax::Window* win, const ax::Button::Events& evts,
 		const ax::Button::Info& info, const std::string& img, const std::string& description)
 	{
-		auto btn = ax::shared<ax::Button>(
+		auto btn = ax::shared<at::ColorButton>(
 			ax::Rect(pos, ax::Size(20, 20)), evts, info, img, "", ax::Button::Flags::SINGLE_IMG);
 
 		AttachHelpInfo(btn->GetWindow(), description);
 		win->node.Add(btn);
+		_btns.push_back(btn.get());
 
 		return btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 	}
@@ -74,6 +75,8 @@ namespace editor {
 		// Code snippet.
 		pos = AddButton(
 			pos, win, ax::Button::Events(), btn_info, "resources/attachment.png", "Show code snippet.");
+		
+		_btns[0]->SetSelected(true);
 	}
 
 	void RightSideMenu::SetInspectorHandle(ax::Window* handle)
@@ -91,6 +94,12 @@ namespace editor {
 		_inspector->GetWindow()->Show();
 		_pydoc->GetWindow()->Hide();
 		_account->GetWindow()->Hide();
+		
+		for(auto& n : _btns) {
+			n->SetSelected(false);
+		}
+		
+		_btns[0]->SetSelected(true);
 	}
 
 	void RightSideMenu::OnPyDocButton(const ax::Button::Msg& msg)
@@ -98,6 +107,12 @@ namespace editor {
 		_inspector->GetWindow()->Hide();
 		_pydoc->GetWindow()->Show();
 		_account->GetWindow()->Hide();
+		
+		for(auto& n : _btns) {
+			n->SetSelected(false);
+		}
+		
+		_btns[2]->SetSelected(true);
 	}
 
 	void RightSideMenu::OnAccountButton(const ax::Button::Msg& msg)
@@ -105,6 +120,12 @@ namespace editor {
 		_inspector->GetWindow()->Hide();
 		_pydoc->GetWindow()->Hide();
 		_account->GetWindow()->Show();
+		
+		for(auto& n : _btns) {
+			n->SetSelected(false);
+		}
+		
+		_btns[3]->SetSelected(true);
 	}
 
 	void RightSideMenu::OnResize(const ax::Size& size)

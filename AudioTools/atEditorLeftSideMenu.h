@@ -18,6 +18,7 @@
 #include "atEditorWorkspace.h"
 #include "atEditorProjectSpace.h"
 #include "atEditorOnlineStoreMenu.h"
+#include "atColorButton.h"
 
 namespace at {
 namespace editor {
@@ -34,7 +35,7 @@ namespace editor {
 	private:
 		static const int TOP_BAR_HEIGHT = 25;
 		bool _dropped_smaller = false;
-		std::vector<ax::Button*> _menu_btns;
+		std::vector<at::ColorButton*> _menu_btns;
 		
 		ProjectSpace* _project_space;
 		WidgetMenu* _widget_menu;

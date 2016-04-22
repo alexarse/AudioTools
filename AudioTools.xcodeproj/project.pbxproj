@@ -47,6 +47,7 @@
 		7CB90DD51CC994770029CEF8 /* atEditorOnlineStoreMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DD31CC994770029CEF8 /* atEditorOnlineStoreMenu.cpp */; };
 		7CB90DD81CC99A0F0029CEF8 /* atEditorWorkspaceObj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DD61CC99A0F0029CEF8 /* atEditorWorkspaceObj.cpp */; };
 		7CB90DDE1CC9B5460029CEF8 /* atSaveWorkDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DDC1CC9B5460029CEF8 /* atSaveWorkDialog.cpp */; };
+		7CB90DE11CC9CB980029CEF8 /* atColorButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CB90DDF1CC9CB980029CEF8 /* atColorButton.cpp */; };
 		7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */; };
 		7CBD415E1CB6973C000A22C5 /* atMenuBoolAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */; };
 		7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */; };
@@ -158,6 +159,8 @@
 		7CB90DD71CC99A0F0029CEF8 /* atEditorWorkspaceObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atEditorWorkspaceObj.h; sourceTree = "<group>"; };
 		7CB90DDC1CC9B5460029CEF8 /* atSaveWorkDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atSaveWorkDialog.cpp; sourceTree = "<group>"; };
 		7CB90DDD1CC9B5460029CEF8 /* atSaveWorkDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atSaveWorkDialog.h; sourceTree = "<group>"; };
+		7CB90DDF1CC9CB980029CEF8 /* atColorButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atColorButton.cpp; sourceTree = "<group>"; };
+		7CB90DE01CC9CB980029CEF8 /* atColorButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atColorButton.h; sourceTree = "<group>"; };
 		7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuColorAttribute.cpp; sourceTree = "<group>"; };
 		7CBD41571CB60033000A22C5 /* atMenuColorAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuColorAttribute.hpp; sourceTree = "<group>"; };
 		7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuBoolAttribute.cpp; sourceTree = "<group>"; };
@@ -421,6 +424,8 @@
 				7C5AD9531CBEBE4B002D8E57 /* DropMenuBox.h */,
 				7C2138D31C9B252C0050F676 /* atVolumeMeter.hpp */,
 				7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */,
+				7CB90DDF1CC9CB980029CEF8 /* atColorButton.cpp */,
+				7CB90DE01CC9CB980029CEF8 /* atColorButton.h */,
 			);
 			name = Widgets;
 			sourceTree = "<group>";
@@ -697,6 +702,7 @@
 				7C7B747A1CC1A890006EF72E /* atConsoleStream.cpp in Sources */,
 				7CF1D8AB1C921DDF00AAAC01 /* TextEditorLogic.cpp in Sources */,
 				7CF1D8B41C921DF800AAAC01 /* main.cpp in Sources */,
+				7CB90DE11CC9CB980029CEF8 /* atColorButton.cpp in Sources */,
 				7C7B74681CC08778006EF72E /* PythonWrapperUtils.cpp in Sources */,
 				7CB90DD81CC99A0F0029CEF8 /* atEditorWorkspaceObj.cpp in Sources */,
 				7C7B74771CC1A5A5006EF72E /* WindowPyWrapper.cpp in Sources */,

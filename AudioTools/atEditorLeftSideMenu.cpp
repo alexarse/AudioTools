@@ -2,6 +2,7 @@
 #include "atHelpBar.h"
 
 #include <OpenAX/Button.h>
+#include "atColorButton.h"
 
 namespace at {
 namespace editor {
@@ -9,7 +10,7 @@ namespace editor {
 	ax::Point LeftSideMenu::AddButton(const ax::Point& pos, ax::Window* win, const ax::Button::Events& evts,
 		const ax::Button::Info& info, const std::string& img, const std::string& description)
 	{
-		auto btn = ax::shared<ax::Button>(
+		auto btn = ax::shared<at::ColorButton>(
 			ax::Rect(pos, ax::Size(20, 20)), evts, info, img, "", ax::Button::Flags::SINGLE_IMG);
 
 		AttachHelpInfo(btn->GetWindow(), description);
@@ -70,6 +71,10 @@ namespace editor {
 
 		pos = AddButton(
 			pos, win, GetOnOnlineStoreMenu(), btn_info, "resources/cloud.png", "Download widgets.");
+		
+		_menu_btns[0]->SetSelected(true);
+		_menu_btns[0]->SetColor(ax::Color(1.0));
+		_menu_btns[2]->SetSelected(true);
 	}
 
 	void LeftSideMenu::SetOnlyMainWindowWidgetSelectable()
@@ -145,6 +150,13 @@ namespace editor {
 		_workspace->GetWindow()->Hide();
 		_project_space->GetWindow()->Hide();
 		_online_store_menu->GetWindow()->Hide();
+		
+		for(int i = 1; i < _menu_btns.size(); i++) {
+			_menu_btns[i]->SetSelected(false);
+		}
+		
+		_menu_btns[2]->SetSelected(true);
+		_menu_btns[0]->SetColor(ax::Color(1.0));
 	}
 
 	void LeftSideMenu::OnWorkspace(const ax::Button::Msg& msg)
@@ -154,6 +166,12 @@ namespace editor {
 		_project_space->GetWindow()->Hide();
 		_online_store_menu->GetWindow()->Hide();
 		
+		for(int i = 1; i < _menu_btns.size(); i++) {
+			_menu_btns[i]->SetSelected(false);
+		}
+		
+		_menu_btns[3]->SetSelected(true);
+		_menu_btns[0]->SetColor(ax::Color(0.6));
 		SetWide();
 	}
 
@@ -165,6 +183,13 @@ namespace editor {
 		_online_store_menu->GetWindow()->Hide();
 		
 		SetWide();
+		
+		for(int i = 1; i < _menu_btns.size(); i++) {
+			_menu_btns[i]->SetSelected(false);
+		}
+		
+		_menu_btns[1]->SetSelected(true);
+		_menu_btns[0]->SetColor(ax::Color(0.6));
 	}
 
 	void LeftSideMenu::OnOnlineStoreMenu(const ax::Button::Msg& msg)
@@ -175,6 +200,13 @@ namespace editor {
 		_online_store_menu->GetWindow()->Show();
 		
 		SetWide();
+		
+		for(int i = 1; i < _menu_btns.size(); i++) {
+			_menu_btns[i]->SetSelected(false);
+		}
+		
+		_menu_btns[4]->SetSelected(true);
+		_menu_btns[0]->SetColor(ax::Color(0.6));
 	}
 
 	void LeftSideMenu::OnResize(const ax::Size& size)

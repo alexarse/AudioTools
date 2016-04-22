@@ -12,6 +12,7 @@
 #include <OpenAX/Button.h>
 #include <OpenAX/OpenAX.h>
 
+#include "atColorButton.h"
 #include "atEditorAccount.h"
 #include "atEditorInspectorMenu.h"
 #include "atEditorPyDoc.h"
@@ -34,6 +35,8 @@ namespace editor {
 		InspectorMenu* _inspector;
 		PyDoc* _pydoc;
 		Account* _account;
+		
+		std::vector<at::ColorButton*> _btns;
 
 		axEVENT_DECLARATION(ax::Button::Msg, OnInspectorButton);
 		axEVENT_DECLARATION(ax::Button::Msg, OnPyDocButton);
