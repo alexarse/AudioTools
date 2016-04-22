@@ -52,6 +52,8 @@ namespace editor {
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &MainWindow::OnPaint);
 		win->event.OnResize = ax::WBind<ax::Size>(this, &MainWindow::OnResize);
+		win->event.OnKeyDown = ax::WBind<char>(this, &MainWindow::OnGlobalKey);
+		win->event.GrabGlobalKey();
 
 		win->AddConnection(999, GetOnHelpBar());
 
@@ -75,7 +77,7 @@ namespace editor {
 		sb_win->AddConnection(StatusBar::SAVE_AS_LAYOUT, GetOnSaveAsProject());
 		sb_win->AddConnection(StatusBar::OPEN_LAYOUT, GetOnOpenProject());
 		sb_win->AddConnection(StatusBar::CREATE_NEW_LAYOUT, GetOnCreateNewProject());
-		
+
 		sb_win->AddConnection(StatusBar::RELOAD_SCRIPT, GetOnReloadScript());
 		sb_win->AddConnection(StatusBar::STOP_SCRIPT, GetOnStopScript());
 
@@ -93,7 +95,8 @@ namespace editor {
 
 		_gridWindow->GetWindow()->AddConnection(GridWindow::SELECT_WIDGET, GetOnSelectWidget());
 		_gridWindow->GetWindow()->AddConnection(GridWindow::UNSELECT_ALL, GetOnUnSelectAllWidget());
-		_gridWindow->GetWindow()->AddConnection(GridWindow::SAVE_PANEL_TO_WORKSPACE, GetOnSavePanelToWorkspace());
+		_gridWindow->GetWindow()->AddConnection(
+			GridWindow::SAVE_PANEL_TO_WORKSPACE, GetOnSavePanelToWorkspace());
 
 		if (!proj_path.empty()) {
 			_gridWindow->OpenLayout(_project.GetLayoutPath());
@@ -105,7 +108,7 @@ namespace editor {
 		// Create widget menu.
 		ax::Rect widget_menu_rect(
 			0, STATUS_BAR_HEIGHT, WIDGET_MENU_WIDTH, rect.size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
-		
+
 		auto l_side_menu = ax::shared<LeftSideMenu>(widget_menu_rect);
 		win->node.Add(l_side_menu);
 		_left_menu = l_side_menu.get();
@@ -207,13 +210,12 @@ namespace editor {
 
 		_selected_windows.clear();
 		_right_menu->RemoveInspectorHandle();
-		//		_inspectorMenu->RemoveHandle();
 
 		if (_gridWindow->GetMainWindow() == nullptr) {
 			_left_menu->SetOnlyMainWindowWidgetSelectable();
 		}
 	}
-	
+
 	void MainWindow::OnSavePanelToWorkspace(const ax::Event::EmptyMsg& msg)
 	{
 		// Empty popup window tree.
@@ -222,21 +224,38 @@ namespace editor {
 		app.GetPopupManager()->SetPastWindow(nullptr);
 		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
 		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-		
-		// Save as widget.
-		//			if (ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel() == nullptr) {
-//		const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
+
 		ax::Point pos(0, STATUS_BAR_HEIGHT - 1);
-		
+
 		ax::Size size = ax::App::GetInstance().GetFrameSize();
 		size.y -= (STATUS_BAR_HEIGHT + BOTTOM_BAR_HEIGHT - 1);
-		
+
 		auto pref_dialog = ax::shared<at::SaveWorkDialog>(ax::Rect(pos, size));
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-																			   ax::Window::Ptr(pref_dialog->GetWindow()));
-		
+			ax::Window::Ptr(pref_dialog->GetWindow()));
+
 		pref_dialog->GetWindow()->backbone = pref_dialog;
-		//			}
+
+		pref_dialog->GetWindow()->AddConnection(at::SaveWorkPanel::SAVE, GetOnAcceptSavePanelToWorkpace());
+		pref_dialog->GetWindow()->AddConnection(at::SaveWorkPanel::CANCEL, GetOnCancelSavePanelToWorkpace());
+	}
+
+	void MainWindow::OnAcceptSavePanelToWorkpace(const at::SaveWorkPanel::Msg& msg)
+	{
+		ax::App& app(ax::App::GetInstance());
+		app.GetPopupManager()->SetPastKeyWindow(nullptr);
+		app.GetPopupManager()->SetPastWindow(nullptr);
+		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
+		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+	}
+
+	void MainWindow::OnCancelSavePanelToWorkpace(const ax::Event::EmptyMsg& msg)
+	{
+		ax::App& app(ax::App::GetInstance());
+		app.GetPopupManager()->SetPastKeyWindow(nullptr);
+		app.GetPopupManager()->SetPastWindow(nullptr);
+		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
+		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
 	}
 
 	void MainWindow::OnSmallerLeftMenu(const ax::Button::Msg& msg)
@@ -256,11 +275,9 @@ namespace editor {
 			_selected_windows.push_back(selected_win);
 			selected_win->property.AddProperty("current_editing_widget");
 			selected_win->Update();
-			//			_inspectorMenu->SetWidgetHandle(selected_win);
 			_right_menu->SetInspectorHandle(selected_win);
 		}
 		else {
-			//			_inspectorMenu->SetWidgetHandle(nullptr);
 			_right_menu->SetInspectorHandle(selected_win);
 		}
 
@@ -301,14 +318,7 @@ namespace editor {
 
 	void MainWindow::OnStopScript(const ax::Event::SimpleMsg<int>& msg)
 	{
-		ax::Print("Stop script");
-
-		/// @todo Do this in another thread and add a feedback to user somehow.
-		//----------------------------------------------------------------------
-		//		_codeEditor->SaveFile(_codeEditor->GetScriptPath());
-		//		_bottom_section->SaveFile(_bottom_section->GetScriptPath());
 		PyoAudio::GetInstance()->StopServer();
-		//----------------------------------------------------------------------
 	}
 
 	void MainWindow::OnToggleLeftPanel(const ax::Toggle::Msg& msg)
@@ -355,9 +365,9 @@ namespace editor {
 		win->event.OnResize(win->dimension.GetSize());
 	}
 
-	void MainWindow::OnSaveProject(const ax::Event::StringMsg& msg)
+	void MainWindow::SaveCurrentProject()
 	{
-		if(!_project.IsProjectOpen()) {
+		if (!_project.IsProjectOpen()) {
 			ax::Error("No project is currently open.");
 			return;
 		}
@@ -367,24 +377,26 @@ namespace editor {
 		_bottom_section->SaveFile(_project.GetScriptPath());
 		
 		_project.Save();
-		
-		
-//		_gridWindow->SaveLayout("layouts/" + msg.GetMsg(), _bottom_section->GetScriptPath());
 	}
-	
+
+	void MainWindow::OnSaveProject(const ax::Event::StringMsg& msg)
+	{
+		SaveCurrentProject();
+	}
+
 	void MainWindow::OnSaveAsProject(const ax::Event::StringMsg& msg)
 	{
 		std::string project_path(msg.GetMsg());
 		boost::filesystem::path filepath(project_path);
-		
+
 		// Check file extension.
 		std::string ext = filepath.extension().string();
-		
-		if(ext.empty()) {
+
+		if (ext.empty()) {
 			ax::Print("Empty extension");
-			//project_path;// += ".atproj";
+			// project_path;// += ".atproj";
 		}
-		else if(ext == ".atproj") {
+		else if (ext == ".atproj") {
 			/// @todo Remove extension.
 			ax::Print("atproj extension");
 			return;
@@ -394,11 +406,11 @@ namespace editor {
 			ax::Error("incorrect file extension :", ext);
 			return;
 		}
-		
+
 		PyoAudio::GetInstance()->StopServer();
-		
+
 		filepath = boost::filesystem::path(project_path);
-		
+
 		// Check if file exist.
 		if (boost::filesystem::exists(filepath)) {
 			/// @todo Manage this case with message box.
@@ -407,26 +419,26 @@ namespace editor {
 		}
 
 		// Check is a project is already open.
-		if(!_project.IsProjectOpen()) {
+		if (!_project.IsProjectOpen()) {
 			ax::Error("No project is currently open.");
 			return;
 		}
-		
+
 		// Save layout to temporary file.
 		_gridWindow->SaveLayout(_project.GetLayoutPath(), _project.GetScriptPath());
-		
+
 		// Save script to temporary file.
 		_bottom_section->SaveFile(_project.GetScriptPath());
-		
+
 		// Save as new project.
 		_project.SaveAs(project_path);
-		
+
 		// Close current project.
 		_project.Close();
-		
+
 		// Open newly saved project.
 		_project.Open(project_path + ".atproj");
-		
+
 		// Assign new name to status bar.
 		_statusBar->SetLayoutFilePath(_project.GetProjectName());
 	}
@@ -435,7 +447,7 @@ namespace editor {
 	{
 		const std::string project_path(msg.GetMsg());
 		boost::filesystem::path filepath(project_path);
-	
+
 		// Check is empty.
 		if (project_path.empty()) {
 			ax::Error("Project path is empty.");
@@ -478,10 +490,10 @@ namespace editor {
 
 		// Open project layout.
 		_gridWindow->OpenLayout(_project.GetLayoutPath());
-		
+
 		// Assign project label to status bar.
 		_statusBar->SetLayoutFilePath(_project.GetProjectName());
-		
+
 		// Assign script content to text editor.
 		_bottom_section->OpenFile(_project.GetScriptPath());
 
@@ -513,35 +525,35 @@ namespace editor {
 		//			}
 		//		}
 	}
-	
+
 	void MainWindow::OnCreateNewProject(const ax::Event::StringMsg& msg)
 	{
 		const std::string project_path(msg.GetMsg());
 		boost::filesystem::path filepath(project_path);
 	}
 
-//	void MainWindow::OnOpenProject(const ax::Event::StringMsg& msg)
-//	{
-//		if (!msg.GetMsg().empty()) {
-//			_selected_windows.clear();
-//			_right_menu->SetInspectorHandle(nullptr);
-//
-//			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
-//
-//			if (!script_path.empty()) {
-//				_statusBar->SetLayoutFilePath(msg.GetMsg());
-//				_bottom_section->OpenFile(script_path);
-//				PyoAudio::GetInstance()->ReloadScript(script_path);
-//			}
-//
-//			if (_gridWindow->GetMainWindow() == nullptr) {
-//				_widgetMenu->SetOnlyMainWindowWidgetSelectable();
-//			}
-//			else {
-//				_widgetMenu->SetAllSelectable();
-//			}
-//		}
-//	}
+	//	void MainWindow::OnOpenProject(const ax::Event::StringMsg& msg)
+	//	{
+	//		if (!msg.GetMsg().empty()) {
+	//			_selected_windows.clear();
+	//			_right_menu->SetInspectorHandle(nullptr);
+	//
+	//			std::string script_path = _gridWindow->OpenLayout("layouts/" + msg.GetMsg());
+	//
+	//			if (!script_path.empty()) {
+	//				_statusBar->SetLayoutFilePath(msg.GetMsg());
+	//				_bottom_section->OpenFile(script_path);
+	//				PyoAudio::GetInstance()->ReloadScript(script_path);
+	//			}
+	//
+	//			if (_gridWindow->GetMainWindow() == nullptr) {
+	//				_widgetMenu->SetOnlyMainWindowWidgetSelectable();
+	//			}
+	//			else {
+	//				_widgetMenu->SetAllSelectable();
+	//			}
+	//		}
+	//	}
 
 	void MainWindow::OnViewLayout(const ax::Event::SimpleMsg<int>& msg)
 	{
@@ -807,6 +819,18 @@ namespace editor {
 			}
 		}
 	}
+	
+	void MainWindow::OnGlobalKey(const char& c)
+	{
+		if(!ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+			return;
+		}
+		
+		if(c == 's' || c == 'S') {
+			// Save current project.
+			SaveCurrentProject();
+		}
+	}
 
 	void MainWindow::OnResize(const ax::Size& size)
 	{
@@ -826,7 +850,6 @@ namespace editor {
 		int editor_height = 0;
 
 		if (code_editor) {
-			//			editor_height = _codeEditor->GetWindow()->dimension.GetSize().y;
 			editor_height = _bottom_section->GetWindow()->dimension.GetSize().y;
 			if (editor_height > size.y - STATUS_BAR_HEIGHT) {
 				editor_height = size.y - STATUS_BAR_HEIGHT;

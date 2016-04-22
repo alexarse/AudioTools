@@ -314,10 +314,7 @@
 			children = (
 				7CE7BF2F1CBC4629004350B6 /* atEditorBottomSection.h */,
 				7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */,
-				7C7B74781CC1A890006EF72E /* atConsoleStream.cpp */,
-				7C7B74791CC1A890006EF72E /* atConsoleStream.h */,
-				7CE7BF2C1CBC452D004350B6 /* atConsole.h */,
-				7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */,
+				7CB90DE61CCA7E9D0029CEF8 /* Console */,
 				7CF1D8DB1C93801B00AAAC01 /* CodeEditor */,
 			);
 			name = BottomMenu;
@@ -347,24 +344,6 @@
 				7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */,
 				7C9219351CB8091000AB6AF6 /* atMenuIntegerAttribute.cpp */,
 				7C9219381CB8314900AB6AF6 /* atMenuPointAttribute.cpp */,
-			);
-			name = source;
-			sourceTree = "<group>";
-		};
-		7C5AD94A1CBDD322002D8E57 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				7CF1D8801C921DCC00AAAC01 /* TextEditor.h */,
-				7CF1D8811C921DCC00AAAC01 /* TextEditorLogic.h */,
-			);
-			name = include;
-			sourceTree = "<group>";
-		};
-		7C5AD94B1CBDD327002D8E57 /* source */ = {
-			isa = PBXGroup;
-			children = (
-				7CF1D8951C921DDF00AAAC01 /* TextEditor.cpp */,
-				7CF1D8961C921DDF00AAAC01 /* TextEditorLogic.cpp */,
 			);
 			name = source;
 			sourceTree = "<group>";
@@ -509,6 +488,17 @@
 			name = ProjectInfo;
 			sourceTree = "<group>";
 		};
+		7CB90DE61CCA7E9D0029CEF8 /* Console */ = {
+			isa = PBXGroup;
+			children = (
+				7C7B74781CC1A890006EF72E /* atConsoleStream.cpp */,
+				7C7B74791CC1A890006EF72E /* atConsoleStream.h */,
+				7CE7BF2C1CBC452D004350B6 /* atConsole.h */,
+				7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */,
+			);
+			name = Console;
+			sourceTree = "<group>";
+		};
 		7CC9EAE01CC7D9000032FBB4 /* PyoDoc */ = {
 			isa = PBXGroup;
 			children = (
@@ -607,8 +597,10 @@
 		7CF1D8DB1C93801B00AAAC01 /* CodeEditor */ = {
 			isa = PBXGroup;
 			children = (
-				7C5AD94A1CBDD322002D8E57 /* include */,
-				7C5AD94B1CBDD327002D8E57 /* source */,
+				7CF1D8801C921DCC00AAAC01 /* TextEditor.h */,
+				7CF1D8811C921DCC00AAAC01 /* TextEditorLogic.h */,
+				7CF1D8951C921DDF00AAAC01 /* TextEditor.cpp */,
+				7CF1D8961C921DDF00AAAC01 /* TextEditorLogic.cpp */,
 			);
 			name = CodeEditor;
 			sourceTree = "<group>";

@@ -117,12 +117,12 @@ void SaveWorkPanel::OnSave(const ax::Button::Msg& msg)
 	}
 
 	ax::Print(name, description, author);
-	win->PushEvent(SAVE, new Msg(name, description, author));
+	win->node.GetParent()->PushEvent(SAVE, new Msg(name, description, author));
 }
 
 void SaveWorkPanel::OnCancel(const ax::Button::Msg& msg)
 {
-	win->PushEvent(CANCEL, new ax::Event::EmptyMsg());
+	win->node.GetParent()->PushEvent(CANCEL, new ax::Event::EmptyMsg());
 }
 
 void SaveWorkPanel::OnPaint(ax::GC gc)

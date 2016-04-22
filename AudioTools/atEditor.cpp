@@ -35,33 +35,8 @@
 #include "PyoAudio.h"
 #include "atMidi.h"
 
-//#include <OpenAX/axMidiCore.h>
-
 #include "atSplashDialog.hpp"
 #include "atSkin.hpp"
-
-//class Midi : public ax::midi::Core {
-//public:
-//	Midi(PyoAudio* audio)
-//		: _audio(audio)
-//	{
-//	}
-//
-//	virtual void OnMidiNoteOn(const ax::midi::Note& msg)
-//	{
-//		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
-//		ax::Print("ON", msg.GetNote(), msg.GetVelocity());
-//	}
-//
-//	virtual void OnMidiNoteOff(const ax::midi::Note& msg)
-//	{
-//		_audio->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
-//		ax::Print("OFF", msg.GetNote(), msg.GetVelocity());
-//	}
-//
-//private:
-//	PyoAudio* _audio;
-//};
 
 namespace at {
 namespace editor {

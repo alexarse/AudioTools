@@ -36,6 +36,7 @@
 #include "atMidiFeedback.h"
 
 #include "atProjectManager.h"
+#include "atSaveWorkDialog.h"
 
 class CodeEditor;
 
@@ -50,6 +51,8 @@ public:
 	ax::Window* GetWidgetsByName(const std::string& name);
 	
 	void DeleteCurrentWidgets();
+	
+	void SaveCurrentProject();
 	
 	//	std::shared_ptr<StatusBar> _statusBar;
 	static const int STATUS_BAR_HEIGHT = 30;
@@ -124,6 +127,11 @@ private:
 	
 	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnSavePanelToWorkspace);
 	
+	axEVENT_DECLARATION(at::SaveWorkPanel::Msg, OnAcceptSavePanelToWorkpace);
+	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnCancelSavePanelToWorkpace);
+	
+	
+	void OnGlobalKey(const char& c);
 	void OnCreateDraggingWidget(const ax::Event::SimpleMsg<ObjMsg>& msg);
 	void OnDraggingWidget(const ax::Event::SimpleMsg<ax::Point>& msg);
 	void OnReleaseObjWidget(const ax::Event::SimpleMsg<ax::Point>& msg);
