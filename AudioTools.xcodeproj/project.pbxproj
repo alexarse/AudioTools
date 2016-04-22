@@ -271,7 +271,6 @@
 			isa = PBXGroup;
 			children = (
 				7C92193B1CB894EB00AB6AF6 /* atSkin.cpp */,
-				7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */,
 				7CF1D8821C921DDF00AAAC01 /* atEditor.cpp */,
 				7CF1D8841C921DDF00AAAC01 /* atEditorGridWindow.cpp */,
 				7CF1D8861C921DDF00AAAC01 /* atEditorLoader.cpp */,
@@ -285,7 +284,6 @@
 			isa = PBXGroup;
 			children = (
 				7C92193C1CB894EB00AB6AF6 /* atSkin.hpp */,
-				7CE7BF2F1CBC4629004350B6 /* atEditorBottomSection.h */,
 				7CF1D8701C921DCC00AAAC01 /* atEditor.h */,
 				7CF1D8711C921DCC00AAAC01 /* atEditorGridWindow.h */,
 				7CF1D8731C921DCC00AAAC01 /* atEditorLoader.h */,
@@ -310,6 +308,8 @@
 		7C48A6EF1CC7C90200ABB3AD /* BottomMenu */ = {
 			isa = PBXGroup;
 			children = (
+				7CE7BF2F1CBC4629004350B6 /* atEditorBottomSection.h */,
+				7CE7BF2E1CBC4629004350B6 /* atEditorBottomSection.cpp */,
 				7CE7BF2C1CBC452D004350B6 /* atConsole.h */,
 				7CE7BF2B1CBC452C004350B6 /* atConsole.cpp */,
 				7CF1D8DB1C93801B00AAAC01 /* CodeEditor */,

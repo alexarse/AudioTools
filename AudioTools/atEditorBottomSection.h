@@ -33,6 +33,7 @@
 
 #include "TextEditor.h"
 #include "atConsole.h"
+#include "atColorButton.h"
 
 namespace at {
 namespace editor {
@@ -56,8 +57,8 @@ namespace editor {
 		ax::Font _font;
 		
 		bool _is_txt_edit;
-		ax::Button* _console_btn;
-		ax::Button* _txt_btn;
+		at::ColorButton* _console_btn;
+		at::ColorButton* _txt_btn;
 		
 		TextEditor* _txt_editor;
 		Console* _console;

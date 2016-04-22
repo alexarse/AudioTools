@@ -76,16 +76,17 @@ namespace editor {
 		btn_info.contour = ax::Color(0.0, 0.0);
 		btn_info.font_color = ax::Color(0.0, 0.0);
 
-		auto txt_btn = ax::shared<ax::Button>(ax::Rect(5, 2, 20, 20), GetOnTextEditor(), btn_info,
+		auto txt_btn = ax::shared<at::ColorButton>(ax::Rect(5, 2, 20, 20), GetOnTextEditor(), btn_info,
 			"resources/txt_btn.png", "", ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
 		_txt_btn = txt_btn.get();
+		_txt_btn->SetSelected(true);
 		win->node.Add(txt_btn);
 		
 		AttachHelpInfo(txt_btn->GetWindow(), "Switch to code editor.");
 
 		ax::Point pos = _txt_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
-		auto console_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(20, 20)), GetOnConsole(), btn_info,
+		auto console_btn = ax::shared<at::ColorButton>(ax::Rect(pos, ax::Size(20, 20)), GetOnConsole(), btn_info,
 			"resources/console_btn.png", "", ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
 		_console_btn = console_btn.get();
 		win->node.Add(console_btn);
@@ -118,6 +119,8 @@ namespace editor {
 
 		if (!_is_txt_edit) {
 			_is_txt_edit = true;
+			_txt_btn->SetSelected(true);
+			_console_btn->SetSelected(false);
 			win->Update();
 		}
 	}
@@ -129,6 +132,8 @@ namespace editor {
 
 		if (_is_txt_edit) {
 			_is_txt_edit = false;
+			_txt_btn->SetSelected(false);
+			_console_btn->SetSelected(true);
 			win->Update();
 		}
 	}
