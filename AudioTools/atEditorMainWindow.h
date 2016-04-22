@@ -74,8 +74,8 @@ private:
 	
 	std::string _help_bar_str;
 	
-	bool _has_tmp_widget;
-	std::string _tmp_widget_builder_name;
+//	bool _has_tmp_widget;
+//	std::string _tmp_widget_builder_name;
 	
 	typedef std::pair<ax::StringPair, ax::Point> ObjMsg;
 	

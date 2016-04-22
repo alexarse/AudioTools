@@ -30,6 +30,9 @@ namespace editor {
 
 	private:
 		MainWindow* _main_window;
+		
+		bool _has_tmp_widget;
+		std::string _tmp_widget_builder_name;
 	};
 }
 }

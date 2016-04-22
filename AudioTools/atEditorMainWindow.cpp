@@ -45,8 +45,8 @@
 namespace at {
 namespace editor {
 	MainWindow::MainWindow(const ax::Rect& rect, const std::string& proj_path)
-		: _has_tmp_widget(false)
-		, _font(0)
+//		: _has_tmp_widget(false)
+		: _font(0)
 		, _view_handler(this)
 		, _widget_handler(this)
 		, _project_handler(this)

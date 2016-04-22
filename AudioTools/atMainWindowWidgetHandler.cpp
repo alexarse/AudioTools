@@ -18,6 +18,7 @@ namespace at {
 namespace editor {
 	MainWindowWidgetHandler::MainWindowWidgetHandler(MainWindow* main_window)
 		: _main_window(main_window)
+		, _has_tmp_widget(false)
 	{
 	}
 
@@ -67,13 +68,13 @@ namespace editor {
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
 			ax::Window::Ptr(obj->GetWindow()));
 		obj->GetWindow()->backbone = obj;
-		_main_window->_has_tmp_widget = true;
-		_main_window->_tmp_widget_builder_name = builder_name;
+		_has_tmp_widget = true;
+		_tmp_widget_builder_name = builder_name;
 	}
 
 	void MainWindowWidgetHandler::OnDraggingWidget(const ax::Event::SimpleMsg<ax::Point>& msg)
 	{
-		if (_main_window->_has_tmp_widget) {
+		if (_has_tmp_widget) {
 			ax::Point pos(msg.GetMsg());
 			ax::Window::Ptr wobj = ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel();
 
@@ -87,8 +88,8 @@ namespace editor {
 	{
 		ax::Point pos(msg.GetMsg());
 
-		if (_main_window->_has_tmp_widget) {
-			_main_window->_has_tmp_widget = false;
+		if (_has_tmp_widget) {
+			_has_tmp_widget = false;
 			std::vector<ax::Window::Ptr>& nodes
 				= ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector();
 			ax::Window::Ptr widget_win = nodes[0];
@@ -101,7 +102,7 @@ namespace editor {
 
 			if (main_window == nullptr) {
 				// Assign MainWindow name to first ax::Panel added.
-				if (_main_window->_tmp_widget_builder_name == "Panel") {
+				if (_tmp_widget_builder_name == "Panel") {
 					ax::Panel* panel = static_cast<ax::Panel*>(widget_win->backbone.get());
 					panel->SetName("MainWindow");
 					widget_win->property.AddProperty("MainWindow");
@@ -152,7 +153,7 @@ namespace editor {
 
 				// Setup widget.
 				Loader loader(_main_window->_gridWindow->GetWindow());
-				loader.SetupExistingWidget(widget_win.get(), _main_window->_tmp_widget_builder_name);
+				loader.SetupExistingWidget(widget_win.get(), _tmp_widget_builder_name);
 
 				_main_window->_selected_windows.clear();
 				_main_window->_gridWindow->UnSelectAllWidgets();
@@ -176,7 +177,7 @@ namespace editor {
 
 				// Setup widget.
 				Loader loader(_main_window->_gridWindow->GetWindow());
-				loader.SetupExistingWidget(widget_win.get(), _main_window->_tmp_widget_builder_name);
+				loader.SetupExistingWidget(widget_win.get(), _tmp_widget_builder_name);
 
 				_main_window->_gridWindow->UnSelectAllWidgets();
 				_main_window->_selected_windows.clear();
