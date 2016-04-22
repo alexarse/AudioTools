@@ -45,7 +45,6 @@
 namespace at {
 namespace editor {
 	MainWindow::MainWindow(const ax::Rect& rect, const std::string& proj_path)
-//		: _has_tmp_widget(false)
 		: _font(0)
 		, _view_handler(this)
 		, _widget_handler(this)
@@ -102,6 +101,12 @@ namespace editor {
 			GridWindow::UNSELECT_ALL, _widget_handler.GetOnUnSelectAllWidget());
 		_gridWindow->GetWindow()->AddConnection(
 			GridWindow::SAVE_PANEL_TO_WORKSPACE, GetOnSavePanelToWorkspace());
+
+		_gridWindow->GetWindow()->AddConnection(
+			GridWindow::DELETE_SELECTED_WIDGET, _widget_handler.GetOnDeleteSelectedWidget());
+
+		_gridWindow->GetWindow()->AddConnection(
+			GridWindow::DUPLICATE_SELECTED_WIDGET, _widget_handler.GetOnDuplicateSelectedWidget());
 
 		if (!proj_path.empty()) {
 			_gridWindow->OpenLayout(_project.GetLayoutPath());
@@ -188,38 +193,38 @@ namespace editor {
 		return _gridWindow->GetWidgetByName(name);
 	}
 
-	void MainWindow::DeleteCurrentWidgets()
-	{
-		// @todo Remove multiple widgets.
-		if (_selected_windows.size()) {
-
-			auto& children = _selected_windows[0]->node.GetParent()->node.GetChildren();
-			ax::Window::Ptr current_win;
-
-			int index = -1;
-
-			for (int i = 0; i < children.size(); i++) {
-				if (children[i]->GetId() == _selected_windows[0]->GetId()) {
-					current_win = children[i];
-					index = i;
-					break;
-				}
-			}
-
-			if (current_win && index != -1) {
-				win->event.UnGrabMouse();
-				ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
-				children.erase(children.begin() + index);
-			}
-		}
-
-		_selected_windows.clear();
-		_right_menu->RemoveInspectorHandle();
-
-		if (_gridWindow->GetMainWindow() == nullptr) {
-			_left_menu->SetOnlyMainWindowWidgetSelectable();
-		}
-	}
+	//	void MainWindow::DeleteCurrentWidgets()
+	//	{
+	//		// @todo Remove multiple widgets.
+	//		if (_selected_windows.size()) {
+	//
+	//			auto& children = _selected_windows[0]->node.GetParent()->node.GetChildren();
+	//			ax::Window::Ptr current_win;
+	//
+	//			int index = -1;
+	//
+	//			for (int i = 0; i < children.size(); i++) {
+	//				if (children[i]->GetId() == _selected_windows[0]->GetId()) {
+	//					current_win = children[i];
+	//					index = i;
+	//					break;
+	//				}
+	//			}
+	//
+	//			if (current_win && index != -1) {
+	//				win->event.UnGrabMouse();
+	//				ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
+	//				children.erase(children.begin() + index);
+	//			}
+	//		}
+	//
+	//		_selected_windows.clear();
+	//		_right_menu->RemoveInspectorHandle();
+	//
+	//		if (_gridWindow->GetMainWindow() == nullptr) {
+	//			_left_menu->SetOnlyMainWindowWidgetSelectable();
+	//		}
+	//	}
 
 	void MainWindow::OnSavePanelToWorkspace(const ax::Event::EmptyMsg& msg)
 	{

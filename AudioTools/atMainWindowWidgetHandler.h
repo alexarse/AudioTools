@@ -19,6 +19,8 @@ namespace editor {
 	class MainWindowWidgetHandler {
 	public:
 		MainWindowWidgetHandler(MainWindow* main_window);
+		
+		void DeleteCurrentWidgets();
 
 		typedef std::pair<ax::StringPair, ax::Point> ObjMsg;
 
@@ -27,12 +29,14 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::Point>, OnReleaseObjWidget);
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::Window*>, OnSelectWidget);
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnUnSelectAllWidget);
-
+		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDeleteSelectedWidget);
+		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDuplicateSelectedWidget);
 	private:
 		MainWindow* _main_window;
 		
 		bool _has_tmp_widget;
 		std::string _tmp_widget_builder_name;
+		
 	};
 }
 }

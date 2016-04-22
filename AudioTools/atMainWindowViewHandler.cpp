@@ -69,7 +69,6 @@ namespace editor {
 
 		_main_window->_selected_windows.clear();
 		_main_window->_gridWindow->UnSelectAllWidgets();
-		//		_inspectorMenu->SetWidgetHandle(nullptr);
 		_main_window->_right_menu->SetInspectorHandle(nullptr);
 
 		ax::App::GetInstance().SetResizable(false);

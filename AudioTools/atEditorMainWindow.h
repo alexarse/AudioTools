@@ -52,8 +52,6 @@ public:
 	std::vector<ax::Window*> GetSelectedWindows() const;
 	ax::Window* GetWidgetsByName(const std::string& name);
 	
-	void DeleteCurrentWidgets();
-		
 	static const int STATUS_BAR_HEIGHT = 30;
 	static const int INSPECTOR_MENU_WIDTH = 250;
 	static const int WIDGET_MENU_DROPPED_WIDTH = 85;
@@ -73,9 +71,6 @@ private:
 	std::vector<ax::Window*> _selected_windows;
 	
 	std::string _help_bar_str;
-	
-//	bool _has_tmp_widget;
-//	std::string _tmp_widget_builder_name;
 	
 	typedef std::pair<ax::StringPair, ax::Point> ObjMsg;
 	

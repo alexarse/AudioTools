@@ -41,7 +41,10 @@ namespace editor {
 			UNSELECT_ALL = 999,
 			SELECT_WIDGET = 1234,
 			DROP_WIDGET_MENU = 128973,
-			SAVE_PANEL_TO_WORKSPACE = 84710
+			SAVE_PANEL_TO_WORKSPACE = 84710,
+			DELETE_SELECTED_WIDGET,
+			DUPLICATE_SELECTED_WIDGET
+			
 		};
 
 		/// Set number of pixels between each grid lines.

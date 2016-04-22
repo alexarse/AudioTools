@@ -22,6 +22,41 @@ namespace editor {
 	{
 	}
 
+	void MainWindowWidgetHandler::DeleteCurrentWidgets()
+	{
+		ax::Window* win = _main_window->GetWindow();
+
+		// @todo Remove multiple widgets.
+		if (_main_window->_selected_windows.size()) {
+
+			auto& children = _main_window->_selected_windows[0]->node.GetParent()->node.GetChildren();
+			ax::Window::Ptr current_win;
+
+			int index = -1;
+
+			for (int i = 0; i < children.size(); i++) {
+				if (children[i]->GetId() == _main_window->_selected_windows[0]->GetId()) {
+					current_win = children[i];
+					index = i;
+					break;
+				}
+			}
+
+			if (current_win && index != -1) {
+				win->event.UnGrabMouse();
+				ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
+				children.erase(children.begin() + index);
+			}
+		}
+
+		_main_window->_selected_windows.clear();
+		_main_window->_right_menu->RemoveInspectorHandle();
+
+		if (_main_window->_gridWindow->GetMainWindow() == nullptr) {
+			_main_window->_left_menu->SetOnlyMainWindowWidgetSelectable();
+		}
+	}
+
 	void MainWindowWidgetHandler::OnSelectWidget(const ax::Event::SimpleMsg<ax::Window*>& msg)
 	{
 		ax::Window* selected_win = msg.GetMsg();
@@ -190,6 +225,52 @@ namespace editor {
 					_main_window->_right_menu->SetInspectorHandle(widget_win.get());
 				}
 			}
+		}
+	}
+
+	void MainWindowWidgetHandler::OnDeleteSelectedWidget(const ax::Event::EmptyMsg& msg)
+	{
+		if (_main_window->_selected_windows.size()) {
+			ax::Print("Should delete widget.");
+			DeleteCurrentWidgets();
+		}
+	}
+
+	void MainWindowWidgetHandler::OnDuplicateSelectedWidget(const ax::Event::EmptyMsg& msg)
+	{
+//		MainWindow* main_win = at::editor::App::GetInstance()->GetMainWindow();
+
+		std::vector<ax::Window*> sel_wins = _main_window->GetSelectedWindows();
+
+		if (sel_wins.size()) {
+			// Copy selected widgets.
+			std::shared_ptr<ax::Window::Backbone> bck_bone(sel_wins[0]->backbone->GetCopy());
+
+			if (bck_bone == nullptr) {
+				return;
+			}
+
+			const ax::Rect rect(sel_wins[0]->dimension.GetRect());
+
+			bck_bone->GetWindow()->dimension.SetPosition(rect.position + ax::Point(rect.size.x + 2, 0));
+
+			at::editor::Loader loader(_main_window->_gridWindow->GetWindow());
+			ax::widget::Component* widget
+				= static_cast<ax::widget::Component*>(bck_bone->GetWindow()->component.Get("Widget").get());
+
+			ax::Window* parent = sel_wins[0]->node.GetParent();
+
+			if (parent == nullptr) {
+				return;
+			}
+			
+			// Can't duplicate main panel widget.
+			if (parent->GetId() == _main_window->_gridWindow->GetWindow()->GetId()) {
+				return;
+			}
+
+			parent->node.Add(bck_bone);
+			loader.SetupExistingWidget(bck_bone->GetWindow(), widget->GetBuilderName());
 		}
 	}
 }
