@@ -52,7 +52,7 @@ void Console::OnConsoleUpdate(const ax::Event::StringMsg& msg)
 void Console::OnConsoleErrorUpdate(const ax::Event::StringMsg& msg)
 {
 	// Set event to bottom section to flip to console on error.
-	win->PushEvent(WRITE_ERROR, new ax::Event::SimpleMsg<int>(0));
+	win->PushEvent(WRITE_ERROR, new ax::Event::EmptyMsg());
 	
 	ax::StringVector lines = ax::Utils::String::Split(msg.GetMsg(), "\n");
 	

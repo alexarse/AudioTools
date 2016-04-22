@@ -138,7 +138,7 @@ namespace editor {
 		}
 	}
 	
-	void BottomSection::OnConsoleErrorUpdate(const ax::Event::SimpleMsg<int>& msg)
+	void BottomSection::OnConsoleErrorUpdate(const ax::Event::EmptyMsg& msg)
 	{
 		_console->GetWindow()->Show();
 		_txt_editor->GetWindow()->Hide();

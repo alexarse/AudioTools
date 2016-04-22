@@ -47,7 +47,6 @@ private:
 	std::vector<std::pair<int, std::string>> _lines;
 
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnConsoleUpdate);
-//	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnConsoleErrorUpdate);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnConsoleErrorUpdate);
 	void OnResize(const ax::Size& size);
 	void OnPaint(ax::GC gc);
