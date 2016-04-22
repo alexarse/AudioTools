@@ -25,6 +25,8 @@ namespace editor {
 		ax::Font _font_bold;
 		
 		ax::Window* _panel;
+		
+		
 		ax::ScrollBar::Ptr _scrollBar;
 		std::vector<std::shared_ptr<WorkspaceObj>> _objs;
 		
