@@ -53,9 +53,7 @@ public:
 	ax::Window* GetWidgetsByName(const std::string& name);
 	
 	void DeleteCurrentWidgets();
-	
-//	void SaveCurrentProject();
-	
+		
 	static const int STATUS_BAR_HEIGHT = 30;
 	static const int INSPECTOR_MENU_WIDTH = 250;
 	static const int WIDGET_MENU_DROPPED_WIDTH = 85;
@@ -81,17 +79,6 @@ private:
 	
 	typedef std::pair<ax::StringPair, ax::Point> ObjMsg;
 	
-	struct ViewInfo {
-		ax::Point old_main_window_position;
-		bool left_menu_shown;
-		bool right_menu_shown;
-		bool editor_shown;
-		ax::Size old_frame_size;
-	};
-	
-	ViewInfo _view_info;
-	bool _view_mode = false;
-	
 	at::ProjectManager _project;
 	
 	friend class MainWindowViewHandler;
@@ -102,11 +89,6 @@ private:
 	
 	friend class MainWindowProjectHandler;
 	MainWindowProjectHandler _project_handler;
-	
-//	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveProject);
-//	axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveAsProject);
-//	axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
-//	axEVENT_DECLARATION(ax::Event::StringMsg, OnCreateNewProject);
 	
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
 	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnStopScript);

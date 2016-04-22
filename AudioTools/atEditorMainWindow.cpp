@@ -276,7 +276,6 @@ namespace editor {
 		PyoAudio::GetInstance()->StopServer();
 	}
 
-
 	void MainWindow::OnGlobalKey(const char& c)
 	{
 		if (!ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {

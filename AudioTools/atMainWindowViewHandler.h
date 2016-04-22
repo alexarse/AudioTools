@@ -36,6 +36,17 @@ namespace editor {
 
 	private:
 		MainWindow* _main_window;
+		
+		struct ViewInfo {
+			ax::Point old_main_window_position;
+			bool left_menu_shown;
+			bool right_menu_shown;
+			bool editor_shown;
+			ax::Size old_frame_size;
+		};
+		
+		ViewInfo _view_info;
+		bool _view_mode = false;
 	};
 }
 }

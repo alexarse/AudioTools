@@ -203,21 +203,6 @@ namespace editor {
 		std::string filepath = ax::App::GetInstance().SaveFileDialog();
 		ax::Print("filepath :", filepath);
 		win->PushEvent(SAVE_AS_LAYOUT, new ax::Event::StringMsg(filepath));
-		
-		
-		
-//		ax::Size fsize = ax::App::GetInstance().GetFrameSize();
-//		ax::Size size(300, 200);
-//		ax::Point pos((fsize.x - size.x) / 2, (fsize.y - size.y) / 2);
-//
-//		auto save_dialog = ax::shared<SaveDialog>(ax::Rect(pos, size), _layout_file_path);
-//
-//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-//			ax::Window::Ptr(save_dialog->GetWindow()));
-//
-//		save_dialog->GetWindow()->backbone = save_dialog;
-//
-//		save_dialog->GetWindow()->AddConnection(SaveDialog::SAVE, GetOnSaveDialog());
 	}
 
 	void StatusBar::OnOpenLayout(const ax::Button::Msg& msg)
@@ -226,24 +211,6 @@ namespace editor {
 		ax::Print("File :", filepath);
 		
 		win->PushEvent(OPEN_LAYOUT, new ax::Event::StringMsg(filepath));
-		
-//		if (ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel() == nullptr) {
-//			//			const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
-//			//			ax::Point pos = rect.position;
-//			//			pos.y += rect.size.y;
-//
-//			ax::Size size = ax::App::GetInstance().GetFrameSize();
-//			size.y -= (at::editor::MainWindow::STATUS_BAR_HEIGHT + at::editor::MainWindow::BOTTOM_BAR_HEIGHT);
-//			const ax::Point pos(0, at::editor::MainWindow::STATUS_BAR_HEIGHT);
-//			//			const ax::Size size(0, at::editor::MainWindow::STATUS_BAR_HEIGHT);
-//			auto open_dialog = ax::shared<OpenDialog>(ax::Rect(pos, size));
-//
-//			ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-//				ax::Window::Ptr(open_dialog->GetWindow()));
-//
-//			open_dialog->GetWindow()->backbone = open_dialog;
-//			open_dialog->GetWindow()->AddConnection(OpenDialog::OPEN, GetOnOpenDialog());
-//		}
 	}
 	
 	void StatusBar::OnCreateNewLayout(const ax::Button::Msg& msg)
@@ -354,7 +321,6 @@ namespace editor {
 		gc.DrawRectangle(rect);
 
 		if (!_layout_file_path.empty()) {
-			//			gc.SetColor(ax::Color(1.0));
 			gc.SetColor(at::Skin::GetInstance()->data.status_bar_text);
 			gc.DrawStringAlignedCenter(_font, _layout_file_path, rect);
 		}

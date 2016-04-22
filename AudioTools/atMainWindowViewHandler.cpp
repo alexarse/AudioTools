@@ -32,25 +32,21 @@ namespace editor {
 
 		ax::Rect rect(main_win->dimension.GetRect());
 
-		_main_window->_view_info.old_frame_size = ax::App::GetInstance().GetFrameSize();
-		_main_window->_view_info.old_main_window_position = rect.position;
-		_main_window->_view_info.left_menu_shown = _main_window->_left_menu->GetWindow()->IsShown();
-		_main_window->_view_info.right_menu_shown = _main_window->_right_menu->GetWindow()->IsShown();
-		//		_view_info.right_menu_shown = _inspectorMenu->GetWindow()->IsShown();
-		//		_view_info.editor_shown = _codeEditor->GetWindow()->IsShown();
-		_main_window->_view_info.editor_shown = _main_window->_bottom_section->GetWindow()->IsShown();
+		_view_info.old_frame_size = ax::App::GetInstance().GetFrameSize();
+		_view_info.old_main_window_position = rect.position;
+		_view_info.left_menu_shown = _main_window->_left_menu->GetWindow()->IsShown();
+		_view_info.right_menu_shown = _main_window->_right_menu->GetWindow()->IsShown();
+		_view_info.editor_shown = _main_window->_bottom_section->GetWindow()->IsShown();
 
 		main_win->dimension.SetPosition(ax::Point(0, 0));
 		_main_window->_left_menu->GetWindow()->Hide();
 		_main_window->_right_menu->GetWindow()->Hide();
-		//		_inspectorMenu->GetWindow()->Hide();
-		//		_codeEditor->GetWindow()->Hide();
 		_main_window->_bottom_section->GetWindow()->Hide();
 		_main_window->_statusBar->GetWindow()->Hide();
 
 		_main_window->_gridWindow->GetWindow()->dimension.SetPosition(ax::Point(0, 0));
 		_main_window->_gridWindow->GetWindow()->dimension.SetSize(main_win->dimension.GetSize());
-		_main_window->_view_mode = true;
+		_view_mode = true;
 
 		ax::App::GetInstance().SetFrameSize(rect.size);
 
@@ -82,27 +78,26 @@ namespace editor {
 
 	void MainWindowViewHandler::OnBackToEditor(const ax::Button::Msg& msg)
 	{
-		//		ax::Window* win = _main_window->GetWindow();
-		_main_window->_view_mode = false;
+		_view_mode = false;
 
 		_main_window->_statusBar->GetWindow()->Show();
 
-		if (_main_window->_view_info.left_menu_shown) {
+		if (_view_info.left_menu_shown) {
 			_main_window->_left_menu->GetWindow()->Show();
 		}
 
-		if (_main_window->_view_info.right_menu_shown) {
+		if (_view_info.right_menu_shown) {
 			//			_inspectorMenu->GetWindow()->Show();
 			_main_window->_right_menu->GetWindow()->Show();
 		}
 
-		if (_main_window->_view_info.editor_shown) {
+		if (_view_info.editor_shown) {
 			//			_codeEditor->GetWindow()->Show();
 			_main_window->_bottom_section->GetWindow()->Show();
 		}
 
 		ax::Window* main_win = _main_window->_gridWindow->GetMainWindow();
-		main_win->dimension.SetPosition(_main_window->_view_info.old_main_window_position);
+		main_win->dimension.SetPosition(_view_info.old_main_window_position);
 
 		_main_window->_gridWindow->GetWindow()->dimension.SetPosition(
 			ax::Point(_main_window->WIDGET_MENU_WIDTH, _main_window->STATUS_BAR_HEIGHT));
@@ -112,7 +107,7 @@ namespace editor {
 
 		if (main_window == nullptr) {
 			ax::Error("Main window doesn't exist when comming back from view mode.");
-			ax::App::GetInstance().SetFrameSize(_main_window->_view_info.old_frame_size);
+			ax::App::GetInstance().SetFrameSize(_view_info.old_frame_size);
 			return;
 		}
 
@@ -140,7 +135,7 @@ namespace editor {
 		}
 
 		ax::App::GetInstance().SetResizable(true);
-		ax::App::GetInstance().SetFrameSize(_main_window->_view_info.old_frame_size);
+		ax::App::GetInstance().SetFrameSize(_view_info.old_frame_size);
 		ax::App::GetInstance().SetFocusAndCenter();
 	}
 
@@ -203,7 +198,7 @@ namespace editor {
 
 	void MainWindowViewHandler::OnResize(const ax::Size& size)
 	{
-		if (_main_window->_view_mode) {
+		if (_view_mode) {
 			return;
 		}
 
