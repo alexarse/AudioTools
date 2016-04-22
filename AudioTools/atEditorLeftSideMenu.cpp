@@ -44,6 +44,12 @@ namespace editor {
 		_project_space = project_space.get();
 		_project_space->GetWindow()->Hide();
 
+		auto online_store_menu = ax::shared<OnlineStoreMenu>(
+			ax::Rect(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT)));
+		win->node.Add(online_store_menu);
+		_online_store_menu = online_store_menu.get();
+		_online_store_menu->GetWindow()->Hide();
+
 		ax::Button::Info btn_info;
 		btn_info.normal = ax::Color(0.0, 0.0);
 		btn_info.hover = ax::Color(0.0, 0.0);
@@ -54,7 +60,6 @@ namespace editor {
 
 		ax::Point pos(5, 2);
 
-		// Widget list.
 		pos = AddButton(pos, win, GetOnSmallerMenu(), btn_info, "resources/resize.png", "Toggle small menu.");
 
 		pos = AddButton(pos, win, GetOnProjectSpace(), btn_info, "resources/folder.png", "Project space.");
@@ -63,7 +68,8 @@ namespace editor {
 
 		pos = AddButton(pos, win, GetOnWorkspace(), btn_info, "resources/work.png", "Show workspace layouts");
 
-		pos = AddButton(pos, win, ax::Button::Events(), btn_info, "resources/cloud.png", "Download widgets.");
+		pos = AddButton(
+			pos, win, GetOnOnlineStoreMenu(), btn_info, "resources/cloud.png", "Download widgets.");
 	}
 
 	void LeftSideMenu::SetOnlyMainWindowWidgetSelectable()
@@ -78,6 +84,10 @@ namespace editor {
 
 	void LeftSideMenu::OnSmallerMenu(const ax::Button::Msg& msg)
 	{
+		if(!_widget_menu->GetWindow()->IsShown()) {
+			return;
+		}
+	
 		// Is already small -> going bigger.
 		if (_dropped_smaller) {
 			win->dimension.SetSize(ax::Size(250, win->dimension.GetRect().size.y));
@@ -111,11 +121,30 @@ namespace editor {
 		win->PushEvent(SMALLER_MENU, new ax::Button::Msg(msg));
 	}
 
+	void LeftSideMenu::SetWide()
+	{
+		if (_dropped_smaller) {
+			win->dimension.SetSize(ax::Size(250, win->dimension.GetRect().size.y));
+
+			_dropped_smaller = false;
+
+			// Show all icons.
+			for (int i = 3; i < _menu_btns.size(); i++) {
+				_menu_btns[i]->GetWindow()->Show();
+			}
+
+			_widget_menu->SetWide();
+			win->Update();
+			win->PushEvent(SMALLER_MENU, new ax::Button::Msg(nullptr, ""));
+		}
+	}
+
 	void LeftSideMenu::OnWidgetList(const ax::Button::Msg& msg)
 	{
 		_widget_menu->GetWindow()->Show();
 		_workspace->GetWindow()->Hide();
 		_project_space->GetWindow()->Hide();
+		_online_store_menu->GetWindow()->Hide();
 	}
 
 	void LeftSideMenu::OnWorkspace(const ax::Button::Msg& msg)
@@ -123,6 +152,9 @@ namespace editor {
 		_widget_menu->GetWindow()->Hide();
 		_workspace->GetWindow()->Show();
 		_project_space->GetWindow()->Hide();
+		_online_store_menu->GetWindow()->Hide();
+		
+		SetWide();
 	}
 
 	void LeftSideMenu::OnProjectSpace(const ax::Button::Msg& msg)
@@ -130,6 +162,19 @@ namespace editor {
 		_widget_menu->GetWindow()->Hide();
 		_workspace->GetWindow()->Hide();
 		_project_space->GetWindow()->Show();
+		_online_store_menu->GetWindow()->Hide();
+		
+		SetWide();
+	}
+
+	void LeftSideMenu::OnOnlineStoreMenu(const ax::Button::Msg& msg)
+	{
+		_widget_menu->GetWindow()->Hide();
+		_workspace->GetWindow()->Hide();
+		_project_space->GetWindow()->Hide();
+		_online_store_menu->GetWindow()->Show();
+		
+		SetWide();
 	}
 
 	void LeftSideMenu::OnResize(const ax::Size& size)
@@ -138,6 +183,7 @@ namespace editor {
 		_widget_menu->GetWindow()->dimension.SetSize(s);
 		_workspace->GetWindow()->dimension.SetSize(s);
 		_project_space->GetWindow()->dimension.SetSize(s);
+		_online_store_menu->GetWindow()->dimension.SetSize(s);
 	}
 
 	void LeftSideMenu::OnPaint(ax::GC gc)

@@ -122,6 +122,8 @@ private:
 	
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnHelpBar);
 	
+	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnSavePanelToWorkspace);
+	
 	void OnCreateDraggingWidget(const ax::Event::SimpleMsg<ObjMsg>& msg);
 	void OnDraggingWidget(const ax::Event::SimpleMsg<ax::Point>& msg);
 	void OnReleaseObjWidget(const ax::Event::SimpleMsg<ax::Point>& msg);

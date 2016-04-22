@@ -17,6 +17,7 @@
 #include "atEditorWidgetMenu.h"
 #include "atEditorWorkspace.h"
 #include "atEditorProjectSpace.h"
+#include "atEditorOnlineStoreMenu.h"
 
 namespace at {
 namespace editor {
@@ -38,12 +39,16 @@ namespace editor {
 		ProjectSpace* _project_space;
 		WidgetMenu* _widget_menu;
 		Workspace* _workspace;
+		OnlineStoreMenu* _online_store_menu;
+		
+		void SetWide();
 		
 		
 		axEVENT_DECLARATION(ax::Button::Msg, OnSmallerMenu);
 		axEVENT_DECLARATION(ax::Button::Msg, OnWidgetList);
 		axEVENT_DECLARATION(ax::Button::Msg, OnWorkspace);
 		axEVENT_DECLARATION(ax::Button::Msg, OnProjectSpace);
+		axEVENT_DECLARATION(ax::Button::Msg, OnOnlineStoreMenu);
 		
 		ax::Point AddButton(const ax::Point& pos, ax::Window* win, const ax::Button::Events& evts,
 							const ax::Button::Info& info, const std::string& img, const std::string& description);

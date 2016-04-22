@@ -25,8 +25,8 @@
 #ifndef __MDI_GRID_WINDOW_H__
 #define __MDI_GRID_WINDOW_H__
 
-#include <OpenAX/OpenAX.h>
 #include <OpenAX/DropMenu.h>
+#include <OpenAX/OpenAX.h>
 
 namespace at {
 namespace editor {
@@ -37,7 +37,12 @@ namespace editor {
 	public:
 		GridWindow(const ax::Rect& rect);
 
-		enum : ax::Event::Id { UNSELECT_ALL = 999, SELECT_WIDGET = 1234, DROP_WIDGET_MENU = 128973 };
+		enum : ax::Event::Id {
+			UNSELECT_ALL = 999,
+			SELECT_WIDGET = 1234,
+			DROP_WIDGET_MENU = 128973,
+			SAVE_PANEL_TO_WORKSPACE = 84710
+		};
 
 		/// Set number of pixels between each grid lines.
 		void SetGridSpace(const int& space);
@@ -51,9 +56,9 @@ namespace editor {
 		void UnSelectAllWidgets();
 
 		ax::Window* GetMainWindow();
-		
+
 		ax::Window* GetWidgetByName(const std::string& name);
-		
+
 		typedef std::pair<ax::Point, ax::Window*> PosAndWindow;
 
 	private:
@@ -61,10 +66,10 @@ namespace editor {
 		std::pair<bool, ax::Rect> _selection;
 		ax::Color _bg_color;
 		bool _right_click_menu;
-		
+
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<PosAndWindow>, OnDropWidgetMenu);
 		axEVENT_DECLARATION(ax::DropMenu::Msg, OnMenuChoice);
-		
+
 		void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
 
 		void OnKeyDown(const char& c);

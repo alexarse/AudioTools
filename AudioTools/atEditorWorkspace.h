@@ -10,6 +10,9 @@
 #define atEditorWorkspace_hpp
 
 #include <OpenAX/OpenAX.h>
+#include <OpenAX/ScrollBar.h>
+
+#include "atEditorWorkspaceObj.h"
 
 namespace at {
 namespace editor {
@@ -20,6 +23,17 @@ namespace editor {
 	private:
 		ax::Font _font;
 		ax::Font _font_bold;
+		
+		ax::Window* _panel;
+		ax::ScrollBar::Ptr _scrollBar;
+		std::vector<std::shared_ptr<WorkspaceObj>> _objs;
+		
+		void OnMouseEnter(const ax::Point& pos);
+		void OnMouseLeave(const ax::Point& pos);
+		void OnMouseEnterChild(const ax::Point& pos);
+		void OnMouseLeaveChild(const ax::Point& pos);
+		void OnScrollWheel(const ax::Point& delta);
+		void OnResize(const ax::Size& size);
 		void OnPaint(ax::GC gc);
 	};
 }

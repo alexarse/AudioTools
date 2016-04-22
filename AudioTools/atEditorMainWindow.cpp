@@ -40,6 +40,8 @@
 #include "atEditorLoader.h"
 #include "atHelpBar.h"
 
+#include "atSaveWorkDialog.h"
+
 namespace at {
 namespace editor {
 	MainWindow::MainWindow(const ax::Rect& rect, const std::string& proj_path)
@@ -91,6 +93,7 @@ namespace editor {
 
 		_gridWindow->GetWindow()->AddConnection(GridWindow::SELECT_WIDGET, GetOnSelectWidget());
 		_gridWindow->GetWindow()->AddConnection(GridWindow::UNSELECT_ALL, GetOnUnSelectAllWidget());
+		_gridWindow->GetWindow()->AddConnection(GridWindow::SAVE_PANEL_TO_WORKSPACE, GetOnSavePanelToWorkspace());
 
 		if (!proj_path.empty()) {
 			_gridWindow->OpenLayout(_project.GetLayoutPath());
@@ -209,6 +212,31 @@ namespace editor {
 		if (_gridWindow->GetMainWindow() == nullptr) {
 			_left_menu->SetOnlyMainWindowWidgetSelectable();
 		}
+	}
+	
+	void MainWindow::OnSavePanelToWorkspace(const ax::Event::EmptyMsg& msg)
+	{
+		// Empty popup window tree.
+		ax::App& app(ax::App::GetInstance());
+		app.GetPopupManager()->SetPastKeyWindow(nullptr);
+		app.GetPopupManager()->SetPastWindow(nullptr);
+		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
+		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		
+		// Save as widget.
+		//			if (ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel() == nullptr) {
+//		const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
+		ax::Point pos(0, STATUS_BAR_HEIGHT - 1);
+		
+		ax::Size size = ax::App::GetInstance().GetFrameSize();
+		size.y -= (STATUS_BAR_HEIGHT + BOTTOM_BAR_HEIGHT - 1);
+		
+		auto pref_dialog = ax::shared<at::SaveWorkDialog>(ax::Rect(pos, size));
+		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+																			   ax::Window::Ptr(pref_dialog->GetWindow()));
+		
+		pref_dialog->GetWindow()->backbone = pref_dialog;
+		//			}
 	}
 
 	void MainWindow::OnSmallerLeftMenu(const ax::Button::Msg& msg)

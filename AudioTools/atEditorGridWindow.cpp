@@ -46,6 +46,8 @@
 #include <OpenAX/Toggle.h>
 #include <OpenAX/WidgetLoader.h>
 
+
+
 namespace at {
 namespace editor {
 	void ClearPopupTree()
@@ -229,7 +231,8 @@ namespace editor {
 		const std::string choice = msg.GetItem();
 		
 		if(choice == "Save as") {
-			// Save as widget.
+			win->PushEvent(SAVE_PANEL_TO_WORKSPACE, new ax::Event::EmptyMsg());
+			
 		}
 	}
 

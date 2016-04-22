@@ -220,6 +220,7 @@ namespace editor {
 
 		gc.SetColor(ax::Color(0.0, 0.6));
 		gc.DrawRectangle(rect);
+		gc.DrawRectangleContour(rect);
 	}
 }
 }
