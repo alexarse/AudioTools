@@ -17,15 +17,25 @@ ConsoleStream::ConsoleStream()
 {
 }
 
-void ConsoleStream::Write()
+// void ConsoleStream::Write()
+//{
+//	_stream << std::endl;
+////	PushEvent(WRITE_NEW_LINE, new ax::Event::SimpleMsg<int>(0));
+//}
+
+void ConsoleStream::Write(const std::string& msg)
 {
-	_stream << std::endl;
-	PushEvent(WRITE_NEW_LINE, new ax::Event::SimpleMsg<int>(0));
+	PushEvent(WRITE_NEW_LINE, new ax::Event::StringMsg(msg));
 }
 
-void ConsoleStream::Error()
+void ConsoleStream::Error(const std::string& err_msg)
 {
-	_stream << std::endl;
-	PushEvent(WRITE_ERROR, new ax::Event::SimpleMsg<int>(0));
+	PushEvent(WRITE_ERROR, new ax::Event::StringMsg(err_msg));
 }
+
+// void ConsoleStream::Error()
+//{
+//	_stream << std::endl;
+//	PushEvent(WRITE_ERROR, new ax::Event::SimpleMsg<int>(0));
+//}
 }

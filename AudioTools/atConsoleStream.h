@@ -25,63 +25,66 @@ public:
 		return _instance.get();
 	}
 
-	void Write();
-
-	template <typename T, typename... P> void Write(T t, P... p)
-	{
-		_stream << t << ' ';
-		{
-			Write(p...);
-		}
-	}
+//	void Write();
+//
+//	template <typename T, typename... P> void Write(T t, P... p)
+//	{
+//		_stream << t << ' ';
+//		{
+//			Write(p...);
+//		}
+//	}
 	
-	void Error();
+//	void Error();
+//	
+//	template <typename T, typename... P> void Error(T t, P... p)
+//	{
+//		_stream << t << ' ';
+//		{
+//			Error(p...);
+//		}
+//	}
 	
-	template <typename T, typename... P> void Error(T t, P... p)
-	{
-		_stream << t << ' ';
-		{
-			Error(p...);
-		}
-	}
+	void Write(const std::string& msg);
+	void Error(const std::string& err_msg);
 	
-	std::stringstream& GetStream()
-	{
-		return _stream;
-	}
+//	std::stringstream& GetStream()
+//	{
+//		return _stream;
+//	}
+//	
+//	std::string GetString()
+//	{
+//		return _stream.str();
+//	}
+//	
+//	ax::StringVector GetStreamLines()
+//	{
+//		return ax::Utils::String::Split(_stream.str(), "\n");
+//	}
 	
-	std::string GetString()
-	{
-		return _stream.str();
-	}
-	
-	ax::StringVector GetStreamLines()
-	{
-		return ax::Utils::String::Split(_stream.str(), "\n");
-	}
-	
-	ax::StringVector GetStreamNLastLines(int n_lines)
-	{
-		ax::StringVector lines(ax::Utils::String::Split(_stream.str(), "\n"));
-		
-		if(lines.size() > n_lines) {
-		
-			int erase_size = (int(lines.size()) - n_lines) - 1;
-			
-			if(erase_size < 0) {
-				erase_size = 0;
-			}
-			
-			lines.erase(lines.begin(), lines.begin() + erase_size);
-		}
-		
-		return lines;
-	}
+//	ax::StringVector GetStreamNLastLines(int n_lines)
+//	{
+//		ax::StringVector lines(ax::Utils::String::Split(_stream.str(), "\n"));
+//		
+//		if(lines.size() > n_lines) {
+//		
+//			int erase_size = (int(lines.size()) - n_lines) - 1;
+//			
+//			if(erase_size < 0) {
+//				erase_size = 0;
+//			}
+//			
+//			lines.erase(lines.begin(), lines.begin() + erase_size);
+//		}
+//		
+//		return lines;
+//	}
 	
 
 private:
 	static std::unique_ptr<ConsoleStream> _instance;
-	std::stringstream _stream;
+//	std::stringstream _stream;
 
 	ConsoleStream();
 };

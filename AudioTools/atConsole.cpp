@@ -38,14 +38,28 @@ Console::Console(const ax::Rect& rect)
 	at::ConsoleStream::GetInstance()->Write("Console init.");
 }
 
-void Console::OnConsoleUpdate(const ax::Event::SimpleMsg<int>& msg)
+void Console::OnConsoleUpdate(const ax::Event::StringMsg& msg)
 {
+	ax::StringVector lines = ax::Utils::String::Split(msg.GetMsg(), "\n");
+	
+	for(auto& n : lines) {
+		_lines.push_back(std::pair<int, std::string>(0, n));
+	}
+	
 	win->Update();
 }
 
-void Console::OnConsoleErrorUpdate(const ax::Event::SimpleMsg<int>& msg)
+void Console::OnConsoleErrorUpdate(const ax::Event::StringMsg& msg)
 {
-	win->PushEvent(WRITE_ERROR, new ax::Event::SimpleMsg<int>(msg));
+	// Set event to bottom section to flip to console on error.
+	win->PushEvent(WRITE_ERROR, new ax::Event::SimpleMsg<int>(0));
+	
+	ax::StringVector lines = ax::Utils::String::Split(msg.GetMsg(), "\n");
+	
+	for(auto& n : lines) {
+		_lines.push_back(std::pair<int, std::string>(1, n));
+	}
+	
 	win->Update();
 }
 
@@ -62,13 +76,21 @@ void Console::OnPaint(ax::GC gc)
 	const int line_height = 15;
 	const int n_shown_lines = (rect.size.y - 10) / line_height;
 
-	ax::StringVector lines = at::ConsoleStream::GetInstance()->GetStreamNLastLines(n_shown_lines);
+//	ax::StringVector lines = at::ConsoleStream::GetInstance()->GetStreamNLastLines(n_shown_lines);
+
 
 	ax::Point pos(5, 5);
 	gc.SetColor(ax::Color(0.0));
 
-	for (auto& n : lines) {
-		gc.DrawString(_font, n, pos);
+	for (auto& n : _lines) {
+		if(n.first == 0) {
+			gc.SetColor(ax::Color(0.0));
+		}
+		else if(n.first == 1) {
+			gc.SetColor(ax::Color(255, 0, 0));
+		}
+		
+		gc.DrawString(_font, n.second, pos);
 		pos.y += line_height;
 	}
 

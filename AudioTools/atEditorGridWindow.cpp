@@ -2,7 +2,7 @@
  * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
- * without prior written agreement by AutioTools.
+ * without prior written agreement by AudioTools.
  *
  * Neither the name of the AudioTools nor the names of its
  * contributors may be used to endorse or promote products derived from this
@@ -46,8 +46,6 @@
 #include <OpenAX/Toggle.h>
 #include <OpenAX/WidgetLoader.h>
 
-
-
 namespace at {
 namespace editor {
 	void ClearPopupTree()
@@ -58,6 +56,8 @@ namespace editor {
 		app.GetPopupManager()->SetPastWindow(nullptr);
 		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
 		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		app.GetPopupManager()->UnGrabMouse();
+		app.GetPopupManager()->UnGrabKey();
 	}
 
 	GridWindow::GridWindow(const ax::Rect& rect)
@@ -92,8 +92,6 @@ namespace editor {
 		loader->AddBuilder("Label", new ax::Label::Builder());
 		loader->AddBuilder("Panel", new ax::Panel::Builder());
 		loader->AddBuilder("Slider", new ax::Slider::Builder());
-
-//		OpenLayout("layouts/default.xml");
 	}
 
 	void GridWindow::SetGridSpace(const int& space)
@@ -225,30 +223,24 @@ namespace editor {
 		menu->GetWindow()->backbone = menu;
 		ax::App::GetInstance().UpdateAll();
 	}
-	
-	void GridWindow::OnMenuChoice(const ax::DropMenu::Msg &msg)
+
+	void GridWindow::OnMenuChoice(const ax::DropMenu::Msg& msg)
 	{
 		const std::string choice = msg.GetItem();
-		
-		if(choice == "Save as") {
+
+		if (choice == "Save as") {
 			win->PushEvent(SAVE_PANEL_TO_WORKSPACE, new ax::Event::EmptyMsg());
-			
 		}
 	}
 
 	void GridWindow::OnGlobalClick(const ax::Window::Event::GlobalClick& gclick)
 	{
 		if (_right_click_menu) {
-
-			//			if(!win->dimension.GetAbsoluteRect().IsPointInside(gclick.pos)) {
 			_right_click_menu = false;
 
 			// Empty popup window tree.
 			ClearPopupTree();
-			ax::App& app(ax::App::GetInstance());
-
-			app.UpdateAll();
-			//			}
+			ax::App::GetInstance().UpdateAll();
 		}
 	}
 
@@ -337,10 +329,8 @@ namespace editor {
 
 	void GridWindow::OnMouseLeftDown(const ax::Point& pos)
 	{
-		bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
-
 		// Clear menu.
-		if (cmd_down) {
+		if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
 			UnSelectAllWidgets();
 			win->PushEvent(UNSELECT_ALL, new ax::Event::SimpleMsg<int>(0));
 		}

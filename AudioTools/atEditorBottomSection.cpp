@@ -145,6 +145,8 @@ namespace editor {
 		
 		if (_is_txt_edit) {
 			_is_txt_edit = false;
+			_txt_btn->SetSelected(false);
+			_console_btn->SetSelected(true);
 			win->Update();
 		}
 	}
