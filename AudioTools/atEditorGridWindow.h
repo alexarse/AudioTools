@@ -46,7 +46,7 @@ namespace editor {
 			DUPLICATE_SELECTED_WIDGET,
 			
 			DELETE_SELECTED_WIDGET_FROM_RIGHT_CLICK,
-			
+			DUPLICATE_SELECTED_WIDGET_FROM_RIGHT_CLICK
 		};
 
 		/// Set number of pixels between each grid lines.

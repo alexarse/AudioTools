@@ -91,7 +91,9 @@ private:
 	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnSavePanelToWorkspace);
 	axEVENT_DECLARATION(at::SaveWorkPanel::Msg, OnAcceptSavePanelToWorkpace);
 	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnCancelSavePanelToWorkpace);
+	
 	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnRemoveWidgetFromRightClickMenu);
+	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDuplicateWidgetFromRightClickMenu);
 	
 	
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnHelpBar);

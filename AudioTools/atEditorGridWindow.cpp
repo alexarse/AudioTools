@@ -209,7 +209,7 @@ namespace editor {
 		menu_info.right_arrow = ax::Color(0.70);
 		menu_info.item_height = 25;
 
-		ax::StringVector menu_elems = { "Save as", "Remove" };
+		ax::StringVector menu_elems = { "Save as", "Remove", "Duplicate" };
 
 		auto menu = ax::shared<ax::DropMenu>(
 			ax::Rect(msg.GetMsg().first, ax::Size(100, 200)), GetOnMenuChoice(), menu_info, menu_elems);
@@ -233,6 +233,9 @@ namespace editor {
 		}
 		else if(choice == "Remove") {
 			win->PushEvent(DELETE_SELECTED_WIDGET_FROM_RIGHT_CLICK, new ax::Event::EmptyMsg());
+		}
+		else if(choice == "Duplicate") {
+			win->PushEvent(DUPLICATE_SELECTED_WIDGET_FROM_RIGHT_CLICK, new ax::Event::EmptyMsg());
 		}
 	}
 
