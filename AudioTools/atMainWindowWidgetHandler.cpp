@@ -238,8 +238,6 @@ namespace editor {
 
 	void MainWindowWidgetHandler::OnDuplicateSelectedWidget(const ax::Event::EmptyMsg& msg)
 	{
-//		MainWindow* main_win = at::editor::App::GetInstance()->GetMainWindow();
-
 		std::vector<ax::Window*> sel_wins = _main_window->GetSelectedWindows();
 
 		if (sel_wins.size()) {
@@ -271,6 +269,8 @@ namespace editor {
 
 			parent->node.Add(bck_bone);
 			loader.SetupExistingWidget(bck_bone->GetWindow(), widget->GetBuilderName());
+			
+			OnSelectWidget(ax::Event::SimpleMsg<ax::Window*>(bck_bone->GetWindow()));
 		}
 	}
 }
