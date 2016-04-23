@@ -126,7 +126,6 @@ bool ProjectFile::SaveProject()
 		}
 
 		_archive.Close();
-
 		_archive.Open(_project_file_path);
 	}
 

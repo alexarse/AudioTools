@@ -270,11 +270,11 @@
 		7C213B131CA0318B0050F676 /* Editor */ = {
 			isa = PBXGroup;
 			children = (
-				7CB90DF01CCA99860029CEF8 /* MainWindow */,
-				7CB90DBF1CC986A60029CEF8 /* LeftSideMenu */,
 				7C48A6EF1CC7C90200ABB3AD /* BottomMenu */,
-				7C48A6E51CC69D9400ABB3AD /* RightSideMenu */,
 				7C213B151CA031A90050F676 /* include */,
+				7CB90DBF1CC986A60029CEF8 /* LeftSideMenu */,
+				7CB90DF01CCA99860029CEF8 /* MainWindow */,
+				7C48A6E51CC69D9400ABB3AD /* RightSideMenu */,
 				7C213B141CA031A20050F676 /* source */,
 			);
 			name = Editor;

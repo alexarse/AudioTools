@@ -112,7 +112,7 @@ namespace editor {
 			_gridWindow->OpenLayout(_project.GetLayoutPath());
 		}
 		else {
-			_gridWindow->OpenLayout("default.xml");
+			_gridWindow->OpenLayout("layouts/default.xml");
 		}
 
 		// Create widget menu.
