@@ -231,6 +231,9 @@ namespace editor {
 		if (choice == "Save as") {
 			win->PushEvent(SAVE_PANEL_TO_WORKSPACE, new ax::Event::EmptyMsg());
 		}
+		else if(choice == "Remove") {
+			win->PushEvent(DELETE_SELECTED_WIDGET_FROM_RIGHT_CLICK, new ax::Event::EmptyMsg());
+		}
 	}
 
 	void GridWindow::OnGlobalClick(const ax::Window::Event::GlobalClick& gclick)

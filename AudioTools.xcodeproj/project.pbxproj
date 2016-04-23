@@ -386,7 +386,6 @@
 				7C7B74641CC08778006EF72E /* PythonWrapperUtils.cpp */,
 				7C7B74651CC08778006EF72E /* PythonWrapperUtils.h */,
 				7C7B74661CC08778006EF72E /* PythonWrapper.cpp */,
-				7C7B74671CC08778006EF72E /* PythonWrapper.h */,
 				7C7B746C1CC0B0B5006EF72E /* PanelPyWrapper.cpp */,
 				7C7B746D1CC0B0B5006EF72E /* PanelPyWrapper.h */,
 				7C7B74721CC1A0EA006EF72E /* ButtonPyWrapper.cpp */,
@@ -633,6 +632,7 @@
 			children = (
 				7C7B74D11CC558C0006EF72E /* atMidi.cpp */,
 				7C7B74D21CC558C1006EF72E /* atMidi.h */,
+				7C7B74671CC08778006EF72E /* PythonWrapper.h */,
 				7CF1D8AD1C921DF800AAAC01 /* PyoAudio.cpp */,
 				7CF1D8AE1C921DF800AAAC01 /* PyoAudio.h */,
 				7CF1D8AF1C921DF800AAAC01 /* m_pyo.h */,

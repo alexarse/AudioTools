@@ -108,6 +108,9 @@ namespace editor {
 		_gridWindow->GetWindow()->AddConnection(
 			GridWindow::DUPLICATE_SELECTED_WIDGET, _widget_handler.GetOnDuplicateSelectedWidget());
 
+		_gridWindow->GetWindow()->AddConnection(
+			GridWindow::DELETE_SELECTED_WIDGET_FROM_RIGHT_CLICK, GetOnRemoveWidgetFromRightClickMenu());
+
 		if (!proj_path.empty()) {
 			_gridWindow->OpenLayout(_project.GetLayoutPath());
 		}
@@ -256,6 +259,20 @@ namespace editor {
 
 	void MainWindow::OnCancelSavePanelToWorkpace(const ax::Event::EmptyMsg& msg)
 	{
+	}
+
+	void MainWindow::OnRemoveWidgetFromRightClickMenu(const ax::Event::EmptyMsg& msg)
+	{
+		// Empty popup window tree.
+		ax::App& app(ax::App::GetInstance());
+		app.GetPopupManager()->UnGrabKey();
+		app.GetPopupManager()->UnGrabMouse();
+		app.GetPopupManager()->SetPastKeyWindow(nullptr);
+		app.GetPopupManager()->SetPastWindow(nullptr);
+		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
+		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		
+		_widget_handler.DeleteCurrentWidgets();
 	}
 
 	void MainWindow::OnHelpBar(const ax::Event::StringMsg& msg)
