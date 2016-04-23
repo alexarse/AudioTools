@@ -82,14 +82,25 @@ void Console::OnConsoleUpdate(const ax::Event::StringMsg& msg)
 			new_block = true;
 		}
 		
+		if(i == lines.size() - 1 && lines[i].empty()) {
+			continue;
+		}
+		
 		_lines.push_back(MessageFormat(new_block, 0, lines[i]));
 	}
 	
-//	for (auto& n : lines) {
-//		_lines.push_back(std::pair<int, std::string>(0, n));
-//	}
-
-	_panel->Update();
+	int panel_height = 10 + int(_lines.size()) * 15;
+	_txt_panel->dimension.SetSize(ax::Size(_panel->dimension.GetSize().x, panel_height));
+	_panel->dimension.SetSizeNoShowRect(ax::Size(_panel->dimension.GetSize().x, panel_height));
+	//	ax::Print("Panel height", panel_height);
+	
+	_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
+	
+	if (_txt_panel->dimension.GetSize().y > _panel->dimension.GetShownRect().size.y) {
+		_scrollBar->SetZeroToOneValue(1.0);
+	}
+	//	_panel->Update();
+	_txt_panel->Update();
 }
 
 void Console::OnConsoleErrorUpdate(const ax::Event::StringMsg& msg)
@@ -198,7 +209,6 @@ void Console::OnPanelPaint(ax::GC gc)
 		else {
 			gc.DrawRectangleColorFade(line_rect, ax::Color(0.95), ax::Color(0.90));
 		}
-	
 	
 		if (n.type == 0) {
 			gc.SetColor(ax::Color(0.0));

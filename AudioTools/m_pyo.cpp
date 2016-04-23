@@ -42,15 +42,32 @@ int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int add)
 	int err = 0;
 	PyEval_AcquireThread(interp);
 
+	std::string catcher = "import sys\n"
+						  "class StdoutCatcher:\n"
+						  "\tdef __init__(self):\n"
+						  "\t\tself.data = ''\n"
+						  "\tdef write(self, stuff):\n"
+						  "\t\tself.data = self.data + stuff\n"
+						  "catcher = StdoutCatcher()\n"
+						  "sys.stdout = catcher\n";
+
 	try {
 		boost::python::object main_module = boost::python::import("__main__");
 		boost::python::object globals = main_module.attr("__dict__");
-
+		boost::python::object catcher_ignore = boost::python::exec(catcher.c_str(), globals);
 		ax::python::InitWrapper();
 
 		globals["widgets"] = boost::python::ptr(ax::python::Widgets::GetInstance().get());
 
 		boost::python::object ignored = boost::python::exec_file(file, globals);
+
+		boost::python::object catcher_obj = main_module.attr("catcher");
+		boost::python::object output_obj = catcher_obj.attr("data");
+		std::string mm = boost::python::extract<std::string>(output_obj);
+		//		ax::Print("Catch print :", mm);
+		if (!mm.empty()) {
+			at::ConsoleStream::GetInstance()->Write(mm);
+		}
 	}
 	catch (boost::python::error_already_set const&) {
 		std::string msg;
@@ -76,12 +93,31 @@ int pyo_exec_statement(PyThreadState* interp, char* msg, int debug)
 
 	PyEval_AcquireThread(interp);
 
+	std::string catcher = "import sys\n"
+						  "class StdoutCatcher:\n"
+						  "\tdef __init__(self):\n"
+						  "\t\tself.data = ''\n"
+						  "\tdef write(self, stuff):\n"
+						  "\t\tself.data = self.data + stuff\n"
+						  "catcher = StdoutCatcher()\n"
+						  "sys.stdout = catcher\n";
+
 	try {
 		boost::python::object main_module = boost::python::import("__main__");
 		boost::python::object globals = main_module.attr("__dict__");
+		boost::python::object catcher_ignore = boost::python::exec(catcher.c_str(), globals);
 
 		globals["widgets"] = boost::python::ptr(ax::python::Widgets::GetInstance().get());
 		boost::python::object ignored = boost::python::exec(msg, globals);
+
+		boost::python::object catcher_obj = main_module.attr("catcher");
+		boost::python::object output_obj = catcher_obj.attr("data");
+		std::string mm = boost::python::extract<std::string>(output_obj);
+		//		ax::Print("Catch print :", mm);
+
+		if (!mm.empty()) {
+			at::ConsoleStream::GetInstance()->Write(mm);
+		}
 	}
 	catch (boost::python::error_already_set const&) {
 		std::string msg;
