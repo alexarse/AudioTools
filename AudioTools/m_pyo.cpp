@@ -64,7 +64,7 @@ int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int add)
 		boost::python::object catcher_obj = main_module.attr("catcher");
 		boost::python::object output_obj = catcher_obj.attr("data");
 		std::string mm = boost::python::extract<std::string>(output_obj);
-		//		ax::Print("Catch print :", mm);
+
 		if (!mm.empty()) {
 			at::ConsoleStream::GetInstance()->Write(mm);
 		}
@@ -113,7 +113,6 @@ int pyo_exec_statement(PyThreadState* interp, char* msg, int debug)
 		boost::python::object catcher_obj = main_module.attr("catcher");
 		boost::python::object output_obj = catcher_obj.attr("data");
 		std::string mm = boost::python::extract<std::string>(output_obj);
-		//		ax::Print("Catch print :", mm);
 
 		if (!mm.empty()) {
 			at::ConsoleStream::GetInstance()->Write(mm);
