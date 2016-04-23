@@ -46,84 +46,84 @@ namespace editor {
 		: _win(win)
 	{
 	}
-	
+
 	std::string Loader::OpenLayoutFromXml(ax::Xml& xml)
 	{
 		ax::Xml::Node top_node = xml.GetNode("Layout");
-		
+
 		if (!top_node.IsValid()) {
 			ax::Error("Loader not layout node.");
 			return "";
 		}
 
 		std::string script_path;
-		
+
 		try {
 			script_path = top_node.GetAttribute("script");
 		}
 		catch (ax::Xml::Exception& err) {
 			//						ax::Error("No pyo node.", err.what());
 		}
-		
+
 		ax::Xml::Node node = top_node.GetFirstNode();
 		ax::widget::Loader* loader = ax::widget::Loader::GetInstance();
-		
+
 		auto panel_builder = loader->GetBuilder("Panel");
 		panel_builder->SetCreateCallback([&](ax::Window* win, ax::Xml::Node& node) {
 			std::string builder_name = node.GetAttribute("builder");
 			std::string pyo_fct_name;
-			
+
 			ax::Xml::Node pyo_node = node.GetNode("pyo");
-			
+
 			if (pyo_node.IsValid()) {
 				pyo_fct_name = pyo_node.GetValue();
 			}
-			
+
 			std::string unique_name;
 			ax::Xml::Node unique_name_node = node.GetNode("unique_name");
-			
+
 			if (unique_name_node.IsValid()) {
 				unique_name = unique_name_node.GetValue();
 			}
-			
+
 			SetupExistingWidget(win, builder_name, pyo_fct_name, unique_name);
 		});
-		
+
 		try {
 			while (node.IsValid()) {
 				std::string node_name = node.GetName();
 				//				ax::Print("Node name :", node_name);
-				
+
 				if (node_name == "Widget") {
 					std::string buider_name = node.GetAttribute("builder");
 					std::string pyo_fct_name;
-					
+
 					ax::Xml::Node pyo_node = node.GetNode("pyo");
-					
+
 					if (pyo_node.IsValid()) {
 						pyo_fct_name = pyo_node.GetValue();
 					}
-					
+
 					std::string unique_name;
 					ax::Xml::Node unique_name_node = node.GetNode("unique_name");
-					
+
 					if (unique_name_node.IsValid()) {
 						unique_name = unique_name_node.GetValue();
 					}
-					
+
 					ax::widget::Builder* builder = loader->GetBuilder(buider_name);
-					
+
 					if (builder == nullptr) {
 						ax::Error("Builder", buider_name, "doesn't exist.");
 						node = node.GetNextSibling();
 						continue;
 					}
-					
+
 					auto obj(builder->Create(node));
 					_win->node.Add(obj);
 					SetupExistingWidget(obj->GetWindow(), buider_name, pyo_fct_name, unique_name);
 				}
-				
+
 				node = node.GetNextSibling();
 			}
 		}
@@ -133,30 +133,30 @@ namespace editor {
 		catch (ax::Xml::Exception& err) {
 			ax::Error("Widget menu xml", err.what());
 		}
-		
+
 		return script_path;
 	}
-	
+
 	std::string Loader::OpenLayoutContent(const std::string& content, bool clear)
 	{
 		if (content.empty()) {
 			return "";
 		}
-		
+
 		if (clear) {
 			_win->node.GetChildren().clear();
 		}
-		
+
 		ax::Xml xml;
-		
+
 		if (!xml.Parse(content)) {
 			ax::Error("parsing widget menu.");
 			return "";
 		}
-		
+
 		return OpenLayoutFromXml(xml);
 	}
-	
+
 	std::string Loader::OpenLayout(const std::string& path, bool clear)
 	{
 		if (path.empty()) {
@@ -174,94 +174,94 @@ namespace editor {
 			return "";
 		}
 
-//		ax::Xml::Node top_node = xml.GetNode("Layout");
-//
-//		if (!top_node.IsValid()) {
-//			ax::Error("Loader not layout node.");
-//			return "";
-//		}
-		
+		//		ax::Xml::Node top_node = xml.GetNode("Layout");
+		//
+		//		if (!top_node.IsValid()) {
+		//			ax::Error("Loader not layout node.");
+		//			return "";
+		//		}
+
 		return OpenLayoutFromXml(xml);
 
-//		std::string script_path;
-//
-//		try {
-//			script_path = top_node.GetAttribute("script");
-//		}
-//		catch (ax::Xml::Exception& err) {
-//			//						ax::Error("No pyo node.", err.what());
-//		}
-//
-//		ax::Xml::Node node = top_node.GetFirstNode();
-//		ax::widget::Loader* loader = ax::widget::Loader::GetInstance();
-//
-//		auto panel_builder = loader->GetBuilder("Panel");
-//		panel_builder->SetCreateCallback([&](ax::Window* win, ax::Xml::Node& node) {
-//			std::string builder_name = node.GetAttribute("builder");
-//			std::string pyo_fct_name;
-//
-//			ax::Xml::Node pyo_node = node.GetNode("pyo");
-//
-//			if (pyo_node.IsValid()) {
-//				pyo_fct_name = pyo_node.GetValue();
-//			}
-//
-//			std::string unique_name;
-//			ax::Xml::Node unique_name_node = node.GetNode("unique_name");
-//
-//			if (unique_name_node.IsValid()) {
-//				unique_name = unique_name_node.GetValue();
-//			}
-//
-//			SetupExistingWidget(win, builder_name, pyo_fct_name, unique_name);
-//		});
-//
-//		try {
-//			while (node.IsValid()) {
-//				std::string node_name = node.GetName();
-//				//				ax::Print("Node name :", node_name);
-//
-//				if (node_name == "Widget") {
-//					std::string buider_name = node.GetAttribute("builder");
-//					std::string pyo_fct_name;
-//
-//					ax::Xml::Node pyo_node = node.GetNode("pyo");
-//
-//					if (pyo_node.IsValid()) {
-//						pyo_fct_name = pyo_node.GetValue();
-//					}
-//
-//					std::string unique_name;
-//					ax::Xml::Node unique_name_node = node.GetNode("unique_name");
-//
-//					if (unique_name_node.IsValid()) {
-//						unique_name = unique_name_node.GetValue();
-//					}
-//
-//					ax::widget::Builder* builder = loader->GetBuilder(buider_name);
-//
-//					if (builder == nullptr) {
-//						ax::Error("Builder", buider_name, "doesn't exist.");
-//						node = node.GetNextSibling();
-//						continue;
-//					}
-//
-//					auto obj(builder->Create(node));
-//					_win->node.Add(obj);
-//					SetupExistingWidget(obj->GetWindow(), buider_name, pyo_fct_name, unique_name);
-//				}
-//
-//				node = node.GetNextSibling();
-//			}
-//		}
-//		catch (rapidxml::parse_error& err) {
-//			ax::Error("Widget menu xml", err.what());
-//		}
-//		catch (ax::Xml::Exception& err) {
-//			ax::Error("Widget menu xml", err.what());
-//		}
+		//		std::string script_path;
+		//
+		//		try {
+		//			script_path = top_node.GetAttribute("script");
+		//		}
+		//		catch (ax::Xml::Exception& err) {
+		//			//						ax::Error("No pyo node.", err.what());
+		//		}
+		//
+		//		ax::Xml::Node node = top_node.GetFirstNode();
+		//		ax::widget::Loader* loader = ax::widget::Loader::GetInstance();
+		//
+		//		auto panel_builder = loader->GetBuilder("Panel");
+		//		panel_builder->SetCreateCallback([&](ax::Window* win, ax::Xml::Node& node) {
+		//			std::string builder_name = node.GetAttribute("builder");
+		//			std::string pyo_fct_name;
+		//
+		//			ax::Xml::Node pyo_node = node.GetNode("pyo");
+		//
+		//			if (pyo_node.IsValid()) {
+		//				pyo_fct_name = pyo_node.GetValue();
+		//			}
+		//
+		//			std::string unique_name;
+		//			ax::Xml::Node unique_name_node = node.GetNode("unique_name");
+		//
+		//			if (unique_name_node.IsValid()) {
+		//				unique_name = unique_name_node.GetValue();
+		//			}
+		//
+		//			SetupExistingWidget(win, builder_name, pyo_fct_name, unique_name);
+		//		});
+		//
+		//		try {
+		//			while (node.IsValid()) {
+		//				std::string node_name = node.GetName();
+		//				//				ax::Print("Node name :", node_name);
+		//
+		//				if (node_name == "Widget") {
+		//					std::string buider_name = node.GetAttribute("builder");
+		//					std::string pyo_fct_name;
+		//
+		//					ax::Xml::Node pyo_node = node.GetNode("pyo");
+		//
+		//					if (pyo_node.IsValid()) {
+		//						pyo_fct_name = pyo_node.GetValue();
+		//					}
+		//
+		//					std::string unique_name;
+		//					ax::Xml::Node unique_name_node = node.GetNode("unique_name");
+		//
+		//					if (unique_name_node.IsValid()) {
+		//						unique_name = unique_name_node.GetValue();
+		//					}
+		//
+		//					ax::widget::Builder* builder = loader->GetBuilder(buider_name);
+		//
+		//					if (builder == nullptr) {
+		//						ax::Error("Builder", buider_name, "doesn't exist.");
+		//						node = node.GetNextSibling();
+		//						continue;
+		//					}
+		//
+		//					auto obj(builder->Create(node));
+		//					_win->node.Add(obj);
+		//					SetupExistingWidget(obj->GetWindow(), buider_name, pyo_fct_name, unique_name);
+		//				}
+		//
+		//				node = node.GetNextSibling();
+		//			}
+		//		}
+		//		catch (rapidxml::parse_error& err) {
+		//			ax::Error("Widget menu xml", err.what());
+		//		}
+		//		catch (ax::Xml::Exception& err) {
+		//			ax::Error("Widget menu xml", err.what());
+		//		}
 
-//		return script_path;
+		//		return script_path;
 	}
 
 	void Loader::SetupExistingWidget(ax::Window* widget, const std::string& builder_name,
@@ -340,6 +340,9 @@ namespace editor {
 					else if (c_delta.x < 4) {
 						win->property.AddProperty("ResizeLeft");
 					}
+					else if (c_delta.y < 4) {
+						win->property.AddProperty("ResizeTop");
+					}
 				}
 
 				/// @todo Change event id to enum.
@@ -381,8 +384,30 @@ namespace editor {
 						int size_y = abs_rect.size.y;
 						int pos_y = win->dimension.GetRect().position.y;
 						int pos_x = pos.x - win->node.GetParent()->dimension.GetAbsoluteRect().position.x;
-						win->dimension.SetSize(ax::Size(size_x, size_y));
-						win->dimension.SetPosition(ax::Point(pos_x, pos_y));
+						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
+
+						ax::Point dd(abs_rect.position.x - pos.x, 0);
+						std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+						for (auto& n : children) {
+							ax::Point w_pos = n->dimension.GetRect().position;
+							n->dimension.SetPosition(w_pos + dd);
+						}
+					}
+					// Top resize.
+					else if (win->property.HasProperty("ResizeTop")) {
+						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
+						int size_x = abs_rect.size.x;
+						int size_y = abs_rect.position.y + abs_rect.size.y - pos.y;
+						int pos_y = pos.y - win->node.GetParent()->dimension.GetAbsoluteRect().position.y;
+						int pos_x = win->dimension.GetRect().position.x;
+						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
+						
+						ax::Point dd(0, abs_rect.position.y - pos.y);
+						std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+						for (auto& n : children) {
+							ax::Point w_pos = n->dimension.GetRect().position;
+							n->dimension.SetPosition(w_pos + dd);
+						}
 					}
 					// Moving widget.
 					else {
@@ -410,6 +435,7 @@ namespace editor {
 				win->property.RemoveProperty("ResizeLeft");
 				win->property.RemoveProperty("ResizeRight");
 				win->property.RemoveProperty("ResizeBottom");
+				win->property.RemoveProperty("ResizeTop");
 
 				if (win->event.IsGrabbed()) {
 					win->event.UnGrabMouse();
@@ -428,12 +454,12 @@ namespace editor {
 		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([gwin, win, m_right_down](const ax::Point& pos) {
 
 			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
-				
+
 				win->property.AddProperty("edit_click");
-				
+
 				/// @todo Change event id to enum.
 				gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
-				
+
 				gwin->PushEvent(128973, new ax::Event::SimpleMsg<std::pair<ax::Point, ax::Window*>>(
 											std::pair<ax::Point, ax::Window*>(pos, win)));
 
@@ -469,6 +495,9 @@ namespace editor {
 					else if (c_delta.x < 4) {
 						ax::App::GetInstance().GetCore()->SetCursor(
 							ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
+					}
+					else if (c_delta.y < 4) {
+						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
 					}
 					else {
 						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
