@@ -331,16 +331,33 @@ namespace editor {
 
 				if (win->property.HasProperty("Resizable")) {
 
-					if (c_delta.x > win->dimension.GetShownRect().size.x - 4) {
+					bool top = c_delta.y < 4;
+					bool bottom = c_delta.y > win->dimension.GetShownRect().size.y - 4;
+					bool right = c_delta.x > win->dimension.GetShownRect().size.x - 4;
+					bool left = c_delta.x < 4;
+
+					if (right && bottom) {
+						win->property.AddProperty("ResizeBottomRight");
+					}
+					else if (right && top) {
+						win->property.AddProperty("ResizeTopRight");
+					}
+					else if (left && top) {
+						win->property.AddProperty("ResizeTopLeft");
+					}
+					else if (left && bottom) {
+						win->property.AddProperty("ResizeBottomLeft");
+					}
+					else if (right) {
 						win->property.AddProperty("ResizeRight");
 					}
-					else if (c_delta.y > win->dimension.GetShownRect().size.y - 4) {
+					else if (bottom) {
 						win->property.AddProperty("ResizeBottom");
 					}
-					else if (c_delta.x < 4) {
+					else if (left) {
 						win->property.AddProperty("ResizeLeft");
 					}
-					else if (c_delta.y < 4) {
+					else if (top) {
 						win->property.AddProperty("ResizeTop");
 					}
 				}
@@ -371,6 +388,26 @@ namespace editor {
 						int size_x = pos.x - win->dimension.GetAbsoluteRect().position.x;
 						win->dimension.SetSize(ax::Size(size_x, size_y));
 					}
+					else if (win->property.HasProperty("ResizeBottomRight")) {
+						int size_y = pos.y - win->dimension.GetAbsoluteRect().position.y;
+						int size_x = pos.x - win->dimension.GetAbsoluteRect().position.x;
+						win->dimension.SetSize(ax::Size(size_x, size_y));
+					}
+					else if (win->property.HasProperty("ResizeTopRight")) {
+						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
+						int size_x = pos.x - win->dimension.GetAbsoluteRect().position.x;
+						int size_y = abs_rect.position.y + abs_rect.size.y - pos.y;
+						int pos_y = pos.y - win->node.GetParent()->dimension.GetAbsoluteRect().position.y;
+						int pos_x = win->dimension.GetRect().position.x;
+						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
+
+						ax::Point dd(0, abs_rect.position.y - pos.y);
+						std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+						for (auto& n : children) {
+							ax::Point w_pos = n->dimension.GetRect().position;
+							n->dimension.SetPosition(w_pos + dd);
+						}
+					}
 					// Bottom resize.
 					else if (win->property.HasProperty("ResizeBottom")) {
 						int size_x = win->dimension.GetSize().x;
@@ -393,6 +430,21 @@ namespace editor {
 							n->dimension.SetPosition(w_pos + dd);
 						}
 					}
+					else if (win->property.HasProperty("ResizeBottomLeft")) {
+						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
+						int size_x = abs_rect.position.x + abs_rect.size.x - pos.x;
+						int size_y = pos.y - win->dimension.GetAbsoluteRect().position.y;
+						int pos_y = win->dimension.GetRect().position.y;
+						int pos_x = pos.x - win->node.GetParent()->dimension.GetAbsoluteRect().position.x;
+						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
+						
+						ax::Point dd(abs_rect.position.x - pos.x, 0);
+						std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+						for (auto& n : children) {
+							ax::Point w_pos = n->dimension.GetRect().position;
+							n->dimension.SetPosition(w_pos + dd);
+						}
+					}
 					// Top resize.
 					else if (win->property.HasProperty("ResizeTop")) {
 						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
@@ -401,8 +453,23 @@ namespace editor {
 						int pos_y = pos.y - win->node.GetParent()->dimension.GetAbsoluteRect().position.y;
 						int pos_x = win->dimension.GetRect().position.x;
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
-						
+
 						ax::Point dd(0, abs_rect.position.y - pos.y);
+						std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+						for (auto& n : children) {
+							ax::Point w_pos = n->dimension.GetRect().position;
+							n->dimension.SetPosition(w_pos + dd);
+						}
+					}
+					else if (win->property.HasProperty("ResizeTopLeft")) {
+						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
+						int size_x = abs_rect.position.x + abs_rect.size.x - pos.x;
+						int size_y = abs_rect.position.y + abs_rect.size.y - pos.y;
+						int pos_y = pos.y - win->node.GetParent()->dimension.GetAbsoluteRect().position.y;
+						int pos_x = pos.x - win->node.GetParent()->dimension.GetAbsoluteRect().position.x;
+						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
+						
+						ax::Point dd(abs_rect.position.x - pos.x, abs_rect.position.y - pos.y);
 						std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
 						for (auto& n : children) {
 							ax::Point w_pos = n->dimension.GetRect().position;
@@ -436,6 +503,11 @@ namespace editor {
 				win->property.RemoveProperty("ResizeRight");
 				win->property.RemoveProperty("ResizeBottom");
 				win->property.RemoveProperty("ResizeTop");
+
+				win->property.RemoveProperty("ResizeTopLeft");
+				win->property.RemoveProperty("ResizeTopRight");
+				win->property.RemoveProperty("ResizeBottomLeft");
+				win->property.RemoveProperty("ResizeBottomRight");
 
 				if (win->event.IsGrabbed()) {
 					win->event.UnGrabMouse();
@@ -485,20 +557,33 @@ namespace editor {
 
 				if (win->property.HasProperty("Resizable")) {
 
-					if (c_delta.x > win->dimension.GetShownRect().size.x - 4) {
+					bool top = c_delta.y < 4;
+					bool bottom = c_delta.y > win->dimension.GetShownRect().size.y - 4;
+					bool right = c_delta.x > win->dimension.GetShownRect().size.x - 4;
+					bool left = c_delta.x < 4;
+
+					if ((right && bottom) || (top && left)) {
+						ax::App::GetInstance().GetCore()->SetCursor(
+							ax::core::Core::Cursor::RESIZE_TOP_LEFT_DOWN_RIGHT);
+					}
+					else if ((bottom && left) || (top && right)) {
+						ax::App::GetInstance().GetCore()->SetCursor(
+							ax::core::Core::Cursor::RESIZE_BOTTOM_LEFT_TOP_RIGHT);
+					}
+					else if (right || left) {
 						ax::App::GetInstance().GetCore()->SetCursor(
 							ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
 					}
-					else if (c_delta.y > win->dimension.GetShownRect().size.y - 4) {
+					else if (bottom || top) {
 						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
 					}
-					else if (c_delta.x < 4) {
-						ax::App::GetInstance().GetCore()->SetCursor(
-							ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
-					}
-					else if (c_delta.y < 4) {
-						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
-					}
+					//					else if (c_delta.x < 4) {
+					//						ax::App::GetInstance().GetCore()->SetCursor(
+					//							ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
+					//					}
+					//					else if (c_delta.y < 4) {
+					//						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
+					//					}
 					else {
 						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
 					}
