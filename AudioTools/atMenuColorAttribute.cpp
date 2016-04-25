@@ -155,7 +155,7 @@ namespace inspector {
 			ax::Point(win->dimension.GetAbsoluteRect().position.x - 120, 30), cp_evts, cp_info, _color);
 
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-			ax::Window::Ptr(c_picker->GetWindow()));
+			std::shared_ptr<ax::Window>(c_picker->GetWindow()));
 
 		c_picker->GetWindow()->backbone = c_picker;
 	}

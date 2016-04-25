@@ -23,7 +23,7 @@ namespace at {
 			ax::Font _font_normal;
 			std::string _name;
 			std::string _description;
-			ax::StringVector _desc_content;
+			std::vector<std::string> _desc_content;
 			
 			
 			

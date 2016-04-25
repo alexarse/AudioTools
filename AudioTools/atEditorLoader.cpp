@@ -402,7 +402,7 @@ namespace editor {
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
 
 						ax::Point dd(0, abs_rect.position.y - pos.y);
-						std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+						std::vector<std::shared_ptr<ax::Window>>& children = win->node.GetChildren();
 						for (auto& n : children) {
 							ax::Point w_pos = n->dimension.GetRect().position;
 							n->dimension.SetPosition(w_pos + dd);
@@ -424,7 +424,7 @@ namespace editor {
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
 
 						ax::Point dd(abs_rect.position.x - pos.x, 0);
-						std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+						std::vector<std::shared_ptr<ax::Window>>& children = win->node.GetChildren();
 						for (auto& n : children) {
 							ax::Point w_pos = n->dimension.GetRect().position;
 							n->dimension.SetPosition(w_pos + dd);
@@ -439,7 +439,7 @@ namespace editor {
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
 						
 						ax::Point dd(abs_rect.position.x - pos.x, 0);
-						std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+						std::vector<std::shared_ptr<ax::Window>>& children = win->node.GetChildren();
 						for (auto& n : children) {
 							ax::Point w_pos = n->dimension.GetRect().position;
 							n->dimension.SetPosition(w_pos + dd);
@@ -455,7 +455,7 @@ namespace editor {
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
 
 						ax::Point dd(0, abs_rect.position.y - pos.y);
-						std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+						std::vector<std::shared_ptr<ax::Window>>& children = win->node.GetChildren();
 						for (auto& n : children) {
 							ax::Point w_pos = n->dimension.GetRect().position;
 							n->dimension.SetPosition(w_pos + dd);
@@ -470,7 +470,7 @@ namespace editor {
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
 						
 						ax::Point dd(abs_rect.position.x - pos.x, abs_rect.position.y - pos.y);
-						std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+						std::vector<std::shared_ptr<ax::Window>>& children = win->node.GetChildren();
 						for (auto& n : children) {
 							ax::Point w_pos = n->dimension.GetRect().position;
 							n->dimension.SetPosition(w_pos + dd);

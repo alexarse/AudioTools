@@ -60,7 +60,7 @@ namespace editor {
 
 		std::vector<ax::os::File> files = dir.GetContent();
 
-		ax::StringVector layout_files;
+		std::vector<std::string> layout_files;
 
 		for (auto& n : files) {
 			//		ax::Print(n.name);

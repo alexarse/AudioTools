@@ -25,7 +25,7 @@ namespace editor {
 		ax::Window* _scroll_panel;
 		ax::ScrollBar::Ptr _scrollBar;
 		
-		ax::Point AddSeparator(const ax::Point& pos, const std::string& name, const ax::StringVector& args);
+		ax::Point AddSeparator(const ax::Point& pos, const std::string& name, const std::vector<std::string>& args);
 	
 		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnNeedResize);
 		

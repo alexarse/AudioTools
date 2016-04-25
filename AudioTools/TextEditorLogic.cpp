@@ -67,12 +67,12 @@ bool TextEditorLogic::SaveFile(const std::string& file_path)
 	return true;
 }
 
-ax::StringVector& TextEditorLogic::GetFileData()
+std::vector<std::string>& TextEditorLogic::GetFileData()
 {
 	return _file_data;
 }
 
-const ax::StringVector& TextEditorLogic::GetFileData() const
+const std::vector<std::string>& TextEditorLogic::GetFileData() const
 {
 	return _file_data;
 }

@@ -250,7 +250,7 @@ namespace editor {
 
 			auto pref_dialog = ax::shared<PreferenceDialog>(ax::Rect(pos, size));
 			ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-				ax::Window::Ptr(pref_dialog->GetWindow()));
+				std::shared_ptr<ax::Window>(pref_dialog->GetWindow()));
 
 			pref_dialog->GetWindow()->backbone = pref_dialog;
 		}

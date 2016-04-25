@@ -168,7 +168,7 @@ namespace editor {
 
 		_bottom_section->GetWindow()->AddConnection(10020, ax::Event::Function([&](ax::Event::Msg* msg) {
 														ax::Print("Save");
-														std::vector<ax::Window::Ptr>& children
+														std::vector<std::shared_ptr<ax::Window>>& children
 															= _gridWindow->GetWindow()->node.GetChildren();
 
 														for (auto& n : children) {
@@ -248,7 +248,7 @@ namespace editor {
 
 		auto pref_dialog = ax::shared<at::SaveWorkDialog>(ax::Rect(pos, size));
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-			ax::Window::Ptr(pref_dialog->GetWindow()));
+			std::shared_ptr<ax::Window>(pref_dialog->GetWindow()));
 
 		pref_dialog->GetWindow()->backbone = pref_dialog;
 

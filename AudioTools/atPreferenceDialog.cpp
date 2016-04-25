@@ -68,7 +68,7 @@ namespace editor {
 		_menu_boxes[AUDIO_OUT] = btn_out.get();
 
 		at::Midi* midi = at::Midi::GetInstance();
-		ax::StringVector midi_in_opts = midi->GetMidiInputList();
+		std::vector<std::string> midi_in_opts = midi->GetMidiInputList();
 		
 		// Midi input device.
 		auto btn_midi_in = ax::shared<ax::DropMenuBox>(

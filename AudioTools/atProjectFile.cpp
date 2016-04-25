@@ -99,7 +99,7 @@ bool ProjectFile::SaveProject()
 
 		boost::filesystem::recursive_directory_iterator end;
 
-		ax::StringVector proj_files;
+		std::vector<std::string> proj_files;
 
 		for (boost::filesystem::recursive_directory_iterator i(tmp_dir); i != end; ++i) {
 			const boost::filesystem::path cp = (*i);
@@ -141,7 +141,7 @@ bool ProjectFile::SaveAsProject(const std::string& filepath)
 
 		boost::filesystem::recursive_directory_iterator end;
 
-		ax::StringVector proj_files;
+		std::vector<std::string> proj_files;
 
 		for (boost::filesystem::recursive_directory_iterator i(tmp_dir); i != end; ++i) {
 			const boost::filesystem::path cp = (*i);

@@ -104,7 +104,7 @@ namespace editor {
 
 	ax::Window* GridWindow::GetMainWindow()
 	{
-		std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+		std::vector<std::shared_ptr<ax::Window>>& children = win->node.GetChildren();
 
 		for (auto& n : children) {
 			if (n->property.HasProperty("MainWindow")) {
@@ -117,7 +117,7 @@ namespace editor {
 
 	void GridWindow::SaveLayout(const std::string& path, const std::string& script_path)
 	{
-		std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+		std::vector<std::shared_ptr<ax::Window>>& children = win->node.GetChildren();
 
 		ax::Xml xml;
 		ax::Xml::Node layout = xml.CreateNode("Layout");
@@ -209,7 +209,7 @@ namespace editor {
 		menu_info.right_arrow = ax::Color(0.70);
 		menu_info.item_height = 25;
 
-		ax::StringVector menu_elems = { "Save as", "Remove", "Duplicate" };
+		std::vector<std::string> menu_elems = { "Save as", "Remove", "Duplicate" };
 
 		auto menu = ax::shared<ax::DropMenu>(
 			ax::Rect(msg.GetMsg().first, ax::Size(100, 200)), GetOnMenuChoice(), menu_info, menu_elems);
@@ -219,7 +219,7 @@ namespace editor {
 
 		// Add to top level popup manager.
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-			ax::Window::Ptr(menu->GetWindow()));
+			std::shared_ptr<ax::Window>(menu->GetWindow()));
 		menu->GetWindow()->backbone = menu;
 		ax::App::GetInstance().UpdateAll();
 	}
@@ -277,7 +277,7 @@ namespace editor {
 		}
 
 		if (window->property.HasProperty("AcceptWidget")) {
-			std::vector<ax::Window::Ptr>& children = window->node.GetChildren();
+			std::vector<std::shared_ptr<ax::Window>>& children = window->node.GetChildren();
 
 			for (auto& n : children) {
 				ax::Window* tmp = GetWidgetByNameRecursive(n.get(), name);
@@ -352,12 +352,12 @@ namespace editor {
 		}
 	}
 
-	void UnselectAllChildWidget(ax::Window::Ptr window)
+	void UnselectAllChildWidget(std::shared_ptr<ax::Window> window)
 	{
 		window->property.RemoveProperty("current_editing_widget");
 
 		if (window->property.HasProperty("AcceptWidget")) {
-			std::vector<ax::Window::Ptr>& children = window->node.GetChildren();
+			std::vector<std::shared_ptr<ax::Window>>& children = window->node.GetChildren();
 
 			for (auto& n : children) {
 				UnselectAllChildWidget(n);
@@ -367,7 +367,7 @@ namespace editor {
 
 	void GridWindow::UnSelectAllWidgets()
 	{
-		std::vector<ax::Window::Ptr>& children = win->node.GetChildren();
+		std::vector<std::shared_ptr<ax::Window>>& children = win->node.GetChildren();
 		for (auto& n : children) {
 			UnselectAllChildWidget(n);
 		}

@@ -49,7 +49,7 @@ namespace editor {
 		// Create scrolling window.
 		_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.x, rect.size.y));
 
-		win->node.Add(ax::Window::Ptr(_panel));
+		win->node.Add(std::shared_ptr<ax::Window>(_panel));
 
 		ax::Point pos(0, 0);
 		ax::Size size(rect.size.x, 50);

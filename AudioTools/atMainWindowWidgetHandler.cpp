@@ -30,7 +30,7 @@ namespace editor {
 		if (_main_window->_selected_windows.size()) {
 
 			auto& children = _main_window->_selected_windows[0]->node.GetParent()->node.GetChildren();
-			ax::Window::Ptr current_win;
+			std::shared_ptr<ax::Window> current_win;
 
 			int index = -1;
 
@@ -101,7 +101,7 @@ namespace editor {
 
 		auto obj(builder->Create(pos, file_path));
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-			ax::Window::Ptr(obj->GetWindow()));
+			std::shared_ptr<ax::Window>(obj->GetWindow()));
 		obj->GetWindow()->backbone = obj;
 		_has_tmp_widget = true;
 		_tmp_widget_builder_name = builder_name;
@@ -111,7 +111,7 @@ namespace editor {
 	{
 		if (_has_tmp_widget) {
 			ax::Point pos(msg.GetMsg());
-			ax::Window::Ptr wobj = ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel();
+			std::shared_ptr<ax::Window> wobj = ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel();
 
 			if (wobj) {
 				wobj->dimension.SetPosition(pos);
@@ -125,9 +125,9 @@ namespace editor {
 
 		if (_has_tmp_widget) {
 			_has_tmp_widget = false;
-			std::vector<ax::Window::Ptr>& nodes
+			std::vector<std::shared_ptr<ax::Window>>& nodes
 				= ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector();
-			ax::Window::Ptr widget_win = nodes[0];
+			std::shared_ptr<ax::Window> widget_win = nodes[0];
 
 			// Remove all window from Popup manager window tree.
 			nodes.clear();

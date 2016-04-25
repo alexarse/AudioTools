@@ -210,8 +210,8 @@ namespace editor {
 		archive.AddDirectory(name);
 
 		std::vector<std::pair<std::string, std::vector<char>>> data;
-		ax::StringVector proj_files = { "layouts/empty.xml", "scripts/empty.py" };
-		ax::StringVector p_saved_name = { "layout.xml", "script.py" };
+		std::vector<std::string> proj_files = { "layouts/empty.xml", "scripts/empty.py" };
+		std::vector<std::string> p_saved_name = { "layout.xml", "script.py" };
 
 		for (int i = 0; i < proj_files.size(); i++) {
 			std::ifstream f_path(proj_files[i], std::ios::binary | std::ios::ate);

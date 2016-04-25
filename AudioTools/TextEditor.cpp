@@ -66,7 +66,7 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	_scrollPanel->event.OnKeyDeleteDown = ax::WBind<char>(this, &TextEditor::OnKeyDeleteDown);
 	_scrollPanel->event.OnBackSpaceDown = ax::WBind<char>(this, &TextEditor::OnBackSpaceDown);
 
-	win->node.Add(ax::Window::Ptr(_scrollPanel));
+	win->node.Add(std::shared_ptr<ax::Window>(_scrollPanel));
 
 	ax::ScrollBar::Info sInfo;
 	sInfo.normal = ax::Color(0.80, 0.3);
@@ -120,7 +120,7 @@ bool TextEditor::OpenFile(const std::string& path)
 std::string TextEditor::GetStringContent() const
 {
 	std::string content;
-	const ax::StringVector& data = _logic.GetFileData();
+	const std::vector<std::string>& data = _logic.GetFileData();
 
 	for (auto& n : data) {
 		content += (n + "\n");
@@ -294,10 +294,10 @@ void TextEditor::OnKeyDown(const char& key)
 			ax::Utils::String::ReplaceCharWithString(content, '\t', "    ");
 
 			if (!content.empty()) {
-				ax::StringVector& file_data = _logic.GetFileData();
+				std::vector<std::string>& file_data = _logic.GetFileData();
 				ax::Point cur_pos(_logic.GetCursorPosition());
 
-				ax::StringVector paste_content(ax::Utils::String::Split(content, "\n"));
+				std::vector<std::string> paste_content(ax::Utils::String::Split(content, "\n"));
 
 				file_data[cur_pos.y].insert(cur_pos.x, paste_content[0]);
 
@@ -369,7 +369,7 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 	int line_index = _file_start_index + mouse_pos.y / _line_height;
 
 	//	ax::Print(line_index);
-	const ax::StringVector& data = _logic.GetFileData();
+	const std::vector<std::string>& data = _logic.GetFileData();
 
 	if (line_index >= data.size()) {
 		ax::Print("go to last char");
@@ -532,7 +532,7 @@ void TextEditor::OnPaint(ax::GC gc)
 
 	_next_pos_data.clear();
 
-	const ax::StringVector& data = _logic.GetFileData();
+	const std::vector<std::string>& data = _logic.GetFileData();
 
 	// For all shown line in text.
 	for (int i = 0, k = _file_start_index; k < data.size() && i < _n_line_shown; i++, k++) {

@@ -41,9 +41,9 @@ public:
 
 	bool SaveFile(const std::string& file_path);
 
-	ax::StringVector& GetFileData();
+	std::vector<std::string>& GetFileData();
 
-	const ax::StringVector& GetFileData() const;
+	const std::vector<std::string>& GetFileData() const;
 
 	std::string GetFilePath() const;
 
@@ -70,7 +70,7 @@ public:
 private:
 	std::string _file_path;
 	ax::Point _cursor_pos;
-	ax::StringVector _file_data;
+	std::vector<std::string> _file_data;
 };
 
 #endif // __TEXT_EDITOR_LOGIC_H__

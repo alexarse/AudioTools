@@ -24,9 +24,9 @@
 
 #include <OpenAX/WindowManager.h>
 
-
 namespace ax {
-DropMenuBox::DropMenuBox(const ax::Rect& rect, const std::string& current_value, const ax::StringVector& menu_options)
+DropMenuBox::DropMenuBox(
+	const ax::Rect& rect, const std::string& current_value, const std::vector<std::string>& menu_options)
 	: _is_droped(false)
 	, _drop_menu(nullptr)
 	, _menu_options(menu_options)
@@ -51,7 +51,7 @@ DropMenuBox::DropMenuBox(const ax::Rect& rect, const std::string& current_value,
 
 int DropMenuBox::FindSelectedIndex()
 {
-	const ax::StringVector& items = _drop_menu->GetItems();
+	const std::vector<std::string>& items = _drop_menu->GetItems();
 
 	for (int i = 0; i < items.size(); i++) {
 		if (items[i] == _drop_btn->GetLabel()) {
@@ -78,7 +78,7 @@ void DropMenuBox::OnButtonClick(const ax::Button::Msg& msg)
 	}
 }
 
-void DropMenuBox::CreateMenu(const ax::Rect& rect, const ax::StringVector& drop_options)
+void DropMenuBox::CreateMenu(const ax::Rect& rect, const std::vector<std::string>& drop_options)
 {
 	ax::DropMenu::Info menu_info;
 	menu_info.normal = ax::Color(240, 240, 240);
@@ -106,17 +106,17 @@ void DropMenuBox::CreateMenu(const ax::Rect& rect, const ax::StringVector& drop_
 
 	auto pop_man = ax::App::GetInstance().GetPopupManager();
 	auto pop_win_tree = pop_man->GetWindowTree();
-	std::vector<ax::Window::Ptr>& pop_top_node_vector = pop_win_tree->GetNodeVector();
+	std::vector<std::shared_ptr<ax::Window>>& pop_top_node_vector = pop_win_tree->GetNodeVector();
 
 	if (pop_top_node_vector.size() == 0) {
 		// Add to top level.
 		menu->GetWindow()->backbone = menu;
-		pop_top_node_vector.push_back(ax::Window::Ptr(menu->GetWindow()));
+		pop_top_node_vector.push_back(std::shared_ptr<ax::Window>(menu->GetWindow()));
 	}
 	else {
 		// Add beside top level.
 		menu->GetWindow()->backbone = menu;
-		pop_top_node_vector.push_back(ax::Window::Ptr(menu->GetWindow()));
+		pop_top_node_vector.push_back(std::shared_ptr<ax::Window>(menu->GetWindow()));
 	}
 }
 
@@ -125,11 +125,11 @@ bool DropMenuBox::IsMouseInDropMenu()
 	if (!_is_droped) {
 		return false;
 	}
-	
-	if(_drop_menu == nullptr) {
+
+	if (_drop_menu == nullptr) {
 		return false;
 	}
-	
+
 	auto pop_man = ax::App::GetInstance().GetPopupManager();
 	return pop_man->IsMouseStillInChildWindow(_drop_menu->GetWindow());
 }
@@ -139,7 +139,7 @@ void DropMenuBox::RemoveMenu()
 	if (_drop_menu != nullptr) {
 		auto pop_man = ax::App::GetInstance().GetPopupManager();
 		auto pop_win_tree = pop_man->GetWindowTree();
-		std::vector<ax::Window::Ptr>& pop_top_node_vector = pop_win_tree->GetNodeVector();
+		std::vector<std::shared_ptr<ax::Window>>& pop_top_node_vector = pop_win_tree->GetNodeVector();
 
 		int index = -1;
 
@@ -151,7 +151,7 @@ void DropMenuBox::RemoveMenu()
 		}
 
 		if (index != -1) {
-			ax::Window::Ptr tmp_menu = pop_top_node_vector[index];
+			std::shared_ptr<ax::Window> tmp_menu = pop_top_node_vector[index];
 			pop_man->SetPastWindow(nullptr);
 			pop_man->UnGrabKey();
 			pop_man->UnGrabMouse();
@@ -168,7 +168,7 @@ void DropMenuBox::OnMenuChoice(const ax::DropMenu::Msg& msg)
 	_drop_btn->SetLabel(msg.GetItem());
 	RemoveMenu();
 	_is_droped = false;
-	
+
 	win->PushEvent(VALUE_CHANGE, new DropMenuBox::Msg(msg.GetItem()));
 }
 

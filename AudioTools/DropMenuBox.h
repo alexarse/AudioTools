@@ -31,7 +31,7 @@
 namespace ax {
 	class DropMenuBox : public ax::Window::Backbone {
 	public:
-		DropMenuBox(const ax::Rect& rect, const std::string& current_value, const ax::StringVector& menu_options);
+		DropMenuBox(const ax::Rect& rect, const std::string& current_value, const std::vector<std::string>& menu_options);
 		
 		enum : ax::Event::Id { VALUE_CHANGE };
 		
@@ -48,14 +48,14 @@ namespace ax {
 		bool _is_droped;
 		ax::Button* _drop_btn;
 		ax::DropMenu* _drop_menu;
-		ax::StringVector _menu_options;
+		std::vector<std::string> _menu_options;
 		
 		int FindSelectedIndex();
 		
 		axEVENT_ACCESSOR(ax::Button::Msg, OnButtonClick);
 		void OnButtonClick(const ax::Button::Msg& msg);
 		
-		void CreateMenu(const ax::Rect& rect, const ax::StringVector& drop_options);
+		void CreateMenu(const ax::Rect& rect, const std::vector<std::string>& drop_options);
 		
 		void RemoveMenu();
 		

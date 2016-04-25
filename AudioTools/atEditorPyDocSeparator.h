@@ -26,7 +26,7 @@ namespace editor {
 		ax::Font _font;
 		std::string _name;
 		std::string _description;
-		ax::StringVector _desc_content;
+		std::vector<std::string> _desc_content;
 		
 		std::vector<PyDocElement*> _elements;
 		

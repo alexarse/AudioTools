@@ -44,10 +44,10 @@ Console::Console(const ax::Rect& rect)
 	at::ConsoleStream::GetInstance()->Write("Console init.");
 
 	_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.x, rect.size.y));
-	win->node.Add(ax::Window::Ptr(_panel));
+	win->node.Add(std::shared_ptr<ax::Window>(_panel));
 
 	_txt_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.x, rect.size.y));
-	_panel->node.Add(ax::Window::Ptr(_txt_panel));
+	_panel->node.Add(std::shared_ptr<ax::Window>(_txt_panel));
 
 	_txt_panel->event.OnPaint = ax::WBind<ax::GC>(this, &Console::OnPanelPaint);
 
@@ -74,7 +74,7 @@ Console::Console(const ax::Rect& rect)
 
 void Console::OnConsoleUpdate(const ax::Event::StringMsg& msg)
 {
-	ax::StringVector lines = ax::Utils::String::Split(msg.GetMsg(), "\n");
+	std::vector<std::string> lines = ax::Utils::String::Split(msg.GetMsg(), "\n");
 
 	for(int i = 0; i < lines.size(); i++) {
 		bool new_block = false;
@@ -108,7 +108,7 @@ void Console::OnConsoleErrorUpdate(const ax::Event::StringMsg& msg)
 	// Set event to bottom section to flip to console on error.
 	win->PushEvent(WRITE_ERROR, new ax::Event::EmptyMsg());
 
-	ax::StringVector lines = ax::Utils::String::Split(msg.GetMsg(), "\n");
+	std::vector<std::string> lines = ax::Utils::String::Split(msg.GetMsg(), "\n");
 
 	for(int i = 0; i < lines.size(); i++) {
 		bool new_block = false;
