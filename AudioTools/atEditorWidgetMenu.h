@@ -52,6 +52,11 @@ namespace editor {
 		ax::Window* _panel;
 		ax::ScrollBar::Ptr _scrollBar;
 		std::vector<std::shared_ptr<WidgetMenuObj>> _objs;
+		
+		
+		
+		std::vector<WidgetMenuInfo> GetWidgetsInfo();
+//		std::vector<std::string> GetBuilderList(const std::vector<WidgetMenuInfo>& w_info);
 
 		void OnMouseEnter(const ax::Point& pos);
 		void OnMouseLeave(const ax::Point& pos);

@@ -13,12 +13,19 @@
 
 namespace at {
 namespace editor {
+	
+	struct WidgetMenuInfo {
+		std::string file_path;
+		std::string buider_name;
+		std::string widget_label;
+		std::string widget_desc;
+		std::string widget_size;
+		std::string widget_img;
+	};
 
 	class WidgetMenuObj : public ax::Window::Backbone {
 	public:
-		WidgetMenuObj(const ax::Rect& rect, const std::string& builder_name, const std::string& file_path,
-			const std::string& title, const std::string& info, const std::string& size,
-			const std::string& img_path);
+		WidgetMenuObj(const ax::Rect& rect, const WidgetMenuInfo& info);
 
 		void HideText();
 
@@ -29,7 +36,8 @@ namespace editor {
 	private:
 		ax::Font _font;
 		ax::Font _font_normal;
-		std::string _builder_name, _file_path, _title, _info, _size_str;
+		WidgetMenuInfo _info;
+//		std::string _builder_name, _file_path,_title, _info, _size_str;
 		std::shared_ptr<ax::Image> _img;
 		bool _show_text = true;
 		bool _selectable;

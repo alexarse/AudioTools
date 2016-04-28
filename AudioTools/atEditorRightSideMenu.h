@@ -15,8 +15,8 @@
 #include "atColorButton.h"
 #include "atEditorAccount.h"
 #include "atEditorInspectorMenu.h"
-#include "atEditorPyDoc.h"
 #include "atEditorProjectInfo.h"
+#include "atEditorPyDoc.h"
 
 namespace at {
 namespace editor {
@@ -37,8 +37,7 @@ namespace editor {
 		ProjectInfo* _project_info;
 		PyDoc* _pydoc;
 		Account* _account;
-		
-		
+
 		std::vector<at::ColorButton*> _btns;
 
 		axEVENT_DECLARATION(ax::Button::Msg, OnInspectorButton);

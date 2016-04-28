@@ -29,6 +29,7 @@
 #include "atMenuBoolAttribute.hpp"
 #include "atMenuColorAttribute.hpp"
 #include "atMenuIntegerAttribute.hpp"
+#include "atMenuPathAttribute.hpp"
 #include "atMenuPointAttribute.hpp"
 #include "atMenuSizeAttribute.hpp"
 #include "atUniqueNameComponent.h"
@@ -82,12 +83,12 @@ namespace editor {
 			ax::Rect rect(win->dimension.GetRect());
 
 			ax::Size separator_size(rect.size.x, 20);
-	
+
 			ax::Point att_pos(0, 0);
 			ax::Size att_size(rect.size.x, 20);
-			
+
 			win->node.Add(ax::shared<MenuSeparator>(ax::Rect(att_pos, separator_size), "Unique Name"));
-			
+
 			// Unique name attributes.
 			if (_selected_handle->component.Has("unique_name")) {
 				at::UniqueNameComponent::Ptr comp
@@ -107,7 +108,7 @@ namespace editor {
 			// Add widget separator.
 			win->node.Add(ax::shared<MenuSeparator>(ax::Rect(att_pos, separator_size), "Widget"));
 			att_pos.y += separator_size.y;
-			
+
 			ax::widget::Component::Ptr widget
 				= _selected_handle->component.Get<ax::widget::Component>("Widget");
 
@@ -120,7 +121,6 @@ namespace editor {
 			}
 
 			std::vector<ax::widget::ParamInfo> builder_atts_info = widget->GetBuilderAttributesInfo();
-
 
 			for (auto& n : builder_atts_info) {
 				//				std::string value = info->GetAttributeValue(n.second);
@@ -144,6 +144,10 @@ namespace editor {
 				}
 				else if (n.first == ax::widget::ParamType::INTEGER) {
 					win->node.Add(ax::shared<at::inspector::IntegerAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
+				}
+				else if (n.first == ax::widget::ParamType::FILEPATH) {
+					win->node.Add(ax::shared<at::inspector::PathAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
 				}
 				else {
@@ -184,6 +188,10 @@ namespace editor {
 				}
 				else if (n.first == ax::widget::ParamType::INTEGER) {
 					win->node.Add(ax::shared<at::inspector::IntegerAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
+				}
+				else if (n.first == ax::widget::ParamType::FILEPATH) {
+					win->node.Add(ax::shared<at::inspector::PathAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
 				}
 				else {
@@ -297,12 +305,12 @@ namespace editor {
 
 		gc.SetColor(ax::Color(255, 255, 255));
 		gc.DrawRectangle(rect);
-		
+
 		gc.SetColor(ax::Color(0.3));
 		gc.DrawString(_font_bold, "No widget selected.", ax::Point(15, 20));
 		gc.DrawString(_font, "Command + click over a widget on the", ax::Point(15, 40));
 		gc.DrawString(_font, "grid window to select a widget.", ax::Point(15, 52));
-		
+
 		gc.SetColor(ax::Color(0.7));
 		gc.DrawRectangleContour(rect);
 	}

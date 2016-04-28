@@ -55,6 +55,7 @@
 		7CBD41581CB60033000A22C5 /* atMenuColorAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */; };
 		7CBD415E1CB6973C000A22C5 /* atMenuBoolAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415C1CB6973C000A22C5 /* atMenuBoolAttribute.cpp */; };
 		7CBD41611CB6A251000A22C5 /* atMenuSizeAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */; };
+		7CC70A321CD2BC17005EE49C /* atMenuPathAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CC70A301CD2BC17005EE49C /* atMenuPathAttribute.cpp */; };
 		7CC9EB051CC8815F0032FBB4 /* atArchive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CC9EAFF1CC8815F0032FBB4 /* atArchive.cpp */; };
 		7CC9EB061CC8815F0032FBB4 /* atProjectFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CC9EB011CC8815F0032FBB4 /* atProjectFile.cpp */; };
 		7CC9EB071CC8815F0032FBB4 /* atProjectManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CC9EB031CC8815F0032FBB4 /* atProjectManager.cpp */; };
@@ -84,9 +85,26 @@
 		7CF1D8B71C921DF800AAAC01 /* PyoComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CF1D8B21C921DF800AAAC01 /* PyoComponent.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		7CC70A2B1CD03628005EE49C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		7C055FAB1C947DA8004527C3 /* atMenuAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuAttribute.cpp; sourceTree = "<group>"; };
 		7C055FAC1C947DA8004527C3 /* atMenuAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atMenuAttribute.h; sourceTree = "<group>"; };
+		7C20C1531CD0197C00639561 /* libboost_chrono.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_chrono.a; path = ../../../../usr/local/lib/libboost_chrono.a; sourceTree = "<group>"; };
+		7C20C1551CD0199000639561 /* libboost_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_thread.a; path = ../../../../usr/local/lib/libboost_thread.a; sourceTree = "<group>"; };
+		7C20C1571CD0199C00639561 /* libboost_random.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_random.a; path = ../../../../usr/local/lib/libboost_random.a; sourceTree = "<group>"; };
+		7C20C1591CD01A2A00639561 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../usr/local/Cellar/openssl/1.0.2e_1/lib/libcrypto.a; sourceTree = "<group>"; };
+		7C20C15A1CD01A2A00639561 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../../usr/local/Cellar/openssl/1.0.2e_1/lib/libssl.a; sourceTree = "<group>"; };
 		7C2138D21C9B252C0050F676 /* atVolumeMeter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atVolumeMeter.cpp; sourceTree = "<group>"; };
 		7C2138D31C9B252C0050F676 /* atVolumeMeter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atVolumeMeter.hpp; sourceTree = "<group>"; };
 		7C213B161CA05E460050F676 /* atSplashDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atSplashDialog.cpp; sourceTree = "<group>"; };
@@ -179,6 +197,8 @@
 		7CBD415D1CB6973C000A22C5 /* atMenuBoolAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuBoolAttribute.hpp; sourceTree = "<group>"; };
 		7CBD415F1CB6A251000A22C5 /* atMenuSizeAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuSizeAttribute.cpp; sourceTree = "<group>"; };
 		7CBD41601CB6A251000A22C5 /* atMenuSizeAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuSizeAttribute.hpp; sourceTree = "<group>"; };
+		7CC70A301CD2BC17005EE49C /* atMenuPathAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atMenuPathAttribute.cpp; sourceTree = "<group>"; };
+		7CC70A311CD2BC17005EE49C /* atMenuPathAttribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = atMenuPathAttribute.hpp; sourceTree = "<group>"; };
 		7CC9EAFF1CC8815F0032FBB4 /* atArchive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atArchive.cpp; sourceTree = "<group>"; };
 		7CC9EB001CC8815F0032FBB4 /* atArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = atArchive.h; sourceTree = "<group>"; };
 		7CC9EB011CC8815F0032FBB4 /* atProjectFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = atProjectFile.cpp; sourceTree = "<group>"; };
@@ -321,6 +341,7 @@
 				7CBD41601CB6A251000A22C5 /* atMenuSizeAttribute.hpp */,
 				7C9219361CB8091000AB6AF6 /* atMenuIntegerAttribute.hpp */,
 				7C9219391CB8314900AB6AF6 /* atMenuPointAttribute.hpp */,
+				7CC70A311CD2BC17005EE49C /* atMenuPathAttribute.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -328,6 +349,7 @@
 		7C5AD9491CBDD2DF002D8E57 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				7CC70A301CD2BC17005EE49C /* atMenuPathAttribute.cpp */,
 				7CF1D8851C921DDF00AAAC01 /* axEditorInspectorMenu.cpp */,
 				7C055FAB1C947DA8004527C3 /* atMenuAttribute.cpp */,
 				7CBD41561CB60033000A22C5 /* atMenuColorAttribute.cpp */,
@@ -368,6 +390,7 @@
 			children = (
 				7C7B74641CC08778006EF72E /* PythonWrapperUtils.cpp */,
 				7C7B74651CC08778006EF72E /* PythonWrapperUtils.h */,
+				7C7B74671CC08778006EF72E /* PythonWrapper.h */,
 				7C7B74661CC08778006EF72E /* PythonWrapper.cpp */,
 				7C7B746C1CC0B0B5006EF72E /* PanelPyWrapper.cpp */,
 				7C7B746D1CC0B0B5006EF72E /* PanelPyWrapper.h */,
@@ -575,7 +598,12 @@
 				7C7476721CA76288009CBE23 /* libsndfile.a */,
 				7CC9EB081CC881A00032FBB4 /* libboost_filesystem.a */,
 				7CC9EB0A1CC881AF0032FBB4 /* libboost_system.a */,
+				7C20C1531CD0197C00639561 /* libboost_chrono.a */,
+				7C20C1551CD0199000639561 /* libboost_thread.a */,
+				7C20C1571CD0199C00639561 /* libboost_random.a */,
 				7CC9EB0C1CC881BF0032FBB4 /* libzip.a */,
+				7C20C1591CD01A2A00639561 /* libcrypto.a */,
+				7C20C15A1CD01A2A00639561 /* libssl.a */,
 				7CF1D82C1C9207DD00AAAC01 /* AudioTools */,
 				7CF1D8331C9207DE00AAAC01 /* Assets.xcassets */,
 				7CF1D8381C9207DE00AAAC01 /* Info.plist */,
@@ -624,7 +652,6 @@
 			children = (
 				7C7B74D11CC558C0006EF72E /* atMidi.cpp */,
 				7C7B74D21CC558C1006EF72E /* atMidi.h */,
-				7C7B74671CC08778006EF72E /* PythonWrapper.h */,
 				7CF1D8AD1C921DF800AAAC01 /* PyoAudio.cpp */,
 				7CF1D8AE1C921DF800AAAC01 /* PyoAudio.h */,
 				7CF1D8AF1C921DF800AAAC01 /* m_pyo.h */,
@@ -645,6 +672,7 @@
 				7CF1D8261C9207DD00AAAC01 /* Sources */,
 				7CF1D8271C9207DD00AAAC01 /* Frameworks */,
 				7CF1D8281C9207DD00AAAC01 /* Resources */,
+				7CC70A2B1CD03628005EE49C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -764,6 +792,7 @@
 				7CF1D89E1C921DDF00AAAC01 /* atEditorStatusBar.cpp in Sources */,
 				7CF1D8AA1C921DDF00AAAC01 /* TextEditor.cpp in Sources */,
 				7CB90DDE1CC9B5460029CEF8 /* atSaveWorkDialog.cpp in Sources */,
+				7CC70A321CD2BC17005EE49C /* atMenuPathAttribute.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -773,7 +802,7 @@
 		7CF1D8391C9207DE00AAAC01 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -810,8 +839,12 @@
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/freetype2/,
 					/usr/local/include/,
+					/opt/local/include/,
 				);
-				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib/,
+					/usr/local/opt/lib/,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -823,7 +856,7 @@
 		7CF1D83A1C9207DE00AAAC01 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -854,8 +887,12 @@
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/freetype2/,
 					/usr/local/include/,
+					/opt/local/include/,
 				);
-				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib/,
+					/usr/local/opt/lib/,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
@@ -873,10 +910,15 @@
 					/usr/local/include/,
 					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7,
 					/usr/local/lib/libzip/include/,
+					/opt/local/include/,
 				);
 				INFOPLIST_FILE = AudioTools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib/,
+					/usr/local/Cellar/openssl/1.0.2e_1/lib,
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = (
 					/usr/local/lib/libaxAudio.a,
 					/usr/local/lib/libaxMidi.a,
@@ -888,7 +930,12 @@
 					/usr/local/lib/libboost_python.a,
 					/usr/local/lib/libboost_filesystem.a,
 					/usr/local/lib/libboost_system.a,
+					/usr/local/lib/libboost_chrono.a,
+					/usr/local/lib/libboost_thread.a,
+					/usr/local/lib/libboost_random.a,
 					/usr/local/lib/libzip.a,
+					/usr/local/opt/openssl/lib/libcrypto.a,
+					/usr/local/opt/openssl/lib/libssl.a,
 				);
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = ax.AudioTools;
@@ -907,10 +954,15 @@
 					/usr/local/include/,
 					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7,
 					/usr/local/lib/libzip/include/,
+					/opt/local/include/,
 				);
 				INFOPLIST_FILE = AudioTools/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib/,
+					/usr/local/Cellar/openssl/1.0.2e_1/lib,
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = (
 					/usr/local/lib/libaxAudio.a,
 					/usr/local/lib/libaxMidi.a,
@@ -922,7 +974,12 @@
 					/usr/local/lib/libboost_python.a,
 					/usr/local/lib/libboost_filesystem.a,
 					/usr/local/lib/libboost_system.a,
+					/usr/local/lib/libboost_chrono.a,
+					/usr/local/lib/libboost_thread.a,
+					/usr/local/lib/libboost_random.a,
 					/usr/local/lib/libzip.a,
+					/usr/local/opt/openssl/lib/libcrypto.a,
+					/usr/local/opt/openssl/lib/libssl.a,
 				);
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = ax.AudioTools;

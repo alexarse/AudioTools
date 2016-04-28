@@ -13,6 +13,16 @@
 
 namespace at {
 namespace editor {
+	class OnlineStore {
+	public:
+		OnlineStore(ax::Event::Object* obj);
+		
+//		void DownloadWidgetData();
+		
+		private:
+		ax::Event::Object* _obj;
+	};
+
 	class OnlineStoreMenu : public ax::Window::Backbone {
 	public:
 		OnlineStoreMenu(const ax::Rect& rect);
@@ -20,6 +30,10 @@ namespace editor {
 	private:
 		ax::Font _font;
 		ax::Font _font_bold;
+		std::shared_ptr<OnlineStore> _store;
+
+		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDoneDownloadingWidgetList);
+
 		void OnPaint(ax::GC gc);
 	};
 }

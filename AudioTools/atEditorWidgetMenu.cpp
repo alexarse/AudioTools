@@ -29,8 +29,11 @@
 #include "atSkin.hpp"
 
 #include <OpenAX/Button.h>
+#include <OpenAX/OSFileSystem.h>
 #include <OpenAX/Xml.h>
 #include <OpenAX/rapidxml.hpp>
+
+#include <set>
 
 namespace at {
 namespace editor {
@@ -52,59 +55,29 @@ namespace editor {
 		win->node.Add(std::shared_ptr<ax::Window>(_panel));
 
 		ax::Point pos(0, 0);
-		ax::Size size(rect.size.x, 50);
-		ax::Size separator_size(rect.size.x, 20);
+		const ax::Size size(rect.size.x, 50);
+		const ax::Size separator_size(rect.size.x, 20);
 
-		ax::Xml xml("resources/widget_menu.xml");
+		std::vector<WidgetMenuInfo> w_info = GetWidgetsInfo();
+		std::string builder_name;
 
-		if (!xml.Parse()) {
-			ax::Error("parsing widget menu.");
-			return;
-		}
+		for (auto& n : w_info) {
+			// Each new builder name, create a separator.
+			if (n.buider_name != builder_name) {
+				builder_name = n.buider_name;
 
-		ax::Xml::Node top_node = xml.GetNode("WidgetMenu");
-		ax::Xml::Node node = top_node.GetFirstNode();
-
-		try {
-			while (node.IsValid()) {
-				std::string node_name = node.GetName();
-				//				ax::Print("Node name :", node_name);
-
-				if (node_name == "separator") {
-					std::string separator_name = node.GetAttribute("name");
-					ax::Rect sep_rect(pos, separator_size);
-
-					auto sep = ax::shared<WidgetMenuSeparator>(sep_rect, separator_name);
-					_panel->node.Add(sep);
-
-					pos = sep->GetWindow()->dimension.GetRect().GetNextPosDown(0);
-				}
-				else if (node_name == "widget") {
-					//					ax::Print("WIDGET");
-					std::string buider_name = node.GetAttribute("builder");
-					std::string file_path = node.GetAttribute("file");
-					std::string widget_label = node.GetAttribute("label");
-					std::string widget_desc = node.GetAttribute("description");
-					std::string widget_size = node.GetAttribute("size");
-					std::string widget_img = node.GetAttribute("img");
-
-					auto sep = ax::shared<WidgetMenuObj>(ax::Rect(pos, size), buider_name, file_path,
-						widget_label, widget_desc, widget_size, widget_img);
-					_panel->node.Add(sep);
-
-					_objs.push_back(sep);
-
-					pos = sep->GetWindow()->dimension.GetRect().GetNextPosDown(0);
-				}
-
-				node = node.GetNextSibling();
+				auto sep = ax::shared<WidgetMenuSeparator>(ax::Rect(pos, separator_size), builder_name);
+				_panel->node.Add(sep);
+				pos = sep->GetWindow()->dimension.GetRect().GetNextPosDown(0);
 			}
-		}
-		catch (rapidxml::parse_error& err) {
-			ax::Error("Widget menu xml", err.what());
-		}
-		catch (ax::Xml::Exception& err) {
-			ax::Error("Widget menu xml", err.what());
+
+			// Create widget menu object.
+			auto sep = ax::shared<WidgetMenuObj>(ax::Rect(pos, size), n);
+			_panel->node.Add(sep);
+
+			_objs.push_back(sep);
+
+			pos = sep->GetWindow()->dimension.GetRect().GetNextPosDown(0);
 		}
 
 		ax::ScrollBar::Info sInfo;
@@ -128,6 +101,66 @@ namespace editor {
 		_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 
 		SetOnlyMainWindowWidgetSelectable();
+	}
+
+	std::vector<WidgetMenuInfo> WidgetMenu::GetWidgetsInfo()
+	{
+		std::vector<WidgetMenuInfo> w_info;
+		const std::string w_dir_path("widgets/");
+
+		ax::os::Directory dir;
+		dir.Goto(w_dir_path);
+
+		std::vector<ax::os::File> files = dir.GetContent();
+
+		for (auto& n : files) {
+			ax::Print(n.name);
+
+			try {
+				const std::string file_path(w_dir_path + n.name);
+				ax::Xml xml(file_path);
+
+				if (!xml.Parse()) {
+					ax::Error("Parsing widget :", n.name);
+					continue;
+				}
+
+				ax::Xml::Node node = xml.GetNode("Widget");
+
+				if (!node.IsValid()) {
+					ax::Error("Parsing widget :", n.name, "can't find node Widget.");
+					continue;
+				}
+
+				WidgetMenuInfo info;
+				info.file_path = file_path;
+				info.buider_name = node.GetAttribute("builder");
+				info.widget_label = node.GetAttribute("label");
+				info.widget_desc = node.GetAttribute("description");
+				info.widget_size = node.GetAttribute("size");
+				info.widget_img = node.GetAttribute("img");
+				w_info.push_back(info);
+			}
+			catch (rapidxml::parse_error& err) {
+				ax::Error("Widget menu xml", err.what());
+			}
+			catch (ax::Xml::Exception& err) {
+				ax::Error("Widget menu xml", err.what());
+			}
+		}
+
+		std::sort(w_info.begin(), w_info.end(),
+			[](WidgetMenuInfo& a, WidgetMenuInfo& b) {
+			if(a.buider_name == "Panel") {
+				return true;
+			}
+			else if(b.buider_name == "Panel") {
+				return false;
+			}
+			return (a.buider_name < b.buider_name);
+			});
+
+		return w_info;
 	}
 
 	void WidgetMenu::SetOnlyMainWindowWidgetSelectable()
@@ -189,7 +222,7 @@ namespace editor {
 		for (auto& n : _objs) {
 			n->ShowText();
 		}
-		
+
 		win->Update();
 	}
 

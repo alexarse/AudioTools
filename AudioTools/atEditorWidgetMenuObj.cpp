@@ -12,21 +12,15 @@
 
 namespace at {
 namespace editor {
-	WidgetMenuObj::WidgetMenuObj(const ax::Rect& rect, const std::string& builder_name,
-		const std::string& file_path, const std::string& title, const std::string& info,
-		const std::string& size, const std::string& img_path)
+	WidgetMenuObj::WidgetMenuObj(const ax::Rect& rect, const WidgetMenuInfo& info)
 		: _font("fonts/Lato.ttf")
 		, _font_normal("fonts/LatoLight.ttf")
-		, _builder_name(builder_name)
-		, _file_path(file_path)
-		, _title(title)
 		, _info(info)
-		, _size_str(size)
 		, _selectable(true)
 	{
 		_font_normal.SetFontSize(11);
 
-		_img = ax::shared<ax::Image>(img_path);
+		_img = ax::shared<ax::Image>(_info.widget_img);
 
 		// Create window.
 		win = ax::Window::Create(rect);
@@ -68,7 +62,7 @@ namespace editor {
 			App::GetMainEvtObj()->PushEvent(
 				8000,
 				new ax::Event::SimpleMsg<std::pair<ax::StringPair, ax::Point>>(
-					std::pair<ax::StringPair, ax::Point>(ax::StringPair(_builder_name, _file_path), pos)));
+					std::pair<ax::StringPair, ax::Point>(ax::StringPair(_info.buider_name, _info.file_path), pos)));
 
 			win->Update();
 		}
@@ -101,11 +95,11 @@ namespace editor {
 
 		if (_show_text) {
 			gc.SetColor(at::Skin::GetInstance()->data.w_menu_title_txt);
-			gc.DrawString(_font, _title, ax::Point(75, 6));
+			gc.DrawString(_font, _info.widget_label, ax::Point(75, 6));
 
 			gc.SetColor(at::Skin::GetInstance()->data.w_menu_txt);
-			gc.DrawString(_font_normal, _info, ax::Point(75, 20));
-			gc.DrawString(_font_normal, _size_str, ax::Point(75, 32));
+			gc.DrawString(_font_normal, _info.widget_desc, ax::Point(75, 20));
+			gc.DrawString(_font_normal, _info.widget_size, ax::Point(75, 32));
 		}
 
 		gc.SetColor(at::Skin::GetInstance()->data.w_menu_obj_contour);
