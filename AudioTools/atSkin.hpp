@@ -30,6 +30,8 @@
 namespace at {
 
 struct SkinData {
+
+	ax::Color common_at_yellow;
 	// Status bar.
 	ax::Color status_bar_bg;
 	ax::Color status_bar_text;
@@ -82,6 +84,7 @@ private:
 	
 	Skin()
 	{
+		data.common_at_yellow = ax::Color(250, 172, 0);
 	}
 };
 }

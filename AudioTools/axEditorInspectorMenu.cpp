@@ -123,7 +123,6 @@ namespace editor {
 			std::vector<ax::widget::ParamInfo> builder_atts_info = widget->GetBuilderAttributesInfo();
 
 			for (auto& n : builder_atts_info) {
-				//				std::string value = info->GetAttributeValue(n.second);
 				std::string value = atts_map[n.second];
 
 				if (n.first == ax::widget::ParamType::COLOR) {
@@ -150,8 +149,8 @@ namespace editor {
 					win->node.Add(ax::shared<at::inspector::PathAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
 				}
+				// Text attribute.
 				else {
-					//					ax::Print("Attribute :", n.second, value);
 					win->node.Add(ax::shared<at::inspector::MenuAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
 				}
@@ -195,7 +194,6 @@ namespace editor {
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
 				}
 				else {
-					//					ax::Print("Attribute :", n.second, value);
 					win->node.Add(ax::shared<at::inspector::MenuAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
 				}
@@ -307,9 +305,13 @@ namespace editor {
 		gc.DrawRectangle(rect);
 
 		gc.SetColor(ax::Color(0.3));
+
+		// No widget selected mode.
 		gc.DrawString(_font_bold, "No widget selected.", ax::Point(15, 20));
 		gc.DrawString(_font, "Command + click over a widget on the", ax::Point(15, 40));
 		gc.DrawString(_font, "grid window to select a widget.", ax::Point(15, 52));
+
+		/// @todo Add Multiple widget selection mode.
 
 		gc.SetColor(ax::Color(0.7));
 		gc.DrawRectangleContour(rect);
