@@ -231,7 +231,7 @@ namespace editor {
 	void MainWindowWidgetHandler::OnDeleteSelectedWidget(const ax::Event::EmptyMsg& msg)
 	{
 		if (_main_window->_selected_windows.size()) {
-			ax::Print("Should delete widget.");
+//			ax::Print("Should delete widget.");
 			DeleteCurrentWidgets();
 		}
 	}

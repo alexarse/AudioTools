@@ -45,6 +45,9 @@ namespace editor {
 			DELETE_SELECTED_WIDGET,
 			DUPLICATE_SELECTED_WIDGET,
 			
+			BEGIN_DRAGGING_WIDGET,
+			DONE_DRAGGING_WIDGET,
+			
 			DELETE_SELECTED_WIDGET_FROM_RIGHT_CLICK,
 			DUPLICATE_SELECTED_WIDGET_FROM_RIGHT_CLICK
 		};
@@ -71,9 +74,12 @@ namespace editor {
 		std::pair<bool, ax::Rect> _selection;
 		ax::Color _bg_color;
 		bool _right_click_menu;
+		bool _draw_grid_over_children;
 
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<PosAndWindow>, OnDropWidgetMenu);
 		axEVENT_DECLARATION(ax::DropMenu::Msg, OnMenuChoice);
+		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnWidgetIsDragging);
+		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnWidgetDoneDragging);
 
 		void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
 
