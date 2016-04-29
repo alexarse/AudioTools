@@ -337,61 +337,51 @@ namespace editor {
 
 			if (win->property.HasProperty("current_editing_widget")
 				&& win->property.HasProperty("Resizable")) {
-			
+
 				bool top = c_delta.y < 4;
 				bool bottom = c_delta.y > win->dimension.GetShownRect().size.y - 4;
 				bool right = c_delta.x > win->dimension.GetShownRect().size.x - 4;
 				bool left = c_delta.x < 4;
 
-//				bool will_resize = false;
+				//				bool will_resize = false;
 
 				if (right && bottom) {
 					win->property.AddProperty("ResizeBottomRight");
-//					will_resize = true;
+					//					will_resize = true;
 				}
 				else if (right && top) {
 					win->property.AddProperty("ResizeTopRight");
-//					will_resize = true;
+					//					will_resize = true;
 				}
 				else if (left && top) {
 					win->property.AddProperty("ResizeTopLeft");
-//					will_resize = true;
+					//					will_resize = true;
 				}
 				else if (left && bottom) {
 					win->property.AddProperty("ResizeBottomLeft");
-//					will_resize = true;
+					//					will_resize = true;
 				}
 				else if (right) {
 					win->property.AddProperty("ResizeRight");
-//					will_resize = true;
+					//					will_resize = true;
 				}
 				else if (bottom) {
 					win->property.AddProperty("ResizeBottom");
-//					will_resize = true;
+					//					will_resize = true;
 				}
 				else if (left) {
 					win->property.AddProperty("ResizeLeft");
-//					will_resize = true;
+					//					will_resize = true;
 				}
 				else if (top) {
 					win->property.AddProperty("ResizeTop");
-//					will_resize = true;
+					//					will_resize = true;
 				}
 
-//				if (will_resize) {
-					win->resource.Add("click_delta", c_delta);
-					win->event.GrabMouse();
-					win->property.AddProperty("edit_click");
-					gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
-//				}
-//				else {
-//					win->event.GrabMouse();
-//					win->property.AddProperty("edit_click");
-//					gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
-//					if (m_down_fct) {
-//						m_down_fct(pos);
-//					}
-//				}
+				win->resource.Add("click_delta", c_delta);
+				win->event.GrabMouse();
+				win->property.AddProperty("edit_click");
+				gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
 			}
 			else {
 				if (m_down_fct) {
@@ -557,14 +547,14 @@ namespace editor {
 		auto m_right_down = win->event.OnMouseRightDown.GetFunction();
 		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([gwin, win, m_right_down](const ax::Point& pos) {
 
-
 			if (win->property.HasProperty("current_editing_widget")) {
-//			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
+				//			if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
 
 				win->property.AddProperty("edit_click");
 
 				/// @todo Change event id to enum.
-//				gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
+				//				gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
+				ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
 
 				gwin->PushEvent(128973, new ax::Event::SimpleMsg<std::pair<ax::Point, ax::Window*>>(
 											std::pair<ax::Point, ax::Window*>(pos, win)));
@@ -581,7 +571,7 @@ namespace editor {
 		// Mouse motion.
 		auto m_motion = win->event.OnMouseMotion.GetFunction();
 		win->event.OnMouseMotion = ax::WFunc<ax::Point>([gwin, win, m_motion](const ax::Point& pos) {
-			
+
 			if (win->property.HasProperty("current_editing_widget")) {
 				ax::Point c_delta(pos - win->dimension.GetAbsoluteRect().position);
 
@@ -617,9 +607,9 @@ namespace editor {
 					else {
 						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::MOVE);
 
-//						if (m_motion) {
-//							m_motion(pos);
-//						}
+						//						if (m_motion) {
+						//							m_motion(pos);
+						//						}
 					}
 				}
 			}

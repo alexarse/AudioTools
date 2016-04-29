@@ -24,6 +24,7 @@
 
 #include "atEditorGridWindow.h"
 #include <OpenAX/DropMenu.h>
+#include <OpenAX/NodeVisitor.h>
 #include <OpenAX/WindowManager.h>
 #include <OpenAX/rapidxml.hpp>
 #include <OpenAX/rapidxml_print.hpp>
@@ -381,7 +382,7 @@ namespace editor {
 
 	void GridWindow::OnWidgetIsDragging(const ax::Event::EmptyMsg& msg)
 	{
-		if(_draw_grid_over_children == false) {
+		if (_draw_grid_over_children == false) {
 			_draw_grid_over_children = true;
 			win->Update();
 		}
@@ -404,6 +405,42 @@ namespace editor {
 	{
 		if (win->event.IsGrabbed()) {
 			win->event.UnGrabMouse();
+
+			// Switch selection size when negative.
+			if (_selection.second.size.x < 0) {
+				_selection.second.position.x += _selection.second.size.x;
+				_selection.second.size.x = -_selection.second.size.x;
+			}
+			
+			if (_selection.second.size.y < 0) {
+				_selection.second.position.y += _selection.second.size.y;
+				_selection.second.size.y = -_selection.second.size.y;
+			}
+			
+
+			// Look for selected widget.
+			if (_selection.second.size.x > 0 && _selection.second.size.y > 0) {
+				ax::Rect selection_rect = _selection.second;
+				
+				selection_rect.position += win->dimension.GetAbsoluteRect().position;
+
+				std::vector<ax::Window*> selected
+					= ax::NodeVisitor::AccumulateFromChild(win, [selection_rect](ax::Window* window) {
+						  const ax::Rect abs_rect(window->dimension.GetAbsoluteRect());
+
+						  if (selection_rect.IsPointInside(abs_rect.position)) {
+							  return true;
+						  }
+
+						  return false;
+					  });
+
+				for (auto& n : selected) {
+					n->property.AddProperty("current_editing_widget");
+					n->Update();
+				}
+			}
+
 			_selection.first = false;
 			win->Update();
 		}
@@ -425,16 +462,16 @@ namespace editor {
 			for (int x = _grid_space; x < rect.size.x; x += _grid_space) {
 				pts.push_back(ax::Point(x, 0));
 				pts.push_back(ax::Point(x, rect.size.y));
-//				gc.DrawLineStripple(ax::Point(x, 0), ax::Point(x, rect.size.y));
+				//				gc.DrawLineStripple(ax::Point(x, 0), ax::Point(x, rect.size.y));
 			}
 
 			// Horizontal lines.
 			for (int y = _grid_space; y < rect.size.y; y += _grid_space) {
 				pts.push_back(ax::Point(0, y));
 				pts.push_back(ax::Point(rect.size.x, y));
-//				gc.DrawLineStripple(ax::Point(0, y), ax::Point(rect.size.x, y));
+				//				gc.DrawLineStripple(ax::Point(0, y), ax::Point(rect.size.x, y));
 			}
-			
+
 			gc.DrawLines(pts);
 		}
 
@@ -457,32 +494,32 @@ namespace editor {
 
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_lines);
 
-//		// Vertical lines.
-//		for (int x = _grid_space; x < rect.size.x; x += _grid_space) {
-//			gc.DrawLineStripple(ax::Point(x, 0), ax::Point(x, rect.size.y));
-//		}
-//
-//		// Horizontal lines.
-//		for (int y = _grid_space; y < rect.size.y; y += _grid_space) {
-//			gc.DrawLineStripple(ax::Point(0, y), ax::Point(rect.size.x, y));
-//		}
+		//		// Vertical lines.
+		//		for (int x = _grid_space; x < rect.size.x; x += _grid_space) {
+		//			gc.DrawLineStripple(ax::Point(x, 0), ax::Point(x, rect.size.y));
+		//		}
+		//
+		//		// Horizontal lines.
+		//		for (int y = _grid_space; y < rect.size.y; y += _grid_space) {
+		//			gc.DrawLineStripple(ax::Point(0, y), ax::Point(rect.size.x, y));
+		//		}
 		std::vector<ax::Point> pts;
 		pts.reserve(((rect.size.x / _grid_space) + (rect.size.y / _grid_space)) * 2);
-		
+
 		// Vertical lines.
 		for (int x = _grid_space; x < rect.size.x; x += _grid_space) {
 			pts.push_back(ax::Point(x, 0));
 			pts.push_back(ax::Point(x, rect.size.y));
 			//				gc.DrawLineStripple(ax::Point(x, 0), ax::Point(x, rect.size.y));
 		}
-		
+
 		// Horizontal lines.
 		for (int y = _grid_space; y < rect.size.y; y += _grid_space) {
 			pts.push_back(ax::Point(0, y));
 			pts.push_back(ax::Point(rect.size.x, y));
 			//				gc.DrawLineStripple(ax::Point(0, y), ax::Point(rect.size.x, y));
 		}
-		
+
 		gc.DrawLines(pts);
 
 		// Grid contour.
