@@ -321,57 +321,141 @@ namespace editor {
 
 		auto m_down_fct = win->event.OnMouseLeftDown.GetFunction();
 		win->event.OnMouseLeftDown = ax::WFunc<ax::Point>([gwin, win, m_down_fct](const ax::Point& pos) {
+
+			ax::Point c_delta(pos - win->dimension.GetAbsoluteRect().position);
+
 			bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
 
 			if (cmd_down) {
-				ax::Point c_delta(pos - win->dimension.GetAbsoluteRect().position);
 				win->resource.Add("click_delta", c_delta);
 				win->event.GrabMouse();
 				win->property.AddProperty("edit_click");
-
-				if (win->property.HasProperty("Resizable")) {
-
-					bool top = c_delta.y < 4;
-					bool bottom = c_delta.y > win->dimension.GetShownRect().size.y - 4;
-					bool right = c_delta.x > win->dimension.GetShownRect().size.x - 4;
-					bool left = c_delta.x < 4;
-
-					if (right && bottom) {
-						win->property.AddProperty("ResizeBottomRight");
-					}
-					else if (right && top) {
-						win->property.AddProperty("ResizeTopRight");
-					}
-					else if (left && top) {
-						win->property.AddProperty("ResizeTopLeft");
-					}
-					else if (left && bottom) {
-						win->property.AddProperty("ResizeBottomLeft");
-					}
-					else if (right) {
-						win->property.AddProperty("ResizeRight");
-					}
-					else if (bottom) {
-						win->property.AddProperty("ResizeBottom");
-					}
-					else if (left) {
-						win->property.AddProperty("ResizeLeft");
-					}
-					else if (top) {
-						win->property.AddProperty("ResizeTop");
-					}
-				}
-
-				/// @todo Change event id to enum.
 				gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
+				return;
 			}
 
-			// Call widget callback.
+			if (win->property.HasProperty("Resizable")) {
+
+				bool top = c_delta.y < 4;
+				bool bottom = c_delta.y > win->dimension.GetShownRect().size.y - 4;
+				bool right = c_delta.x > win->dimension.GetShownRect().size.x - 4;
+				bool left = c_delta.x < 4;
+
+				bool will_resize = false;
+
+				if (right && bottom) {
+					win->property.AddProperty("ResizeBottomRight");
+					will_resize = true;
+				}
+				else if (right && top) {
+					win->property.AddProperty("ResizeTopRight");
+					will_resize = true;
+				}
+				else if (left && top) {
+					win->property.AddProperty("ResizeTopLeft");
+					will_resize = true;
+				}
+				else if (left && bottom) {
+					win->property.AddProperty("ResizeBottomLeft");
+					will_resize = true;
+				}
+				else if (right) {
+					win->property.AddProperty("ResizeRight");
+					will_resize = true;
+				}
+				else if (bottom) {
+					win->property.AddProperty("ResizeBottom");
+					will_resize = true;
+				}
+				else if (left) {
+					win->property.AddProperty("ResizeLeft");
+					will_resize = true;
+				}
+				else if (top) {
+					win->property.AddProperty("ResizeTop");
+					will_resize = true;
+				}
+
+				if (will_resize) {
+					win->resource.Add("click_delta", c_delta);
+					win->event.GrabMouse();
+					win->property.AddProperty("edit_click");
+					gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
+				}
+				else {
+					if (m_down_fct) {
+						m_down_fct(pos);
+					}
+				}
+			}
 			else {
 				if (m_down_fct) {
 					m_down_fct(pos);
 				}
 			}
+
+			/// @todo Change event id to enum.
+			
+			//			}
+
+			// Call widget callback.
+			//			else {
+			//				if (m_down_fct) {
+			//					m_down_fct(pos);
+			//				}
+			//			}
+
+			//			bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
+			//
+			//			if (cmd_down) {
+			//				ax::Point c_delta(pos - win->dimension.GetAbsoluteRect().position);
+			//				win->resource.Add("click_delta", c_delta);
+			//				win->event.GrabMouse();
+			//				win->property.AddProperty("edit_click");
+			//
+			//				if (win->property.HasProperty("Resizable")) {
+			//
+			//					bool top = c_delta.y < 4;
+			//					bool bottom = c_delta.y > win->dimension.GetShownRect().size.y - 4;
+			//					bool right = c_delta.x > win->dimension.GetShownRect().size.x - 4;
+			//					bool left = c_delta.x < 4;
+			//
+			//					if (right && bottom) {
+			//						win->property.AddProperty("ResizeBottomRight");
+			//					}
+			//					else if (right && top) {
+			//						win->property.AddProperty("ResizeTopRight");
+			//					}
+			//					else if (left && top) {
+			//						win->property.AddProperty("ResizeTopLeft");
+			//					}
+			//					else if (left && bottom) {
+			//						win->property.AddProperty("ResizeBottomLeft");
+			//					}
+			//					else if (right) {
+			//						win->property.AddProperty("ResizeRight");
+			//					}
+			//					else if (bottom) {
+			//						win->property.AddProperty("ResizeBottom");
+			//					}
+			//					else if (left) {
+			//						win->property.AddProperty("ResizeLeft");
+			//					}
+			//					else if (top) {
+			//						win->property.AddProperty("ResizeTop");
+			//					}
+			//				}
+			//
+			//				/// @todo Change event id to enum.
+			//				gwin->PushEvent(1234, new ax::Event::SimpleMsg<ax::Window*>(win));
+			//			}
+			//
+			//			// Call widget callback.
+			//			else {
+			//				if (m_down_fct) {
+			//					m_down_fct(pos);
+			//				}
+			//			}
 		});
 
 		auto m_drag_fct = win->event.OnMouseLeftDragging.GetFunction();
@@ -437,7 +521,7 @@ namespace editor {
 						int pos_y = win->dimension.GetRect().position.y;
 						int pos_x = pos.x - win->node.GetParent()->dimension.GetAbsoluteRect().position.x;
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
-						
+
 						ax::Point dd(abs_rect.position.x - pos.x, 0);
 						std::vector<std::shared_ptr<ax::Window>>& children = win->node.GetChildren();
 						for (auto& n : children) {
@@ -468,7 +552,7 @@ namespace editor {
 						int pos_y = pos.y - win->node.GetParent()->dimension.GetAbsoluteRect().position.y;
 						int pos_x = pos.x - win->node.GetParent()->dimension.GetAbsoluteRect().position.x;
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
-						
+
 						ax::Point dd(abs_rect.position.x - pos.x, abs_rect.position.y - pos.y);
 						std::vector<std::shared_ptr<ax::Window>>& children = win->node.GetChildren();
 						for (auto& n : children) {
@@ -547,59 +631,102 @@ namespace editor {
 		// Mouse motion.
 		auto m_motion = win->event.OnMouseMotion.GetFunction();
 		win->event.OnMouseMotion = ax::WFunc<ax::Point>([gwin, win, m_motion](const ax::Point& pos) {
+			//			bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
+			//
+			//			if (cmd_down) {
+			//				ax::Point c_delta(pos - win->dimension.GetAbsoluteRect().position);
+			//				if (win->property.HasProperty("Resizable")) {
+			//
+			//					bool top = c_delta.y < 4;
+			//					bool bottom = c_delta.y > win->dimension.GetShownRect().size.y - 4;
+			//					bool right = c_delta.x > win->dimension.GetShownRect().size.x - 4;
+			//					bool left = c_delta.x < 4;
+			//
+			//					if ((right && bottom) || (top && left)) {
+			//						ax::App::GetInstance().GetCore()->SetCursor(
+			//							ax::core::Core::Cursor::RESIZE_TOP_LEFT_DOWN_RIGHT);
+			//					}
+			//					else if ((bottom && left) || (top && right)) {
+			//						ax::App::GetInstance().GetCore()->SetCursor(
+			//							ax::core::Core::Cursor::RESIZE_BOTTOM_LEFT_TOP_RIGHT);
+			//					}
+			//					else if (right || left) {
+			//						ax::App::GetInstance().GetCore()->SetCursor(
+			//							ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
+			//					}
+			//					else if (bottom || top) {
+			//						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
+			//					}
+			//					else {
+			//						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
+			//					}
+			//				}
+			//			}
+			//			else {
+			//				// Set normal cursor.
+			//				ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
+			//
+			//				// Call widget callback.
+			//				if (m_motion) {
+			//					m_motion(pos);
+			//				}
+			//			}
+
+			//			bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
+
+			//			if (cmd_down) {
+			ax::Point c_delta(pos - win->dimension.GetAbsoluteRect().position);
+			
 			bool cmd_down = ax::App::GetInstance().GetWindowManager()->IsCmdDown();
-
+			
 			if (cmd_down) {
-				ax::Point c_delta(pos - win->dimension.GetAbsoluteRect().position);
-				// win->resource.Add("click_delta", c_delta);
-				//				win->event.GrabMouse();
-				//				win->property.AddProperty("edit_click");
-
-				if (win->property.HasProperty("Resizable")) {
-
-					bool top = c_delta.y < 4;
-					bool bottom = c_delta.y > win->dimension.GetShownRect().size.y - 4;
-					bool right = c_delta.x > win->dimension.GetShownRect().size.x - 4;
-					bool left = c_delta.x < 4;
-
-					if ((right && bottom) || (top && left)) {
-						ax::App::GetInstance().GetCore()->SetCursor(
-							ax::core::Core::Cursor::RESIZE_TOP_LEFT_DOWN_RIGHT);
-					}
-					else if ((bottom && left) || (top && right)) {
-						ax::App::GetInstance().GetCore()->SetCursor(
-							ax::core::Core::Cursor::RESIZE_BOTTOM_LEFT_TOP_RIGHT);
-					}
-					else if (right || left) {
-						ax::App::GetInstance().GetCore()->SetCursor(
-							ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
-					}
-					else if (bottom || top) {
-						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
-					}
-					//					else if (c_delta.x < 4) {
-					//						ax::App::GetInstance().GetCore()->SetCursor(
-					//							ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
-					//					}
-					//					else if (c_delta.y < 4) {
-					//						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
-					//					}
-					else {
-						ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
-					}
-				}
-			}
-			else {
-				// Set normal cursor.
 				ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
+				return;
+			}
+			
+			
+			if (win->property.HasProperty("Resizable")) {
 
-				// Call widget callback.
-				if (m_motion) {
-					m_motion(pos);
+				bool top = c_delta.y < 4;
+				bool bottom = c_delta.y > win->dimension.GetShownRect().size.y - 4;
+				bool right = c_delta.x > win->dimension.GetShownRect().size.x - 4;
+				bool left = c_delta.x < 4;
+
+				if ((right && bottom) || (top && left)) {
+					ax::App::GetInstance().GetCore()->SetCursor(
+						ax::core::Core::Cursor::RESIZE_TOP_LEFT_DOWN_RIGHT);
+				}
+				else if ((bottom && left) || (top && right)) {
+					ax::App::GetInstance().GetCore()->SetCursor(
+						ax::core::Core::Cursor::RESIZE_BOTTOM_LEFT_TOP_RIGHT);
+				}
+				else if (right || left) {
+					ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_LEFT_RIGHT);
+				}
+				else if (bottom || top) {
+					ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::RESIZE_UP_DOWN);
+				}
+				else {
+					ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
+
+					if (m_motion) {
+						m_motion(pos);
+					}
 				}
 			}
+			//			}
+			//			else {
+			// Set normal cursor.
+			//				ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
+
+			// Call widget callback.
+			//				if (m_motion) {
+			//					m_motion(pos);
+			//				}
+			//			}
 		});
 
+		// OnMouseLeave event.
 		auto m_leave = win->event.OnMouseLeave.GetFunction();
 		win->event.OnMouseLeave = ax::WFunc<ax::Point>([gwin, win, m_leave](const ax::Point& pos) {
 
@@ -618,6 +745,7 @@ namespace editor {
 			}
 		});
 
+		// OnPaintOverFrameBuffer event.
 		win->event.OnPaintOverFrameBuffer = ax::WFunc<ax::GC>([win](ax::GC gc) {
 			if (win->property.HasProperty("current_editing_widget")) {
 				const ax::Rect rect(win->dimension.GetDrawingRect());

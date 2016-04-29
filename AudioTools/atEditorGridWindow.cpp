@@ -69,6 +69,8 @@ namespace editor {
 		// Create window.
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &GridWindow::OnPaint);
+		win->event.OnPaintOverChildren = ax::WBind<ax::GC>(this, &GridWindow::OnPaintOverChildren);
+		
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &GridWindow::OnMouseLeftDown);
 		win->event.OnMouseLeftDragging = ax::WBind<ax::Point>(this, &GridWindow::OnMouseLeftDragging);
 		win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &GridWindow::OnMouseLeftUp);
@@ -389,6 +391,35 @@ namespace editor {
 			win->Update();
 		}
 	}
+	
+	void GridWindow::OnPaintOverChildren(ax::GC gc)
+	{
+		ax::Rect rect(win->dimension.GetDrawingRect());
+		
+		// Background.
+//		gc.SetColor(_bg_color);
+//		gc.DrawRectangle(rect);
+		
+//		gc.SetColor(at::Skin::GetInstance()->data.grid_window_lines);
+//		
+//		// Vertical lines.
+//		for (int x = _grid_space; x < rect.size.x; x += _grid_space) {
+//			gc.DrawLineStripple(ax::Point(x, 0), ax::Point(x, rect.size.y));
+//		}
+//		
+//		// Horizontal lines.
+//		for (int y = _grid_space; y < rect.size.y; y += _grid_space) {
+//			gc.DrawLineStripple(ax::Point(0, y), ax::Point(rect.size.x, y));
+//		}
+		
+		// Selection rectangle.
+		if (_selection.first) {
+			gc.SetColor(ax::Color(0.7, 0.5));
+			gc.DrawRectangle(_selection.second);
+			gc.SetColor(ax::Color(0.7, 0.8));
+			gc.DrawRectangleContour(_selection.second);
+		}
+	}
 
 	void GridWindow::OnPaint(ax::GC gc)
 	{
@@ -410,13 +441,13 @@ namespace editor {
 			gc.DrawLineStripple(ax::Point(0, y), ax::Point(rect.size.x, y));
 		}
 
-		// Selection rectangle.
-		if (_selection.first) {
-			gc.SetColor(ax::Color(0.7, 0.5));
-			gc.DrawRectangle(_selection.second);
-			gc.SetColor(ax::Color(0.7, 0.8));
-			gc.DrawRectangleContour(_selection.second);
-		}
+//		// Selection rectangle.
+//		if (_selection.first) {
+//			gc.SetColor(ax::Color(0.7, 0.5));
+//			gc.DrawRectangle(_selection.second);
+//			gc.SetColor(ax::Color(0.7, 0.8));
+//			gc.DrawRectangleContour(_selection.second);
+//		}
 
 		// Grid contour.
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_contour);

@@ -77,6 +77,7 @@ namespace editor {
 
 		void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
 
+		void OnPaintOverChildren(ax::GC gc);
 		void OnKeyDown(const char& c);
 		void OnBackSpaceDown(const char& c);
 		void OnMouseLeftDown(const ax::Point& pos);
