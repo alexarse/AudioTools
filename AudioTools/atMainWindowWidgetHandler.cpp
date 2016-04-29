@@ -24,32 +24,15 @@ namespace editor {
 
 	void MainWindowWidgetHandler::DeleteCurrentWidgets()
 	{
-		ax::Window* win = _main_window->GetWindow();
-
-		// @todo Remove multiple widgets.
-		if (_main_window->_selected_windows.size()) {
-
-			auto& children = _main_window->_selected_windows[0]->node.GetParent()->node.GetChildren();
-			std::shared_ptr<ax::Window> current_win;
-
-			int index = -1;
-
-			for (int i = 0; i < children.size(); i++) {
-				if (children[i]->GetId() == _main_window->_selected_windows[0]->GetId()) {
-					current_win = children[i];
-					index = i;
-					break;
-				}
-			}
-
-			if (current_win && index != -1) {
-				win->event.UnGrabMouse();
-				ax::App::GetInstance().GetWindowManager()->ReleaseMouseHover();
-				children.erase(children.begin() + index);
-			}
+		// Remove all selected widgets.
+		for(auto& n : _main_window->_selected_windows) {
+			n->RemoveWindow();
 		}
 
+		// Clear selected widget vector.
 		_main_window->_selected_windows.clear();
+		
+		_main_window->_right_menu->SetMultipleWidgetSelected(false);
 		_main_window->_right_menu->RemoveInspectorHandle();
 
 		if (_main_window->_gridWindow->GetMainWindow() == nullptr) {
@@ -62,6 +45,7 @@ namespace editor {
 		ax::Window* selected_win = msg.GetMsg();
 		_main_window->_selected_windows.clear();
 
+		_main_window->_right_menu->SetMultipleWidgetSelected(false);
 		_main_window->_gridWindow->UnSelectAllWidgets();
 
 		if (selected_win != nullptr) {
@@ -231,7 +215,6 @@ namespace editor {
 	void MainWindowWidgetHandler::OnDeleteSelectedWidget(const ax::Event::EmptyMsg& msg)
 	{
 		if (_main_window->_selected_windows.size()) {
-//			ax::Print("Should delete widget.");
 			DeleteCurrentWidgets();
 		}
 	}
@@ -271,6 +254,29 @@ namespace editor {
 			loader.SetupExistingWidget(bck_bone->GetWindow(), widget->GetBuilderName());
 			
 			OnSelectWidget(ax::Event::SimpleMsg<ax::Window*>(bck_bone->GetWindow()));
+		}
+	}
+	
+	void MainWindowWidgetHandler::OnSelectMultipleWidget(const ax::Event::SimpleMsg<std::vector<ax::Window*>>& msg)
+	{
+		_main_window->_gridWindow->UnSelectAllWidgets();
+		
+		ax::Print("Select multiple widget.");
+		
+		std::vector<ax::Window*> selected = msg.GetMsg();
+		
+		for (auto& n : selected) {
+			n->property.AddProperty("current_editing_widget");
+			n->Update();
+		}
+		
+		_main_window->_selected_windows = selected;
+		
+		if(selected.size() > 1) {
+			_main_window->_right_menu->SetMultipleWidgetSelected(true);
+		}
+		else {
+			_main_window->_right_menu->SetMultipleWidgetSelected(false);
 		}
 	}
 }

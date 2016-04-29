@@ -95,6 +95,11 @@ namespace editor {
 	{
 		_inspector->RemoveHandle();
 	}
+	
+	void RightSideMenu::SetMultipleWidgetSelected(bool on)
+	{
+		_inspector->SetMultipleWidgetSelected(on);
+	}
 
 	void RightSideMenu::OnInspectorButton(const ax::Button::Msg& msg)
 	{

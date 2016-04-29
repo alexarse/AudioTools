@@ -47,11 +47,14 @@ namespace editor {
 
 		void SetWidgetHandle(ax::Window* handle);
 		void RemoveHandle();
+		
+		void SetMultipleWidgetSelected(bool on);
 
 	private:
 		ax::Window* _selected_handle;
 		ax::Font _font;
 		ax::Font _font_bold;
+		bool _has_multiple_widget_selected;
 	
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnPyoCallback);
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnWidgetUpdate);

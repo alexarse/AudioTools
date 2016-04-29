@@ -29,6 +29,7 @@ namespace editor {
 
 		void SetInspectorHandle(ax::Window* handle);
 		void RemoveInspectorHandle();
+		void SetMultipleWidgetSelected(bool on);
 
 	private:
 		static const int TOP_BAR_HEIGHT = 25;

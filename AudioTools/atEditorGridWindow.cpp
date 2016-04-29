@@ -53,9 +53,10 @@ namespace editor {
 	{
 		// Empty popup window tree.
 		ax::App& app(ax::App::GetInstance());
-		app.GetPopupManager()->SetPastKeyWindow(nullptr);
+//		app.GetPopupManager()->SetPastKeyWindow(nullptr);
 		app.GetPopupManager()->SetPastWindow(nullptr);
-		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
+//		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
+		app.GetPopupManager()->UnGrabScroll();
 		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
 		app.GetPopupManager()->UnGrabMouse();
 		app.GetPopupManager()->UnGrabKey();
@@ -78,6 +79,7 @@ namespace editor {
 		win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &GridWindow::OnMouseLeftUp);
 		win->event.OnBackSpaceDown = ax::WBind<char>(this, &GridWindow::OnBackSpaceDown);
 		win->event.OnKeyDown = ax::WBind<char>(this, &GridWindow::OnKeyDown);
+		
 		win->event.OnGlobalClick
 			= ax::WBind<ax::Window::Event::GlobalClick>(this, &GridWindow::OnGlobalClick);
 
@@ -85,8 +87,10 @@ namespace editor {
 		win->AddConnection(BEGIN_DRAGGING_WIDGET, GetOnWidgetIsDragging());
 		win->AddConnection(DONE_DRAGGING_WIDGET, GetOnWidgetDoneDragging());
 
-		ax::App::GetInstance().GetWindowManager()->AddGlobalGrabedWindow(win);
-		ax::App::GetInstance().GetWindowManager()->AddGlobalClickListener(win);
+		win->event.GrabGlobalMouse();
+		win->event.GrabGlobalKey();
+//		ax::App::GetInstance().GetWindowManager()->AddGlobalGrabedWindow(win);
+//		ax::App::GetInstance().GetWindowManager()->AddGlobalClickListener(win);
 
 		win->property.AddProperty("BlockDrawing");
 		win->property.AddProperty("AcceptWidget");
@@ -298,6 +302,9 @@ namespace editor {
 
 	ax::Window* GridWindow::GetWidgetByName(const std::string& name)
 	{
+	
+		/// @todo Change this with ax::NodeVisitor.
+		
 		auto& children = win->node.GetChildren();
 
 		if (children.empty()) {
@@ -434,11 +441,8 @@ namespace editor {
 
 						  return false;
 					  });
-
-				for (auto& n : selected) {
-					n->property.AddProperty("current_editing_widget");
-					n->Update();
-				}
+				
+				win->PushEvent(SELECT_MULTIPLE_WIDGET, new ax::Event::SimpleMsg<std::vector<ax::Window*>>(selected));
 			}
 
 			_selection.first = false;

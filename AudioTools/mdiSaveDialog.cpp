@@ -37,7 +37,8 @@ namespace editor {
 		win->event.OnGlobalClick = ax::WBind<ax::Window::Event::GlobalClick>(
 			this, &SaveDialog::OnGlobalClick);
 
-		ax::App::GetInstance().GetWindowManager()->AddGlobalClickListener(win);
+		win->event.GrabGlobalMouse();
+//		ax::App::GetInstance().GetWindowManager()->AddGlobalClickListener(win);
 
 		ax::TextBox::Info txt_info;
 		txt_info.normal = ax::Color(0.85);
@@ -85,7 +86,8 @@ namespace editor {
 
 	void SaveDialog::DeleteDialog()
 	{
-		ax::App::GetInstance().GetWindowManager()->RemoveGlobalClickListener(
+		/// @todo Change this.
+		ax::App::GetInstance().GetWindowManager()->UnGrabGlobalMouse(
 			win);
 		ax::App::GetInstance().GetWindowManager()->SetPastWindow(nullptr);
 		ax::App::GetInstance().GetWindowManager()->UnGrabKey();

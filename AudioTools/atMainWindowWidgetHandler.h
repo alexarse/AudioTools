@@ -31,12 +31,14 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnUnSelectAllWidget);
 		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDeleteSelectedWidget);
 		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDuplicateSelectedWidget);
+		
+		axEVENT_DECLARATION(ax::Event::SimpleMsg<std::vector<ax::Window*>>, OnSelectMultipleWidget);
+		
 	private:
 		MainWindow* _main_window;
 		
 		bool _has_tmp_widget;
 		std::string _tmp_widget_builder_name;
-		
 	};
 }
 }

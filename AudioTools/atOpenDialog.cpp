@@ -2,7 +2,7 @@
  * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
- * without prior written agreement by AutioTools.
+ * without prior written agreement by AudioTools.
  *
  * Neither the name of the AudioTools nor the names of its
  * contributors may be used to endorse or promote products derived from this
@@ -40,7 +40,8 @@ namespace editor {
 			= ax::WBind<ax::Window::Event::GlobalClick>(this, &OpenDialog::OnGlobalClick);
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &OpenDialog::OnMouseLeftDown);
 
-		ax::App::GetInstance().GetPopupManager()->AddGlobalClickListener(win);
+		win->event.GrabGlobalMouse();
+//		ax::App::GetInstance().GetPopupManager()->AddGlobalClickListener(win);
 
 		ax::DropMenu::Info menu_info;
 		menu_info.normal = ax::Color(240, 240, 240);
@@ -160,17 +161,17 @@ namespace editor {
 		ax::App::GetInstance().GetWindowManager()->UnGrabKey();
 		ax::App::GetInstance().GetWindowManager()->UnGrabMouse();
 		
-		ax::App::GetInstance().GetPopupManager()->RemoveGlobalClickListener(win);
-		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-		ax::App::GetInstance().GetPopupManager()->UnGrabKey();
-		ax::App::GetInstance().GetPopupManager()->UnGrabMouse();
-		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
+		ax::App::GetInstance().GetPopupManager()->Clear();
+//		ax::App::GetInstance().GetPopupManager()->RemoveGlobalClickListener(win);
+//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+//		ax::App::GetInstance().GetPopupManager()->UnGrabKey();
+//		ax::App::GetInstance().GetPopupManager()->UnGrabMouse();
+//		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
 		ax::App::GetInstance().UpdateAll();
 	}
 
 	void OpenDialog::OnMouseLeftDown(const ax::Point& pos)
 	{
-		//	win->PushEvent(CANCEL, new ax::Event::StringMsg(""));
 		DeleteDialog();
 	}
 

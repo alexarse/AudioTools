@@ -168,7 +168,8 @@ namespace editor {
 			= ax::WBind<ax::Window::Event::GlobalClick>(this, &PreferenceDialog::OnGlobalClick);
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &PreferenceDialog::OnMouseLeftDown);
 
-		ax::App::GetInstance().GetPopupManager()->AddGlobalClickListener(win);
+		win->event.GrabGlobalMouse();
+//		ax::App::GetInstance().GetPopupManager()->AddGlobalClickListener(win);
 
 		ax::Size pref_size(300, 194);
 		ax::Point pos((rect.size.x - pref_size.x) / 2, (rect.size.y - pref_size.y) / 2);
@@ -200,11 +201,12 @@ namespace editor {
 		win->event.UnGrabMouse();
 		win->backbone = nullptr;
 
-		ax::App::GetInstance().GetPopupManager()->RemoveGlobalClickListener(win);
-		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-		ax::App::GetInstance().GetPopupManager()->UnGrabKey();
-		ax::App::GetInstance().GetPopupManager()->UnGrabMouse();
-		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
+		ax::App::GetInstance().GetPopupManager()->Clear();
+//		ax::App::GetInstance().GetPopupManager()->RemoveGlobalClickListener(win);
+//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+//		ax::App::GetInstance().GetPopupManager()->UnGrabKey();
+//		ax::App::GetInstance().GetPopupManager()->UnGrabMouse();
+//		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
 		ax::App::GetInstance().UpdateAll();
 	}
 

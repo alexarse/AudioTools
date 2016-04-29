@@ -67,6 +67,7 @@ namespace editor {
 		: _selected_handle(nullptr)
 		, _font("fonts/Lato.ttf")
 		, _font_bold("fonts/FreeSansBold.ttf")
+		, _has_multiple_widget_selected(false)
 	{
 		// Create window.
 		win = ax::Window::Create(rect);
@@ -223,11 +224,13 @@ namespace editor {
 
 	void InspectorMenu::RemoveHandle()
 	{
+		ax::App::GetInstance().GetWindowManager()->UnGrabKey();
+		
 		if (_selected_handle != nullptr) {
 			win->node.GetChildren().clear();
 		}
 		_selected_handle = nullptr;
-		ax::App::GetInstance().GetWindowManager()->SetPastKeyWindow(nullptr);
+		
 		win->Update();
 	}
 
@@ -296,6 +299,19 @@ namespace editor {
 		widget->SetInfo(ax::StringPairVector{ msg.GetMsg() });
 		widget->ReloadInfo();
 	}
+	
+	void InspectorMenu::SetMultipleWidgetSelected(bool on)
+	{
+		if(_has_multiple_widget_selected != on) {
+			_has_multiple_widget_selected = on;
+			
+			if(on) {
+				RemoveHandle();
+			}
+			
+			win->Update();
+		}
+	}
 
 	void InspectorMenu::OnPaint(ax::GC gc)
 	{
@@ -306,12 +322,15 @@ namespace editor {
 
 		gc.SetColor(ax::Color(0.3));
 
-		// No widget selected mode.
-		gc.DrawString(_font_bold, "No widget selected.", ax::Point(15, 20));
-		gc.DrawString(_font, "Command + click over a widget on the", ax::Point(15, 40));
-		gc.DrawString(_font, "grid window to select a widget.", ax::Point(15, 52));
-
-		/// @todo Add Multiple widget selection mode.
+		if(_has_multiple_widget_selected) {
+			gc.DrawString(_font_bold, "Multiple widgets selected.", ax::Point(15, 20));
+		}
+		else {
+			// No widget selected mode.
+			gc.DrawString(_font_bold, "No widget selected.", ax::Point(15, 20));
+			gc.DrawString(_font, "Command + click over a widget on the", ax::Point(15, 40));
+			gc.DrawString(_font, "grid window to select a widget.", ax::Point(15, 52));
+		}
 
 		gc.SetColor(ax::Color(0.7));
 		gc.DrawRectangleContour(rect);
