@@ -68,43 +68,39 @@ namespace inspector {
 		win->Update();
 		
 		ax::App& app(ax::App::GetInstance());
-		auto w = app.GetPopupManager()->GetWindowTree()->GetTopLevel();
-		//		app.GetWindowManager()->RemoveGlobalClickListener(win);
-		app.GetPopupManager()->SetPastWindow(nullptr);
-		app.GetPopupManager()->UnGrabKey();
-		app.GetPopupManager()->UnGrabMouse();
-
-		w->event.UnGrabKey();
-		w->event.UnGrabMouse();
-
-		w->backbone = nullptr;
-
-		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-		app.GetPopupManager()->SetPastWindow(nullptr);
+		app.GetPopupManager()->Clear();
+		app.GetWindowManager()->UnGrabKey();
+		app.GetWindowManager()->UnGrabMouse();
 		app.UpdateAll();
 	}
 
 	void ColorAttribute::OnColorCancel(const ax::ColorPicker::Msg& msg)
 	{
 		ax::App& app(ax::App::GetInstance());
-		auto w = app.GetPopupManager()->GetWindowTree()->GetTopLevel();
-		//		app.GetWindowManager()->RemoveGlobalClickListener(win);
-		app.GetPopupManager()->SetPastWindow(nullptr);
-		app.GetPopupManager()->UnGrabKey();
-		app.GetPopupManager()->UnGrabMouse();
-
-		w->event.UnGrabKey();
-		w->event.UnGrabMouse();
-
-		w->backbone = nullptr;
-
-		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-		app.GetPopupManager()->SetPastWindow(nullptr);
+		app.GetPopupManager()->Clear();
+		app.GetWindowManager()->UnGrabKey();
+		app.GetWindowManager()->UnGrabMouse();
 		app.UpdateAll();
+		
+//		ax::App& app(ax::App::GetInstance());
+//		auto w = app.GetPopupManager()->GetWindowTree()->GetTopLevel();
+//		app.GetPopupManager()->SetPastWindow(nullptr);
+//		app.GetPopupManager()->UnGrabKey();
+//		app.GetPopupManager()->UnGrabMouse();
+//
+//		w->event.UnGrabKey();
+//		w->event.UnGrabMouse();
+//
+//		w->backbone = nullptr;
+//
+//		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+//		app.GetPopupManager()->SetPastWindow(nullptr);
+		
 	}
 
 	void ColorAttribute::OnMouseLeftDown(const ax::Point& pos)
 	{
+		// Create color picker.
 		ax::Slider::Info sld_info;
 		sld_info.img_path = "resources/sliderPlain.png";
 		sld_info.btn_size = ax::Size(12, 12);
@@ -153,6 +149,8 @@ namespace inspector {
 
 		auto c_picker = ax::shared<ax::ColorPicker>(
 			ax::Point(win->dimension.GetAbsoluteRect().position.x - 120, 30), cp_evts, cp_info, _color);
+
+		ax::App::GetInstance().GetPopupManager()->Clear();
 
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
 			std::shared_ptr<ax::Window>(c_picker->GetWindow()));
