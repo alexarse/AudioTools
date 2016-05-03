@@ -99,6 +99,7 @@ private:
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnHelpBar);
 	
 	void OnGlobalKey(const char& c);
+	void OnAssignToWindowManager(const int& v);
 	
 	void OnPaint(ax::GC gc);
 };

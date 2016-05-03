@@ -25,13 +25,15 @@ namespace editor {
 	void MainWindowWidgetHandler::DeleteCurrentWidgets()
 	{
 		// Remove all selected widgets.
-		for(auto& n : _main_window->_selected_windows) {
+		for (auto& n : _main_window->_selected_windows) {
 			n->RemoveWindow();
 		}
 
+		ax::Print("Rewidgets.");
+
 		// Clear selected widget vector.
 		_main_window->_selected_windows.clear();
-		
+
 		_main_window->_right_menu->SetMultipleWidgetSelected(false);
 		_main_window->_right_menu->RemoveInspectorHandle();
 
@@ -71,6 +73,8 @@ namespace editor {
 
 	void MainWindowWidgetHandler::OnCreateDraggingWidget(const ax::Event::SimpleMsg<ObjMsg>& msg)
 	{
+		ax::Print("OnCreateDraggingWidget object.");
+
 		ax::StringPair obj_info = msg.GetMsg().first;
 		std::string builder_name = obj_info.first;
 		std::string file_path = obj_info.second;
@@ -83,10 +87,18 @@ namespace editor {
 			ax::Error("Builder", builder_name, "doesn't exist.");
 		}
 
+		ax::App& app(ax::App::GetInstance());
+		app.GetPopupManager()->Clear();
+
 		auto obj(builder->Create(pos, file_path));
-		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-			std::shared_ptr<ax::Window>(obj->GetWindow()));
-		obj->GetWindow()->backbone = obj;
+		app.AddPopupTopLevel(obj);
+
+		obj->GetWindow()->property.RemoveProperty("Selectable");
+
+		//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+		//			std::shared_ptr<ax::Window>(obj->GetWindow()));
+		//		obj->GetWindow()->backbone = obj;
+
 		_has_tmp_widget = true;
 		_tmp_widget_builder_name = builder_name;
 	}
@@ -95,7 +107,8 @@ namespace editor {
 	{
 		if (_has_tmp_widget) {
 			ax::Point pos(msg.GetMsg());
-			std::shared_ptr<ax::Window> wobj = ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel();
+			std::shared_ptr<ax::Window> wobj
+				= ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel();
 
 			if (wobj) {
 				wobj->dimension.SetPosition(pos);
@@ -107,11 +120,16 @@ namespace editor {
 	{
 		ax::Point pos(msg.GetMsg());
 
+		ax::Print("Release object.");
+
 		if (_has_tmp_widget) {
 			_has_tmp_widget = false;
+
 			std::vector<std::shared_ptr<ax::Window>>& nodes
 				= ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector();
+
 			std::shared_ptr<ax::Window> widget_win = nodes[0];
+			widget_win = widget_win->RemoveWindow();
 
 			// Remove all window from Popup manager window tree.
 			nodes.clear();
@@ -164,11 +182,14 @@ namespace editor {
 			}
 
 			if (hover_window) {
-				ax::Print("FOUND WINDOW");
 				// Reparent.
-				widget_win->node.SetParent(hover_window);
-				hover_window->node.GetChildren().push_back(widget_win);
+				hover_window->node.Add(widget_win);
 				widget_win->dimension.SetPosition(pos - hover_window->dimension.GetAbsoluteRect().position);
+				//				widget_win->property.AddProperty("Selectable");
+				//				widget_win->node.SetParent(hover_window);
+				//				hover_window->node.GetChildren().push_back(widget_win);
+				//				widget_win->dimension.SetPosition(pos -
+				// hover_window->dimension.GetAbsoluteRect().position);
 
 				// Setup widget.
 				Loader loader(_main_window->_gridWindow->GetWindow());
@@ -179,20 +200,26 @@ namespace editor {
 
 				if (widget_win != nullptr) {
 					widget_win->property.AddProperty("current_editing_widget");
+					widget_win->property.AddProperty("Selectable");
 					widget_win->Update();
 					_main_window->_selected_windows.push_back(widget_win.get());
-					//					_inspectorMenu->SetWidgetHandle(widget_win.get());
 					_main_window->_right_menu->SetInspectorHandle(widget_win.get());
 				}
 			}
 
 			else {
+
 				// Reparent.
-				widget_win->node.SetParent(_main_window->_gridWindow->GetWindow());
-				_main_window->_gridWindow->GetWindow()->node.GetChildren().push_back(widget_win);
+				_main_window->_gridWindow->GetWindow()->node.Add(widget_win);
 
 				widget_win->dimension.SetPosition(
 					pos - _main_window->_gridWindow->GetWindow()->dimension.GetAbsoluteRect().position);
+
+				//				widget_win->dimension.SetPosition(pos -
+				// hover_window->dimension.GetAbsoluteRect().position);
+
+				//				widget_win->node.SetParent(_main_window->_gridWindow->GetWindow());
+				//				_main_window->_gridWindow->GetWindow()->node.GetChildren().push_back(widget_win);
 
 				// Setup widget.
 				Loader loader(_main_window->_gridWindow->GetWindow());
@@ -203,9 +230,10 @@ namespace editor {
 
 				if (widget_win != nullptr) {
 					widget_win->property.AddProperty("current_editing_widget");
+					widget_win->property.AddProperty("Selectable");
 					widget_win->Update();
+
 					_main_window->_selected_windows.push_back(widget_win.get());
-					//					_inspectorMenu->SetWidgetHandle(widget_win.get());
 					_main_window->_right_menu->SetInspectorHandle(widget_win.get());
 				}
 			}
@@ -215,6 +243,8 @@ namespace editor {
 	void MainWindowWidgetHandler::OnDeleteSelectedWidget(const ax::Event::EmptyMsg& msg)
 	{
 		if (_main_window->_selected_windows.size()) {
+
+			ax::Print("Remove selected widget.");
 			DeleteCurrentWidgets();
 		}
 	}
@@ -244,7 +274,7 @@ namespace editor {
 			if (parent == nullptr) {
 				return;
 			}
-			
+
 			// Can't duplicate main panel widget.
 			if (parent->GetId() == _main_window->_gridWindow->GetWindow()->GetId()) {
 				return;
@@ -252,27 +282,28 @@ namespace editor {
 
 			parent->node.Add(bck_bone);
 			loader.SetupExistingWidget(bck_bone->GetWindow(), widget->GetBuilderName());
-			
+
 			OnSelectWidget(ax::Event::SimpleMsg<ax::Window*>(bck_bone->GetWindow()));
 		}
 	}
-	
-	void MainWindowWidgetHandler::OnSelectMultipleWidget(const ax::Event::SimpleMsg<std::vector<ax::Window*>>& msg)
+
+	void MainWindowWidgetHandler::OnSelectMultipleWidget(
+		const ax::Event::SimpleMsg<std::vector<ax::Window*>>& msg)
 	{
 		_main_window->_gridWindow->UnSelectAllWidgets();
-		
+
 		ax::Print("Select multiple widget.");
-		
+
 		std::vector<ax::Window*> selected = msg.GetMsg();
-		
+
 		for (auto& n : selected) {
 			n->property.AddProperty("current_editing_widget");
 			n->Update();
 		}
-		
+
 		_main_window->_selected_windows = selected;
-		
-		if(selected.size() > 1) {
+
+		if (selected.size() > 1) {
 			_main_window->_right_menu->SetMultipleWidgetSelected(true);
 		}
 		else {

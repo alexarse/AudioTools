@@ -54,7 +54,7 @@ namespace editor {
 		void DeleteDialog();
 
 		void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
-
+		void OnAssignToWindowManager(const int& v);
 		void OnMouseLeftDown(const ax::Point& pos);
 		void OnPaint(ax::GC gc);
 	};

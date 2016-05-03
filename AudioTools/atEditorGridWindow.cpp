@@ -80,6 +80,8 @@ namespace editor {
 		win->event.OnBackSpaceDown = ax::WBind<char>(this, &GridWindow::OnBackSpaceDown);
 		win->event.OnKeyDown = ax::WBind<char>(this, &GridWindow::OnKeyDown);
 		
+		win->event.OnResize = ax::WBind<ax::Point>(this, &GridWindow::OnResize);
+		
 		win->event.OnGlobalClick
 			= ax::WBind<ax::Window::Event::GlobalClick>(this, &GridWindow::OnGlobalClick);
 
@@ -87,8 +89,11 @@ namespace editor {
 		win->AddConnection(BEGIN_DRAGGING_WIDGET, GetOnWidgetIsDragging());
 		win->AddConnection(DONE_DRAGGING_WIDGET, GetOnWidgetDoneDragging());
 
-		win->event.GrabGlobalMouse();
-		win->event.GrabGlobalKey();
+		win->event.OnAssignToWindowManager = ax::WBind<int>(this, &GridWindow::OnAssignToWindowManager);
+//		win->event.GrabGlobalMouse();
+//		win->event.GrabGlobalKey();
+		
+		
 //		ax::App::GetInstance().GetWindowManager()->AddGlobalGrabedWindow(win);
 //		ax::App::GetInstance().GetWindowManager()->AddGlobalClickListener(win);
 
@@ -102,6 +107,28 @@ namespace editor {
 		loader->AddBuilder("Label", new ax::Label::Builder());
 		loader->AddBuilder("Panel", new ax::Panel::Builder());
 		loader->AddBuilder("Slider", new ax::Slider::Builder());
+		
+		
+		ax::Rect d_rect(win->dimension.GetDrawingRect());
+		_lines_array.reserve(((d_rect.size.x / _grid_space) + (d_rect.size.y / _grid_space)) * 2);
+		
+		// Vertical lines.
+		for (int x = _grid_space; x < d_rect.size.x; x += _grid_space) {
+			_lines_array.push_back(ax::FloatPoint(x, 0));
+			_lines_array.push_back(ax::FloatPoint(x, d_rect.size.y));
+		}
+		
+		// Horizontal lines.
+		for (int y = _grid_space; y < d_rect.size.y; y += _grid_space) {
+			_lines_array.push_back(ax::FloatPoint(0, y));
+			_lines_array.push_back(ax::FloatPoint(d_rect.size.x, y));
+		}
+	}
+	
+	void GridWindow::OnAssignToWindowManager(const int& v)
+	{
+		win->event.GrabGlobalMouse();
+		win->event.GrabGlobalKey();
 	}
 
 	void GridWindow::SetGridSpace(const int& space)
@@ -449,34 +476,33 @@ namespace editor {
 			win->Update();
 		}
 	}
+	
+	void GridWindow::OnResize(const ax::Size& size)
+	{
+		ax::Rect d_rect(win->dimension.GetDrawingRect());
+		_lines_array.reserve(((d_rect.size.x / _grid_space) + (d_rect.size.y / _grid_space)) * 2);
+		
+		// Vertical lines.
+		for (int x = _grid_space; x < d_rect.size.x; x += _grid_space) {
+			_lines_array.push_back(ax::FloatPoint(x, 0));
+			_lines_array.push_back(ax::FloatPoint(x, d_rect.size.y));
+		}
+		
+		// Horizontal lines.
+		for (int y = _grid_space; y < d_rect.size.y; y += _grid_space) {
+			_lines_array.push_back(ax::FloatPoint(0, y));
+			_lines_array.push_back(ax::FloatPoint(d_rect.size.x, y));
+		}
+	}
 
 	void GridWindow::OnPaintOverChildren(ax::GC gc)
 	{
-		ax::Rect rect(win->dimension.GetDrawingRect());
-
+		// Draw lines over children widgets.
 		if (_draw_grid_over_children) {
 			ax::Color line_color(at::Skin::GetInstance()->data.grid_window_lines);
 			line_color.SetAlpha(0.2);
 			gc.SetColor(line_color);
-
-			std::vector<ax::Point> pts;
-			pts.reserve(((rect.size.x / _grid_space) + (rect.size.y / _grid_space)) * 2);
-
-			// Vertical lines.
-			for (int x = _grid_space; x < rect.size.x; x += _grid_space) {
-				pts.push_back(ax::Point(x, 0));
-				pts.push_back(ax::Point(x, rect.size.y));
-				//				gc.DrawLineStripple(ax::Point(x, 0), ax::Point(x, rect.size.y));
-			}
-
-			// Horizontal lines.
-			for (int y = _grid_space; y < rect.size.y; y += _grid_space) {
-				pts.push_back(ax::Point(0, y));
-				pts.push_back(ax::Point(rect.size.x, y));
-				//				gc.DrawLineStripple(ax::Point(0, y), ax::Point(rect.size.x, y));
-			}
-
-			gc.DrawLines(pts);
+			gc.DrawLines(_lines_array);
 		}
 
 		// Selection rectangle.
@@ -497,35 +523,8 @@ namespace editor {
 		gc.DrawRectangle(rect);
 
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_lines);
-
-		//		// Vertical lines.
-		//		for (int x = _grid_space; x < rect.size.x; x += _grid_space) {
-		//			gc.DrawLineStripple(ax::Point(x, 0), ax::Point(x, rect.size.y));
-		//		}
-		//
-		//		// Horizontal lines.
-		//		for (int y = _grid_space; y < rect.size.y; y += _grid_space) {
-		//			gc.DrawLineStripple(ax::Point(0, y), ax::Point(rect.size.x, y));
-		//		}
-		std::vector<ax::Point> pts;
-		pts.reserve(((rect.size.x / _grid_space) + (rect.size.y / _grid_space)) * 2);
-
-		// Vertical lines.
-		for (int x = _grid_space; x < rect.size.x; x += _grid_space) {
-			pts.push_back(ax::Point(x, 0));
-			pts.push_back(ax::Point(x, rect.size.y));
-			//				gc.DrawLineStripple(ax::Point(x, 0), ax::Point(x, rect.size.y));
-		}
-
-		// Horizontal lines.
-		for (int y = _grid_space; y < rect.size.y; y += _grid_space) {
-			pts.push_back(ax::Point(0, y));
-			pts.push_back(ax::Point(rect.size.x, y));
-			//				gc.DrawLineStripple(ax::Point(0, y), ax::Point(rect.size.x, y));
-		}
-
-		gc.DrawLines(pts);
-
+		gc.DrawLines(_lines_array);
+		
 		// Grid contour.
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_contour);
 		gc.DrawRectangleContour(rect);

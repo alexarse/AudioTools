@@ -103,21 +103,23 @@ void DropMenuBox::CreateMenu(const ax::Rect& rect, const std::vector<std::string
 	if (selected_index != -1) {
 		_drop_menu->SetSelectedItem(selected_index);
 	}
+	
+	ax::App::GetInstance().AddPopupTopLevel(menu);
 
-	auto pop_man = ax::App::GetInstance().GetPopupManager();
-	auto pop_win_tree = pop_man->GetWindowTree();
-	std::vector<std::shared_ptr<ax::Window>>& pop_top_node_vector = pop_win_tree->GetNodeVector();
+//	auto pop_man = ax::App::GetInstance().GetPopupManager();
+//	auto pop_win_tree = pop_man->GetWindowTree();
+//	std::vector<std::shared_ptr<ax::Window>>& pop_top_node_vector = pop_win_tree->GetNodeVector();
 
-	if (pop_top_node_vector.size() == 0) {
-		// Add to top level.
-		menu->GetWindow()->backbone = menu;
-		pop_top_node_vector.push_back(std::shared_ptr<ax::Window>(menu->GetWindow()));
-	}
-	else {
-		// Add beside top level.
-		menu->GetWindow()->backbone = menu;
-		pop_top_node_vector.push_back(std::shared_ptr<ax::Window>(menu->GetWindow()));
-	}
+//	if (pop_top_node_vector.size() == 0) {
+//		// Add to top level.
+//		menu->GetWindow()->backbone = menu;
+//		pop_top_node_vector.push_back(std::shared_ptr<ax::Window>(menu->GetWindow()));
+//	}
+//	else {
+//		// Add beside top level.
+//		menu->GetWindow()->backbone = menu;
+//		pop_top_node_vector.push_back(std::shared_ptr<ax::Window>(menu->GetWindow()));
+//	}
 }
 
 bool DropMenuBox::IsMouseInDropMenu()

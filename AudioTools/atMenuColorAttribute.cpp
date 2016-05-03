@@ -150,12 +150,15 @@ namespace inspector {
 		auto c_picker = ax::shared<ax::ColorPicker>(
 			ax::Point(win->dimension.GetAbsoluteRect().position.x - 120, 30), cp_evts, cp_info, _color);
 
-		ax::App::GetInstance().GetPopupManager()->Clear();
 
-		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-			std::shared_ptr<ax::Window>(c_picker->GetWindow()));
+		ax::App& app(ax::App::GetInstance());
+		app.GetPopupManager()->Clear();
+		app.AddPopupTopLevel(c_picker);
 
-		c_picker->GetWindow()->backbone = c_picker;
+//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+//			std::shared_ptr<ax::Window>(c_picker->GetWindow()));
+//
+//		c_picker->GetWindow()->backbone = c_picker;
 	}
 
 	void ColorAttribute::OnPaint(ax::GC gc)

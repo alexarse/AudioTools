@@ -76,6 +76,8 @@ namespace editor {
 		ax::Color _bg_color;
 		bool _right_click_menu;
 		bool _draw_grid_over_children;
+		
+		std::vector<ax::FloatPoint> _lines_array;
 
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<PosAndWindow>, OnDropWidgetMenu);
 		axEVENT_DECLARATION(ax::DropMenu::Msg, OnMenuChoice);
@@ -83,7 +85,8 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnWidgetDoneDragging);
 
 		void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
-
+		void OnResize(const ax::Size& size);
+		void OnAssignToWindowManager(const int& v);
 		void OnPaintOverChildren(ax::GC gc);
 		void OnKeyDown(const char& c);
 		void OnBackSpaceDown(const char& c);

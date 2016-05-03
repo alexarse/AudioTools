@@ -98,6 +98,7 @@ namespace at {
 			
 			void DeleteDialog();
 			
+			void OnAssignToWindowManager(const int& v);
 			void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
 			void OnMouseLeftDown(const ax::Point& pos);
 			void OnPaint(ax::GC gc);

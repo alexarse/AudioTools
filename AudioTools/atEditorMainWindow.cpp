@@ -55,8 +55,7 @@ namespace editor {
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &MainWindow::OnPaint);
 		win->event.OnResize = ax::WBind<ax::Size>(&_view_handler, &MainWindowViewHandler::OnResize);
 		win->event.OnKeyDown = ax::WBind<char>(this, &MainWindow::OnGlobalKey);
-		
-		win->event.GrabGlobalKey();
+		win->event.OnAssignToWindowManager = ax::WBind<int>(this, &MainWindow::OnAssignToWindowManager);
 
 		win->AddConnection(999, GetOnHelpBar());
 
@@ -191,6 +190,12 @@ namespace editor {
 		_midi_feedback = midi_feedback.get();
 
 		win->node.Add(midi_feedback);
+	}
+	
+	void MainWindow::OnAssignToWindowManager(const int& v)
+	{
+//		win->event.GrabGlobalMouse();
+		win->event.GrabGlobalKey();
 	}
 
 	std::vector<ax::Window*> MainWindow::GetSelectedWindows() const

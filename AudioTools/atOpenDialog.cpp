@@ -40,7 +40,8 @@ namespace editor {
 			= ax::WBind<ax::Window::Event::GlobalClick>(this, &OpenDialog::OnGlobalClick);
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &OpenDialog::OnMouseLeftDown);
 
-		win->event.GrabGlobalMouse();
+		win->event.OnAssignToWindowManager = ax::WBind<int>(this, &OpenDialog::OnAssignToWindowManager);
+//		win->event.GrabGlobalMouse();
 //		ax::App::GetInstance().GetPopupManager()->AddGlobalClickListener(win);
 
 		ax::DropMenu::Info menu_info;
@@ -125,6 +126,12 @@ namespace editor {
 		//
 		//		win->node.Add(save);
 		//		win->node.Add(cancel);
+	}
+	
+	void OpenDialog::OnAssignToWindowManager(const int& v)
+	{
+		win->event.GrabGlobalMouse();
+//		win->event.GrabGlobalKey();
 	}
 
 	void OpenDialog::OnGlobalClick(const ax::Window::Event::GlobalClick& gclick)

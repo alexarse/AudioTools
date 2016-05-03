@@ -164,12 +164,12 @@ namespace editor {
 		// Create window.
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &PreferenceDialog::OnPaint);
+		
 		win->event.OnGlobalClick
 			= ax::WBind<ax::Window::Event::GlobalClick>(this, &PreferenceDialog::OnGlobalClick);
+		
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &PreferenceDialog::OnMouseLeftDown);
-
-		win->event.GrabGlobalMouse();
-//		ax::App::GetInstance().GetPopupManager()->AddGlobalClickListener(win);
+		win->event.OnAssignToWindowManager = ax::WBind<int>(this, &PreferenceDialog::OnAssignToWindowManager);
 
 		ax::Size pref_size(300, 194);
 		ax::Point pos((rect.size.x - pref_size.x) / 2, (rect.size.y - pref_size.y) / 2);
@@ -178,13 +178,19 @@ namespace editor {
 		win->node.Add(pref_panel);
 		_pref_panel = pref_panel.get();
 	}
+	
+	void PreferenceDialog::OnAssignToWindowManager(const int& v)
+	{
+		win->event.GrabGlobalMouse();
+	}
 
 	void PreferenceDialog::OnGlobalClick(const ax::Window::Event::GlobalClick& gclick)
 	{
+		ax::Print("Global click");
+		
 		if(_pref_panel != nullptr) {
 			if(!ax::App::GetInstance().GetPopupManager()->IsMouseStillInChildWindow(_pref_panel->GetWindow())) {
-				
-				if(!_pref_panel->IsMouseInDropMenu()) {
+				if(!_pref_panel->IsMouseInDropMenu() && gclick.type != gclick.LEFT_CLICK_UP) {
 					DeleteDialog();
 				}
 			}
@@ -193,26 +199,11 @@ namespace editor {
 
 	void PreferenceDialog::DeleteDialog()
 	{
-		ax::App::GetInstance().GetWindowManager()->SetPastWindow(nullptr);
-		ax::App::GetInstance().GetWindowManager()->UnGrabKey();
-		ax::App::GetInstance().GetWindowManager()->UnGrabMouse();
-
-		win->event.UnGrabKey();
-		win->event.UnGrabMouse();
-		win->backbone = nullptr;
-
 		ax::App::GetInstance().GetPopupManager()->Clear();
-//		ax::App::GetInstance().GetPopupManager()->RemoveGlobalClickListener(win);
-//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-//		ax::App::GetInstance().GetPopupManager()->UnGrabKey();
-//		ax::App::GetInstance().GetPopupManager()->UnGrabMouse();
-//		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
-		ax::App::GetInstance().UpdateAll();
 	}
 
 	void PreferenceDialog::OnMouseLeftDown(const ax::Point& pos)
 	{
-		//	win->PushEvent(CANCEL, new ax::Event::StringMsg(""));
 		DeleteDialog();
 	}
 

@@ -6,8 +6,8 @@
 //  Copyright © 2016 Alexandre Arsenault. All rights reserved.
 //
 
-#include "atEditorWidgetMenuObj.h"
 #include "atEditor.h"
+#include "atEditorWidgetMenuObj.h"
 #include "atSkin.hpp"
 
 namespace at {
@@ -60,9 +60,9 @@ namespace editor {
 			win->event.GrabMouse();
 
 			App::GetMainEvtObj()->PushEvent(
-				8000,
-				new ax::Event::SimpleMsg<std::pair<ax::StringPair, ax::Point>>(
-					std::pair<ax::StringPair, ax::Point>(ax::StringPair(_info.buider_name, _info.file_path), pos)));
+				8000, new ax::Event::SimpleMsg<std::pair<ax::StringPair, ax::Point>>(
+						  std::pair<ax::StringPair, ax::Point>(
+							  ax::StringPair(_info.buider_name, _info.file_path), pos)));
 
 			win->Update();
 		}

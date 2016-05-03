@@ -132,8 +132,8 @@ namespace editor {
 
 		// Open button.
 		pos = ax::Point(5, 2);
-		auto create_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnCreateNewLayout(), btn_info,
-			"resources/create.png", "", ax::Button::Flags::SINGLE_IMG);
+		auto create_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnCreateNewLayout(),
+			btn_info, "resources/create.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(create_btn);
 		AttachHelpInfo(create_btn->GetWindow(), "Create new layout file.");
 		pos = create_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
@@ -209,15 +209,15 @@ namespace editor {
 	{
 		std::string filepath = ax::App::GetInstance().OpenFileDialog();
 		ax::Print("File :", filepath);
-		
+
 		win->PushEvent(OPEN_LAYOUT, new ax::Event::StringMsg(filepath));
 	}
-	
+
 	void StatusBar::OnCreateNewLayout(const ax::Button::Msg& msg)
 	{
 		std::string filepath = ax::App::GetInstance().SaveFileDialog();
 		ax::Print("File :", filepath);
-		
+
 		win->PushEvent(CREATE_NEW_LAYOUT, new ax::Event::StringMsg(filepath));
 	}
 
@@ -241,19 +241,22 @@ namespace editor {
 
 	void StatusBar::OnSettings(const ax::Button::Msg& msg)
 	{
-		if (ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel() == nullptr) {
-			const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
-			ax::Point pos(0, rect.position.y + rect.size.y);
+		ax::App& app(ax::App::GetInstance());
+		app.GetPopupManager()->Clear();
 
-			ax::Size size = ax::App::GetInstance().GetFrameSize();
-			size.y -= rect.size.y;
+		const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
+		ax::Point pos(0, rect.position.y + rect.size.y);
+		ax::Size size = app.GetFrameSize();
+		size.y -= rect.size.y;
 
-			auto pref_dialog = ax::shared<PreferenceDialog>(ax::Rect(pos, size));
-			ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-				std::shared_ptr<ax::Window>(pref_dialog->GetWindow()));
+		auto pref_dialog = ax::shared<PreferenceDialog>(ax::Rect(pos, size));
+		app.AddPopupTopLevel(pref_dialog);
+		app.UpdateAll();
+		
+//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+//			std::shared_ptr<ax::Window>(pref_dialog->GetWindow()));
 
-			pref_dialog->GetWindow()->backbone = pref_dialog;
-		}
+//		pref_dialog->GetWindow()->backbone = pref_dialog;
 	}
 
 	void StatusBar::OnToggleLeftPanel(const ax::Toggle::Msg& msg)
