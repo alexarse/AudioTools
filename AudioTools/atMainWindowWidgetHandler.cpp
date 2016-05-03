@@ -55,6 +55,8 @@ namespace editor {
 			selected_win->property.AddProperty("current_editing_widget");
 			selected_win->Update();
 			_main_window->_right_menu->SetInspectorHandle(selected_win);
+			
+			selected_win->event.GrabKey();
 		}
 		else {
 			_main_window->_right_menu->SetInspectorHandle(selected_win);
@@ -63,6 +65,8 @@ namespace editor {
 		if (_main_window->_gridWindow->GetMainWindow() == nullptr) {
 			_main_window->_left_menu->SetOnlyMainWindowWidgetSelectable();
 		}
+		
+		
 	}
 
 	void MainWindowWidgetHandler::OnUnSelectAllWidget(const ax::Event::SimpleMsg<int>& msg)
@@ -309,6 +313,30 @@ namespace editor {
 		else {
 			_main_window->_right_menu->SetMultipleWidgetSelected(false);
 		}
+	}
+	
+	void MainWindowWidgetHandler::OnArrowMoveSelectedWidget(const ax::Event::SimpleMsg<ax::Utils::Direction>& msg)
+	{
+		const ax::Utils::Direction dir = msg.GetMsg();
+		
+		for(auto& n : _main_window->_selected_windows) {
+			const ax::Rect& w_rect = n->dimension.GetRect();
+			
+			if(dir == ax::Utils::Direction::LEFT) {
+				n->dimension.SetPosition(w_rect.position - ax::Point(1, 0));
+			}
+			else if(dir == ax::Utils::Direction::RIGHT) {
+				n->dimension.SetPosition(w_rect.position + ax::Point(1, 0));
+			}
+			else if(dir == ax::Utils::Direction::UP) {
+				n->dimension.SetPosition(w_rect.position - ax::Point(0, 1));
+			}
+			// Down.
+			else {
+				n->dimension.SetPosition(w_rect.position + ax::Point(0, 1));
+			}
+		}
+		
 	}
 }
 }

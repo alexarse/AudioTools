@@ -49,19 +49,6 @@
 
 namespace at {
 namespace editor {
-	void ClearPopupTree()
-	{
-		// Empty popup window tree.
-		ax::App& app(ax::App::GetInstance());
-//		app.GetPopupManager()->SetPastKeyWindow(nullptr);
-		app.GetPopupManager()->SetPastWindow(nullptr);
-//		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
-		app.GetPopupManager()->UnGrabScroll();
-		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-		app.GetPopupManager()->UnGrabMouse();
-		app.GetPopupManager()->UnGrabKey();
-	}
-
 	GridWindow::GridWindow(const ax::Rect& rect)
 		: _grid_space(10)
 		, _selection(false, ax::Rect(0, 0, 0, 0))
@@ -80,8 +67,13 @@ namespace editor {
 		win->event.OnBackSpaceDown = ax::WBind<char>(this, &GridWindow::OnBackSpaceDown);
 		win->event.OnKeyDown = ax::WBind<char>(this, &GridWindow::OnKeyDown);
 		
-		win->event.OnResize = ax::WBind<ax::Point>(this, &GridWindow::OnResize);
+		win->event.OnLeftArrowDown = ax::WBind<char>(this, &GridWindow::OnLeftArrowDown);
+		win->event.OnRightArrowDown = ax::WBind<char>(this, &GridWindow::OnRightArrowDown);
+		win->event.OnUpArrowDown = ax::WBind<char>(this, &GridWindow::OnUpArrowDown);
+		win->event.OnDownArrowDown = ax::WBind<char>(this, &GridWindow::OnDownArrowDown);
 		
+		win->event.OnResize = ax::WBind<ax::Point>(this, &GridWindow::OnResize);
+
 		win->event.OnGlobalClick
 			= ax::WBind<ax::Window::Event::GlobalClick>(this, &GridWindow::OnGlobalClick);
 
@@ -90,12 +82,6 @@ namespace editor {
 		win->AddConnection(DONE_DRAGGING_WIDGET, GetOnWidgetDoneDragging());
 
 		win->event.OnAssignToWindowManager = ax::WBind<int>(this, &GridWindow::OnAssignToWindowManager);
-//		win->event.GrabGlobalMouse();
-//		win->event.GrabGlobalKey();
-		
-		
-//		ax::App::GetInstance().GetWindowManager()->AddGlobalGrabedWindow(win);
-//		ax::App::GetInstance().GetWindowManager()->AddGlobalClickListener(win);
 
 		win->property.AddProperty("BlockDrawing");
 		win->property.AddProperty("AcceptWidget");
@@ -107,24 +93,23 @@ namespace editor {
 		loader->AddBuilder("Label", new ax::Label::Builder());
 		loader->AddBuilder("Panel", new ax::Panel::Builder());
 		loader->AddBuilder("Slider", new ax::Slider::Builder());
-		
-		
+
 		ax::Rect d_rect(win->dimension.GetDrawingRect());
 		_lines_array.reserve(((d_rect.size.x / _grid_space) + (d_rect.size.y / _grid_space)) * 2);
-		
+
 		// Vertical lines.
 		for (int x = _grid_space; x < d_rect.size.x; x += _grid_space) {
 			_lines_array.push_back(ax::FloatPoint(x, 0));
 			_lines_array.push_back(ax::FloatPoint(x, d_rect.size.y));
 		}
-		
+
 		// Horizontal lines.
 		for (int y = _grid_space; y < d_rect.size.y; y += _grid_space) {
 			_lines_array.push_back(ax::FloatPoint(0, y));
 			_lines_array.push_back(ax::FloatPoint(d_rect.size.x, y));
 		}
 	}
-	
+
 	void GridWindow::OnAssignToWindowManager(const int& v)
 	{
 		win->event.GrabGlobalMouse();
@@ -252,7 +237,7 @@ namespace editor {
 			ax::Rect(msg.GetMsg().first, ax::Size(100, 200)), GetOnMenuChoice(), menu_info, menu_elems);
 
 		// Empty popup window tree.
-		ClearPopupTree();
+		ax::App::GetInstance().GetPopupManager()->Clear();
 
 		// Add to top level popup manager.
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
@@ -282,7 +267,7 @@ namespace editor {
 			_right_click_menu = false;
 
 			// Empty popup window tree.
-			ClearPopupTree();
+			ax::App::GetInstance().GetPopupManager()->Clear();
 			ax::App::GetInstance().UpdateAll();
 		}
 	}
@@ -329,9 +314,9 @@ namespace editor {
 
 	ax::Window* GridWindow::GetWidgetByName(const std::string& name)
 	{
-	
+
 		/// @todo Change this with ax::NodeVisitor.
-		
+
 		auto& children = win->node.GetChildren();
 
 		if (children.empty()) {
@@ -371,6 +356,30 @@ namespace editor {
 				win->PushEvent(DUPLICATE_SELECTED_WIDGET, new ax::Event::EmptyMsg());
 			}
 		}
+	}
+
+	void GridWindow::OnLeftArrowDown(const char& c)
+	{
+		win->PushEvent(ARROW_MOVE_SELECTED_WIDGET,
+			new ax::Event::SimpleMsg<ax::Utils::Direction>(ax::Utils::Direction::LEFT));
+	}
+
+	void GridWindow::OnRightArrowDown(const char& c)
+	{
+		win->PushEvent(ARROW_MOVE_SELECTED_WIDGET,
+			new ax::Event::SimpleMsg<ax::Utils::Direction>(ax::Utils::Direction::RIGHT));
+	}
+
+	void GridWindow::OnUpArrowDown(const char& c)
+	{
+		win->PushEvent(ARROW_MOVE_SELECTED_WIDGET,
+			new ax::Event::SimpleMsg<ax::Utils::Direction>(ax::Utils::Direction::UP));
+	}
+
+	void GridWindow::OnDownArrowDown(const char& c)
+	{
+		win->PushEvent(ARROW_MOVE_SELECTED_WIDGET,
+			new ax::Event::SimpleMsg<ax::Utils::Direction>(ax::Utils::Direction::DOWN));
 	}
 
 	void GridWindow::OnMouseLeftDown(const ax::Point& pos)
@@ -445,17 +454,16 @@ namespace editor {
 				_selection.second.position.x += _selection.second.size.x;
 				_selection.second.size.x = -_selection.second.size.x;
 			}
-			
+
 			if (_selection.second.size.y < 0) {
 				_selection.second.position.y += _selection.second.size.y;
 				_selection.second.size.y = -_selection.second.size.y;
 			}
-			
 
 			// Look for selected widget.
 			if (_selection.second.size.x > 0 && _selection.second.size.y > 0) {
 				ax::Rect selection_rect = _selection.second;
-				
+
 				selection_rect.position += win->dimension.GetAbsoluteRect().position;
 
 				std::vector<ax::Window*> selected
@@ -468,26 +476,27 @@ namespace editor {
 
 						  return false;
 					  });
-				
-				win->PushEvent(SELECT_MULTIPLE_WIDGET, new ax::Event::SimpleMsg<std::vector<ax::Window*>>(selected));
+
+				win->PushEvent(
+					SELECT_MULTIPLE_WIDGET, new ax::Event::SimpleMsg<std::vector<ax::Window*>>(selected));
 			}
 
 			_selection.first = false;
 			win->Update();
 		}
 	}
-	
+
 	void GridWindow::OnResize(const ax::Size& size)
 	{
 		ax::Rect d_rect(win->dimension.GetDrawingRect());
 		_lines_array.reserve(((d_rect.size.x / _grid_space) + (d_rect.size.y / _grid_space)) * 2);
-		
+
 		// Vertical lines.
 		for (int x = _grid_space; x < d_rect.size.x; x += _grid_space) {
 			_lines_array.push_back(ax::FloatPoint(x, 0));
 			_lines_array.push_back(ax::FloatPoint(x, d_rect.size.y));
 		}
-		
+
 		// Horizontal lines.
 		for (int y = _grid_space; y < d_rect.size.y; y += _grid_space) {
 			_lines_array.push_back(ax::FloatPoint(0, y));
@@ -524,7 +533,7 @@ namespace editor {
 
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_lines);
 		gc.DrawLines(_lines_array);
-		
+
 		// Grid contour.
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_contour);
 		gc.DrawRectangleContour(rect);

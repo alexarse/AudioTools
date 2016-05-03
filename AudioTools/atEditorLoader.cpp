@@ -542,6 +542,20 @@ namespace editor {
 				}
 			}
 		});
+		
+//		auto m_l_arrow = win->event.OnLeftArrowDown.GetFunction();
+//		win->event.OnLeftArrowDown = ax::WFunc<char>([gwin, win, m_l_arrow](const char& c) {
+//			
+//			if (win->property.HasProperty("current_editing_widget")) {
+//				const ax::Rect& w_rect = win->dimension.GetRect();
+//				win->dimension.SetPosition(w_rect.position - ax::Point(1, 0));
+//			}
+//			else {
+//				if(m_l_arrow) {
+//					m_l_arrow(c);
+//				}
+//			}
+//		});
 
 		// OnPaintOverFrameBuffer event.
 		win->event.OnPaintOverChildren = ax::WFunc<ax::GC>([win](ax::GC gc) {

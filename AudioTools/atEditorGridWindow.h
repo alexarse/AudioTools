@@ -45,6 +45,7 @@ namespace editor {
 			SAVE_PANEL_TO_WORKSPACE = 84710,
 			DELETE_SELECTED_WIDGET,
 			DUPLICATE_SELECTED_WIDGET,
+			ARROW_MOVE_SELECTED_WIDGET,
 			
 			BEGIN_DRAGGING_WIDGET,
 			DONE_DRAGGING_WIDGET,
@@ -89,6 +90,13 @@ namespace editor {
 		void OnAssignToWindowManager(const int& v);
 		void OnPaintOverChildren(ax::GC gc);
 		void OnKeyDown(const char& c);
+		
+		void OnLeftArrowDown(const char& c);
+		void OnRightArrowDown(const char& c);
+		void OnUpArrowDown(const char& c);
+		void OnDownArrowDown(const char& c);
+
+		
 		void OnBackSpaceDown(const char& c);
 		void OnMouseLeftDown(const ax::Point& pos);
 		void OnMouseLeftDragging(const ax::Point& pos);

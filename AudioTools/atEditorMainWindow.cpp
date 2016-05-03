@@ -117,6 +117,9 @@ namespace editor {
 		_gridWindow->GetWindow()->AddConnection(
 			GridWindow::SELECT_MULTIPLE_WIDGET, _widget_handler.GetOnSelectMultipleWidget());
 
+		_gridWindow->GetWindow()->AddConnection(
+			GridWindow::ARROW_MOVE_SELECTED_WIDGET, _widget_handler.GetOnArrowMoveSelectedWidget());
+
 		if (!proj_path.empty()) {
 			_gridWindow->OpenLayout(_project.GetLayoutPath());
 		}
@@ -191,10 +194,10 @@ namespace editor {
 
 		win->node.Add(midi_feedback);
 	}
-	
+
 	void MainWindow::OnAssignToWindowManager(const int& v)
 	{
-//		win->event.GrabGlobalMouse();
+		//		win->event.GrabGlobalMouse();
 		win->event.GrabGlobalKey();
 	}
 
@@ -246,10 +249,10 @@ namespace editor {
 		// Empty popup window tree.
 		ax::App& app(ax::App::GetInstance());
 		app.GetPopupManager()->Clear();
-//		app.GetPopupManager()->SetPastKeyWindow(nullptr);
-//		app.GetPopupManager()->SetPastWindow(nullptr);
-//		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
-//		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		//		app.GetPopupManager()->SetPastKeyWindow(nullptr);
+		//		app.GetPopupManager()->SetPastWindow(nullptr);
+		//		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
+		//		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
 
 		ax::Point pos(0, STATUS_BAR_HEIGHT - 1);
 
@@ -277,14 +280,14 @@ namespace editor {
 	void MainWindow::OnRemoveWidgetFromRightClickMenu(const ax::Event::EmptyMsg& msg)
 	{
 		// Empty popup window tree.
-//		ax::App& app(ax::App::GetInstance());
+		//		ax::App& app(ax::App::GetInstance());
 		ax::App::GetInstance().GetPopupManager()->Clear();
-//		app.GetPopupManager()->UnGrabKey();
-//		app.GetPopupManager()->UnGrabMouse();
-//		app.GetPopupManager()->SetPastKeyWindow(nullptr);
-//		app.GetPopupManager()->SetPastWindow(nullptr);
-//		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
-//		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		//		app.GetPopupManager()->UnGrabKey();
+		//		app.GetPopupManager()->UnGrabMouse();
+		//		app.GetPopupManager()->SetPastKeyWindow(nullptr);
+		//		app.GetPopupManager()->SetPastWindow(nullptr);
+		//		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
+		//		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
 
 		_widget_handler.DeleteCurrentWidgets();
 	}
@@ -292,14 +295,14 @@ namespace editor {
 	void MainWindow::OnDuplicateWidgetFromRightClickMenu(const ax::Event::EmptyMsg& msg)
 	{
 		// Empty popup window tree.
-//		ax::App& app(ax::App::GetInstance());
+		//		ax::App& app(ax::App::GetInstance());
 		ax::App::GetInstance().GetPopupManager()->Clear();
-//		app.GetPopupManager()->UnGrabKey();
-//		app.GetPopupManager()->UnGrabMouse();
-//		app.GetPopupManager()->SetPastKeyWindow(nullptr);
-//		app.GetPopupManager()->SetPastWindow(nullptr);
-//		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
-//		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		//		app.GetPopupManager()->UnGrabKey();
+		//		app.GetPopupManager()->UnGrabMouse();
+		//		app.GetPopupManager()->SetPastKeyWindow(nullptr);
+		//		app.GetPopupManager()->SetPastWindow(nullptr);
+		//		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
+		//		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
 
 		_widget_handler.OnDuplicateSelectedWidget(msg);
 	}
@@ -330,7 +333,7 @@ namespace editor {
 	void MainWindow::OnGlobalKey(const char& c)
 	{
 		ax::Print("MainWindow global key");
-	
+
 		if (!ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
 			return;
 		}
