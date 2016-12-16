@@ -22,6 +22,12 @@ file(GLOB_RECURSE AT_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/*.cpp)
 file(GLOB_RECURSE AT_XIB_FILES ${TOP_DIR} ${TOP_DIR}/resources/*.xib)
 
 # Python.
+file(GLOB ATK_INCLUDE_FILES ${TOP_DIR} ${TOP_DIR}/include/atk/*.hpp)
+file(GLOB ATK_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/atk/*.cpp)
+source_group("include\\atk" FILES ${ATK_INCLUDE_FILES})
+source_group("source\\atk" FILES ${ATK_SOURCE_FILES})
+
+# Python.
 file(GLOB AT_PYTHON_INCLUDE_FILES ${TOP_DIR} ${TOP_DIR}/include/python/*.hpp)
 file(GLOB AT_PYTHON_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/python/*.cpp)
 source_group("include\\python" FILES ${AT_PYTHON_INCLUDE_FILES})
@@ -117,7 +123,7 @@ target_link_libraries(${PROJECT_NAME} /usr/local/lib/libboost_random.a)
 # /usr/local/lib/libzip.a /usr/local/opt/openssl/lib/libcrypto.a /usr/local/opt/openssl/lib/libssl.a
 target_link_libraries(${PROJECT_NAME} /usr/local/lib/libOpenAX.a)
 target_link_libraries(${PROJECT_NAME} /usr/local/lib/libaxMidi.a)
-target_link_libraries(${PROJECT_NAME} /usr/local/lib/libaxAudio.a)
+# target_link_libraries(${PROJECT_NAME} /usr/local/lib/libaxAudio.a)
 
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework Cocoa")

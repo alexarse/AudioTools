@@ -22,14 +22,13 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef Audio_hpp
-#define Audio_hpp
+#pragma once
 
 #include <OpenAX/OpenAX.h>
-#include <OpenAX/axAudio.h>
+#include "atk/AudioCore.hpp"
 #include "python/m_pyo.h"
 
-class PyoAudio : public ax::audio::Core {
+class PyoAudio : public atk::AudioCore {
 public:
 	static PyoAudio* GetInstance();
 	
@@ -75,5 +74,3 @@ private:
 	int _server_id;
 	void (*_callback_fct)(int);
 };
-
-#endif /* Audio_hpp */
