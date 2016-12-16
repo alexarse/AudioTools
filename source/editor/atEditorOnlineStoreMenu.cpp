@@ -35,7 +35,7 @@ namespace editor {
 	//
 	//					  // Create http_client to send the request.
 	//					  web::http::client::http_client
-	//client(U("http://audiotools-audiotools.rhcloud.com/"));
+	// client(U("http://audiotools-audiotools.rhcloud.com/"));
 	//
 	//					  // Build request URI and start the request.
 	//					  web::http::uri_builder builder(U("/widgets"));
@@ -91,7 +91,7 @@ namespace editor {
 	//					{
 	//						// Make sure to get the value as const reference otherwise you will end up copying
 	//						// the whole JSON value recursively which can be expensive if it is a nested
-	//object.
+	// object.
 	//						const std::string& name = iter->first;
 	//						const web::json::value& v = iter->second;
 	//

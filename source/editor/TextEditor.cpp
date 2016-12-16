@@ -31,9 +31,10 @@
 TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	: _font("fonts/VeraMono.ttf")
 	, _line_num_font("fonts/DejaVuSansMono.ttf")
+	, _info(info)
 	, _line_height(15)
 	, _file_start_index(0)
-	, _info(info)
+
 {
 	_line_num_font.SetFontSize(10);
 	_n_line_shown = (rect.size.y - 1) / _line_height;

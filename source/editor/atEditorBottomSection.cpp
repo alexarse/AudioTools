@@ -29,9 +29,9 @@
 namespace at {
 namespace editor {
 	BottomSection::BottomSection(const ax::Rect& rect, const std::string& open_path)
-		: _font(0)
+		: _file_path("Banana")
+		, _font(0)
 		, _is_txt_edit(true)
-		, _file_path("Banana")
 	{
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &BottomSection::OnPaint);

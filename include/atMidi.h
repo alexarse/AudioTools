@@ -26,16 +26,17 @@
 #define atMidi_hpp
 
 #include <OpenAX/OpenAX.h>
-#include <OpenAX/axMidiCore.h>
+//#include <OpenAX/axMidiCore.h>
+#include "atk/MidiCore.hpp"
 
 namespace at {
-class Midi : public ax::midi::Core, public ax::Event::Object {
+class Midi : public atk::MidiCore, public ax::Event::Object {
 public:
 	static Midi* GetInstance();
 
-	virtual void OnMidiNoteOn(const ax::midi::Note& msg);
+	virtual void OnMidiNoteOn(const atk::MidiNote& msg);
 
-	virtual void OnMidiNoteOff(const ax::midi::Note& msg);
+	virtual void OnMidiNoteOff(const atk::MidiNote& msg);
 
 private:
 	Midi();

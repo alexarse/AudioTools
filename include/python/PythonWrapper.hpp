@@ -25,8 +25,8 @@
 #ifndef PythonWrapper_hpp
 #define PythonWrapper_hpp
 
-#include <Python/Python.h>
-#include <cstdio>
+//#include <Python/Python.h>
+//#include <cstdio>
 
 #include <OpenAX/Utils.h>
 #include <boost/python.hpp>

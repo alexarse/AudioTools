@@ -1,9 +1,11 @@
+#pragma once
+
 #include "python/PythonWrapper.hpp"
 #include <OpenAX/Utils.h>
 #include <Python/Python.h>
 #include <stdlib.h>
 
-#ifndef __m_pyo_h_
+//#ifndef __m_pyo_h_
 
 std::string handle_pyerror();
 
@@ -291,5 +293,5 @@ int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int add);
 */
 int pyo_exec_statement(PyThreadState* interp, char* msg, int debug);
 
-#define __m_pyo_h_
-#endif /* __m_pyo_h_  */
+//#define __m_pyo_h_
+//#endif /* __m_pyo_h_  */

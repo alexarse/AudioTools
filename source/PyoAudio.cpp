@@ -38,9 +38,9 @@ PyoAudio* PyoAudio::GetInstance()
 
 PyoAudio::PyoAudio()
 	: _connected_obj(nullptr)
-	, _rms_values(0.0, 0.0)
-	, _rms_count(0)
 	, _pyo(nullptr)
+	, _rms_count(0)
+	, _rms_values(0.0, 0.0)
 {
 	CreateServer(44100, 1024, 2);
 
@@ -94,6 +94,7 @@ void PyoAudio::CreateServer(float sr, int bufsize, int chnls)
 void PyoAudio::ProcessString(const std::string& script)
 {
 	if (_pyo != nullptr) {
+		/// @todo WTF ??
 		char msg[2048];
 		sprintf(msg, script.c_str());
 		err = pyo_exec_statement(_pyo, msg, 1);
