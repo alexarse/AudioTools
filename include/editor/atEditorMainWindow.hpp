@@ -25,84 +25,83 @@
 #ifndef __AX_EDITOR_MAIN_WINDOW_H__
 #define __AX_EDITOR_MAIN_WINDOW_H__
 
-#include "editor/atEditorWidgetMenu.hpp"
-#include "editor/atEditorGridWindow.hpp"
-#include "editor/atEditorStatusBar.hpp"
+#include "atMidiFeedback.h"
 #include "editor/atEditorBottomSection.hpp"
+#include "editor/atEditorGridWindow.hpp"
 #include "editor/atEditorLeftSideMenu.hpp"
 #include "editor/atEditorRightSideMenu.hpp"
-#include "atMidiFeedback.h"
+#include "editor/atEditorStatusBar.hpp"
+#include "editor/atEditorWidgetMenu.hpp"
 
 #include "atProjectManager.h"
 #include "atSaveWorkDialog.h"
 
+#include "atMainWindowProjectHandler.h"
 #include "atMainWindowViewHandler.h"
 #include "atMainWindowWidgetHandler.h"
-#include "atMainWindowProjectHandler.h"
 
 class CodeEditor;
 
 namespace at {
-	namespace editor {
+namespace editor {
 
-class MainWindow : public ax::Window::Backbone {
-public:
-	MainWindow(const ax::Rect& rect, const std::string& proj_path = "");
-	
-	std::vector<ax::Window*> GetSelectedWindows() const;
-	ax::Window* GetWidgetsByName(const std::string& name);
-	
-	static const int STATUS_BAR_HEIGHT = 30;
-	static const int INSPECTOR_MENU_WIDTH = 250;
-	static const int WIDGET_MENU_DROPPED_WIDTH = 85;
-	static const int WIDGET_MENU_WIDTH = 250;
-	static const int BOTTOM_BAR_HEIGHT = 18;
-	
-private:
-	ax::Font _font;
-	
-	StatusBar* _statusBar;
-	std::shared_ptr<GridWindow> _gridWindow;
-	LeftSideMenu* _left_menu;
-	RightSideMenu* _right_menu;
-	BottomSection* _bottom_section;
-	at::MidiFeedback* _midi_feedback;
-	
-	std::vector<ax::Window*> _selected_windows;
-	
-	std::string _help_bar_str;
-	
-	typedef std::pair<ax::StringPair, ax::Point> ObjMsg;
-	
-	at::ProjectManager _project;
-	
-	friend class MainWindowViewHandler;
-	MainWindowViewHandler _view_handler;
-	
-	friend class MainWindowWidgetHandler;
-	MainWindowWidgetHandler _widget_handler;
-	
-	friend class MainWindowProjectHandler;
-	MainWindowProjectHandler _project_handler;
-	
-	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
-	axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnStopScript);
-	
-	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnSavePanelToWorkspace);
-	axEVENT_DECLARATION(at::SaveWorkPanel::Msg, OnAcceptSavePanelToWorkpace);
-	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnCancelSavePanelToWorkpace);
-	
-	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnRemoveWidgetFromRightClickMenu);
-	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDuplicateWidgetFromRightClickMenu);
-	
-	
-	axEVENT_DECLARATION(ax::Event::StringMsg, OnHelpBar);
-	
-	void OnGlobalKey(const char& c);
-	void OnAssignToWindowManager(const int& v);
-	
-	void OnPaint(ax::GC gc);
-};
+	class MainWindow : public ax::Window::Backbone {
+	public:
+		MainWindow(const ax::Rect& rect, const std::string& proj_path = "");
+
+		std::vector<ax::Window*> GetSelectedWindows() const;
+		ax::Window* GetWidgetsByName(const std::string& name);
+
+		static const int STATUS_BAR_HEIGHT = 30;
+		static const int INSPECTOR_MENU_WIDTH = 250;
+		static const int WIDGET_MENU_DROPPED_WIDTH = 85;
+		static const int WIDGET_MENU_WIDTH = 250;
+		static const int BOTTOM_BAR_HEIGHT = 18;
+
+	private:
+		ax::Font _font;
+
+		StatusBar* _statusBar;
+		std::shared_ptr<GridWindow> _gridWindow;
+		LeftSideMenu* _left_menu;
+		RightSideMenu* _right_menu;
+		BottomSection* _bottom_section;
+		at::MidiFeedback* _midi_feedback;
+
+		std::vector<ax::Window*> _selected_windows;
+
+		std::string _help_bar_str;
+
+		typedef std::pair<ax::StringPair, ax::Point> ObjMsg;
+
+		at::ProjectManager _project;
+
+		friend class MainWindowViewHandler;
+		MainWindowViewHandler _view_handler;
+
+		friend class MainWindowWidgetHandler;
+		MainWindowWidgetHandler _widget_handler;
+
+		friend class MainWindowProjectHandler;
+		MainWindowProjectHandler _project_handler;
+
+		axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
+		axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnStopScript);
+
+		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnSavePanelToWorkspace);
+		axEVENT_DECLARATION(at::SaveWorkPanel::Msg, OnAcceptSavePanelToWorkpace);
+		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnCancelSavePanelToWorkpace);
+
+		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnRemoveWidgetFromRightClickMenu);
+		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDuplicateWidgetFromRightClickMenu);
+
+		axEVENT_DECLARATION(ax::Event::StringMsg, OnHelpBar);
+
+		void OnGlobalKey(const char& c);
+		void OnAssignToWindowManager(const int& v);
+
+		void OnPaint(ax::GC gc);
+	};
 }
 }
 

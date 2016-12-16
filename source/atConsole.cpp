@@ -76,26 +76,26 @@ void Console::OnConsoleUpdate(const ax::Event::StringMsg& msg)
 {
 	std::vector<std::string> lines = ax::Utils::String::Split(msg.GetMsg(), "\n");
 
-	for(int i = 0; i < lines.size(); i++) {
+	for (int i = 0; i < lines.size(); i++) {
 		bool new_block = false;
-		if(i == 0) {
+		if (i == 0) {
 			new_block = true;
 		}
-		
-		if(i == lines.size() - 1 && lines[i].empty()) {
+
+		if (i == lines.size() - 1 && lines[i].empty()) {
 			continue;
 		}
-		
+
 		_lines.push_back(MessageFormat(new_block, 0, lines[i]));
 	}
-	
+
 	int panel_height = 10 + int(_lines.size()) * 15;
 	_txt_panel->dimension.SetSize(ax::Size(_panel->dimension.GetSize().x, panel_height));
 	_panel->dimension.SetSizeNoShowRect(ax::Size(_panel->dimension.GetSize().x, panel_height));
 	//	ax::Print("Panel height", panel_height);
-	
+
 	_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
-	
+
 	if (_txt_panel->dimension.GetSize().y > _panel->dimension.GetShownRect().size.y) {
 		_scrollBar->SetZeroToOneValue(1.0);
 	}
@@ -110,12 +110,12 @@ void Console::OnConsoleErrorUpdate(const ax::Event::StringMsg& msg)
 
 	std::vector<std::string> lines = ax::Utils::String::Split(msg.GetMsg(), "\n");
 
-	for(int i = 0; i < lines.size(); i++) {
+	for (int i = 0; i < lines.size(); i++) {
 		bool new_block = false;
-		if(i == 0) {
+		if (i == 0) {
 			new_block = true;
 		}
-		
+
 		_lines.push_back(MessageFormat(new_block, 1, lines[i]));
 	}
 
@@ -161,7 +161,7 @@ void Console::OnScrollWheel(const ax::Point& delta)
 {
 	double scroll_value
 		= (delta.y / (double)ax::App::GetInstance().GetFrameSize().y) + _scrollBar->GetZeroToOneValue();
-	
+
 	_scrollBar->SetZeroToOneValue(scroll_value);
 }
 
@@ -196,20 +196,20 @@ void Console::OnPanelPaint(ax::GC gc)
 	bool block_flip = false;
 
 	for (auto& n : _lines) {
-		if(n.new_block) {
+		if (n.new_block) {
 			block_flip = !block_flip;
 		}
-	
+
 		ax::Rect line_rect(rect.position.x, pos.y, rect.size.x, 15);
-	
+
 		// Draw bg.
-		if(block_flip) {
+		if (block_flip) {
 			gc.DrawRectangleColorFade(line_rect, ax::Color(1.0), ax::Color(0.98));
 		}
 		else {
 			gc.DrawRectangleColorFade(line_rect, ax::Color(0.95), ax::Color(0.90));
 		}
-	
+
 		if (n.type == 0) {
 			gc.SetColor(ax::Color(0.0));
 		}

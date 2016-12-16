@@ -13,25 +13,25 @@
 #include <OpenAX/Window.h>
 
 namespace at {
-	class UniqueNameComponent : public ax::Component {
-	public:
-		/// Shared pointer.
-		typedef std::shared_ptr<UniqueNameComponent> Ptr;
-		
-		UniqueNameComponent(ax::Window* win);
-		
-		virtual ~UniqueNameComponent();
-		
-		ax::Window* GetWindow();
-		
-		void SetName(const std::string& name);
-		
-		std::string GetName() const;
-		
-	protected:
-		ax::Window* _win;
-		std::string _name;
-	};
+class UniqueNameComponent : public ax::Component {
+public:
+	/// Shared pointer.
+	typedef std::shared_ptr<UniqueNameComponent> Ptr;
+
+	UniqueNameComponent(ax::Window* win);
+
+	virtual ~UniqueNameComponent();
+
+	ax::Window* GetWindow();
+
+	void SetName(const std::string& name);
+
+	std::string GetName() const;
+
+protected:
+	ax::Window* _win;
+	std::string _name;
+};
 }
 
 #endif /* atUniqueNameComponent_hpp */

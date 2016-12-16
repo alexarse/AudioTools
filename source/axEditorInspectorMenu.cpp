@@ -22,9 +22,7 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#include "python/PyoComponent.hpp"
 #include "atCommon.h"
-#include "editor/atEditorInspectorMenu.hpp"
 #include "atMenuAttribute.h"
 #include "atMenuBoolAttribute.hpp"
 #include "atMenuColorAttribute.hpp"
@@ -33,6 +31,8 @@
 #include "atMenuPointAttribute.hpp"
 #include "atMenuSizeAttribute.hpp"
 #include "atUniqueNameComponent.h"
+#include "editor/atEditorInspectorMenu.hpp"
+#include "python/PyoComponent.hpp"
 
 #include <OpenAX/WindowManager.h>
 
@@ -225,12 +225,12 @@ namespace editor {
 	void InspectorMenu::RemoveHandle()
 	{
 		ax::App::GetInstance().GetWindowManager()->UnGrabKey();
-		
+
 		if (_selected_handle != nullptr) {
 			win->node.GetChildren().clear();
 		}
 		_selected_handle = nullptr;
-		
+
 		win->Update();
 	}
 
@@ -299,16 +299,16 @@ namespace editor {
 		widget->SetInfo(ax::StringPairVector{ msg.GetMsg() });
 		widget->ReloadInfo();
 	}
-	
+
 	void InspectorMenu::SetMultipleWidgetSelected(bool on)
 	{
-		if(_has_multiple_widget_selected != on) {
+		if (_has_multiple_widget_selected != on) {
 			_has_multiple_widget_selected = on;
-			
-			if(on) {
+
+			if (on) {
 				RemoveHandle();
 			}
-			
+
 			win->Update();
 		}
 	}
@@ -322,7 +322,7 @@ namespace editor {
 
 		gc.SetColor(ax::Color(0.3));
 
-		if(_has_multiple_widget_selected) {
+		if (_has_multiple_widget_selected) {
 			gc.DrawString(_font_bold, "Multiple widgets selected.", ax::Point(15, 20));
 		}
 		else {

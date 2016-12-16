@@ -9,9 +9,9 @@
 #ifndef atEditorPyoDoc_hpp
 #define atEditorPyoDoc_hpp
 
+#include "editor/atEditorPyDocSeparator.hpp"
 #include <OpenAX/OpenAX.h>
 #include <OpenAX/ScrollBar.h>
-#include "editor/atEditorPyDocSeparator.hpp"
 
 namespace at {
 namespace editor {
@@ -24,12 +24,12 @@ namespace editor {
 		std::vector<PyDocSeparator*> _separators;
 		ax::Window* _scroll_panel;
 		ax::ScrollBar::Ptr _scrollBar;
-		
-		ax::Point AddSeparator(const ax::Point& pos, const std::string& name, const std::vector<std::string>& args);
-	
+
+		ax::Point AddSeparator(
+			const ax::Point& pos, const std::string& name, const std::vector<std::string>& args);
+
 		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnNeedResize);
-		
-	
+
 		void OnMouseEnter(const ax::Point& pos);
 		void OnMouseLeave(const ax::Point& pos);
 		void OnMouseEnterChild(const ax::Point& pos);

@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "atSplashDialog.hpp"
 
 #include <OpenAX/Button.h>
@@ -46,21 +46,21 @@ void SplashDialog::OnLoadingPercent(const ax::Event::SimpleMsg<LoadInfoMsg>& msg
 	ax::Print(msg.GetMsg().first);
 	_load_percent = msg.GetMsg().first;
 	_load_info = msg.GetMsg().second;
-	
+
 	win->Update();
 
 	if (_load_percent == 1.0) {
 		auto win_manager = ax::App::GetInstance().GetWindowManager();
 		win_manager->SetPastWindow(nullptr);
 		win_manager->ReleaseMouseHover();
-		
+
 		ax::App& app(ax::App::GetInstance());
-		
+
 		auto main_win = ax::shared<at::editor::MainWindow>(ax::Rect(0, 0, 1000, 700), app.AppOpenFilePath());
-		
+
 		auto this_window = win_manager->GetWindowTree()->GetNodeVector()[0];
 		win_manager->GetWindowTree()->GetNodeVector().clear();
-		
+
 		app.SetResizable(true);
 		app.SetTitleBar(true);
 		app.SetFrameSize(ax::Size(1000, 700));

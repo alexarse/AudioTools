@@ -6,9 +6,9 @@
 //  Copyright © 2016 Alexandre Arsenault. All rights reserved.
 //
 
-#include "editor/atEditorMainWindow.hpp"
-#include "atHelpBar.h"
 #include "atMainWindowViewHandler.h"
+#include "atHelpBar.h"
+#include "editor/atEditorMainWindow.hpp"
 
 namespace at {
 namespace editor {

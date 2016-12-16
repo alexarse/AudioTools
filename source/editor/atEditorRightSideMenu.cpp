@@ -30,10 +30,10 @@ namespace editor {
 			ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
 		win->node.Add(inspector);
 		_inspector = inspector.get();
-		
+
 		// Account panel.
 		auto proj_info
-		= ax::shared<ProjectInfo>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
+			= ax::shared<ProjectInfo>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
 		win->node.Add(proj_info);
 		_project_info = proj_info.get();
 		_project_info->GetWindow()->Hide();
@@ -82,7 +82,7 @@ namespace editor {
 		// Code snippet.
 		pos = AddButton(
 			pos, win, ax::Button::Events(), btn_info, "resources/attachment.png", "Show code snippet.");
-		
+
 		_btns[0]->SetSelected(true);
 	}
 
@@ -95,7 +95,7 @@ namespace editor {
 	{
 		_inspector->RemoveHandle();
 	}
-	
+
 	void RightSideMenu::SetMultipleWidgetSelected(bool on)
 	{
 		_inspector->SetMultipleWidgetSelected(on);
@@ -107,11 +107,11 @@ namespace editor {
 		_pydoc->GetWindow()->Hide();
 		_account->GetWindow()->Hide();
 		_project_info->GetWindow()->Hide();
-		
-		for(auto& n : _btns) {
+
+		for (auto& n : _btns) {
 			n->SetSelected(false);
 		}
-		
+
 		_btns[0]->SetSelected(true);
 	}
 
@@ -121,11 +121,11 @@ namespace editor {
 		_pydoc->GetWindow()->Hide();
 		_account->GetWindow()->Hide();
 		_project_info->GetWindow()->Show();
-		
-		for(auto& n : _btns) {
+
+		for (auto& n : _btns) {
 			n->SetSelected(false);
 		}
-		
+
 		_btns[1]->SetSelected(true);
 	}
 
@@ -135,11 +135,11 @@ namespace editor {
 		_pydoc->GetWindow()->Show();
 		_account->GetWindow()->Hide();
 		_project_info->GetWindow()->Hide();
-		
-		for(auto& n : _btns) {
+
+		for (auto& n : _btns) {
 			n->SetSelected(false);
 		}
-		
+
 		_btns[2]->SetSelected(true);
 	}
 
@@ -149,11 +149,11 @@ namespace editor {
 		_pydoc->GetWindow()->Hide();
 		_account->GetWindow()->Show();
 		_project_info->GetWindow()->Hide();
-		
-		for(auto& n : _btns) {
+
+		for (auto& n : _btns) {
 			n->SetSelected(false);
 		}
-		
+
 		_btns[3]->SetSelected(true);
 	}
 

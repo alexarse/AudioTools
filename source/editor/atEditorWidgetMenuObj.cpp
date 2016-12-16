@@ -6,9 +6,9 @@
 //  Copyright © 2016 Alexandre Arsenault. All rights reserved.
 //
 
-#include "editor/atEditor.hpp"
 #include "editor/atEditorWidgetMenuObj.hpp"
 #include "atSkin.hpp"
+#include "editor/atEditor.hpp"
 
 namespace at {
 namespace editor {

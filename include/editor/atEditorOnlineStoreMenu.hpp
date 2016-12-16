@@ -16,10 +16,10 @@ namespace editor {
 	class OnlineStore {
 	public:
 		OnlineStore(ax::Event::Object* obj);
-		
-//		void DownloadWidgetData();
-		
-		private:
+
+		//		void DownloadWidgetData();
+
+	private:
 		ax::Event::Object* _obj;
 	};
 

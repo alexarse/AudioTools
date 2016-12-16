@@ -13,7 +13,7 @@
 
 namespace at {
 namespace editor {
-	
+
 	struct WidgetMenuInfo {
 		std::string file_path;
 		std::string buider_name;
@@ -37,7 +37,7 @@ namespace editor {
 		ax::Font _font;
 		ax::Font _font_normal;
 		WidgetMenuInfo _info;
-//		std::string _builder_name, _file_path,_title, _info, _size_str;
+		//		std::string _builder_name, _file_path,_title, _info, _size_str;
 		std::shared_ptr<ax::Image> _img;
 		bool _show_text = true;
 		bool _selectable;

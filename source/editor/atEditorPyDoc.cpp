@@ -6,8 +6,8 @@
 //  Copyright © 2016 Alexandre Arsenault. All rights reserved.
 //
 
-#include "PyoAudio.h"
 #include "editor/atEditorPyDoc.hpp"
+#include "PyoAudio.h"
 #include "editor/atEditorPyDocElement.hpp"
 #include "editor/atEditorPyDocSeparator.hpp"
 

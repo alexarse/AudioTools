@@ -24,45 +24,44 @@
 
 #pragma once
 
-#include <OpenAX/OpenAX.h>
 #include "atk/AudioCore.hpp"
 #include "python/m_pyo.h"
+#include <OpenAX/OpenAX.h>
 
 class PyoAudio : public atk::AudioCore {
 public:
 	static PyoAudio* GetInstance();
-	
+
 	~PyoAudio();
-	
+
 	enum Events : ax::Event::Id { RMS_VALUE_CHANGE = 89831 };
 
 	void ProcessString(const std::string& script);
 	bool IsServerStarted();
-	
+
 	void StopServer();
-	
+
 	void ProcessMidi(int status, int byte1, int byte2)
 	{
 		pyo_add_midi_event(_pyo, status, byte1, byte2);
 	}
-	
+
 	void ReloadScript(const std::string& path);
-	
+
 	void SetConnectedObject(ax::Event::Object* obj)
 	{
 		_connected_obj = obj;
 	}
-	
+
 	std::string GetClassBrief(const std::string& name);
-	
+
 protected:
 	static PyoAudio* _global_audio;
 
 	PyoAudio();
 
-	virtual int CoreCallbackAudio(
-		const float* input, float* output, unsigned long frameCount);
-	
+	virtual int CoreCallbackAudio(const float* input, float* output, unsigned long frameCount);
+
 	void CreateServer(float sr, int bufsize, int chnls);
 
 private:

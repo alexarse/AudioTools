@@ -25,8 +25,8 @@
 #ifndef atMenuColorAttribute_hpp
 #define atMenuColorAttribute_hpp
 
-#include <OpenAX/OpenAX.h>
 #include <OpenAX/ColorPicker.h>
+#include <OpenAX/OpenAX.h>
 
 namespace at {
 namespace inspector {
@@ -36,13 +36,12 @@ namespace inspector {
 
 		ColorAttribute(
 			const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct);
-		
 
 	private:
 		std::string _name;
 		ax::Color _color;
 		ax::Font _font;
-		
+
 		axEVENT_DECLARATION(ax::ColorPicker::Msg, OnColorSelect);
 		axEVENT_DECLARATION(ax::ColorPicker::Msg, OnColorCancel);
 

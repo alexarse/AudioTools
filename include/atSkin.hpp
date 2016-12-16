@@ -35,29 +35,29 @@ struct SkinData {
 	// Status bar.
 	ax::Color status_bar_bg;
 	ax::Color status_bar_text;
-	
+
 	// Grid window.
 	ax::Color grid_window_bg;
 	ax::Color grid_window_contour;
 	ax::Color grid_window_lines;
-	
+
 	// Widget menu.
 	ax::Color w_menu_separator_bg;
 	ax::Color w_menu_separator_contour;
 	ax::Color w_menu_separator_text;
-	
+
 	ax::Color w_menu_top_bar;
 	ax::Color w_menu_obj_bg_0;
 	ax::Color w_menu_obj_bg_1;
 	ax::Color w_menu_obj_contour;
 	ax::Color w_menu_title_txt;
 	ax::Color w_menu_txt;
-	
+
 	// Text editor.
 	ax::Color txt_edit_bar;
 	ax::Color txt_edit_bar_contour;
 	ax::Color txt_edit_bar_label;
-	
+
 	// Preference panel.
 	ax::Color preference_panel_bg;
 };
@@ -69,19 +69,19 @@ public:
 		if (_global_skin == nullptr) {
 			_global_skin = new Skin();
 		}
-		
+
 		return _global_skin;
 	}
-	
+
 	void SetLightSkin();
-	
+
 	void SetDarkSkin();
-	
+
 	SkinData data;
 
 private:
 	static Skin* _global_skin;
-	
+
 	Skin()
 	{
 		data.common_at_yellow = ax::Color(250, 172, 0);

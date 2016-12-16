@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include <OpenAX/Core.h>
 
 #include "atCommon.h"
@@ -35,8 +35,8 @@
 #include "PyoAudio.h"
 #include "atMidi.h"
 
-#include "atSplashDialog.hpp"
 #include "atSkin.hpp"
+#include "atSplashDialog.hpp"
 
 namespace at {
 namespace editor {
@@ -66,7 +66,7 @@ namespace editor {
 		ax::App& app(ax::App::GetInstance());
 
 		at::Skin::GetInstance()->SetLightSkin();
-//		at::Skin::GetInstance()->SetDarkSkin();
+		//		at::Skin::GetInstance()->SetDarkSkin();
 
 		app.AddMainEntry([&]() {
 			app.SetFrameSize(ax::Size(400, 500));
@@ -93,7 +93,7 @@ namespace editor {
 
 					obj.PushEvent(Events::LOADING_EVT_ID,
 						new MsgType(at::SplashDialog::LoadInfoMsg(0.7, "Load midi ...")));
-					
+
 					/// @todo Save this somewhere.
 					at::Midi* midi = at::Midi::GetInstance();
 
@@ -105,10 +105,11 @@ namespace editor {
 			_loading_thread.detach();
 		});
 	}
-	
+
 	MainWindow* App::GetMainWindow()
 	{
-		auto w = ax::App::GetInstance().GetWindowManager()->GetWindowTree()->GetTopLevel();;
+		auto w = ax::App::GetInstance().GetWindowManager()->GetWindowTree()->GetTopLevel();
+		;
 		return static_cast<MainWindow*>(w->backbone.get());
 	}
 
@@ -117,7 +118,7 @@ namespace editor {
 		char usr_name[200];
 		int err = getlogin_r(usr_name, 200);
 
-		if(err != 0) {
+		if (err != 0) {
 			ax::Error("Can't get unser name.");
 		}
 
@@ -127,8 +128,8 @@ namespace editor {
 		const char* homedir = pw->pw_dir;
 		ax::Print("Home dir :", homedir);
 
-//		std::string path(homedir + std::string("/Library/Application Support/AudioTools"));
-//		std::string path("/Users/Shared/Library/Application Support/AudioTools");
+		//		std::string path(homedir + std::string("/Library/Application Support/AudioTools"));
+		//		std::string path("/Users/Shared/Library/Application Support/AudioTools");
 		std::string path("/Users/Shared/AudioTools");
 
 		if (chdir(path.c_str()) == -1) {
@@ -136,7 +137,7 @@ namespace editor {
 		}
 
 		ax::App::GetInstance().MainLoop();
-		
+
 		return 0;
 	}
 }

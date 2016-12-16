@@ -14,11 +14,10 @@
 
 class Pyo {
 public:
-	Pyo(unsigned int sampling_rate, unsigned int buffer_size,
-		unsigned int nchannels);
+	Pyo(unsigned int sampling_rate, unsigned int buffer_size, unsigned int nchannels);
 
 	int ProcessStatement(const std::string& script, bool debug = false);
-	
+
 private:
 	PyThreadState* _pyo;
 	float* _output;

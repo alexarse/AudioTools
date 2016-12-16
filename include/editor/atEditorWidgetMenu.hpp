@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #ifndef mdiWidgetMenu_hpp
 #define mdiWidgetMenu_hpp
 
@@ -30,33 +30,31 @@
 #include <OpenAX/Button.h>
 #include <OpenAX/ScrollBar.h>
 
-#include "editor/atEditorWidgetMenuSeparator.hpp"
 #include "editor/atEditorWidgetMenuObj.hpp"
+#include "editor/atEditorWidgetMenuSeparator.hpp"
 
 namespace at {
 namespace editor {
 	class WidgetMenu : public ax::Window::Backbone {
 	public:
 		WidgetMenu(const ax::Rect& rect);
-		
+
 		enum : ax::Event::Id { SMALLER_MENU };
-		
+
 		void SetOnlyMainWindowWidgetSelectable();
 		void SetAllSelectable();
-		
+
 		void SetSmall();
-		
+
 		void SetWide();
 
 	private:
 		ax::Window* _panel;
 		ax::ScrollBar::Ptr _scrollBar;
 		std::vector<std::shared_ptr<WidgetMenuObj>> _objs;
-		
-		
-		
+
 		std::vector<WidgetMenuInfo> GetWidgetsInfo();
-//		std::vector<std::string> GetBuilderList(const std::vector<WidgetMenuInfo>& w_info);
+		//		std::vector<std::string> GetBuilderList(const std::vector<WidgetMenuInfo>& w_info);
 
 		void OnMouseEnter(const ax::Point& pos);
 		void OnMouseLeave(const ax::Point& pos);

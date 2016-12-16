@@ -25,7 +25,7 @@ namespace editor {
 
 		gc.SetColor(ax::Color(1.0));
 		gc.DrawRectangle(rect);
-		
+
 		gc.SetColor(ax::Color(0.3));
 		gc.DrawString(_font_bold, "No user logged in.", ax::Point(15, 20));
 

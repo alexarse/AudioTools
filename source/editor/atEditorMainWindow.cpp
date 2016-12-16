@@ -37,8 +37,8 @@
 
 #include "PyoAudio.h"
 #include "atCommon.h"
-#include "editor/atEditorLoader.hpp"
 #include "atHelpBar.h"
+#include "editor/atEditorLoader.hpp"
 
 #include "atSaveWorkDialog.h"
 
@@ -173,14 +173,13 @@ namespace editor {
 			BottomSection::RESIZE, _view_handler.GetOnResizeCodeEditor());
 
 		_bottom_section->GetWindow()->AddConnection(10020, ax::Event::Function([&](ax::Event::Msg* msg) {
-														ax::Print("Save");
-														std::vector<std::shared_ptr<ax::Window>>& children
-															= _gridWindow->GetWindow()->node.GetChildren();
+			ax::Print("Save");
+			std::vector<std::shared_ptr<ax::Window>>& children = _gridWindow->GetWindow()->node.GetChildren();
 
-														for (auto& n : children) {
-															n->Update();
-														}
-													}));
+			for (auto& n : children) {
+				n->Update();
+			}
+		}));
 
 		/// @todo Add enum for events.
 		win->AddConnection(8000, _widget_handler.GetOnCreateDraggingWidget());

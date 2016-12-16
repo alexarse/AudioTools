@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "python/PanelPyWrapper.hpp"
 #include <Python/Python.h>
 #include <boost/python.hpp>

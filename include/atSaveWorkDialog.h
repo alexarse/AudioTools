@@ -71,7 +71,7 @@ private:
 	SaveWorkPanel* _save_work_panel;
 
 	void DeleteDialog();
-	
+
 	axEVENT_DECLARATION(at::SaveWorkPanel::Msg, OnAcceptSavePanelToWorkpace);
 	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnCancelSavePanelToWorkpace);
 

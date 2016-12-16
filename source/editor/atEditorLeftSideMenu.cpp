@@ -1,8 +1,8 @@
 #include "editor/atEditorLeftSideMenu.hpp"
 #include "atHelpBar.h"
 
-#include <OpenAX/Button.h>
 #include "atColorButton.h"
+#include <OpenAX/Button.h>
 
 namespace at {
 namespace editor {
@@ -71,7 +71,7 @@ namespace editor {
 
 		pos = AddButton(
 			pos, win, GetOnOnlineStoreMenu(), btn_info, "resources/cloud.png", "Download widgets.");
-		
+
 		_menu_btns[0]->SetSelected(true);
 		_menu_btns[0]->SetColor(ax::Color(1.0));
 		_menu_btns[2]->SetSelected(true);
@@ -89,10 +89,10 @@ namespace editor {
 
 	void LeftSideMenu::OnSmallerMenu(const ax::Button::Msg& msg)
 	{
-		if(!_widget_menu->GetWindow()->IsShown()) {
+		if (!_widget_menu->GetWindow()->IsShown()) {
 			return;
 		}
-	
+
 		// Is already small -> going bigger.
 		if (_dropped_smaller) {
 			win->dimension.SetSize(ax::Size(250, win->dimension.GetRect().size.y));
@@ -150,11 +150,11 @@ namespace editor {
 		_workspace->GetWindow()->Hide();
 		_project_space->GetWindow()->Hide();
 		_online_store_menu->GetWindow()->Hide();
-		
-		for(int i = 1; i < _menu_btns.size(); i++) {
+
+		for (int i = 1; i < _menu_btns.size(); i++) {
 			_menu_btns[i]->SetSelected(false);
 		}
-		
+
 		_menu_btns[2]->SetSelected(true);
 		_menu_btns[0]->SetColor(ax::Color(1.0));
 	}
@@ -165,11 +165,11 @@ namespace editor {
 		_workspace->GetWindow()->Show();
 		_project_space->GetWindow()->Hide();
 		_online_store_menu->GetWindow()->Hide();
-		
-		for(int i = 1; i < _menu_btns.size(); i++) {
+
+		for (int i = 1; i < _menu_btns.size(); i++) {
 			_menu_btns[i]->SetSelected(false);
 		}
-		
+
 		_menu_btns[3]->SetSelected(true);
 		_menu_btns[0]->SetColor(ax::Color(0.6));
 		SetWide();
@@ -181,13 +181,13 @@ namespace editor {
 		_workspace->GetWindow()->Hide();
 		_project_space->GetWindow()->Show();
 		_online_store_menu->GetWindow()->Hide();
-		
+
 		SetWide();
-		
-		for(int i = 1; i < _menu_btns.size(); i++) {
+
+		for (int i = 1; i < _menu_btns.size(); i++) {
 			_menu_btns[i]->SetSelected(false);
 		}
-		
+
 		_menu_btns[1]->SetSelected(true);
 		_menu_btns[0]->SetColor(ax::Color(0.6));
 	}
@@ -198,13 +198,13 @@ namespace editor {
 		_workspace->GetWindow()->Hide();
 		_project_space->GetWindow()->Hide();
 		_online_store_menu->GetWindow()->Show();
-		
+
 		SetWide();
-		
-		for(int i = 1; i < _menu_btns.size(); i++) {
+
+		for (int i = 1; i < _menu_btns.size(); i++) {
 			_menu_btns[i]->SetSelected(false);
 		}
-		
+
 		_menu_btns[4]->SetSelected(true);
 		_menu_btns[0]->SetColor(ax::Color(0.6));
 	}

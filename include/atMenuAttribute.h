@@ -31,11 +31,8 @@ namespace at {
 namespace inspector {
 	class MenuAttribute : public ax::Window::Backbone {
 	public:
-		
-		enum Events : ax::Event::Id {
-			ASSIGN_VALUE
-		};
-	
+		enum Events : ax::Event::Id { ASSIGN_VALUE };
+
 		MenuAttribute(
 			const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct);
 

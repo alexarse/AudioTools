@@ -22,13 +22,13 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#include "PyoAudio.h"
-#include "python/PyoComponent.hpp"
-#include "editor/atEditor.hpp"
 #include "editor/atEditorLoader.hpp"
-#include "editor/atEditorMainWindow.hpp"
+#include "PyoAudio.h"
 #include "atSkin.hpp"
 #include "atUniqueNameComponent.h"
+#include "editor/atEditor.hpp"
+#include "editor/atEditorMainWindow.hpp"
+#include "python/PyoComponent.hpp"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Core.h>
@@ -244,10 +244,10 @@ namespace editor {
 				win->resource.Add("click_delta", c_delta);
 				win->event.GrabMouse();
 				win->property.AddProperty("edit_click");
-				
+
 				gwin->PushEvent(
 					at::editor::GridWindow::SELECT_WIDGET, new ax::Event::SimpleMsg<ax::Window*>(win));
-				
+
 				return;
 			}
 
@@ -461,7 +461,7 @@ namespace editor {
 
 				gwin->PushEvent(at::editor::GridWindow::DROP_WIDGET_MENU,
 					new ax::Event::SimpleMsg<std::pair<ax::Point, ax::Window*>>(
-									std::pair<ax::Point, ax::Window*>(pos, win)));
+						std::pair<ax::Point, ax::Window*>(pos, win)));
 
 				return;
 			}
@@ -542,20 +542,20 @@ namespace editor {
 				}
 			}
 		});
-		
-//		auto m_l_arrow = win->event.OnLeftArrowDown.GetFunction();
-//		win->event.OnLeftArrowDown = ax::WFunc<char>([gwin, win, m_l_arrow](const char& c) {
-//			
-//			if (win->property.HasProperty("current_editing_widget")) {
-//				const ax::Rect& w_rect = win->dimension.GetRect();
-//				win->dimension.SetPosition(w_rect.position - ax::Point(1, 0));
-//			}
-//			else {
-//				if(m_l_arrow) {
-//					m_l_arrow(c);
-//				}
-//			}
-//		});
+
+		//		auto m_l_arrow = win->event.OnLeftArrowDown.GetFunction();
+		//		win->event.OnLeftArrowDown = ax::WFunc<char>([gwin, win, m_l_arrow](const char& c) {
+		//
+		//			if (win->property.HasProperty("current_editing_widget")) {
+		//				const ax::Rect& w_rect = win->dimension.GetRect();
+		//				win->dimension.SetPosition(w_rect.position - ax::Point(1, 0));
+		//			}
+		//			else {
+		//				if(m_l_arrow) {
+		//					m_l_arrow(c);
+		//				}
+		//			}
+		//		});
 
 		// OnPaintOverFrameBuffer event.
 		win->event.OnPaintOverChildren = ax::WFunc<ax::GC>([win](ax::GC gc) {
@@ -614,59 +614,59 @@ namespace editor {
 	void Loader::SetupButtonPyoEvent(ax::Window* win)
 	{
 		win->AddConnection(ax::Button::Events::BUTTON_CLICK, ax::Event::Function([win](ax::Event::Msg* msg) {
-							   if (win->component.Has("pyo")) {
-								   pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
-								   const std::string fct_name = comp->GetFunctionName();
+			if (win->component.Has("pyo")) {
+				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
+				const std::string fct_name = comp->GetFunctionName();
 
-								   if (!fct_name.empty()) {
-									   PythonCallEmpty(fct_name);
-								   }
-							   }
-						   }));
+				if (!fct_name.empty()) {
+					PythonCallEmpty(fct_name);
+				}
+			}
+		}));
 	}
 
 	void Loader::SetupTogglePyoEvent(ax::Window* win)
 	{
 		win->AddConnection(ax::Toggle::Events::BUTTON_CLICK, ax::Event::Function([win](ax::Event::Msg* msg) {
-							   if (win->component.Has("pyo")) {
-								   pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
-								   const std::string fct_name = comp->GetFunctionName();
+			if (win->component.Has("pyo")) {
+				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
+				const std::string fct_name = comp->GetFunctionName();
 
-								   if (!fct_name.empty()) {
-									   PythonCallEmpty(fct_name);
-								   }
-							   }
-						   }));
+				if (!fct_name.empty()) {
+					PythonCallEmpty(fct_name);
+				}
+			}
+		}));
 	}
 
 	void Loader::SetupKnobPyoEvent(ax::Window* win)
 	{
 		win->AddConnection(0, ax::Event::Function([win](ax::Event::Msg* msg) {
-							   if (win->component.Has("pyo")) {
-								   pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
-								   const std::string fct_name = comp->GetFunctionName();
+			if (win->component.Has("pyo")) {
+				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
+				const std::string fct_name = comp->GetFunctionName();
 
-								   if (!fct_name.empty()) {
-									   ax::Knob::Msg* kmsg = static_cast<ax::Knob::Msg*>(msg);
-									   PythonCallReal(fct_name, kmsg->GetValue());
-								   }
-							   }
-						   }));
+				if (!fct_name.empty()) {
+					ax::Knob::Msg* kmsg = static_cast<ax::Knob::Msg*>(msg);
+					PythonCallReal(fct_name, kmsg->GetValue());
+				}
+			}
+		}));
 	}
 
 	void Loader::SetupSliderPyoEvent(ax::Window* win)
 	{
 		win->AddConnection(0, ax::Event::Function([win](ax::Event::Msg* msg) {
-							   if (win->component.Has("pyo")) {
-								   pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
-								   const std::string fct_name = comp->GetFunctionName();
+			if (win->component.Has("pyo")) {
+				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
+				const std::string fct_name = comp->GetFunctionName();
 
-								   if (!fct_name.empty()) {
-									   ax::Slider::Msg* kmsg = static_cast<ax::Slider::Msg*>(msg);
-									   PythonCallReal(fct_name, 1.0 - kmsg->GetValue());
-								   }
-							   }
-						   }));
+				if (!fct_name.empty()) {
+					ax::Slider::Msg* kmsg = static_cast<ax::Slider::Msg*>(msg);
+					PythonCallReal(fct_name, 1.0 - kmsg->GetValue());
+				}
+			}
+		}));
 	}
 }
 }

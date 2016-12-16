@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "editor/TextEditorLogic.hpp"
 #include <algorithm>
 
@@ -89,8 +89,8 @@ ax::Point TextEditorLogic::GetCursorPosition() const
 
 void TextEditorLogic::SetCursorPosition(const ax::Point& cursor_pos)
 {
-	if(cursor_pos.y < _file_data.size()) {
-		if(cursor_pos.x < _file_data[cursor_pos.y].size()) {
+	if (cursor_pos.y < _file_data.size()) {
+		if (cursor_pos.x < _file_data[cursor_pos.y].size()) {
 			_cursor_pos = cursor_pos;
 		}
 		else {
@@ -174,15 +174,15 @@ void TextEditorLogic::AddChar(const char& c)
 {
 	const char TAB = 9;
 
-//	ax::Print("AddChar :", (int)c);
-	
+	//	ax::Print("AddChar :", (int)c);
+
 	// Insert char.
 	if (c == TAB) {
 		_file_data[_cursor_pos.y].insert(_cursor_pos.x, std::string("    "));
 		_cursor_pos.x += 4;
 		return;
 	}
-	
+
 	// Append at the end of the line.
 	if (_cursor_pos.x == _file_data[_cursor_pos.y].size()) {
 

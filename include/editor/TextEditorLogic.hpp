@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #ifndef __TEXT_EDITOR_LOGIC_H__
 #define __TEXT_EDITOR_LOGIC_H__
 
@@ -31,7 +31,6 @@
 
 #include <fstream>
 #include <set>
-
 
 class TextEditorLogic {
 public:
@@ -48,7 +47,7 @@ public:
 	std::string GetFilePath() const;
 
 	ax::Point GetCursorPosition() const;
-	
+
 	void SetCursorPosition(const ax::Point& cursor_pos);
 
 	void MoveCursorRight();

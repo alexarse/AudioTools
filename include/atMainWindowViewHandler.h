@@ -31,12 +31,12 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleRightPanel);
 
 		axEVENT_DECLARATION(ax::Button::Msg, OnSmallerLeftMenu);
-		
+
 		void OnResize(const ax::Size& size);
 
 	private:
 		MainWindow* _main_window;
-		
+
 		struct ViewInfo {
 			ax::Point old_main_window_position;
 			bool left_menu_shown;
@@ -44,7 +44,7 @@ namespace editor {
 			bool editor_shown;
 			ax::Size old_frame_size;
 		};
-		
+
 		ViewInfo _view_info;
 		bool _view_mode = false;
 	};

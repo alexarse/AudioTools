@@ -54,15 +54,15 @@ namespace editor {
 
 			pos = elem->GetWindow()->dimension.GetRect().GetNextPosDown(-1);
 		}
-		
+
 		win->dimension.SetSize(ax::Size(rect.size.x, pos.y));
 	}
-	
-	void PyDocSeparator::OnResizeSeparator(const ax::Toggle::Msg &msg)
+
+	void PyDocSeparator::OnResizeSeparator(const ax::Toggle::Msg& msg)
 	{
-		if(msg.GetSelected()) {
+		if (msg.GetSelected()) {
 			win->dimension.SetSize(ax::Size(win->dimension.GetSize().x, 20));
-			
+
 			for (auto& n : _elements) {
 				n->GetWindow()->Hide();
 			}
@@ -70,13 +70,13 @@ namespace editor {
 		else {
 			ax::Rect rect(_elements.back()->GetWindow()->dimension.GetRect());
 			win->dimension.SetSize(ax::Size(rect.size.x, rect.position.y + rect.size.y));
-			
+
 			for (auto& n : _elements) {
 				n->GetWindow()->Show();
 			}
 		}
-		
-//		ax::Print("Inse sp need resize");
+
+		//		ax::Print("Inse sp need resize");
 		win->PushEvent(NEED_RESIZE, new ax::Event::EmptyMsg());
 	}
 
@@ -87,7 +87,7 @@ namespace editor {
 		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_bg);
 		gc.DrawRectangle(rect);
 
-//		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_contour);
+		//		gc.SetColor(at::Skin::GetInstance()->data.w_menu_separator_contour);
 		gc.SetColor(ax::Color(0.7));
 		gc.DrawRectangleContour(rect);
 

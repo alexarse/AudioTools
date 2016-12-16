@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #ifndef mdiInspectorMenu_hpp
 #define mdiInspectorMenu_hpp
 
@@ -33,11 +33,11 @@ namespace editor {
 	class MenuSeparator : public ax::Window::Backbone {
 	public:
 		MenuSeparator(const ax::Rect& rect, const std::string& name);
-		
+
 	private:
 		std::string _name;
 		ax::Font _font;
-		
+
 		void OnPaint(ax::GC gc);
 	};
 
@@ -47,7 +47,7 @@ namespace editor {
 
 		void SetWidgetHandle(ax::Window* handle);
 		void RemoveHandle();
-		
+
 		void SetMultipleWidgetSelected(bool on);
 
 	private:
@@ -55,12 +55,12 @@ namespace editor {
 		ax::Font _font;
 		ax::Font _font_bold;
 		bool _has_multiple_widget_selected;
-	
+
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnPyoCallback);
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnWidgetUpdate);
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnInfoUpdate);
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnUniqueName);
-	
+
 		void OnPaint(ax::GC gc);
 	};
 }

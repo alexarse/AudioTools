@@ -33,7 +33,7 @@ namespace python {
 	class Window {
 	public:
 		Window(ax::Window* win);
-		
+
 		void SetPosition(const ax::Point& position);
 
 	private:

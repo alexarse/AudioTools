@@ -35,7 +35,7 @@ ColorButton::ColorButton(const ax::Rect& rect, const ax::Button::Events& events,
 
 void ColorButton::OnCustomPaint(ax::GC gc)
 {
-//	ax::Print("Draw ButtonColor");
+	//	ax::Print("Draw ButtonColor");
 	//	ax::Rect rect(win->dimension.GetRect());
 	ax::Rect rect0(win->dimension.GetDrawingRect());
 
@@ -57,8 +57,7 @@ void ColorButton::OnCustomPaint(ax::GC gc)
 
 		if (_selected) {
 			//		if (ax::IsFlag(Flags::SINGLE_IMG, _flags)) {
-			gc.DrawImageResizeColor(
-				_btnImg.get(), rect0.position, rect0.size - ax::Size(1, 1), _color);
+			gc.DrawImageResizeColor(_btnImg.get(), rect0.position, rect0.size - ax::Size(1, 1), _color);
 			//		}
 		}
 		else {

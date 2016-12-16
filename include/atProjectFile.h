@@ -2,8 +2,8 @@
 #define atProjectFile_hpp
 
 #include "atArchive.h"
-#include <string>
 #include <OpenAX/Utils.h>
+#include <string>
 
 namespace at {
 class ProjectFile {
@@ -26,23 +26,23 @@ public:
 	{
 		return _is_valid;
 	}
-	
+
 	// Return true on success.
 	ProjectError CreateTempFolder(const std::string& folder_path);
 
 	bool ExtractArchive(const std::string& path);
-	
+
 	bool SaveProject();
-	
+
 	bool SaveAsProject(const std::string& name);
-	
+
 	bool DeleteTempFolder();
-	
+
 	inline std::string GetTempPath() const
 	{
 		return _tmp_folder_path;
 	}
-	
+
 	inline std::string GetProjectName() const
 	{
 		return _project_name;
@@ -52,12 +52,11 @@ private:
 	std::string _project_file_path;
 	std::string _project_name;
 	std::string _tmp_folder_path;
-	
+
 	at::FileArchive _archive;
 	bool _is_valid;
-	
-	
-//	void CreateTempFiles(const std::string& folder_path);
+
+	//	void CreateTempFiles(const std::string& folder_path);
 };
 }
 

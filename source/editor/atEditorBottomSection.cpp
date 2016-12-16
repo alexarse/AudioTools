@@ -23,8 +23,8 @@
  */
 
 #include "editor/atEditorBottomSection.hpp"
-#include "atSkin.hpp"
 #include "atHelpBar.h"
+#include "atSkin.hpp"
 
 namespace at {
 namespace editor {
@@ -42,8 +42,9 @@ namespace editor {
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &BottomSection::OnMouseLeftDown);
 		win->event.OnMouseLeftDragging = ax::WBind<ax::Point>(this, &BottomSection::OnMouseLeftDragging);
 		win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &BottomSection::OnMouseLeftUp);
-		win->event.OnMouseLeftDoubleClick = ax::WBind<ax::Point>(this, &BottomSection::OnMouseLeftDoubleClick);
-	
+		win->event.OnMouseLeftDoubleClick
+			= ax::WBind<ax::Point>(this, &BottomSection::OnMouseLeftDoubleClick);
+
 		TextEditor::Info txt_info;
 		txt_info.bg_color = ax::Color(1.0);
 		txt_info.cursor_color = ax::Color(0.0);
@@ -61,7 +62,7 @@ namespace editor {
 		_console = console.get();
 		win->node.Add(console);
 		_console->GetWindow()->Hide();
-		
+
 		_console->GetWindow()->AddConnection(Console::WRITE_ERROR, GetOnConsoleErrorUpdate());
 
 		// @todo Change this.
@@ -81,16 +82,17 @@ namespace editor {
 		_txt_btn = txt_btn.get();
 		_txt_btn->SetSelected(true);
 		win->node.Add(txt_btn);
-		
+
 		AttachHelpInfo(txt_btn->GetWindow(), "Switch to code editor.");
 
 		ax::Point pos = _txt_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
-		auto console_btn = ax::shared<at::ColorButton>(ax::Rect(pos, ax::Size(20, 20)), GetOnConsole(), btn_info,
-			"resources/console_btn.png", "", ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
+		auto console_btn = ax::shared<at::ColorButton>(ax::Rect(pos, ax::Size(20, 20)), GetOnConsole(),
+			btn_info, "resources/console_btn.png", "",
+			ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
 		_console_btn = console_btn.get();
 		win->node.Add(console_btn);
-		
+
 		AttachHelpInfo(console_btn->GetWindow(), "Switch to console.");
 	}
 
@@ -137,12 +139,12 @@ namespace editor {
 			win->Update();
 		}
 	}
-	
+
 	void BottomSection::OnConsoleErrorUpdate(const ax::Event::EmptyMsg& msg)
 	{
 		_console->GetWindow()->Show();
 		_txt_editor->GetWindow()->Hide();
-		
+
 		if (_is_txt_edit) {
 			_is_txt_edit = false;
 			_txt_btn->SetSelected(false);
@@ -150,16 +152,16 @@ namespace editor {
 			win->Update();
 		}
 	}
-	
+
 	void BottomSection::OnMouseLeftDoubleClick(const ax::Point& pos)
 	{
 		ax::Rect rect(win->dimension.GetRect());
-		
+
 		if (rect.position.y > 30) {
 			// Drop up.
 			int bottom_pos_y = rect.position.y + rect.size.y;
 			int size_y = bottom_pos_y - 30;
-			
+
 			win->PushEvent(RESIZE, new ax::Event::SimpleMsg<int>(0));
 			ax::Print("Go up");
 			win->dimension.SetRect(ax::Rect(rect.position.x, 30, rect.size.x, size_y));
@@ -206,7 +208,7 @@ namespace editor {
 			_delta_resize_click = pos;
 			_resize_click_old_rect = win->dimension.GetRect();
 			win->event.GrabMouse();
-//			ax::Print("Resize editor.");
+			//			ax::Print("Resize editor.");
 		}
 	}
 
@@ -214,7 +216,7 @@ namespace editor {
 	{
 		int delta_y = _delta_resize_click.y - pos.y;
 
-//		ax::Print("Resize editor delta :", delta_y);
+		//		ax::Print("Resize editor delta :", delta_y);
 
 		if (delta_y > 0) {
 			ax::Rect rect(win->dimension.GetRect());
@@ -222,7 +224,7 @@ namespace editor {
 			rect.size.y += delta_y;
 
 			if (rect.position.y < 30) {
-//				ax::Print("Maximum height");
+				//				ax::Print("Maximum height");
 				int delta_pos_y = 30 - rect.position.y;
 				rect.size.y -= delta_pos_y;
 				rect.position.y = 30;
@@ -236,7 +238,7 @@ namespace editor {
 			rect.size.y += delta_y;
 
 			if (rect.size.y < MINIMUM_HEIGHT) {
-//				ax::Print("Minimum height");
+				//				ax::Print("Minimum height");
 				int delta_pos_y = MINIMUM_HEIGHT - rect.size.y;
 				rect.size.y = MINIMUM_HEIGHT;
 				rect.position.y -= delta_pos_y;
@@ -266,7 +268,7 @@ namespace editor {
 				rect.size.y += delta_y;
 
 				if (rect.size.y < MINIMUM_HEIGHT) {
-//					ax::Print("Minimum height");
+					//					ax::Print("Minimum height");
 					int delta_pos_y = MINIMUM_HEIGHT - rect.size.y;
 					rect.size.y = MINIMUM_HEIGHT;
 					rect.position.y -= delta_pos_y;
@@ -291,7 +293,7 @@ namespace editor {
 		//
 		//		ax::Point pos = _open_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		//		_save_btn->GetWindow()->dimension.SetPosition(pos);
-		
+
 		_txt_editor->GetWindow()->dimension.SetSize(ax::Size(size.x - 1, size.y - TOP_BAR_HEIGHT));
 		_console->GetWindow()->dimension.SetSize(ax::Size(size.x - 1, size.y - TOP_BAR_HEIGHT));
 	}
@@ -317,9 +319,9 @@ namespace editor {
 		else {
 			gc.DrawStringAlignedCenter(_font, "Console", top_bar_rect);
 		}
-		
-//		gc.SetColor(ax::Color(0.6));
-//		gc.DrawRectangleContour(rect);
+
+		//		gc.SetColor(ax::Color(0.6));
+		//		gc.DrawRectangleContour(rect);
 	}
 }
 }

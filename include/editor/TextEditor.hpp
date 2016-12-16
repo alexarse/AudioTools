@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #ifndef __TEXT_EDITOR_H__
 #define __TEXT_EDITOR_H__
 
@@ -29,9 +29,9 @@
 #include <OpenAX/ScrollBar.h>
 #include <OpenAX/Timer.h>
 
+#include "editor/TextEditorLogic.hpp"
 #include <fstream>
 #include <set>
-#include "editor/TextEditorLogic.hpp"
 
 class TextEditor : public ax::Window::Backbone {
 public:
@@ -46,9 +46,8 @@ public:
 		{
 		}
 
-		Info(const ax::Color& text_c, const ax::Color& bg_c,
-			const ax::Color& line_num_c, const ax::Color& line_num_bg_c,
-			const ax::Color& cursor_c)
+		Info(const ax::Color& text_c, const ax::Color& bg_c, const ax::Color& line_num_c,
+			const ax::Color& line_num_bg_c, const ax::Color& cursor_c)
 			: text_color(text_c)
 			, bg_color(bg_c)
 			, line_number_color(line_num_c)
@@ -67,13 +66,13 @@ public:
 	TextEditor(const ax::Rect& rect, const Info& info);
 
 	void Resize(const ax::Size& size);
-	
+
 	std::string GetStringContent() const;
 	std::string GetFilePath() const;
-	
+
 	void SaveFile(const std::string& path);
 	void SaveCurrentFile();
-	
+
 	bool OpenFile(const std::string& path);
 
 private:
@@ -92,8 +91,8 @@ private:
 	int _line_height, _file_start_index;
 	int _n_line_shown;
 
-//	axScrollBar* _scrollBar;
-//	ax::ScrollBar::Ptr _scrollBar;
+	//	axScrollBar* _scrollBar;
+	//	ax::ScrollBar::Ptr _scrollBar;
 	ax::ScrollBar* _scrollBar;
 
 	ax::Point FileCursorPosToNextPosIndex();
@@ -127,7 +126,7 @@ private:
 	void OnMouseLeave(const ax::Point& pos);
 	void OnMouseEnterChild(const ax::Point& pos);
 	void OnMouseLeaveChild(const ax::Point& pos);
-	
+
 	void OnMouseEnter(const ax::Point& mouse);
 
 	void OnMouseLeftDown(const ax::Point& mouse);

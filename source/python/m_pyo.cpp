@@ -6,8 +6,8 @@
 //  Copyright © 2016 Alexandre Arsenault. All rights reserved.
 //
 
-#include "atConsoleStream.h"
 #include "python/m_pyo.h"
+#include "atConsoleStream.h"
 
 std::string handle_pyerror()
 {

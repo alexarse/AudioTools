@@ -22,16 +22,16 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
+#include "editor/atEditorStatusBar.hpp"
 #include "PyoAudio.h"
 #include "atCommon.h"
-#include "editor/atEditor.hpp"
-#include "editor/atEditorMainWindow.hpp"
-#include "editor/atEditorStatusBar.hpp"
 #include "atHelpBar.h"
 #include "atOpenDialog.hpp"
 #include "atPreferenceDialog.h"
 #include "atSaveDialog.hpp"
 #include "atSkin.hpp"
+#include "editor/atEditor.hpp"
+#include "editor/atEditorMainWindow.hpp"
 
 #include <OpenAX/Core.h>
 #include <OpenAX/Toggle.h>
@@ -252,11 +252,11 @@ namespace editor {
 		auto pref_dialog = ax::shared<PreferenceDialog>(ax::Rect(pos, size));
 		app.AddPopupTopLevel(pref_dialog);
 		app.UpdateAll();
-		
-//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-//			std::shared_ptr<ax::Window>(pref_dialog->GetWindow()));
 
-//		pref_dialog->GetWindow()->backbone = pref_dialog;
+		//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+		//			std::shared_ptr<ax::Window>(pref_dialog->GetWindow()));
+
+		//		pref_dialog->GetWindow()->backbone = pref_dialog;
 	}
 
 	void StatusBar::OnToggleLeftPanel(const ax::Toggle::Msg& msg)

@@ -41,19 +41,18 @@ public:
 
 	virtual ~Component()
 	{
-		
 	}
 
 	ax::Window* GetWindow()
 	{
 		return _win;
 	}
-	
+
 	void SetFunctionName(const std::string& name)
 	{
 		_fct_name = name;
 	}
-	
+
 	std::string GetFunctionName() const
 	{
 		return _fct_name;

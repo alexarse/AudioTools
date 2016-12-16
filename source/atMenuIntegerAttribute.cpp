@@ -87,17 +87,15 @@ namespace inspector {
 		scroll_info.btn_info.contour = ax::Color(0.88);
 		scroll_info.btn_info.font_color = ax::Color(0.0, 0.0);
 
-
 		double v = 0.0;
-		
-		if(!value.empty()) {
+
+		if (!value.empty()) {
 			v = std::stod(value);
 		}
 
 		auto w_scroll = ax::shared<ax::NumberScroll>(
-			ax::Rect(ax::Point(90, 0), ax::Size(rect.size.x - 90, rect.size.y + 1)),
-			GetOnValueChange(), scroll_info, v, ax::Utils::Control::Type::INTEGER,
-			ax::Utils::Range<double>(0.0, 10000.0), 1.0);
+			ax::Rect(ax::Point(90, 0), ax::Size(rect.size.x - 90, rect.size.y + 1)), GetOnValueChange(),
+			scroll_info, v, ax::Utils::Control::Type::INTEGER, ax::Utils::Range<double>(0.0, 10000.0), 1.0);
 
 		win->node.Add(w_scroll);
 	}
@@ -107,7 +105,6 @@ namespace inspector {
 		double v = msg.GetValue();
 		win->PushEvent(Events::ASSIGN_VALUE,
 			new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, std::to_string(v))));
-
 	}
 
 	void IntegerAttribute::OnPaint(ax::GC gc)

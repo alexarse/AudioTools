@@ -153,7 +153,7 @@ bool ProjectFile::SaveAsProject(const std::string& filepath)
 
 		at::FileArchive arch_file;
 		arch_file.Open(filepath + ".atproj");
-		
+
 		boost::filesystem::path f_path(filepath);
 		std::string name = f_path.filename().string();
 		arch_file.AddDirectory(name);

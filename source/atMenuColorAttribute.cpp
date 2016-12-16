@@ -21,9 +21,9 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
-#include "atMenuAttribute.h"
+
 #include "atMenuColorAttribute.hpp"
+#include "atMenuAttribute.h"
 #include <OpenAX/Button.h>
 #include <OpenAX/ColorPicker.h>
 #include <OpenAX/Label.h>
@@ -63,10 +63,10 @@ namespace inspector {
 	{
 		win->PushEvent(Events::ASSIGN_VALUE,
 			new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, msg.GetMsg().ToString())));
-		
+
 		_color = msg.GetMsg();
 		win->Update();
-		
+
 		ax::App& app(ax::App::GetInstance());
 		app.GetPopupManager()->Clear();
 		app.GetWindowManager()->UnGrabKey();
@@ -81,21 +81,20 @@ namespace inspector {
 		app.GetWindowManager()->UnGrabKey();
 		app.GetWindowManager()->UnGrabMouse();
 		app.UpdateAll();
-		
-//		ax::App& app(ax::App::GetInstance());
-//		auto w = app.GetPopupManager()->GetWindowTree()->GetTopLevel();
-//		app.GetPopupManager()->SetPastWindow(nullptr);
-//		app.GetPopupManager()->UnGrabKey();
-//		app.GetPopupManager()->UnGrabMouse();
-//
-//		w->event.UnGrabKey();
-//		w->event.UnGrabMouse();
-//
-//		w->backbone = nullptr;
-//
-//		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-//		app.GetPopupManager()->SetPastWindow(nullptr);
-		
+
+		//		ax::App& app(ax::App::GetInstance());
+		//		auto w = app.GetPopupManager()->GetWindowTree()->GetTopLevel();
+		//		app.GetPopupManager()->SetPastWindow(nullptr);
+		//		app.GetPopupManager()->UnGrabKey();
+		//		app.GetPopupManager()->UnGrabMouse();
+		//
+		//		w->event.UnGrabKey();
+		//		w->event.UnGrabMouse();
+		//
+		//		w->backbone = nullptr;
+		//
+		//		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		//		app.GetPopupManager()->SetPastWindow(nullptr);
 	}
 
 	void ColorAttribute::OnMouseLeftDown(const ax::Point& pos)
@@ -150,15 +149,14 @@ namespace inspector {
 		auto c_picker = ax::shared<ax::ColorPicker>(
 			ax::Point(win->dimension.GetAbsoluteRect().position.x - 120, 30), cp_evts, cp_info, _color);
 
-
 		ax::App& app(ax::App::GetInstance());
 		app.GetPopupManager()->Clear();
 		app.AddPopupTopLevel(c_picker);
 
-//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-//			std::shared_ptr<ax::Window>(c_picker->GetWindow()));
-//
-//		c_picker->GetWindow()->backbone = c_picker;
+		//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+		//			std::shared_ptr<ax::Window>(c_picker->GetWindow()));
+		//
+		//		c_picker->GetWindow()->backbone = c_picker;
 	}
 
 	void ColorAttribute::OnPaint(ax::GC gc)

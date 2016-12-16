@@ -28,9 +28,9 @@
 #include <OpenAX/OSFileSystem.h>
 #include <OpenAX/Toggle.h>
 
-#include "atSkin.hpp"
 #include "PyoAudio.h"
 #include "atMidi.h"
+#include "atSkin.hpp"
 
 namespace at {
 namespace editor {
@@ -52,7 +52,8 @@ namespace editor {
 		// Audio input device.
 		auto btn_in = ax::shared<ax::DropMenuBox>(
 			ax::Rect(ax::Point(_audio_label_rect.position.x + 95, _audio_label_rect.position.y + 30),
-				ax::Size(175, 25)), audio->GetCurrentInputDevice(), audio->GetInputDevices());
+				ax::Size(175, 25)),
+			audio->GetCurrentInputDevice(), audio->GetInputDevices());
 
 		win->node.Add(btn_in);
 		btn_in->GetWindow()->AddConnection(ax::DropMenuBox::VALUE_CHANGE, GetOnAudioInputDevice());
@@ -60,21 +61,23 @@ namespace editor {
 
 		// Audio output device.
 		ax::Point o_pos(btn_in->GetWindow()->dimension.GetRect().GetNextPosDown(10));
-		auto btn_out = ax::shared<ax::DropMenuBox>(ax::Rect(o_pos, ax::Size(175, 25)), audio->GetCurrentOutputDevice(), audio->GetOutputDevices());
-		
+		auto btn_out = ax::shared<ax::DropMenuBox>(
+			ax::Rect(o_pos, ax::Size(175, 25)), audio->GetCurrentOutputDevice(), audio->GetOutputDevices());
+
 		btn_out->GetWindow()->AddConnection(ax::DropMenuBox::VALUE_CHANGE, GetOnAudioOutputDevice());
 		win->node.Add(btn_out);
-		
+
 		_menu_boxes[AUDIO_OUT] = btn_out.get();
 
 		at::Midi* midi = at::Midi::GetInstance();
 		std::vector<std::string> midi_in_opts = midi->GetMidiInputList();
-		
+
 		// Midi input device.
 		auto btn_midi_in = ax::shared<ax::DropMenuBox>(
 			ax::Rect(ax::Point(_midi_label_rect.position.x + 95, _midi_label_rect.position.y + 30),
-				ax::Size(175, 25)), midi->GetCurrentPortName(), midi_in_opts);
-		
+				ax::Size(175, 25)),
+			midi->GetCurrentPortName(), midi_in_opts);
+
 		btn_midi_in->GetWindow()->AddConnection(ax::DropMenuBox::VALUE_CHANGE, GetOnMidiInputDevice());
 		win->node.Add(btn_midi_in);
 		_menu_boxes[MIDI_IN] = btn_midi_in.get();
@@ -95,17 +98,17 @@ namespace editor {
 		PyoAudio* audio = PyoAudio::GetInstance();
 		audio->SetCurrentOutputDevice(msg.GetMsg());
 	}
-	
+
 	void PreferencePanel::OnMidiInputDevice(const ax::DropMenuBox::Msg& msg)
 	{
 		at::Midi* midi = at::Midi::GetInstance();
 		midi->SetInputPort(msg.GetMsg());
 	}
-	
+
 	bool PreferencePanel::IsMouseInDropMenu()
 	{
-		for(int i = 0; i < NUMBER_OF_PREF_BOX; i++) {
-			if(_menu_boxes[i]->IsMouseInDropMenu()) {
+		for (int i = 0; i < NUMBER_OF_PREF_BOX; i++) {
+			if (_menu_boxes[i]->IsMouseInDropMenu()) {
 				return true;
 			}
 		}
@@ -164,10 +167,10 @@ namespace editor {
 		// Create window.
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &PreferenceDialog::OnPaint);
-		
+
 		win->event.OnGlobalClick
 			= ax::WBind<ax::Window::Event::GlobalClick>(this, &PreferenceDialog::OnGlobalClick);
-		
+
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &PreferenceDialog::OnMouseLeftDown);
 		win->event.OnAssignToWindowManager = ax::WBind<int>(this, &PreferenceDialog::OnAssignToWindowManager);
 
@@ -178,7 +181,7 @@ namespace editor {
 		win->node.Add(pref_panel);
 		_pref_panel = pref_panel.get();
 	}
-	
+
 	void PreferenceDialog::OnAssignToWindowManager(const int& v)
 	{
 		win->event.GrabGlobalMouse();
@@ -187,10 +190,11 @@ namespace editor {
 	void PreferenceDialog::OnGlobalClick(const ax::Window::Event::GlobalClick& gclick)
 	{
 		ax::Print("Global click");
-		
-		if(_pref_panel != nullptr) {
-			if(!ax::App::GetInstance().GetPopupManager()->IsMouseStillInChildWindow(_pref_panel->GetWindow())) {
-				if(!_pref_panel->IsMouseInDropMenu() && gclick.type != gclick.LEFT_CLICK_UP) {
+
+		if (_pref_panel != nullptr) {
+			if (!ax::App::GetInstance().GetPopupManager()->IsMouseStillInChildWindow(
+					_pref_panel->GetWindow())) {
+				if (!_pref_panel->IsMouseInDropMenu() && gclick.type != gclick.LEFT_CLICK_UP) {
 					DeleteDialog();
 				}
 			}

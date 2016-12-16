@@ -40,9 +40,9 @@ namespace inspector {
 
 	private:
 		std::string _name;
-		
+
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleClick);
-		
+
 		void OnPaint(ax::GC gc);
 	};
 }

@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #ifndef __MDI_OPEN_DIALOG_H__
 #define __MDI_OPEN_DIALOG_H__
 

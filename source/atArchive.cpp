@@ -93,8 +93,6 @@ bool FileArchive::ReplaceFileContent(const std::string& name, void* data, unsign
 	return true;
 }
 
-
-
 std::vector<char> FileArchive::GetFileContent(const std::string& filename)
 {
 	struct zip_stat stat;
@@ -122,7 +120,7 @@ std::vector<char> FileArchive::GetFileContent(unsigned int file_index, std::stri
 	struct zip_stat stat;
 	if (zip_stat_index(_archive, file_index, 0, &stat) < 0) {
 		//		std::cerr << "File not found." << std::endl;
-		//std::cout << "error file: " << zip_strerror(_archive) << std::endl;
+		// std::cout << "error file: " << zip_strerror(_archive) << std::endl;
 
 		return std::vector<char>();
 	}
@@ -143,10 +141,10 @@ std::vector<char> FileArchive::GetFileContent(unsigned int file_index, std::stri
 
 bool FileArchive::AddDirectory(const std::string& name)
 {
-	if(zip_dir_add(_archive, name.c_str(), ZIP_FL_ENC_UTF_8) < 0) {
+	if (zip_dir_add(_archive, name.c_str(), ZIP_FL_ENC_UTF_8) < 0) {
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -165,11 +163,11 @@ bool FileArchive::ExtractArchive(const std::string& path)
 		if (f_content.empty()) {
 			continue;
 		}
-		
+
 		std::ofstream f_stream(path + f_name, std::ios::out | std::ios::binary);
 		f_stream.write(f_content.data(), f_content.size());
-//		std::string data_str(f_content.data());
-//		f_stream << data_str;
+		//		std::string data_str(f_content.data());
+		//		f_stream << data_str;
 		f_stream.close();
 	}
 

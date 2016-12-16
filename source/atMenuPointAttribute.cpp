@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "atMenuPointAttribute.hpp"
 #include <OpenAX/Button.h>
 #include <OpenAX/ColorPicker.h>

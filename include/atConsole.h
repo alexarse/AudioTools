@@ -25,10 +25,10 @@
 #ifndef __AT_CONSOLE_H__
 #define __AT_CONSOLE_H__
 
+#include <OpenAX/Button.h>
 #include <OpenAX/OpenAX.h>
 #include <OpenAX/ScrollBar.h>
 #include <OpenAX/Timer.h>
-#include <OpenAX/Button.h>
 
 #include "editor/TextEditor.hpp"
 
@@ -39,26 +39,25 @@ namespace at {
 class Console : public ax::Window::Backbone {
 public:
 	Console(const ax::Rect& rect);
-	
+
 	enum Events : ax::Event::Id { WRITE_ERROR };
-	
+
 private:
 	ax::Font _font;
-	
+
 	struct MessageFormat {
 		MessageFormat(bool n, int t, const std::string& m)
 			: new_block(n)
 			, type(t)
 			, msg(m)
 		{
-			
 		}
-		
+
 		bool new_block;
 		int type;
 		std::string msg;
 	};
-	
+
 	std::vector<MessageFormat> _lines;
 	ax::Window* _panel;
 	ax::Window* _txt_panel;
@@ -66,13 +65,13 @@ private:
 
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnConsoleUpdate);
 	axEVENT_DECLARATION(ax::Event::StringMsg, OnConsoleErrorUpdate);
-	
+
 	void OnMouseEnter(const ax::Point& pos);
 	void OnMouseLeave(const ax::Point& pos);
 	void OnMouseEnterChild(const ax::Point& pos);
 	void OnMouseLeaveChild(const ax::Point& pos);
 	void OnScrollWheel(const ax::Point& delta);
-	
+
 	void OnResize(const ax::Size& size);
 	void OnPaint(ax::GC gc);
 	void OnPanelPaint(ax::GC gc);

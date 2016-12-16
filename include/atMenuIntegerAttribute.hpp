@@ -39,12 +39,12 @@ namespace inspector {
 
 	private:
 		std::string _name;
-//		ax::Font _font;
-//		ax::NumberScroll* _width_scroll;
-//		ax::NumberScroll* _height_scroll;
+		//		ax::Font _font;
+		//		ax::NumberScroll* _width_scroll;
+		//		ax::NumberScroll* _height_scroll;
 
 		axEVENT_DECLARATION(ax::NumberScroll::Msg, OnValueChange);
-//		axEVENT_DECLARATION(ax::NumberScroll::Msg, OnHeightChange);
+		//		axEVENT_DECLARATION(ax::NumberScroll::Msg, OnHeightChange);
 
 		void OnPaint(ax::GC gc);
 	};

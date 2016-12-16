@@ -6,10 +6,10 @@
 //  Copyright © 2016 Alexandre Arsenault. All rights reserved.
 //
 
+#include "atMainWindowWidgetHandler.h"
+#include "atHelpBar.h"
 #include "editor/atEditorLoader.hpp"
 #include "editor/atEditorMainWindow.hpp"
-#include "atHelpBar.h"
-#include "atMainWindowWidgetHandler.h"
 
 #include <OpenAX/Panel.h>
 #include <OpenAX/WidgetLoader.h>

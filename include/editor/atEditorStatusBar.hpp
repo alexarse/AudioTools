@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #ifndef mdiStatusBar_hpp
 #define mdiStatusBar_hpp
 
@@ -54,7 +54,7 @@ namespace editor {
 			TOGGLE_BOTTOM_PANEL,
 			TOGGLE_RIGHT_PANEL
 		};
-		
+
 		void SetLayoutFilePath(const std::string& path)
 		{
 			_layout_file_path = path;
@@ -69,8 +69,8 @@ namespace editor {
 		at::VolumeMeter* _volumeMeterLeft;
 		at::VolumeMeter* _volumeMeterRight;
 		std::string _layout_file_path;
-//		at::MidiFeedback* _midi_feedback;
-		
+		//		at::MidiFeedback* _midi_feedback;
+
 		axEVENT_DECLARATION(ax::Button::Msg, OnSaveLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnSaveAsLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnOpenLayout);
@@ -86,11 +86,11 @@ namespace editor {
 
 		axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveDialog);
 		axEVENT_DECLARATION(ax::Event::StringMsg, OnCancelDialog);
-		
+
 		axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenDialog);
-		
+
 		typedef std::pair<double, double> StereoRmsValue;
-		
+
 		axEVENT_DECLARATION(ax::Event::SimpleMsg<StereoRmsValue>, OnAudioRmsValue);
 
 		void OnResize(const ax::Size& size);

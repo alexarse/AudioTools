@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #ifndef PythonWrapper_hpp
 #define PythonWrapper_hpp
 

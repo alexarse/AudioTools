@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "atMenuBoolAttribute.hpp"
 #include <OpenAX/Button.h>
 #include <OpenAX/ColorPicker.h>
@@ -74,13 +74,13 @@ namespace inspector {
 
 		win->node.Add(ax::shared<ax::Toggle>(ax::Rect(95, 4, 13, 13), GetOnToggleClick(), tog_info));
 	}
-	
-	void BoolAttribute::OnToggleClick(const ax::Toggle::Msg &msg)
+
+	void BoolAttribute::OnToggleClick(const ax::Toggle::Msg& msg)
 	{
 		int selected = (int)msg.GetSelected();
 		ax::Print("selected :", selected);
 		win->PushEvent(Events::ASSIGN_VALUE,
-					   new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, std::to_string(selected))));
+			new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, std::to_string(selected))));
 	}
 
 	void BoolAttribute::OnPaint(ax::GC gc)

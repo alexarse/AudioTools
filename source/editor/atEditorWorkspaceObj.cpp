@@ -6,9 +6,9 @@
 //  Copyright © 2016 Alexandre Arsenault. All rights reserved.
 //
 
-#include "editor/atEditor.hpp"
 #include "editor/atEditorWorkspaceObj.hpp"
 #include "atSkin.hpp"
+#include "editor/atEditor.hpp"
 
 namespace at {
 namespace editor {
@@ -34,8 +34,6 @@ namespace editor {
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &WorkspaceObj::OnMouseLeftDown);
 		win->event.OnMouseLeftDragging = ax::WBind<ax::Point>(this, &WorkspaceObj::OnMouseLeftDragging);
 		win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &WorkspaceObj::OnMouseLeftUp);
-		
-		
 	}
 
 	void WorkspaceObj::HideText()
@@ -67,8 +65,7 @@ namespace editor {
 		if (_selectable) {
 			win->event.GrabMouse();
 
-			App::GetMainEvtObj()->PushEvent(
-				8000,
+			App::GetMainEvtObj()->PushEvent(8000,
 				new ax::Event::SimpleMsg<std::pair<ax::StringPair, ax::Point>>(
 					std::pair<ax::StringPair, ax::Point>(ax::StringPair(_builder_name, _file_path), pos)));
 

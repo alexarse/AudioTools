@@ -43,13 +43,13 @@ namespace editor {
 
 	private:
 		ax::Window* _win;
-		
+
 		std::string OpenLayoutFromXml(ax::Xml& xml);
 
 		void SetupEditWidget(ax::Window* win);
 		void SetupPyoComponent(ax::Window* win, const std::string& fct_name);
 		void SetupUniqueNameComponent(ax::Window* win, const std::string& name);
-		
+
 		void SetupButtonPyoEvent(ax::Window* win);
 		void SetupTogglePyoEvent(ax::Window* win);
 		void SetupKnobPyoEvent(ax::Window* win);

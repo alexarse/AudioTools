@@ -29,19 +29,18 @@
 #include <OpenAX/axMidiCore.h>
 
 namespace at {
-	class Midi : public ax::midi::Core, public ax::Event::Object {
-	public:
-		static Midi* GetInstance();
-		
-		virtual void OnMidiNoteOn(const ax::midi::Note& msg);
-		
-		virtual void OnMidiNoteOff(const ax::midi::Note& msg);
-		
-	private:
-		Midi();
-		static Midi* _global_midi;
+class Midi : public ax::midi::Core, public ax::Event::Object {
+public:
+	static Midi* GetInstance();
 
-	};
+	virtual void OnMidiNoteOn(const ax::midi::Note& msg);
+
+	virtual void OnMidiNoteOff(const ax::midi::Note& msg);
+
+private:
+	Midi();
+	static Midi* _global_midi;
+};
 }
 
 #endif /* atMidi_hpp */

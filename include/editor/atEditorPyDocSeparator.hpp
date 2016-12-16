@@ -19,7 +19,7 @@ namespace editor {
 	class PyDocSeparator : public ax::Window::Backbone {
 	public:
 		PyDocSeparator(const ax::Rect& rect, const std::string& name, const ax::StringPairVector& elements);
-		
+
 		enum Events : ax::Event::Id { NEED_RESIZE };
 
 	private:
@@ -27,11 +27,11 @@ namespace editor {
 		std::string _name;
 		std::string _description;
 		std::vector<std::string> _desc_content;
-		
+
 		std::vector<PyDocElement*> _elements;
-		
+
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnResizeSeparator);
-		
+
 		void OnPaint(ax::GC gc);
 	};
 }

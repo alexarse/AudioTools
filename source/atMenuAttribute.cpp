@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "atMenuAttribute.h"
 #include <OpenAX/Label.h>
 #include <OpenAX/TextBox.h>

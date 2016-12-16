@@ -31,13 +31,13 @@
 #include <fstream>
 
 #include "PyoAudio.h"
-#include "python/PyoComponent.hpp"
 #include "atCommon.h"
+#include "atSkin.hpp"
+#include "atUniqueNameComponent.h"
 #include "editor/atEditor.hpp"
 #include "editor/atEditorLoader.hpp"
 #include "editor/atEditorMainWindow.hpp"
-#include "atSkin.hpp"
-#include "atUniqueNameComponent.h"
+#include "python/PyoComponent.hpp"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/Knob.h>
@@ -66,12 +66,12 @@ namespace editor {
 		win->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &GridWindow::OnMouseLeftUp);
 		win->event.OnBackSpaceDown = ax::WBind<char>(this, &GridWindow::OnBackSpaceDown);
 		win->event.OnKeyDown = ax::WBind<char>(this, &GridWindow::OnKeyDown);
-		
+
 		win->event.OnLeftArrowDown = ax::WBind<char>(this, &GridWindow::OnLeftArrowDown);
 		win->event.OnRightArrowDown = ax::WBind<char>(this, &GridWindow::OnRightArrowDown);
 		win->event.OnUpArrowDown = ax::WBind<char>(this, &GridWindow::OnUpArrowDown);
 		win->event.OnDownArrowDown = ax::WBind<char>(this, &GridWindow::OnDownArrowDown);
-		
+
 		win->event.OnResize = ax::WBind<ax::Point>(this, &GridWindow::OnResize);
 
 		win->event.OnGlobalClick

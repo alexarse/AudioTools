@@ -9,8 +9,8 @@
 #ifndef atMenuPathAttribute_hpp
 #define atMenuPathAttribute_hpp
 
-#include <OpenAX/OpenAX.h>
 #include <OpenAX/Button.h>
+#include <OpenAX/OpenAX.h>
 
 namespace at {
 namespace inspector {
@@ -25,7 +25,6 @@ namespace inspector {
 		std::string _name;
 		std::string _value;
 		ax::Font _font;
-
 
 		axEVENT_DECLARATION(ax::Button::Msg, OnOpenPath);
 		void OnPaint(ax::GC gc);

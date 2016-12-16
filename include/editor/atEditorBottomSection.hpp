@@ -31,9 +31,9 @@
 #include <OpenAX/ScrollBar.h>
 #include <OpenAX/Timer.h>
 
-#include "editor/TextEditor.hpp"
-#include "atConsole.h"
 #include "atColorButton.h"
+#include "atConsole.h"
+#include "editor/TextEditor.hpp"
 
 namespace at {
 namespace editor {
@@ -42,7 +42,7 @@ namespace editor {
 		BottomSection(const ax::Rect& rect, const std::string& open_path);
 
 		enum : ax::Event::Id { RESIZE };
-		
+
 		bool OpenFile(const std::string& path);
 		void SaveFile(const std::string& path);
 		std::string GetScriptPath() const;
@@ -52,25 +52,25 @@ namespace editor {
 		ax::Point _delta_resize_click;
 		ax::Rect _resize_click_old_rect;
 		bool _has_resize_cursor = false;
-		
+
 		std::string _file_path;
 		ax::Font _font;
-		
+
 		bool _is_txt_edit;
 		at::ColorButton* _console_btn;
 		at::ColorButton* _txt_btn;
-		
+
 		TextEditor* _txt_editor;
 		Console* _console;
-		
+
 		static const int MINIMUM_HEIGHT = 200;
 		static const int TOP_BAR_HEIGHT = 25;
-		
+
 		axEVENT_DECLARATION(ax::Button::Msg, OnTextEditor);
 		axEVENT_DECLARATION(ax::Button::Msg, OnConsole);
-		
+
 		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnConsoleErrorUpdate);
-	
+
 		void OnMouseLeftDoubleClick(const ax::Point& pos);
 		void OnMouseLeave(const ax::Point& pos);
 		void OnMouseMotion(const ax::Point& pos);

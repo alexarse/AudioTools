@@ -21,12 +21,12 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #ifndef atMenuSizeAttribute_hpp
 #define atMenuSizeAttribute_hpp
 
-#include <OpenAX/OpenAX.h>
 #include <OpenAX/NumberScroll.h>
+#include <OpenAX/OpenAX.h>
 
 namespace at {
 namespace inspector {

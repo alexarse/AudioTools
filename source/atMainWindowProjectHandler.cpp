@@ -6,9 +6,9 @@
 //  Copyright © 2016 Alexandre Arsenault. All rights reserved.
 //
 
+#include "atMainWindowProjectHandler.h"
 #include "PyoAudio.h"
 #include "editor/atEditorMainWindow.hpp"
-#include "atMainWindowProjectHandler.h"
 
 #include "atArchive.h"
 #include <boost/filesystem.hpp>

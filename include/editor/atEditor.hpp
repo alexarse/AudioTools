@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #pragma once
 
 #include <OpenAX/OpenAX.h>
@@ -42,9 +42,9 @@ namespace editor {
 		}
 
 		static ax::Event::Object* GetMainEvtObj();
-		
+
 		MainWindow* GetMainWindow();
-	
+
 		int MainLoop();
 
 	private:

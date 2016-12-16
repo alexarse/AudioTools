@@ -41,8 +41,8 @@ namespace editor {
 		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &OpenDialog::OnMouseLeftDown);
 
 		win->event.OnAssignToWindowManager = ax::WBind<int>(this, &OpenDialog::OnAssignToWindowManager);
-//		win->event.GrabGlobalMouse();
-//		ax::App::GetInstance().GetPopupManager()->AddGlobalClickListener(win);
+		//		win->event.GrabGlobalMouse();
+		//		ax::App::GetInstance().GetPopupManager()->AddGlobalClickListener(win);
 
 		ax::DropMenu::Info menu_info;
 		menu_info.normal = ax::Color(240, 240, 240);
@@ -127,19 +127,18 @@ namespace editor {
 		//		win->node.Add(save);
 		//		win->node.Add(cancel);
 	}
-	
+
 	void OpenDialog::OnAssignToWindowManager(const int& v)
 	{
 		win->event.GrabGlobalMouse();
-//		win->event.GrabGlobalKey();
+		//		win->event.GrabGlobalKey();
 	}
 
 	void OpenDialog::OnGlobalClick(const ax::Window::Event::GlobalClick& gclick)
 	{
-		if(!win->dimension.GetAbsoluteRect().IsPointInside(gclick.pos)) {
+		if (!win->dimension.GetAbsoluteRect().IsPointInside(gclick.pos)) {
 			DeleteDialog();
 		}
-		
 	}
 
 	void OpenDialog::OnOpen(const ax::Button::Msg& msg)
@@ -167,13 +166,13 @@ namespace editor {
 		ax::App::GetInstance().GetWindowManager()->SetPastWindow(nullptr);
 		ax::App::GetInstance().GetWindowManager()->UnGrabKey();
 		ax::App::GetInstance().GetWindowManager()->UnGrabMouse();
-		
+
 		ax::App::GetInstance().GetPopupManager()->Clear();
-//		ax::App::GetInstance().GetPopupManager()->RemoveGlobalClickListener(win);
-//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
-//		ax::App::GetInstance().GetPopupManager()->UnGrabKey();
-//		ax::App::GetInstance().GetPopupManager()->UnGrabMouse();
-//		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
+		//		ax::App::GetInstance().GetPopupManager()->RemoveGlobalClickListener(win);
+		//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		//		ax::App::GetInstance().GetPopupManager()->UnGrabKey();
+		//		ax::App::GetInstance().GetPopupManager()->UnGrabMouse();
+		//		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
 		ax::App::GetInstance().UpdateAll();
 	}
 

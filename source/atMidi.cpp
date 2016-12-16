@@ -22,8 +22,8 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#include "PyoAudio.h"
 #include "atMidi.h"
+#include "PyoAudio.h"
 
 namespace at {
 Midi* Midi::_global_midi = nullptr;

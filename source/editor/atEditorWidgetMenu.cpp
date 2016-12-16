@@ -22,11 +22,11 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#include "atCommon.h"
-#include "editor/atEditor.hpp"
 #include "editor/atEditorWidgetMenu.hpp"
+#include "atCommon.h"
 #include "atHelpBar.h"
 #include "atSkin.hpp"
+#include "editor/atEditor.hpp"
 
 #include <OpenAX/Button.h>
 #include <OpenAX/OSFileSystem.h>
@@ -149,16 +149,15 @@ namespace editor {
 			}
 		}
 
-		std::sort(w_info.begin(), w_info.end(),
-			[](WidgetMenuInfo& a, WidgetMenuInfo& b) {
-			if(a.buider_name == "Panel") {
+		std::sort(w_info.begin(), w_info.end(), [](WidgetMenuInfo& a, WidgetMenuInfo& b) {
+			if (a.buider_name == "Panel") {
 				return true;
 			}
-			else if(b.buider_name == "Panel") {
+			else if (b.buider_name == "Panel") {
 				return false;
 			}
 			return (a.buider_name < b.buider_name);
-			});
+		});
 
 		return w_info;
 	}

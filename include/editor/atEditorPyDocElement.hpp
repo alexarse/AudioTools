@@ -12,24 +12,22 @@
 #include <OpenAX/OpenAX.h>
 
 namespace at {
-	namespace editor {
-		
-		class PyDocElement : public ax::Window::Backbone {
-		public:
-			PyDocElement(const ax::Rect& rect, const std::string& name, const std::string& description);
-			
-		private:
-			ax::Font _font;
-			ax::Font _font_normal;
-			std::string _name;
-			std::string _description;
-			std::vector<std::string> _desc_content;
-			
-			
-			
-			void OnPaint(ax::GC gc);
-		};
-	}
+namespace editor {
+
+	class PyDocElement : public ax::Window::Backbone {
+	public:
+		PyDocElement(const ax::Rect& rect, const std::string& name, const std::string& description);
+
+	private:
+		ax::Font _font;
+		ax::Font _font_normal;
+		std::string _name;
+		std::string _description;
+		std::vector<std::string> _desc_content;
+
+		void OnPaint(ax::GC gc);
+	};
+}
 }
 
 #endif /* atEditorPyDocElement_hpp */
