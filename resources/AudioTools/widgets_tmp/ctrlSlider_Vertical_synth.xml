@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Widget builder="Slider" name="TextButton">
+	<size>32, 100</size>
+	
+	<info 
+		bgColorNormal="200, 200, 200, 0"
+		bgColorHover="200, 200, 200, 0"
+		bgColorClicked="200, 200, 200, 0"
+		sliderColorNormal="200, 10, 10"
+		sliderColorHover="200, 10, 10"
+		sliderColorClicked="200, 10, 10"
+		sliderContourColor="200, 10, 10"
+		contourColor="200, 200, 200, 20" 
+		backSliderColor="204, 204, 204, 10" 
+		backSliderContourColor="190, 190, 190, 10"
+		contour_round_radius="0" 
+		slider_width="4" 
+		img_path="widget_resources/slider.png"
+		btn_size="30, 16"> 
+	</info>
+	
+	<flags>CLICK_ANYWHERE,VERTICAL,RIGHT_ALIGN,BACK_SLIDER</flags>
+</Widget>

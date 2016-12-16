@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Widget builder="Knob" name="TextButton" label="Knob" 
+		description="Console knob." 
+		size="(46 x 46)" 
+		img="widget_menu_images/edit_knob_dark.png">
+	<size>46, 46</size>
+	<info 
+		bgColorNormal="0, 0, 0, 0"
+		bgColorHover="0, 0, 0, 0" 
+		bgColorClicked="0, 0, 0, 0" 
+		img_path="widget_resources/knob_dark.png"
+		selected_img_path="widget_resources/knob_dark.png"
+		knob_size="46, 46"
+		n_knob="128"> 
+	</info>
+	<value>0.0</label>
+	<flags>0</flags>
+	<msg>bing</msg>
+</Widget>

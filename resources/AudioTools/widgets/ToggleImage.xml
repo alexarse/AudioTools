@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Widget builder="Toggle" name="TextButton"
+		label="Toggle" 
+		description="Sequencer toggle." 
+		size="(55 x 55)" 
+		img="widget_menu_images/edit_toggle_seq.png">
+		
+	<size>55, 55</size>
+	
+	<info 
+		normal="0, 0, 0, 0"
+		hover="0, 0, 0, 0"
+		clicking="0, 0, 0, 0"
+		font_color="77, 77, 77"
+		selected="0, 0, 0, 0"
+		selected_hover="0, 0, 0, 0"
+		selected_clicking="0, 0, 0, 0" 
+		selected_font_color="204, 204, 204" 
+		contour="0, 0, 0, 0"
+		font_size="12" 
+		img="widget_resources/seq_toggle.png"
+		single_img="0"> 
+	</info>
+
+	<img_path></img_path>
+	<label>1</label>
+	<flags>0</flags>
+	<msg>bing</msg>
+
+</Widget>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Widget builder="Slider" name="TextButton">
+	<size>180, 30</size>
+	
+	<info 
+		bgColorNormal="0, 0, 0, 0"
+		bgColorHover="0, 0, 0, 0"
+		bgColorClicked="0, 0, 0, 0"
+		sliderColorNormal="255, 0, 0"
+		sliderColorHover="200, 10, 10"
+		sliderColorClicked="255, 0, 0"
+		sliderContourColor="255, 0, 0"
+		contourColor="0, 0, 0" 
+		backSliderColor="160, 160, 160" 
+		backSliderContourColor="180, 180, 180"
+		contour_round_radius="5" 
+		slider_width="12" 
+		img_path="widget_resources/SliderKnob.png"
+		btn_size="30, 30"> 
+	</info>
+
+	<flags>CLICK_ANYWHERE,BACK_SLIDER</flags>
+
+</Widget>

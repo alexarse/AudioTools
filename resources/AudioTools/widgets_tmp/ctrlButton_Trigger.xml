@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Widget builder="Button" name="TextButton">
+	<size>75, 75</size>
+	
+	<info 
+		normal="102, 102, 102"
+		hover="115, 115, 115" 
+		clicking="89, 89, 89" 
+		selected="102, 102, 102" 
+		contour="102, 102, 102" 
+		font_color="204, 204, 204" 
+		corner_radius="4"> 
+	</info>
+
+	<img_path>widget_resources/btn.png</img_path>
+	<label></label>
+	<flags>SINGLE_IMG,IMG_RESIZE</flags>
+	<msg>bing</msg>
+
+</Widget>

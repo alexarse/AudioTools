@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Widget builder="Knob" name="TextButton" label="Knob" 
+		description="TB303 style." 
+		size="(64 x 64)" 
+		img="widget_menu_images/edit_knob_axKnobTB303_64x64.png">
+	<size>64, 64</size>
+	<info 
+		bgColorNormal="0, 0, 0, 0"
+		bgColorHover="0, 0, 0, 0" 
+		bgColorClicked="0, 0, 0, 0" 
+		img_path="widget_resources/axKnobTB303_64x64.png"
+		selected_img_path="widget_resources/axKnobTB303_64x64.png"
+		knob_size="64, 64"
+		n_knob="101"> 
+	</info>
+	<value>0.0</label>
+	<flags>0</flags>
+	<msg>bing</msg>
+</Widget>

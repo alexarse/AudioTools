@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Widget builder="Panel" name="Panel"
+		label="Panel"
+		description="Default panel." 
+		size="(200 x 200)"
+		img="widget_menu_images/ax_panel_01.png">
+		
+	<size>200, 200</size>
+	<bg_img></bg_img>
+	<info 
+		background="255, 255, 255"
+		contour="0, 0, 0" 
+		round_corner_radius="0"> 
+	</info>
+
+	<flags>0</flags>
+</Widget>

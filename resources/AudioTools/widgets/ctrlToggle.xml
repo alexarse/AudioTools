@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Widget builder="Toggle" name="TextButton" label="Toggle" 
+		description="Default toggle." 
+		size="(60 x 25)" 
+		img="widget_menu_images/edit_toggle.png">
+	<size>60, 25</size>
+	
+	<info 
+		normal="179, 179, 179"
+		hover="191, 191, 191" 
+		clicking="166, 166, 166" 
+		font_color="77, 77, 77"
+		selected="102, 102, 102" 
+		selected_hover="115, 115, 115" 
+		selected_clicking="89, 89, 89" 
+		selected_font_color="204, 204, 204" 
+		contour="179, 179, 179" 
+		font_size="12" 
+		img=""
+		single_img="1"> 
+	</info>
+
+	<img_path></img_path>
+	<label>Toggle</label>
+	<flags>0</flags>
+	<msg>bing</msg>
+
+</Widget>

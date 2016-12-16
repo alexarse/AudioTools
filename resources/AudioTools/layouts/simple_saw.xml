@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Layout script="scripts/simple_saw.py">
+	<Widget builder="Panel" name="MainWindow">
+		<position>78, 49</position>
+		<size>483, 200</size>
+		<bg_img/>
+		<info background="55, 55, 55, 255" contour="34, 34, 34, 255" round_corner_radius="0"/>
+		<flags>0</flags>
+		<Children>
+			<Widget builder="Toggle">
+				<position>84, 75</position>
+				<size>65, 65</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/switch_toggle.png" single_img="0"/>
+				<label/>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Toggle">
+				<position>323, 72</position>
+				<size>65, 65</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/switch_toggle.png" single_img="0"/>
+				<label/>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>24, 32</position>
+				<size>70, 70</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/cis_knob70x70x80.png" selected_img_path="widget_resources/cis_knob70x70x80.png" knob_size="70, 70" n_knob="80"/>
+				<msg>bing</msg>
+				<flags>34108</flags>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>142, 30</position>
+				<size>70, 70</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/cis_knob70x70x80.png" selected_img_path="widget_resources/cis_knob70x70x80.png" knob_size="70, 70" n_knob="80"/>
+				<msg>bing</msg>
+				<flags>61756</flags>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>259, 28</position>
+				<size>70, 70</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/cis_knob70x70x80.png" selected_img_path="widget_resources/cis_knob70x70x80.png" knob_size="70, 70" n_knob="80"/>
+				<msg>bing</msg>
+				<flags>18247</flags>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>385, 25</position>
+				<size>70, 70</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/cis_knob70x70x80.png" selected_img_path="widget_resources/cis_knob70x70x80.png" knob_size="70, 70" n_knob="80"/>
+				<msg>bing</msg>
+				<flags>15248</flags>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>23, 125</position>
+				<size>70, 70</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/cis_knob70x70x80.png" selected_img_path="widget_resources/cis_knob70x70x80.png" knob_size="70, 70" n_knob="80"/>
+				<msg>bing</msg>
+				<flags>0</flags>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>142, 121</position>
+				<size>70, 70</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/cis_knob70x70x80.png" selected_img_path="widget_resources/cis_knob70x70x80.png" knob_size="70, 70" n_knob="80"/>
+				<msg>bing</msg>
+				<flags>0</flags>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>260, 120</position>
+				<size>70, 70</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/cis_knob70x70x80.png" selected_img_path="widget_resources/cis_knob70x70x80.png" knob_size="70, 70" n_knob="80"/>
+				<msg>bing</msg>
+				<flags>0</flags>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>388, 119</position>
+				<size>70, 70</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/cis_knob70x70x80.png" selected_img_path="widget_resources/cis_knob70x70x80.png" knob_size="70, 70" n_knob="80"/>
+				<msg>bing</msg>
+				<flags>0</flags>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>30, 5</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Label</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>29, 100</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Label</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>151, 3</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Label</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>264, 3</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Label</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>391, 3</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Label</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>149, 98</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Label</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>264, 96</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Label</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>392, 94</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Label</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>85, 57</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="10" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>On</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>86, 122</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="10" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Off</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>325, 55</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="10" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>On</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>325, 117</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="10" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Off</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Toggle">
+				<position>206, 76</position>
+				<size>65, 65</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/switch_toggle.png" single_img="0"/>
+				<label/>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>208, 57</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="10" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>On</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>207, 122</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="10" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Off</label>
+				<unique_name/>
+			</Widget>
+		</Children>
+		<unique_name/>
+	</Widget>
+</Layout>
+

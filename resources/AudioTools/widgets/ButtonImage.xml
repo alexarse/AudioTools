@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Widget builder="Button" 
+		name="TextButton" 
+		label="Image Button" 
+		description="Button with background image." 
+		size="(60 x 25)" 
+		img="widget_menu_images/btn02.png"> 
+		
+	<size>60, 25</size>
+	
+	<info 
+		normal="0, 0, 0, 0"
+		hover="0, 0, 0, 0"
+		clicking="0, 0, 0, 0"
+		selected="0, 0, 0, 0" 
+		contour="0, 0, 0, 0" 
+		font_color="0, 0, 0, 0" 
+		corner_radius="0"> 
+	</info>
+
+	<img_path>widget_resources/axButtonImg.png</img_path>
+	<label>Button</label>
+	<flags>0</flags>
+	<msg>bing</msg>
+
+</Widget>

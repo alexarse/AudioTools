@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Widget builder="Knob" name="TextButton" label="Knob" 
+		description="Default knob." 
+		size="(100 x 100)" 
+		img="widget_menu_images/ax_knob_black_angle.png">
+	<size>100, 100</size>
+	<info 
+		bgColorNormal="0, 0, 0, 0"
+		bgColorHover="0, 0, 0, 0" 
+		bgColorClicked="0, 0, 0, 0" 
+		img_path="widget_resources/BlackAngle.png"
+		selected_img_path="widget_resources/BlackAngle.png"
+		knob_size="100, 100"
+		n_knob="100"> 
+	</info>
+	<value>0.0</label>
+	<flags>0</flags>
+	<msg>bing</msg>
+</Widget>

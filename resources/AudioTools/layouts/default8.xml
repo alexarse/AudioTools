@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Layout script="scripts/default.py">
+	<Widget builder="Panel" name="MainWindow">
+		<position>67, 66</position>
+		<size>200, 200</size>
+		<bg_img/>
+		<info background="255, 255, 255, 255" contour="0, 0, 0, 255" round_corner_radius="0"/>
+		<flags>0</flags>
+		<Children>
+			<Widget builder="Button">
+				<position>22, 85</position>
+				<size>60, 25</size>
+				<info normal="230, 230, 230, 255" hover="235, 235, 235, 255" clicking="243, 243, 243, 255" selected="230, 230, 230, 255" contour="128, 128, 128, 255" font_color="25, 25, 25, 255" corner_radius="0"/>
+				<img_path/>
+				<label>Button</label>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+			</Widget>
+			<Widget builder="Button">
+				<position>77, 48</position>
+				<size>60, 25</size>
+				<info normal="230, 230, 230, 255" hover="235, 235, 235, 255" clicking="243, 243, 243, 255" selected="230, 230, 230, 255" contour="128, 128, 128, 255" font_color="25, 25, 25, 255" corner_radius="0"/>
+				<img_path/>
+				<label>Button</label>
+				<flags/>
+				<msg>bing</msg>
+			</Widget>
+		</Children>
+	</Widget>
+</Layout>
+

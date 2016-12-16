@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<WidgetMenu>
+	<separator name="ax::Window"> </separator>
+
+	<!-- Window -->
+	<widget 
+		id="Window" 
+		label="Window" 
+		description="Default window." 
+		size="(200 x 200)" 
+		img="resources/edit_window.png"> 
+	</widget>
+
+	<!------------------------------------------------------->
+	<!-- BUTTON -->
+	<!------------------------------------------------------->
+	<separator name="ax::Button"> </separator>
+
+	<!-- Text button -->
+<!-- 	<widget 
+		id="Button" 
+		label="Text Button" 
+		description="Default button." 
+		size="(60 x 25)" 
+		img="resources/btn01.png"> 
+	</widget> -->
+
+	<!-- Image button -->
+<!-- 	<widget 
+		id="ButtonBgImg1" 
+		label="Image Button" 
+		description="Button with background image." 
+		size="(60 x 25)" img="resources/btn02.png"> 
+	</widget> -->
+	
+	<!-- Rounded button -->
+<!-- 	<widget 
+		id="RoundedButton01" 
+		label="Rounded Button" 
+		description="Rounded corner button." 
+		size="(60 x 25)" 
+		img="resources/btn03.png"> 
+	</widget> -->
+
+	<!-- Button -->
+	<widget 
+		builder="Button"
+		file="resources/ctrlButton_Text.xml"
+		label="Rounded Button" 
+		description="Rounded corner button." 
+		size="(60 x 25)" 
+		img="resources/btn03.png"> 
+	</widget>
+
+	<!------------------------------------------------------->
+	<!-- TOGGLE -->
+	<!------------------------------------------------------->
+	<separator name="ax::Toggle"> </separator>
+
+	<!-- <widget 
+		id="Toggle" 
+		label="Toggle" 
+		description="Default toggle." 
+		size="(60 x 25)" 
+		img="resources/edit_toggle.png"> 
+	</widget>
+	
+	<widget 
+		id="Toggle2" 
+		label="Toggle" 
+		description="Sequencer toggle." 
+		size="(55 x 55)" 
+		img="resources/edit_toggle_seq.png"> 
+	</widget> -->
+
+	<!------------------------------------------------------->
+	<!-- KNOBS -->
+	<!------------------------------------------------------->
+	<separator name="ax::Knob"> </separator>
+
+	<!-- <widget 
+		id="Knob" 
+		label="Knob" 
+		description="Moog Little Phatty style." 
+		size="(64 x 64)" 
+		img="resources/edit_knob_LittlePhatty.png"> 
+	</widget>
+	
+	<widget 
+		id="Knob2" 
+		label="Knob" 
+		description="JP8000 style." 
+		size="(64 x 64)" 
+		img="resources/edit_knob_JP8000.png"> 
+	</widget>
+
+	<widget 
+		id="Knob3" 
+		label="Knob" 
+		description="Default knob." 
+		size="(100 x 100)" 
+		img="resources/edit_knob_BlackAngle.png"> 
+	</widget>
+
+	<widget 
+		id="Knob4" 
+		label="Knob" 
+		description="Console knob." 
+		size="(46 x 46)" 
+		img="resources/edit_knob_dark.png"> 
+	</widget>
+
+	<widget 
+		id="Knob5" 
+		label="Knob" 
+		description="Small console knob." 
+		size="(36 x 36)" 
+		img="resources/edit_knob_blue_36x36.png"> 
+	</widget>
+
+	<widget 
+		id="Knob6" 
+		label="Knob" 
+		description="TB303 style." 
+		size="(64 x 64)" 
+		img="resources/edit_knob_axKnobTB303_64x64.png"> 
+	</widget>
+
+	<widget 
+		id="Knob7" 
+		label="Knob" 
+		description="Reakor style." 
+		size="(46 x 46)" 
+		img="resources/edit_knob_axKnobReaktor.png"> 
+	</widget> -->
+
+	<!------------------------------------------------------->
+	<!-- LINE FOLLOWER -->
+	<!------------------------------------------------------->
+	<separator name="Line Follower"> </separator>
+
+<!-- 	<widget 
+		id="LineFollower" 
+		label="Line Follower" 
+		description="Draw custom line following event." 
+		size="(300 x 300)" 
+		img="resources/edit_LineFollower.png"> 
+	</widget> -->
+
+</WidgetMenu>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Layout script="scripts/melodie.py">
+	<Widget builder="Panel" name="MainWindow">
+		<position>61, 40</position>
+		<size>136, 93</size>
+		<bg_img/>
+		<info background="255, 255, 255, 255" contour="0, 0, 0, 255" round_corner_radius="0"/>
+		<flags>0</flags>
+		<Children>
+			<Widget builder="Knob">
+				<position>15, 30</position>
+				<size>46, 46</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/knob_dark.png" selected_img_path="widget_resources/knob_dark.png" knob_size="46, 46" n_knob="128"/>
+				<msg>bing</msg>
+				<flags>0</flags>
+				<pyo>OnSetMetro</pyo>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>75, 30</position>
+				<size>46, 46</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/knob_dark.png" selected_img_path="widget_resources/knob_dark.png" knob_size="46, 46" n_knob="128"/>
+				<msg>bing</msg>
+				<flags>0</flags>
+				<pyo>OnSetDur</pyo>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>8, 4</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 255" contour="255, 255, 255, 255" font_color="0, 0, 0, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Speed</label>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Label">
+				<position>70, 4</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 255" contour="255, 255, 255, 255" font_color="0, 0, 0, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Length</label>
+				<unique_name/>
+			</Widget>
+		</Children>
+		<unique_name/>
+	</Widget>
+</Layout>
+

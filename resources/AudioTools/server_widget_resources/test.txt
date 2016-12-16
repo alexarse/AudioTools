@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Widget builder="Button" name="TextButton"
+       label="Rounded Button"
+       description="Rounded corner button."
+       size="(60 x 25)"
+       img="widget_menu_images/btn03.png">
+    <size>60, 25</size>
+    <info
+        normal="102, 102, 102"
+        hover="115, 115, 115"
+        clicking="89, 89, 89"
+        selected="102, 102, 102"
+        contour="102, 102, 102"
+        font_color="204, 204, 204"
+        corner_radius="5">
+    </info>
+    <img_path></img_path>
+    <label>Button</label>
+    <flags>0</flags>
+    <msg>bing</msg>
+</Widget>

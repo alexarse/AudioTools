@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Widget builder="Knob" name="TextButton" label="Knob" 
+		description="Vintage style." 
+		size="(85 x 85)" 
+		img="widget_menu_images/edit_knob_vintage.png">
+	<size>85, 85</size>
+	<info 
+		bgColorNormal="0, 0, 0, 0"
+		bgColorHover="0, 0, 0, 0" 
+		bgColorClicked="0, 0, 0, 0" 
+		img_path="widget_resources/knob_vintage_black_85x85x100.png"
+		selected_img_path="widget_resources/knob_vintage_black_85x85x100.png"
+		knob_size="85, 85"
+		n_knob="100"> 
+	</info>
+	<value>0.0</label>
+	<flags>0</flags>
+	<msg>bing</msg>
+</Widget>

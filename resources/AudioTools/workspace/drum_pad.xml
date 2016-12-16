@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>	
+	<Widget builder="Panel" name="Panel" file="workspace/drum_pad.xml" label="Drum Pads" description="4 x 4 drum pads." 
+	size="(229, 228)" img="widget_menu_images/ax_panel_01.png">
+		<position>37, 41</position>
+		<size>229, 228</size>
+		<bg_img/>
+		<info background="202, 200, 200, 255" contour="0, 0, 0, 255" round_corner_radius="0"/>
+		<flags>0</flags>
+		<Children>
+			<Widget builder="Button">
+				<position>12, 12</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>64, 12</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>116, 12</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>168, 12</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>12, 64</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>12, 116</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>12, 168</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>64, 64</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>116, 64</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>168, 64</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>64, 116</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>116, 116</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>168, 116</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>64, 168</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>116, 168</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Button">
+				<position>168, 168</position>
+				<size>50, 50</size>
+				<info normal="102, 102, 102, 255" hover="115, 115, 115, 255" clicking="89, 89, 89, 255" selected="102, 102, 102, 255" contour="102, 102, 102, 255" font_color="204, 204, 204, 255" corner_radius="4"/>
+				<img_path>widget_resources/btn.png</img_path>
+				<label/>
+				<flags>SINGLE_IMG,IMG_RESIZE</flags>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+		</Children>
+		<unique_name/>
+	</Widget>

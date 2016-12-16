@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Widget builder="Knob" name="TextButton">
+	<size>64, 64</size>
+	<info 
+		bgColorNormal="0, 0, 0, 0"
+		bgColorHover="0, 0, 0, 0" 
+		bgColorClicked="0, 0, 0, 0" 
+		img_path="widget_resources/LittlePhatty.png"
+		selected_img_path="widget_resources/LittlePhatty.png"
+		knob_size="64, 64"
+		n_knob="101"> 
+	</info>
+	<value>0.0</label>
+	<flags>0</flags>
+	<msg>bing</msg>
+</Widget>
