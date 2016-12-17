@@ -25,7 +25,7 @@
 #ifndef WindowPyWrapper_hpp
 #define WindowPyWrapper_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace ax {
 namespace python {

@@ -29,7 +29,7 @@ namespace editor {
 			_desc_content.push_back(description.substr(i * n_char_per_line, (i + 1) * n_char_per_line));
 		}
 
-		win->dimension.SetSize(ax::Size(rect.size.x, 14 + n_separation * 12 + 5));
+		win->dimension.SetSize(ax::Size(rect.size.w, 14 + n_separation * 12 + 5));
 	}
 
 	void PyDocElement::OnPaint(ax::GC gc)

@@ -8,12 +8,12 @@
 
 #include "editor/atEditorPyDocSeparator.hpp"
 #include "atSkin.hpp"
-#include <OpenAX/Toggle.h>
+#include <axlib/Toggle.hpp>
 
 namespace at {
 namespace editor {
-	PyDocSeparator::PyDocSeparator(
-		const ax::Rect& rect, const std::string& name, const ax::StringPairVector& elements)
+	PyDocSeparator::PyDocSeparator(const ax::Rect& rect, const std::string& name,
+		const std::vector<std::pair<std::string, std::string>>& elements)
 		: _font("fonts/FreeSansBold.ttf")
 		, _name(name)
 	{
@@ -40,12 +40,12 @@ namespace editor {
 		tog_info.single_img = false;
 
 		auto tog_left = ax::shared<ax::Toggle>(
-			ax::Rect(ax::Point(rect.size.x - 28, 3), ax::Size(15, 15)), GetOnResizeSeparator(), tog_info);
+			ax::Rect(ax::Point(rect.size.w - 28, 3), ax::Size(15, 15)), GetOnResizeSeparator(), tog_info);
 
 		win->node.Add(tog_left);
 
-		ax::Point pos(0, rect.size.y);
-		ax::Size size(rect.size.x, 40);
+		ax::Point pos(0, rect.size.h);
+		ax::Size size(rect.size.w, 40);
 
 		for (auto& n : elements) {
 			auto elem = ax::shared<PyDocElement>(ax::Rect(pos, size), n.first, n.second);
@@ -55,13 +55,13 @@ namespace editor {
 			pos = elem->GetWindow()->dimension.GetRect().GetNextPosDown(-1);
 		}
 
-		win->dimension.SetSize(ax::Size(rect.size.x, pos.y));
+		win->dimension.SetSize(ax::Size(rect.size.w, pos.y));
 	}
 
 	void PyDocSeparator::OnResizeSeparator(const ax::Toggle::Msg& msg)
 	{
 		if (msg.GetSelected()) {
-			win->dimension.SetSize(ax::Size(win->dimension.GetSize().x, 20));
+			win->dimension.SetSize(ax::Size(win->dimension.GetSize().w, 20));
 
 			for (auto& n : _elements) {
 				n->GetWindow()->Hide();
@@ -69,15 +69,15 @@ namespace editor {
 		}
 		else {
 			ax::Rect rect(_elements.back()->GetWindow()->dimension.GetRect());
-			win->dimension.SetSize(ax::Size(rect.size.x, rect.position.y + rect.size.y));
+			win->dimension.SetSize(ax::Size(rect.size.w, rect.position.y + rect.size.h));
 
 			for (auto& n : _elements) {
 				n->GetWindow()->Show();
 			}
 		}
 
-		//		ax::Print("Inse sp need resize");
-		win->PushEvent(NEED_RESIZE, new ax::Event::EmptyMsg());
+		//		ax::console::Print("Inse sp need resize");
+		win->PushEvent(NEED_RESIZE, new ax::event::EmptyMsg());
 	}
 
 	void PyDocSeparator::OnPaint(ax::GC gc)

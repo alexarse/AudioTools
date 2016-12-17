@@ -25,16 +25,16 @@
 #ifndef atInspectorMenuAttribute_hpp
 #define atInspectorMenuAttribute_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace inspector {
 	class MenuAttribute : public ax::Window::Backbone {
 	public:
-		enum Events : ax::Event::Id { ASSIGN_VALUE };
+		enum Events : ax::event::Id { ASSIGN_VALUE };
 
 		MenuAttribute(
-			const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct);
+			const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct);
 
 	private:
 		std::string _name;

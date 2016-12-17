@@ -8,8 +8,8 @@ namespace editor {
 		auto old_fct = window->event.OnMouseEnter.GetFunction();
 
 		window->event.OnMouseEnter = ax::WFunc<ax::Point>([old_fct, help_msg](const ax::Point& pos) {
-			ax::Event::Object* main_obj = at::editor::App::GetInstance()->GetMainEvtObj();
-			main_obj->PushEvent(999, new ax::Event::StringMsg(help_msg));
+			ax::event::Object* main_obj = at::editor::App::GetInstance()->GetMainEvtObj();
+			main_obj->PushEvent(999, new ax::event::StringMsg(help_msg));
 
 			if (old_fct) {
 				old_fct(pos);
@@ -20,8 +20,8 @@ namespace editor {
 
 		window->event.OnMouseLeave = ax::WFunc<ax::Point>([old_leave_fct](const ax::Point& pos) {
 
-			ax::Event::Object* main_obj = at::editor::App::GetInstance()->GetMainEvtObj();
-			main_obj->PushEvent(999, new ax::Event::StringMsg(""));
+			ax::event::Object* main_obj = at::editor::App::GetInstance()->GetMainEvtObj();
+			main_obj->PushEvent(999, new ax::event::StringMsg(""));
 
 			if (old_leave_fct) {
 				old_leave_fct(pos);

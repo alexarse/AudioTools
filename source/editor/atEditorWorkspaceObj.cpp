@@ -65,9 +65,10 @@ namespace editor {
 		if (_selectable) {
 			win->event.GrabMouse();
 
-			App::GetMainEvtObj()->PushEvent(8000,
-				new ax::Event::SimpleMsg<std::pair<ax::StringPair, ax::Point>>(
-					std::pair<ax::StringPair, ax::Point>(ax::StringPair(_builder_name, _file_path), pos)));
+			App::GetMainEvtObj()->PushEvent(
+				8000, new ax::event::SimpleMsg<std::pair<std::pair<std::string, std::string>, ax::Point>>(
+						  std::pair<std::pair<std::string, std::string>, ax::Point>(
+							  std::pair<std::string, std::string>(_builder_name, _file_path), pos)));
 
 			win->Update();
 		}
@@ -75,7 +76,7 @@ namespace editor {
 
 	void WorkspaceObj::OnMouseLeftDragging(const ax::Point& pos)
 	{
-		App::GetMainEvtObj()->PushEvent(8001, new ax::Event::SimpleMsg<ax::Point>(pos));
+		App::GetMainEvtObj()->PushEvent(8001, new ax::event::SimpleMsg<ax::Point>(pos));
 	}
 
 	void WorkspaceObj::OnMouseLeftUp(const ax::Point& pos)
@@ -83,7 +84,7 @@ namespace editor {
 		if (win->event.IsGrabbed()) {
 			win->event.UnGrabMouse();
 
-			App::GetMainEvtObj()->PushEvent(8002, new ax::Event::SimpleMsg<ax::Point>(pos));
+			App::GetMainEvtObj()->PushEvent(8002, new ax::event::SimpleMsg<ax::Point>(pos));
 			win->Update();
 		}
 	}
@@ -95,7 +96,7 @@ namespace editor {
 			at::Skin::GetInstance()->data.w_menu_obj_bg_1);
 
 		ax::Size img_size(_img->GetSize());
-		ax::Point img_pos(5 + (65 - img_size.x) / 2, 5 + (rect.size.y - 8 - img_size.y) / 2);
+		ax::Point img_pos(5 + (65 - img_size.w) / 2, 5 + (rect.size.h - 8 - img_size.h) / 2);
 		gc.DrawImage(_img.get(), img_pos);
 
 		if (_show_text) {

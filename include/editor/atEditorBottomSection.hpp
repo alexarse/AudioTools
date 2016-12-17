@@ -25,11 +25,11 @@
 #ifndef __AT_EDITOR_BOTTOM_SECTION_H__
 #define __AT_EDITOR_BOTTOM_SECTION_H__
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
-#include <OpenAX/Button.h>
-#include <OpenAX/ScrollBar.h>
-#include <OpenAX/Timer.h>
+#include <axlib/Button.hpp>
+#include <axlib/ScrollBar.hpp>
+#include <axlib/Timer.hpp>
 
 #include "atColorButton.h"
 #include "atConsole.h"
@@ -41,7 +41,7 @@ namespace editor {
 	public:
 		BottomSection(const ax::Rect& rect, const std::string& open_path);
 
-		enum : ax::Event::Id { RESIZE };
+		enum : ax::event::Id { RESIZE };
 
 		bool OpenFile(const std::string& path);
 		void SaveFile(const std::string& path);
@@ -69,7 +69,7 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Button::Msg, OnTextEditor);
 		axEVENT_DECLARATION(ax::Button::Msg, OnConsole);
 
-		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnConsoleErrorUpdate);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnConsoleErrorUpdate);
 
 		void OnMouseLeftDoubleClick(const ax::Point& pos);
 		void OnMouseLeave(const ax::Point& pos);

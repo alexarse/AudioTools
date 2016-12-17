@@ -1,7 +1,7 @@
 #ifndef atEditorProjectSpace_hpp
 #define atEditorProjectSpace_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {

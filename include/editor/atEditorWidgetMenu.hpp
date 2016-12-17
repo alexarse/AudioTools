@@ -25,10 +25,10 @@
 #ifndef mdiWidgetMenu_hpp
 #define mdiWidgetMenu_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
-#include <OpenAX/Button.h>
-#include <OpenAX/ScrollBar.h>
+#include <axlib/Button.hpp>
+#include <axlib/ScrollBar.hpp>
 
 #include "editor/atEditorWidgetMenuObj.hpp"
 #include "editor/atEditorWidgetMenuSeparator.hpp"
@@ -39,7 +39,7 @@ namespace editor {
 	public:
 		WidgetMenu(const ax::Rect& rect);
 
-		enum : ax::Event::Id { SMALLER_MENU };
+		enum : ax::event::Id { SMALLER_MENU };
 
 		void SetOnlyMainWindowWidgetSelectable();
 		void SetAllSelectable();

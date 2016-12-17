@@ -2,7 +2,7 @@
 #include "atHelpBar.h"
 
 #include "atColorButton.h"
-#include <OpenAX/Button.h>
+#include <axlib/Button.hpp>
 
 namespace at {
 namespace editor {
@@ -29,24 +29,24 @@ namespace editor {
 		win->event.OnResize = ax::WBind<ax::Size>(this, &LeftSideMenu::OnResize);
 
 		auto widget_menu = ax::shared<WidgetMenu>(
-			ax::Rect(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT)));
+			ax::Rect(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.w, rect.size.h - TOP_BAR_HEIGHT)));
 		win->node.Add(widget_menu);
 		_widget_menu = widget_menu.get();
 
 		auto workspace = ax::shared<Workspace>(
-			ax::Rect(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT)));
+			ax::Rect(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.w, rect.size.h - TOP_BAR_HEIGHT)));
 		win->node.Add(workspace);
 		_workspace = workspace.get();
 		_workspace->GetWindow()->Hide();
 
 		auto project_space = ax::shared<ProjectSpace>(
-			ax::Rect(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT)));
+			ax::Rect(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.w, rect.size.h - TOP_BAR_HEIGHT)));
 		win->node.Add(project_space);
 		_project_space = project_space.get();
 		_project_space->GetWindow()->Hide();
 
 		auto online_store_menu = ax::shared<OnlineStoreMenu>(
-			ax::Rect(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT)));
+			ax::Rect(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.w, rect.size.h - TOP_BAR_HEIGHT)));
 		win->node.Add(online_store_menu);
 		_online_store_menu = online_store_menu.get();
 		_online_store_menu->GetWindow()->Hide();
@@ -95,7 +95,7 @@ namespace editor {
 
 		// Is already small -> going bigger.
 		if (_dropped_smaller) {
-			win->dimension.SetSize(ax::Size(250, win->dimension.GetRect().size.y));
+			win->dimension.SetSize(ax::Size(250, win->dimension.GetRect().size.h));
 
 			_dropped_smaller = false;
 
@@ -109,7 +109,7 @@ namespace editor {
 			win->Update();
 		}
 		else {
-			win->dimension.SetSize(ax::Size(85, win->dimension.GetRect().size.y));
+			win->dimension.SetSize(ax::Size(85, win->dimension.GetRect().size.h));
 
 			_dropped_smaller = true;
 
@@ -129,7 +129,7 @@ namespace editor {
 	void LeftSideMenu::SetWide()
 	{
 		if (_dropped_smaller) {
-			win->dimension.SetSize(ax::Size(250, win->dimension.GetRect().size.y));
+			win->dimension.SetSize(ax::Size(250, win->dimension.GetRect().size.h));
 
 			_dropped_smaller = false;
 

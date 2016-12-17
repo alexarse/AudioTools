@@ -9,7 +9,7 @@
 #ifndef atEditorWorkspaceObj_hpp
 #define atEditorWorkspaceObj_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {

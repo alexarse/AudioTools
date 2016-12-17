@@ -9,18 +9,18 @@
 #ifndef atSaveWork_hpp
 #define atSaveWork_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
-#include <OpenAX/Button.h>
-#include <OpenAX/Slider.h>
-#include <OpenAX/TextBox.h>
+#include <axlib/Button.hpp>
+#include <axlib/Slider.hpp>
+#include <axlib/TextBox.hpp>
 
 namespace at {
 class SaveWorkPanel : public ax::Window::Backbone {
 public:
-	enum Events : ax::Event::Id { SAVE, CANCEL };
+	enum Events : ax::event::Id { SAVE, CANCEL };
 
-	class Msg : public ax::Event::Msg {
+	class Msg : public ax::event::Msg {
 	public:
 		Msg(const std::string& name, const std::string& description, const std::string& author);
 
@@ -39,7 +39,7 @@ public:
 			return _author;
 		}
 
-		ax::Event::Msg* GetCopy();
+		ax::event::Msg* GetCopy();
 
 	private:
 		std::string _name, _description, _author;
@@ -73,7 +73,7 @@ private:
 	void DeleteDialog();
 
 	axEVENT_DECLARATION(at::SaveWorkPanel::Msg, OnAcceptSavePanelToWorkpace);
-	axEVENT_DECLARATION(ax::Event::EmptyMsg, OnCancelSavePanelToWorkpace);
+	axEVENT_DECLARATION(ax::event::EmptyMsg, OnCancelSavePanelToWorkpace);
 
 	void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
 	void OnMouseLeftDown(const ax::Point& pos);

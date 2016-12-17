@@ -28,7 +28,7 @@
 //#include <Python/Python.h>
 //#include <cstdio>
 
-#include <OpenAX/Utils.h>
+#include <axlib/Util.hpp>
 #include <boost/python.hpp>
 
 #include "python/PythonWrapperUtils.hpp"

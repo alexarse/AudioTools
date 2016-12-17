@@ -25,7 +25,7 @@
 #ifndef __AX_VOLUME_METER_H__
 #define __AX_VOLUME_METER_H__
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 /*
@@ -37,7 +37,7 @@ public:
 
 	void SetValue(double value)
 	{
-		_value = ax::Utils::Clamp<double>(value, 0.0, 1.0);
+		_value = ax::util::Clamp<double>(value, 0.0, 1.0);
 		win->Update();
 	}
 

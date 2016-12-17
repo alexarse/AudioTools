@@ -17,15 +17,15 @@ namespace editor {
 	{
 	}
 
-	void MainWindowViewHandler::OnViewLayout(const ax::Event::SimpleMsg<int>& msg)
+	void MainWindowViewHandler::OnViewLayout(const ax::event::SimpleMsg<int>& msg)
 	{
 		//		ax::Window* win = _main_window->GetWindow();
 
-		ax::Print("Main window view.");
+		ax::console::Print("Main window view.");
 		ax::Window* main_win = _main_window->_gridWindow->GetMainWindow();
 
 		if (main_win == nullptr) {
-			ax::Print("No main window setup.");
+			ax::console::Print("No main window setup.");
 			/// @todo Add a message box to tell user.
 			return;
 		}
@@ -58,7 +58,7 @@ namespace editor {
 		btn_info.contour = ax::Color(0.0, 0.0);
 		btn_info.font_color = ax::Color(0.0, 0.0);
 
-		ax::Point back_btn_pos(rect.size - ax::Point(25, 25));
+		ax::Point back_btn_pos((rect.size - ax::Size(25, 25)).ToPair());
 
 		auto tmp_back_btn = ax::shared<ax::Button>(ax::Rect(back_btn_pos, ax::Size(25, 25)),
 			GetOnBackToEditor(), btn_info, "resources/back.png", "", ax::Button::Flags::SINGLE_IMG);
@@ -105,7 +105,7 @@ namespace editor {
 		ax::Window* main_window = _main_window->_gridWindow->GetMainWindow();
 
 		if (main_window == nullptr) {
-			ax::Error("Main window doesn't exist when comming back from view mode.");
+			ax::console::Error("Main window doesn't exist when comming back from view mode.");
 			ax::App::GetInstance().SetFrameSize(_view_info.old_frame_size);
 			return;
 		}
@@ -129,8 +129,8 @@ namespace editor {
 			children.erase(children.begin() + index);
 		}
 		else {
-			ax::Error("Back to editor button wasn't found when comming back "
-					  "from view mode.");
+			ax::console::Error("Back to editor button wasn't found when comming back "
+							   "from view mode.");
 		}
 
 		ax::App::GetInstance().SetResizable(true);
@@ -138,7 +138,7 @@ namespace editor {
 		ax::App::GetInstance().SetFocusAndCenter();
 	}
 
-	void MainWindowViewHandler::OnResizeCodeEditor(const ax::Event::SimpleMsg<int>& msg)
+	void MainWindowViewHandler::OnResizeCodeEditor(const ax::event::SimpleMsg<int>& msg)
 	{
 		ax::Window* win = _main_window->GetWindow();
 		win->event.OnResize(win->dimension.GetSize());
@@ -207,7 +207,7 @@ namespace editor {
 
 		// Resize status bar.
 		ax::Size top_menu_size(_main_window->_statusBar->GetWindow()->dimension.GetSize());
-		top_menu_size.x = size.x;
+		top_menu_size.w = size.w;
 		_main_window->_statusBar->GetWindow()->dimension.SetSize(top_menu_size);
 
 		bool widget_menu = _main_window->_left_menu->GetWindow()->IsShown();
@@ -217,81 +217,81 @@ namespace editor {
 		int editor_height = 0;
 
 		if (code_editor) {
-			editor_height = _main_window->_bottom_section->GetWindow()->dimension.GetSize().y;
-			if (editor_height > size.y - _main_window->STATUS_BAR_HEIGHT) {
-				editor_height = size.y - _main_window->STATUS_BAR_HEIGHT;
+			editor_height = _main_window->_bottom_section->GetWindow()->dimension.GetSize().h;
+			if (editor_height > size.h - _main_window->STATUS_BAR_HEIGHT) {
+				editor_height = size.h - _main_window->STATUS_BAR_HEIGHT;
 			}
 		}
 
 		int grid_height
-			= size.y - _main_window->STATUS_BAR_HEIGHT - editor_height - _main_window->BOTTOM_BAR_HEIGHT;
+			= size.h - _main_window->STATUS_BAR_HEIGHT - editor_height - _main_window->BOTTOM_BAR_HEIGHT;
 
-		int widget_menu_width = _main_window->_left_menu->GetWindow()->dimension.GetRect().size.x;
+		int widget_menu_width = _main_window->_left_menu->GetWindow()->dimension.GetRect().size.w;
 
 		if (widget_menu && inspector) {
 			ax::Size widget_menu_size(widget_menu_width,
-				size.y - _main_window->STATUS_BAR_HEIGHT - _main_window->BOTTOM_BAR_HEIGHT);
+				size.h - _main_window->STATUS_BAR_HEIGHT - _main_window->BOTTOM_BAR_HEIGHT);
 			_main_window->_left_menu->GetWindow()->dimension.SetSize(widget_menu_size);
 
 			ax::Rect grid_rect(widget_menu_width, _main_window->STATUS_BAR_HEIGHT,
-				size.x - widget_menu_width - _main_window->INSPECTOR_MENU_WIDTH, grid_height);
+				size.w - widget_menu_width - _main_window->INSPECTOR_MENU_WIDTH, grid_height);
 			_main_window->_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
 
-			ax::Rect info_rect(size.x - _main_window->INSPECTOR_MENU_WIDTH, _main_window->STATUS_BAR_HEIGHT,
+			ax::Rect info_rect(size.w - _main_window->INSPECTOR_MENU_WIDTH, _main_window->STATUS_BAR_HEIGHT,
 				_main_window->INSPECTOR_MENU_WIDTH,
-				size.y - _main_window->STATUS_BAR_HEIGHT - _main_window->BOTTOM_BAR_HEIGHT);
+				size.h - _main_window->STATUS_BAR_HEIGHT - _main_window->BOTTOM_BAR_HEIGHT);
 			_main_window->_right_menu->GetWindow()->dimension.SetRect(info_rect);
 
 			if (code_editor) {
 				ax::Rect editor_rect(widget_menu_width + 1,
-					size.y - editor_height - _main_window->BOTTOM_BAR_HEIGHT,
-					size.x - widget_menu_width - _main_window->INSPECTOR_MENU_WIDTH, editor_height);
+					size.h - editor_height - _main_window->BOTTOM_BAR_HEIGHT,
+					size.w - widget_menu_width - _main_window->INSPECTOR_MENU_WIDTH, editor_height);
 				_main_window->_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}
 		else if (widget_menu) {
-			ax::Size widget_menu_size(widget_menu_width, size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
+			ax::Size widget_menu_size(widget_menu_width, size.h - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
 			_main_window->_left_menu->GetWindow()->dimension.SetSize(widget_menu_size);
 
 			ax::Rect grid_rect(
-				widget_menu_width, _main_window->STATUS_BAR_HEIGHT, size.x - widget_menu_width, grid_height);
+				widget_menu_width, _main_window->STATUS_BAR_HEIGHT, size.w - widget_menu_width, grid_height);
 			_main_window->_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
 
 			if (code_editor) {
-				ax::Rect editor_rect(widget_menu_width + 1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
-					size.x - widget_menu_width, editor_height);
+				ax::Rect editor_rect(widget_menu_width + 1, size.h - editor_height - BOTTOM_BAR_HEIGHT,
+					size.w - widget_menu_width, editor_height);
 
 				_main_window->_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}
 		else if (inspector) {
-			ax::Rect grid_rect(0, STATUS_BAR_HEIGHT, size.x - INSPECTOR_MENU_WIDTH, grid_height);
+			ax::Rect grid_rect(0, STATUS_BAR_HEIGHT, size.w - INSPECTOR_MENU_WIDTH, grid_height);
 			_main_window->_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
 
-			ax::Rect info_rect(size.x - INSPECTOR_MENU_WIDTH, STATUS_BAR_HEIGHT, INSPECTOR_MENU_WIDTH,
-				size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
+			ax::Rect info_rect(size.w - INSPECTOR_MENU_WIDTH, STATUS_BAR_HEIGHT, INSPECTOR_MENU_WIDTH,
+				size.h - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
 			_main_window->_right_menu->GetWindow()->dimension.SetRect(info_rect);
 
 			if (code_editor) {
-				ax::Rect editor_rect(1, size.y - editor_height - BOTTOM_BAR_HEIGHT,
-					size.x - INSPECTOR_MENU_WIDTH, editor_height);
+				ax::Rect editor_rect(1, size.h - editor_height - BOTTOM_BAR_HEIGHT,
+					size.w - INSPECTOR_MENU_WIDTH, editor_height);
 
 				_main_window->_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}
 		else {
-			ax::Rect grid_rect(0, STATUS_BAR_HEIGHT, size.x, grid_height);
+			ax::Rect grid_rect(0, STATUS_BAR_HEIGHT, size.w, grid_height);
 			_main_window->_gridWindow->GetWindow()->dimension.SetRect(grid_rect);
 
 			if (code_editor) {
-				ax::Rect editor_rect(1, size.y - editor_height - BOTTOM_BAR_HEIGHT, size.x, editor_height);
+				ax::Rect editor_rect(1, size.h - editor_height - BOTTOM_BAR_HEIGHT, size.w, editor_height);
 
 				_main_window->_bottom_section->GetWindow()->dimension.SetRect(editor_rect);
 			}
 		}
 
 		// Midi feedback.
-		_main_window->_midi_feedback->GetWindow()->dimension.SetPosition(ax::Point(size.x - 17, size.y - 15));
+		_main_window->_midi_feedback->GetWindow()->dimension.SetPosition(ax::Point(size.w - 17, size.h - 15));
 
 		AttachHelpInfo(_main_window->_midi_feedback->GetWindow(), "Midi input activity.");
 	}

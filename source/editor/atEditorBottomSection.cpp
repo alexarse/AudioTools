@@ -53,12 +53,12 @@ namespace editor {
 		txt_info.text_color = ax::Color(0.0);
 
 		auto txt_editor = ax::shared<TextEditor>(
-			ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x - 1, rect.size.y - TOP_BAR_HEIGHT), txt_info);
+			ax::Rect(0, TOP_BAR_HEIGHT, rect.size.w - 1, rect.size.h - TOP_BAR_HEIGHT), txt_info);
 		_txt_editor = txt_editor.get();
 		win->node.Add(txt_editor);
 
 		auto console
-			= ax::shared<Console>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x - 1, rect.size.y - TOP_BAR_HEIGHT));
+			= ax::shared<Console>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.w - 1, rect.size.h - TOP_BAR_HEIGHT));
 		_console = console.get();
 		win->node.Add(console);
 		_console->GetWindow()->Hide();
@@ -140,7 +140,7 @@ namespace editor {
 		}
 	}
 
-	void BottomSection::OnConsoleErrorUpdate(const ax::Event::EmptyMsg& msg)
+	void BottomSection::OnConsoleErrorUpdate(const ax::event::EmptyMsg& msg)
 	{
 		_console->GetWindow()->Show();
 		_txt_editor->GetWindow()->Hide();
@@ -159,19 +159,19 @@ namespace editor {
 
 		if (rect.position.y > 30) {
 			// Drop up.
-			int bottom_pos_y = rect.position.y + rect.size.y;
+			int bottom_pos_y = rect.position.y + rect.size.h;
 			int size_y = bottom_pos_y - 30;
 
-			win->PushEvent(RESIZE, new ax::Event::SimpleMsg<int>(0));
-			ax::Print("Go up");
-			win->dimension.SetRect(ax::Rect(rect.position.x, 30, rect.size.x, size_y));
-			ax::Print("Go up 2");
+			win->PushEvent(RESIZE, new ax::event::SimpleMsg<int>(0));
+			ax::console::Print("Go up");
+			win->dimension.SetRect(ax::Rect(rect.position.x, 30, rect.size.w, size_y));
+			ax::console::Print("Go up 2");
 		}
 		else {
 			// Drop down.
-			win->PushEvent(RESIZE, new ax::Event::SimpleMsg<int>(0));
-			int y_pos = rect.position.y + rect.size.y - MINIMUM_HEIGHT;
-			win->dimension.SetRect(ax::Rect(rect.position.x, y_pos, rect.size.x, MINIMUM_HEIGHT));
+			win->PushEvent(RESIZE, new ax::event::SimpleMsg<int>(0));
+			int y_pos = rect.position.y + rect.size.h - MINIMUM_HEIGHT;
+			win->dimension.SetRect(ax::Rect(rect.position.x, y_pos, rect.size.w, MINIMUM_HEIGHT));
 		}
 	}
 
@@ -208,7 +208,7 @@ namespace editor {
 			_delta_resize_click = pos;
 			_resize_click_old_rect = win->dimension.GetRect();
 			win->event.GrabMouse();
-			//			ax::Print("Resize editor.");
+			//			ax::console::Print("Resize editor.");
 		}
 	}
 
@@ -216,17 +216,17 @@ namespace editor {
 	{
 		int delta_y = _delta_resize_click.y - pos.y;
 
-		//		ax::Print("Resize editor delta :", delta_y);
+		//		ax::console::Print("Resize editor delta :", delta_y);
 
 		if (delta_y > 0) {
 			ax::Rect rect(win->dimension.GetRect());
 			rect.position.y -= delta_y;
-			rect.size.y += delta_y;
+			rect.size.h += delta_y;
 
 			if (rect.position.y < 30) {
-				//				ax::Print("Maximum height");
+				//				ax::console::Print("Maximum height");
 				int delta_pos_y = 30 - rect.position.y;
-				rect.size.y -= delta_pos_y;
+				rect.size.h -= delta_pos_y;
 				rect.position.y = 30;
 			}
 
@@ -235,16 +235,16 @@ namespace editor {
 		else if (delta_y < 0) {
 			ax::Rect rect(win->dimension.GetRect());
 			rect.position.y -= delta_y;
-			rect.size.y += delta_y;
+			rect.size.h += delta_y;
 
-			if (rect.size.y < MINIMUM_HEIGHT) {
-				//				ax::Print("Minimum height");
-				int delta_pos_y = MINIMUM_HEIGHT - rect.size.y;
-				rect.size.y = MINIMUM_HEIGHT;
+			if (rect.size.h < MINIMUM_HEIGHT) {
+				//				ax::console::Print("Minimum height");
+				int delta_pos_y = MINIMUM_HEIGHT - rect.size.h;
+				rect.size.h = MINIMUM_HEIGHT;
 				rect.position.y -= delta_pos_y;
 			}
 
-			win->PushEvent(RESIZE, new ax::Event::SimpleMsg<int>(0));
+			win->PushEvent(RESIZE, new ax::event::SimpleMsg<int>(0));
 			win->dimension.SetRect(rect);
 		}
 
@@ -259,22 +259,22 @@ namespace editor {
 			if (delta_y > 0) {
 				ax::Rect rect(win->dimension.GetRect());
 				rect.position.y -= delta_y;
-				rect.size.y += delta_y;
+				rect.size.h += delta_y;
 				win->dimension.SetRect(rect);
 			}
 			else if (delta_y < 0) {
 				ax::Rect rect(win->dimension.GetRect());
 				rect.position.y -= delta_y;
-				rect.size.y += delta_y;
+				rect.size.h += delta_y;
 
-				if (rect.size.y < MINIMUM_HEIGHT) {
-					//					ax::Print("Minimum height");
-					int delta_pos_y = MINIMUM_HEIGHT - rect.size.y;
-					rect.size.y = MINIMUM_HEIGHT;
+				if (rect.size.h < MINIMUM_HEIGHT) {
+					//					ax::console::Print("Minimum height");
+					int delta_pos_y = MINIMUM_HEIGHT - rect.size.h;
+					rect.size.h = MINIMUM_HEIGHT;
 					rect.position.y -= delta_pos_y;
 				}
 
-				win->PushEvent(RESIZE, new ax::Event::SimpleMsg<int>(0));
+				win->PushEvent(RESIZE, new ax::event::SimpleMsg<int>(0));
 				win->dimension.SetRect(rect);
 			}
 
@@ -289,13 +289,13 @@ namespace editor {
 
 	void BottomSection::OnResize(const ax::Size& size)
 	{
-		//		_open_btn->GetWindow()->dimension.SetPosition(ax::Point(size.x - 50, 2));
+		//		_open_btn->GetWindow()->dimension.SetPosition(ax::Point(size.w - 50, 2));
 		//
 		//		ax::Point pos = _open_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 		//		_save_btn->GetWindow()->dimension.SetPosition(pos);
 
-		_txt_editor->GetWindow()->dimension.SetSize(ax::Size(size.x - 1, size.y - TOP_BAR_HEIGHT));
-		_console->GetWindow()->dimension.SetSize(ax::Size(size.x - 1, size.y - TOP_BAR_HEIGHT));
+		_txt_editor->GetWindow()->dimension.SetSize(ax::Size(size.w - 1, size.h - TOP_BAR_HEIGHT));
+		_console->GetWindow()->dimension.SetSize(ax::Size(size.w - 1, size.h - TOP_BAR_HEIGHT));
 	}
 
 	void BottomSection::OnPaint(ax::GC gc)
@@ -304,7 +304,7 @@ namespace editor {
 		gc.SetColor(ax::Color(0.6));
 		gc.DrawRectangle(rect);
 
-		ax::Rect top_bar_rect(rect.position.x, rect.position.y, rect.size.x, TOP_BAR_HEIGHT);
+		ax::Rect top_bar_rect(rect.position.x, rect.position.y, rect.size.w, TOP_BAR_HEIGHT);
 		gc.SetColor(at::Skin::GetInstance()->data.txt_edit_bar);
 		gc.DrawRectangle(top_bar_rect);
 

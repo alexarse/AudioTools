@@ -25,8 +25,8 @@
 #ifndef __AT_SPLASH_DIALOG_H__
 #define __AT_SPLASH_DIALOG_H__
 
-#include <OpenAX/Button.h>
-#include <OpenAX/OpenAX.h>
+#include <axlib/Button.hpp>
+#include <axlib/axlib.hpp>
 
 namespace at {
 class SplashDialog : public ax::Window::Backbone {
@@ -35,7 +35,7 @@ public:
 
 	typedef std::pair<double, std::string> LoadInfoMsg;
 
-	axEVENT_DECLARATION(ax::Event::SimpleMsg<LoadInfoMsg>, OnLoadingPercent);
+	axEVENT_DECLARATION(ax::event::SimpleMsg<LoadInfoMsg>, OnLoadingPercent);
 
 private:
 	ax::Font _font;

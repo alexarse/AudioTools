@@ -23,11 +23,12 @@
  */
 
 #include "editor/atEditorGridWindow.hpp"
-#include <OpenAX/DropMenu.h>
-#include <OpenAX/NodeVisitor.h>
-#include <OpenAX/WindowManager.h>
-#include <OpenAX/rapidxml.hpp>
-#include <OpenAX/rapidxml_print.hpp>
+#include <axlib/DropMenu.hpp>
+#include <axlib/NodeVisitor.hpp>
+#include <axlib/WindowManager.hpp>
+#include <axlib/Xml.hpp>
+//#include <OpenAX/rapidxml.hpp>
+//#include <OpenAX/rapidxml_print.hpp>
 #include <fstream>
 
 #include "PyoAudio.h"
@@ -39,13 +40,13 @@
 #include "editor/atEditorMainWindow.hpp"
 #include "python/PyoComponent.hpp"
 
-#include <OpenAX/Button.h>
-#include <OpenAX/Knob.h>
-#include <OpenAX/Label.h>
-#include <OpenAX/Panel.h>
-#include <OpenAX/Slider.h>
-#include <OpenAX/Toggle.h>
-#include <OpenAX/WidgetLoader.h>
+#include <axlib/Button.hpp>
+#include <axlib/Knob.hpp>
+#include <axlib/Label.hpp>
+#include <axlib/Panel.hpp>
+#include <axlib/Slider.hpp>
+#include <axlib/Toggle.hpp>
+#include <axlib/WidgetLoader.hpp>
 
 namespace at {
 namespace editor {
@@ -72,7 +73,7 @@ namespace editor {
 		win->event.OnUpArrowDown = ax::WBind<char>(this, &GridWindow::OnUpArrowDown);
 		win->event.OnDownArrowDown = ax::WBind<char>(this, &GridWindow::OnDownArrowDown);
 
-		win->event.OnResize = ax::WBind<ax::Point>(this, &GridWindow::OnResize);
+		win->event.OnResize = ax::WBind<ax::Size>(this, &GridWindow::OnResize);
 
 		win->event.OnGlobalClick
 			= ax::WBind<ax::Window::Event::GlobalClick>(this, &GridWindow::OnGlobalClick);
@@ -95,18 +96,18 @@ namespace editor {
 		loader->AddBuilder("Slider", new ax::Slider::Builder());
 
 		ax::Rect d_rect(win->dimension.GetDrawingRect());
-		_lines_array.reserve(((d_rect.size.x / _grid_space) + (d_rect.size.y / _grid_space)) * 2);
+		_lines_array.reserve(((d_rect.size.w / _grid_space) + (d_rect.size.h / _grid_space)) * 2);
 
 		// Vertical lines.
-		for (int x = _grid_space; x < d_rect.size.x; x += _grid_space) {
-			_lines_array.push_back(ax::FloatPoint(x, 0));
-			_lines_array.push_back(ax::FloatPoint(x, d_rect.size.y));
+		for (int x = _grid_space; x < d_rect.size.w; x += _grid_space) {
+			_lines_array.push_back(ax::FPoint(x, 0));
+			_lines_array.push_back(ax::FPoint(x, d_rect.size.h));
 		}
 
 		// Horizontal lines.
-		for (int y = _grid_space; y < d_rect.size.y; y += _grid_space) {
-			_lines_array.push_back(ax::FloatPoint(0, y));
-			_lines_array.push_back(ax::FloatPoint(d_rect.size.x, y));
+		for (int y = _grid_space; y < d_rect.size.h; y += _grid_space) {
+			_lines_array.push_back(ax::FPoint(0, y));
+			_lines_array.push_back(ax::FPoint(d_rect.size.w, y));
 		}
 	}
 
@@ -191,7 +192,7 @@ namespace editor {
 				ax::Xml::Node node = opt->Save(xml, layout);
 
 				if (n->component.Has("pyo")) {
-					ax::Print("HAS PYO");
+					ax::console::Print("HAS PYO");
 					pyo::Component::Ptr comp = n->component.Get<pyo::Component>("pyo");
 					std::string fct_name = comp->GetFunctionName();
 					ax::Xml::Node pyo_node = xml.CreateNode("pyo", fct_name);
@@ -212,9 +213,9 @@ namespace editor {
 		xml.Save(path);
 	}
 
-	void GridWindow::OnDropWidgetMenu(const ax::Event::SimpleMsg<std::pair<ax::Point, ax::Window*>>& msg)
+	void GridWindow::OnDropWidgetMenu(const ax::event::SimpleMsg<std::pair<ax::Point, ax::Window*>>& msg)
 	{
-		ax::Print("Drop widget menu.");
+		ax::console::Print("Drop widget menu.");
 		_right_click_menu = true;
 
 		// Open menu.
@@ -251,13 +252,13 @@ namespace editor {
 		const std::string choice = msg.GetItem();
 
 		if (choice == "Save as") {
-			win->PushEvent(SAVE_PANEL_TO_WORKSPACE, new ax::Event::EmptyMsg());
+			win->PushEvent(SAVE_PANEL_TO_WORKSPACE, new ax::event::EmptyMsg());
 		}
 		else if (choice == "Remove") {
-			win->PushEvent(DELETE_SELECTED_WIDGET_FROM_RIGHT_CLICK, new ax::Event::EmptyMsg());
+			win->PushEvent(DELETE_SELECTED_WIDGET_FROM_RIGHT_CLICK, new ax::event::EmptyMsg());
 		}
 		else if (choice == "Duplicate") {
-			win->PushEvent(DUPLICATE_SELECTED_WIDGET_FROM_RIGHT_CLICK, new ax::Event::EmptyMsg());
+			win->PushEvent(DUPLICATE_SELECTED_WIDGET_FROM_RIGHT_CLICK, new ax::event::EmptyMsg());
 		}
 	}
 
@@ -341,7 +342,7 @@ namespace editor {
 
 		// If command is down and mouse is still inside window.
 		if (app.GetWindowManager()->IsCmdDown() && app.GetWindowManager()->IsMouseStillInChildWindow(win)) {
-			win->PushEvent(DELETE_SELECTED_WIDGET, new ax::Event::EmptyMsg());
+			win->PushEvent(DELETE_SELECTED_WIDGET, new ax::event::EmptyMsg());
 		}
 	}
 
@@ -353,7 +354,7 @@ namespace editor {
 		if (app.GetWindowManager()->IsCmdDown() && app.GetWindowManager()->IsMouseStillInChildWindow(win)) {
 
 			if (c == 'd' || c == 'D') {
-				win->PushEvent(DUPLICATE_SELECTED_WIDGET, new ax::Event::EmptyMsg());
+				win->PushEvent(DUPLICATE_SELECTED_WIDGET, new ax::event::EmptyMsg());
 			}
 		}
 	}
@@ -361,25 +362,25 @@ namespace editor {
 	void GridWindow::OnLeftArrowDown(const char& c)
 	{
 		win->PushEvent(ARROW_MOVE_SELECTED_WIDGET,
-			new ax::Event::SimpleMsg<ax::Utils::Direction>(ax::Utils::Direction::LEFT));
+			new ax::event::SimpleMsg<ax::util::Direction>(ax::util::Direction::LEFT));
 	}
 
 	void GridWindow::OnRightArrowDown(const char& c)
 	{
 		win->PushEvent(ARROW_MOVE_SELECTED_WIDGET,
-			new ax::Event::SimpleMsg<ax::Utils::Direction>(ax::Utils::Direction::RIGHT));
+			new ax::event::SimpleMsg<ax::util::Direction>(ax::util::Direction::RIGHT));
 	}
 
 	void GridWindow::OnUpArrowDown(const char& c)
 	{
 		win->PushEvent(ARROW_MOVE_SELECTED_WIDGET,
-			new ax::Event::SimpleMsg<ax::Utils::Direction>(ax::Utils::Direction::UP));
+			new ax::event::SimpleMsg<ax::util::Direction>(ax::util::Direction::UP));
 	}
 
 	void GridWindow::OnDownArrowDown(const char& c)
 	{
 		win->PushEvent(ARROW_MOVE_SELECTED_WIDGET,
-			new ax::Event::SimpleMsg<ax::Utils::Direction>(ax::Utils::Direction::DOWN));
+			new ax::event::SimpleMsg<ax::util::Direction>(ax::util::Direction::DOWN));
 	}
 
 	void GridWindow::OnMouseLeftDown(const ax::Point& pos)
@@ -387,7 +388,7 @@ namespace editor {
 		// Clear menu.
 		if (ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
 			UnSelectAllWidgets();
-			win->PushEvent(UNSELECT_ALL, new ax::Event::SimpleMsg<int>(0));
+			win->PushEvent(UNSELECT_ALL, new ax::event::SimpleMsg<int>(0));
 		}
 		// Start multi widget selection.
 		else {
@@ -423,7 +424,7 @@ namespace editor {
 		win->Update();
 	}
 
-	void GridWindow::OnWidgetIsDragging(const ax::Event::EmptyMsg& msg)
+	void GridWindow::OnWidgetIsDragging(const ax::event::EmptyMsg& msg)
 	{
 		if (_draw_grid_over_children == false) {
 			_draw_grid_over_children = true;
@@ -431,7 +432,7 @@ namespace editor {
 		}
 	}
 
-	void GridWindow::OnWidgetDoneDragging(const ax::Event::EmptyMsg& msg)
+	void GridWindow::OnWidgetDoneDragging(const ax::event::EmptyMsg& msg)
 	{
 		_draw_grid_over_children = false;
 		win->Update();
@@ -440,7 +441,7 @@ namespace editor {
 	void GridWindow::OnMouseLeftDragging(const ax::Point& pos)
 	{
 		ax::Point m_pos(pos - win->dimension.GetAbsoluteRect().position);
-		_selection.second.size = m_pos - _selection.second.position;
+		_selection.second.size = ax::Size((m_pos - _selection.second.position).ToPair());
 		win->Update();
 	}
 
@@ -450,18 +451,18 @@ namespace editor {
 			win->event.UnGrabMouse();
 
 			// Switch selection size when negative.
-			if (_selection.second.size.x < 0) {
-				_selection.second.position.x += _selection.second.size.x;
-				_selection.second.size.x = -_selection.second.size.x;
+			if (_selection.second.size.w < 0) {
+				_selection.second.position.x += _selection.second.size.w;
+				_selection.second.size.w = -_selection.second.size.w;
 			}
 
-			if (_selection.second.size.y < 0) {
-				_selection.second.position.y += _selection.second.size.y;
-				_selection.second.size.y = -_selection.second.size.y;
+			if (_selection.second.size.h < 0) {
+				_selection.second.position.y += _selection.second.size.h;
+				_selection.second.size.h = -_selection.second.size.h;
 			}
 
 			// Look for selected widget.
-			if (_selection.second.size.x > 0 && _selection.second.size.y > 0) {
+			if (_selection.second.size.w > 0 && _selection.second.size.h > 0) {
 				ax::Rect selection_rect = _selection.second;
 
 				selection_rect.position += win->dimension.GetAbsoluteRect().position;
@@ -478,7 +479,7 @@ namespace editor {
 					  });
 
 				win->PushEvent(
-					SELECT_MULTIPLE_WIDGET, new ax::Event::SimpleMsg<std::vector<ax::Window*>>(selected));
+					SELECT_MULTIPLE_WIDGET, new ax::event::SimpleMsg<std::vector<ax::Window*>>(selected));
 			}
 
 			_selection.first = false;
@@ -489,18 +490,18 @@ namespace editor {
 	void GridWindow::OnResize(const ax::Size& size)
 	{
 		ax::Rect d_rect(win->dimension.GetDrawingRect());
-		_lines_array.reserve(((d_rect.size.x / _grid_space) + (d_rect.size.y / _grid_space)) * 2);
+		_lines_array.reserve(((d_rect.size.w / _grid_space) + (d_rect.size.h / _grid_space)) * 2);
 
 		// Vertical lines.
-		for (int x = _grid_space; x < d_rect.size.x; x += _grid_space) {
-			_lines_array.push_back(ax::FloatPoint(x, 0));
-			_lines_array.push_back(ax::FloatPoint(x, d_rect.size.y));
+		for (int x = _grid_space; x < d_rect.size.w; x += _grid_space) {
+			_lines_array.push_back(ax::FPoint(x, 0));
+			_lines_array.push_back(ax::FPoint(x, d_rect.size.h));
 		}
 
 		// Horizontal lines.
-		for (int y = _grid_space; y < d_rect.size.y; y += _grid_space) {
-			_lines_array.push_back(ax::FloatPoint(0, y));
-			_lines_array.push_back(ax::FloatPoint(d_rect.size.x, y));
+		for (int y = _grid_space; y < d_rect.size.h; y += _grid_space) {
+			_lines_array.push_back(ax::FPoint(0, y));
+			_lines_array.push_back(ax::FPoint(d_rect.size.w, y));
 		}
 	}
 

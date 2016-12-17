@@ -9,8 +9,8 @@
 #ifndef atHelpBar_hpp
 #define atHelpBar_hpp
 
-#include <OpenAX/Button.h>
-#include <OpenAX/Toggle.h>
+#include <axlib/Button.hpp>
+#include <axlib/Toggle.hpp>
 
 namespace at {
 namespace editor {

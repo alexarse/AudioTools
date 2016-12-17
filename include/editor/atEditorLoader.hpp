@@ -25,8 +25,8 @@
 #ifndef __AX_EDITOR_LOADER_H__
 #define __AX_EDITOR_LOADER_H__
 
-#include <OpenAX/OpenAX.h>
-#include <OpenAX/Xml.h>
+#include <axlib/Xml.hpp>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {

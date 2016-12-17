@@ -25,10 +25,10 @@
 #ifndef __AT_CONSOLE_H__
 #define __AT_CONSOLE_H__
 
-#include <OpenAX/Button.h>
-#include <OpenAX/OpenAX.h>
-#include <OpenAX/ScrollBar.h>
-#include <OpenAX/Timer.h>
+#include <axlib/Button.hpp>
+#include <axlib/ScrollBar.hpp>
+#include <axlib/Timer.hpp>
+#include <axlib/axlib.hpp>
 
 #include "editor/TextEditor.hpp"
 
@@ -40,7 +40,7 @@ class Console : public ax::Window::Backbone {
 public:
 	Console(const ax::Rect& rect);
 
-	enum Events : ax::Event::Id { WRITE_ERROR };
+	enum Events : ax::event::Id { WRITE_ERROR };
 
 private:
 	ax::Font _font;
@@ -63,8 +63,8 @@ private:
 	ax::Window* _txt_panel;
 	ax::ScrollBar::Ptr _scrollBar;
 
-	axEVENT_DECLARATION(ax::Event::StringMsg, OnConsoleUpdate);
-	axEVENT_DECLARATION(ax::Event::StringMsg, OnConsoleErrorUpdate);
+	axEVENT_DECLARATION(ax::event::StringMsg, OnConsoleUpdate);
+	axEVENT_DECLARATION(ax::event::StringMsg, OnConsoleErrorUpdate);
 
 	void OnMouseEnter(const ax::Point& pos);
 	void OnMouseLeave(const ax::Point& pos);

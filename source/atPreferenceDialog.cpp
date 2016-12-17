@@ -24,9 +24,9 @@
 
 #include "atPreferenceDialog.h"
 
-#include <OpenAX/Core.h>
-#include <OpenAX/OSFileSystem.h>
-#include <OpenAX/Toggle.h>
+#include <axlib/Core.hpp>
+#include <axlib/FileSystem.hpp>
+#include <axlib/Toggle.hpp>
 
 #include "PyoAudio.h"
 #include "atMidi.h"
@@ -36,12 +36,12 @@ namespace at {
 namespace editor {
 	PreferencePanel::PreferencePanel(const ax::Rect& rect)
 		: _font(0)
-		, _audio_rect(10, 10, rect.size.x - 20, 100)
+		, _audio_rect(10, 10, rect.size.w - 20, 100)
 	{
-		_audio_label_rect = ax::Rect(_audio_rect.position, ax::Size(_audio_rect.size.x, 23));
+		_audio_label_rect = ax::Rect(_audio_rect.position, ax::Size(_audio_rect.size.w, 23));
 
-		_midi_rect = ax::Rect(_audio_rect.GetNextPosDown(10), ax::Size(_audio_rect.size.x, 65));
-		_midi_label_rect = ax::Rect(_midi_rect.position, ax::Size(_midi_rect.size.x, 23));
+		_midi_rect = ax::Rect(_audio_rect.GetNextPosDown(10), ax::Size(_audio_rect.size.w, 65));
+		_midi_label_rect = ax::Rect(_midi_rect.position, ax::Size(_midi_rect.size.w, 23));
 
 		// Create window.
 		win = ax::Window::Create(rect);
@@ -175,7 +175,7 @@ namespace editor {
 		win->event.OnAssignToWindowManager = ax::WBind<int>(this, &PreferenceDialog::OnAssignToWindowManager);
 
 		ax::Size pref_size(300, 194);
-		ax::Point pos((rect.size.x - pref_size.x) / 2, (rect.size.y - pref_size.y) / 2);
+		ax::Point pos((rect.size.w - pref_size.w) / 2, (rect.size.h - pref_size.h) / 2);
 
 		auto pref_panel = ax::shared<PreferencePanel>(ax::Rect(pos, pref_size));
 		win->node.Add(pref_panel);
@@ -189,7 +189,7 @@ namespace editor {
 
 	void PreferenceDialog::OnGlobalClick(const ax::Window::Event::GlobalClick& gclick)
 	{
-		ax::Print("Global click");
+		ax::console::Print("Global click");
 
 		if (_pref_panel != nullptr) {
 			if (!ax::App::GetInstance().GetPopupManager()->IsMouseStillInChildWindow(

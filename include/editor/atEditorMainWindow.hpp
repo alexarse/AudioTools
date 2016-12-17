@@ -72,7 +72,7 @@ namespace editor {
 
 		std::string _help_bar_str;
 
-		typedef std::pair<ax::StringPair, ax::Point> ObjMsg;
+		typedef std::pair<std::pair<std::string, std::string>, ax::Point> ObjMsg;
 
 		at::ProjectManager _project;
 
@@ -85,17 +85,17 @@ namespace editor {
 		friend class MainWindowProjectHandler;
 		MainWindowProjectHandler _project_handler;
 
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnReloadScript);
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnStopScript);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<int>, OnReloadScript);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<int>, OnStopScript);
 
-		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnSavePanelToWorkspace);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnSavePanelToWorkspace);
 		axEVENT_DECLARATION(at::SaveWorkPanel::Msg, OnAcceptSavePanelToWorkpace);
-		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnCancelSavePanelToWorkpace);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnCancelSavePanelToWorkpace);
 
-		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnRemoveWidgetFromRightClickMenu);
-		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDuplicateWidgetFromRightClickMenu);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnRemoveWidgetFromRightClickMenu);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnDuplicateWidgetFromRightClickMenu);
 
-		axEVENT_DECLARATION(ax::Event::StringMsg, OnHelpBar);
+		axEVENT_DECLARATION(ax::event::StringMsg, OnHelpBar);
 
 		void OnGlobalKey(const char& c);
 		void OnAssignToWindowManager(const int& v);

@@ -25,18 +25,18 @@
 #ifndef atMenuBoolAttribute_hpp
 #define atMenuBoolAttribute_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
-#include <OpenAX/Toggle.h>
+#include <axlib/Toggle.hpp>
 
 namespace at {
 namespace inspector {
 	class BoolAttribute : public ax::Window::Backbone {
 	public:
-		enum Events : ax::Event::Id { ASSIGN_VALUE };
+		enum Events : ax::event::Id { ASSIGN_VALUE };
 
 		BoolAttribute(
-			const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct);
+			const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct);
 
 	private:
 		std::string _name;

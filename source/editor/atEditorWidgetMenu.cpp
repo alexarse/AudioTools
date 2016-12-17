@@ -28,10 +28,10 @@
 #include "atSkin.hpp"
 #include "editor/atEditor.hpp"
 
-#include <OpenAX/Button.h>
-#include <OpenAX/OSFileSystem.h>
-#include <OpenAX/Xml.h>
-#include <OpenAX/rapidxml.hpp>
+#include <axlib/Button.hpp>
+#include <axlib/FileSystem.hpp>
+#include <axlib/Xml.hpp>
+//#include <OpenAX/rapidxml.hpp>
 
 #include <set>
 
@@ -43,20 +43,20 @@ namespace editor {
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &WidgetMenu::OnPaint);
 		win->event.OnResize = ax::WBind<ax::Size>(this, &WidgetMenu::OnResize);
-		win->event.OnScrollWheel = ax::WBind<ax::Size>(this, &WidgetMenu::OnScrollWheel);
-		win->event.OnMouseEnter = ax::WBind<ax::Size>(this, &WidgetMenu::OnMouseEnter);
-		win->event.OnMouseEnterChild = ax::WBind<ax::Size>(this, &WidgetMenu::OnMouseEnterChild);
-		win->event.OnMouseLeave = ax::WBind<ax::Size>(this, &WidgetMenu::OnMouseLeave);
-		win->event.OnMouseLeaveChild = ax::WBind<ax::Size>(this, &WidgetMenu::OnMouseLeaveChild);
+		win->event.OnScrollWheel = ax::WBind<ax::Point>(this, &WidgetMenu::OnScrollWheel);
+		win->event.OnMouseEnter = ax::WBind<ax::Point>(this, &WidgetMenu::OnMouseEnter);
+		win->event.OnMouseEnterChild = ax::WBind<ax::Point>(this, &WidgetMenu::OnMouseEnterChild);
+		win->event.OnMouseLeave = ax::WBind<ax::Point>(this, &WidgetMenu::OnMouseLeave);
+		win->event.OnMouseLeaveChild = ax::WBind<ax::Point>(this, &WidgetMenu::OnMouseLeaveChild);
 
 		// Create scrolling window.
-		_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.x, rect.size.y));
+		_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.w, rect.size.h));
 
 		win->node.Add(std::shared_ptr<ax::Window>(_panel));
 
 		ax::Point pos(0, 0);
-		const ax::Size size(rect.size.x, 50);
-		const ax::Size separator_size(rect.size.x, 20);
+		const ax::Size size(rect.size.w, 50);
+		const ax::Size separator_size(rect.size.w, 20);
 
 		std::vector<WidgetMenuInfo> w_info = GetWidgetsInfo();
 		std::string builder_name;
@@ -89,13 +89,13 @@ namespace editor {
 		sInfo.bg_top = ax::Color(0.9, 0.2);
 		sInfo.bg_bottom = ax::Color(0.92, 0.2);
 
-		ax::Rect sRect(rect.size.x - 9, 0, 10, rect.size.y);
+		ax::Rect sRect(rect.size.w - 9, 0, 10, rect.size.h);
 		_scrollBar = ax::shared<ax::ScrollBar>(sRect, ax::ScrollBar::Events(), sInfo);
 
 		win->node.Add(_scrollBar);
 
 		_panel->property.AddProperty("BlockDrawing");
-		_panel->dimension.SetSizeNoShowRect(ax::Size(rect.size.x, pos.y));
+		_panel->dimension.SetSizeNoShowRect(ax::Size(rect.size.w, pos.y));
 
 		_scrollBar->SetWindowHandle(_panel);
 		_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
@@ -108,27 +108,33 @@ namespace editor {
 		std::vector<WidgetMenuInfo> w_info;
 		const std::string w_dir_path("widgets/");
 
-		ax::os::Directory dir;
-		dir.Goto(w_dir_path);
+		//		ax::os::Directory dir;
+		//		dir.Goto(w_dir_path);
+		ax::os::Path dir(w_dir_path);
 
-		std::vector<ax::os::File> files = dir.GetContent();
-
+		//		std::vector<ax::os::File> files = dir.GetContent();
+		std::vector<ax::os::Path> files = dir.GetDirectoryContent();
+		ax::console::Print("List directory :", dir.GetAbsolutePath());
 		for (auto& n : files) {
-			ax::Print(n.name);
+			ax::console::Print("file :", n.GetAbsolutePath());
+
+			if (n.GetExtension() != "xml") {
+				continue;
+			}
 
 			try {
-				const std::string file_path(w_dir_path + n.name);
+				const std::string file_path(n.GetAbsolutePath());
 				ax::Xml xml(file_path);
 
 				if (!xml.Parse()) {
-					ax::Error("Parsing widget :", n.name);
+					ax::console::Error("Parsing widget :", n.GetName());
 					continue;
 				}
 
 				ax::Xml::Node node = xml.GetNode("Widget");
 
 				if (!node.IsValid()) {
-					ax::Error("Parsing widget :", n.name, "can't find node Widget.");
+					ax::console::Error("Parsing widget :", n.GetName(), "can't find node Widget.");
 					continue;
 				}
 
@@ -141,11 +147,12 @@ namespace editor {
 				info.widget_img = node.GetAttribute("img");
 				w_info.push_back(info);
 			}
-			catch (rapidxml::parse_error& err) {
-				ax::Error("Widget menu xml", err.what());
-			}
+#warning("Catch this.")
+			//			catch (rapidxml::parse_error& err) {
+			//				ax::console::Error("Widget menu xml", err.what());
+			//			}
 			catch (ax::Xml::Exception& err) {
-				ax::Error("Widget menu xml", err.what());
+				ax::console::Error("Widget menu xml", err.what());
 			}
 		}
 
@@ -203,7 +210,7 @@ namespace editor {
 	void WidgetMenu::OnScrollWheel(const ax::Point& delta)
 	{
 		double scroll_value
-			= (delta.y / (double)ax::App::GetInstance().GetFrameSize().y) + _scrollBar->GetZeroToOneValue();
+			= (delta.y / (double)ax::App::GetInstance().GetFrameSize().h) + _scrollBar->GetZeroToOneValue();
 		_scrollBar->SetZeroToOneValue(scroll_value);
 	}
 
@@ -227,9 +234,9 @@ namespace editor {
 
 	void WidgetMenu::OnResize(const ax::Size& size)
 	{
-		ax::Rect sRect(size.x - 9, 0, 10, size.y);
+		ax::Rect sRect(size.w - 9, 0, 10, size.h);
 		_scrollBar->GetWindow()->dimension.SetRect(sRect);
-		_panel->dimension.SetShownRect(ax::Rect(0, 0, size.x, size.y));
+		_panel->dimension.SetShownRect(ax::Rect(0, 0, size.w, size.h));
 
 		_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 	}

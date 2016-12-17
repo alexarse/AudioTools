@@ -25,8 +25,8 @@
 #ifndef __MDI_GRID_WINDOW_H__
 #define __MDI_GRID_WINDOW_H__
 
-#include <OpenAX/DropMenu.h>
-#include <OpenAX/OpenAX.h>
+#include <axlib/DropMenu.hpp>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {
@@ -37,7 +37,7 @@ namespace editor {
 	public:
 		GridWindow(const ax::Rect& rect);
 
-		enum : ax::Event::Id {
+		enum : ax::event::Id {
 			UNSELECT_ALL = 999,
 			SELECT_WIDGET = 1234,
 			SELECT_MULTIPLE_WIDGET,
@@ -78,12 +78,12 @@ namespace editor {
 		bool _right_click_menu;
 		bool _draw_grid_over_children;
 
-		std::vector<ax::FloatPoint> _lines_array;
+		std::vector<ax::FPoint> _lines_array;
 
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<PosAndWindow>, OnDropWidgetMenu);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<PosAndWindow>, OnDropWidgetMenu);
 		axEVENT_DECLARATION(ax::DropMenu::Msg, OnMenuChoice);
-		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnWidgetIsDragging);
-		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnWidgetDoneDragging);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnWidgetIsDragging);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnWidgetDoneDragging);
 
 		void OnGlobalClick(const ax::Window::Event::GlobalClick& gclick);
 		void OnResize(const ax::Size& size);

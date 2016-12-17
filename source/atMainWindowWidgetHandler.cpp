@@ -11,8 +11,8 @@
 #include "editor/atEditorLoader.hpp"
 #include "editor/atEditorMainWindow.hpp"
 
-#include <OpenAX/Panel.h>
-#include <OpenAX/WidgetLoader.h>
+#include <axlib/Panel.hpp>
+#include <axlib/WidgetLoader.hpp>
 
 namespace at {
 namespace editor {
@@ -40,7 +40,7 @@ namespace editor {
 		}
 	}
 
-	void MainWindowWidgetHandler::OnSelectWidget(const ax::Event::SimpleMsg<ax::Window*>& msg)
+	void MainWindowWidgetHandler::OnSelectWidget(const ax::event::SimpleMsg<ax::Window*>& msg)
 	{
 		ax::Window* selected_win = msg.GetMsg();
 		_main_window->_selected_windows.clear();
@@ -65,17 +65,17 @@ namespace editor {
 		}
 	}
 
-	void MainWindowWidgetHandler::OnUnSelectAllWidget(const ax::Event::SimpleMsg<int>& msg)
+	void MainWindowWidgetHandler::OnUnSelectAllWidget(const ax::event::SimpleMsg<int>& msg)
 	{
 		_main_window->_selected_windows.clear();
 		_main_window->_right_menu->RemoveInspectorHandle();
 	}
 
-	void MainWindowWidgetHandler::OnCreateDraggingWidget(const ax::Event::SimpleMsg<ObjMsg>& msg)
+	void MainWindowWidgetHandler::OnCreateDraggingWidget(const ax::event::SimpleMsg<ObjMsg>& msg)
 	{
-		ax::Print("OnCreateDraggingWidget object.");
+		ax::console::Print("OnCreateDraggingWidget object.");
 
-		ax::StringPair obj_info = msg.GetMsg().first;
+		std::pair<std::string, std::string> obj_info = msg.GetMsg().first;
 		std::string builder_name = obj_info.first;
 		std::string file_path = obj_info.second;
 		ax::Point pos(msg.GetMsg().second);
@@ -84,26 +84,31 @@ namespace editor {
 		ax::widget::Builder* builder = loader->GetBuilder(builder_name);
 
 		if (builder == nullptr) {
-			ax::Error("Builder", builder_name, "doesn't exist.");
+			ax::console::Error("Builder", builder_name, "doesn't exist.");
 		}
 
 		ax::App& app(ax::App::GetInstance());
 		app.GetPopupManager()->Clear();
 
 		auto obj(builder->Create(pos, file_path));
-		app.AddPopupTopLevel(obj);
 
-		obj->GetWindow()->property.RemoveProperty("Selectable");
+		if (obj != nullptr) {
 
+			app.AddPopupTopLevel(obj);
+
+			obj->GetWindow()->property.RemoveProperty("Selectable");
+			_has_tmp_widget = true;
+			_tmp_widget_builder_name = builder_name;
+		}
 		//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
 		//			std::shared_ptr<ax::Window>(obj->GetWindow()));
 		//		obj->GetWindow()->backbone = obj;
 
-		_has_tmp_widget = true;
-		_tmp_widget_builder_name = builder_name;
+		//		_has_tmp_widget = true;
+		//		_tmp_widget_builder_name = builder_name;
 	}
 
-	void MainWindowWidgetHandler::OnDraggingWidget(const ax::Event::SimpleMsg<ax::Point>& msg)
+	void MainWindowWidgetHandler::OnDraggingWidget(const ax::event::SimpleMsg<ax::Point>& msg)
 	{
 		if (_has_tmp_widget) {
 			ax::Point pos(msg.GetMsg());
@@ -116,11 +121,11 @@ namespace editor {
 		}
 	}
 
-	void MainWindowWidgetHandler::OnReleaseObjWidget(const ax::Event::SimpleMsg<ax::Point>& msg)
+	void MainWindowWidgetHandler::OnReleaseObjWidget(const ax::event::SimpleMsg<ax::Point>& msg)
 	{
 		ax::Point pos(msg.GetMsg());
 
-		ax::Print("Release object.");
+		ax::console::Print("Release object.");
 
 		if (_has_tmp_widget) {
 			_has_tmp_widget = false;
@@ -146,7 +151,7 @@ namespace editor {
 					main_window = widget_win.get();
 				}
 				else {
-					ax::Print("A MainWindow Panel shall be created first to add widget.");
+					ax::console::Print("A MainWindow Panel shall be created first to add widget.");
 					return;
 				}
 			}
@@ -167,7 +172,7 @@ namespace editor {
 
 				if (!inside_main_window) {
 					// The temporary widget will be deleted.
-					ax::Print("Drag widget over the MainWindow.");
+					ax::console::Print("Drag widget over the MainWindow.");
 					return;
 				}
 			}
@@ -240,16 +245,16 @@ namespace editor {
 		}
 	}
 
-	void MainWindowWidgetHandler::OnDeleteSelectedWidget(const ax::Event::EmptyMsg& msg)
+	void MainWindowWidgetHandler::OnDeleteSelectedWidget(const ax::event::EmptyMsg& msg)
 	{
 		if (_main_window->_selected_windows.size()) {
 
-			ax::Print("Remove selected widget.");
+			ax::console::Print("Remove selected widget.");
 			DeleteCurrentWidgets();
 		}
 	}
 
-	void MainWindowWidgetHandler::OnDuplicateSelectedWidget(const ax::Event::EmptyMsg& msg)
+	void MainWindowWidgetHandler::OnDuplicateSelectedWidget(const ax::event::EmptyMsg& msg)
 	{
 		std::vector<ax::Window*> sel_wins = _main_window->GetSelectedWindows();
 
@@ -263,7 +268,7 @@ namespace editor {
 
 			const ax::Rect rect(sel_wins[0]->dimension.GetRect());
 
-			bck_bone->GetWindow()->dimension.SetPosition(rect.position + ax::Point(rect.size.x + 2, 0));
+			bck_bone->GetWindow()->dimension.SetPosition(rect.position + ax::Point(rect.size.w + 2, 0));
 
 			at::editor::Loader loader(_main_window->_gridWindow->GetWindow());
 			ax::widget::Component* widget
@@ -283,16 +288,16 @@ namespace editor {
 			parent->node.Add(bck_bone);
 			loader.SetupExistingWidget(bck_bone->GetWindow(), widget->GetBuilderName());
 
-			OnSelectWidget(ax::Event::SimpleMsg<ax::Window*>(bck_bone->GetWindow()));
+			OnSelectWidget(ax::event::SimpleMsg<ax::Window*>(bck_bone->GetWindow()));
 		}
 	}
 
 	void MainWindowWidgetHandler::OnSelectMultipleWidget(
-		const ax::Event::SimpleMsg<std::vector<ax::Window*>>& msg)
+		const ax::event::SimpleMsg<std::vector<ax::Window*>>& msg)
 	{
 		_main_window->_gridWindow->UnSelectAllWidgets();
 
-		ax::Print("Select multiple widget.");
+		ax::console::Print("Select multiple widget.");
 
 		std::vector<ax::Window*> selected = msg.GetMsg();
 
@@ -312,20 +317,20 @@ namespace editor {
 	}
 
 	void MainWindowWidgetHandler::OnArrowMoveSelectedWidget(
-		const ax::Event::SimpleMsg<ax::Utils::Direction>& msg)
+		const ax::event::SimpleMsg<ax::util::Direction>& msg)
 	{
-		const ax::Utils::Direction dir = msg.GetMsg();
+		const ax::util::Direction dir = msg.GetMsg();
 
 		for (auto& n : _main_window->_selected_windows) {
 			const ax::Rect& w_rect = n->dimension.GetRect();
 
-			if (dir == ax::Utils::Direction::LEFT) {
+			if (dir == ax::util::Direction::LEFT) {
 				n->dimension.SetPosition(w_rect.position - ax::Point(1, 0));
 			}
-			else if (dir == ax::Utils::Direction::RIGHT) {
+			else if (dir == ax::util::Direction::RIGHT) {
 				n->dimension.SetPosition(w_rect.position + ax::Point(1, 0));
 			}
-			else if (dir == ax::Utils::Direction::UP) {
+			else if (dir == ax::util::Direction::UP) {
 				n->dimension.SetPosition(w_rect.position - ax::Point(0, 1));
 			}
 			// Down.

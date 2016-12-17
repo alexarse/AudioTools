@@ -1,5 +1,5 @@
 #include "atk/AudioCore.hpp"
-#include <OpenAX/Utils.h>
+#include <axlib/Util.hpp>
 #include <iostream>
 
 namespace atk {
@@ -27,7 +27,7 @@ int AudioCore::InitAudio()
 	}
 
 	if (Pa_GetDeviceCount() <= 0) {
-		ax::Error("No available audio device.");
+		ax::console::Error("No available audio device.");
 		return -1;
 	}
 
@@ -89,7 +89,7 @@ void AudioCore::SetCurrentOutputDevice(const std::string& name)
 	int numDevices = Pa_GetDeviceCount();
 
 	if (numDevices <= 0) {
-		ax::Error("No available audio device.");
+		ax::console::Error("No available audio device.");
 		return;
 	}
 
@@ -120,14 +120,14 @@ void AudioCore::SetCurrentOutputDevice(const std::string& name)
 			myPaCallback, this);
 
 		if (err != paNoError) {
-			ax::Error("Poraudio error opening stream.");
+			ax::console::Error("Poraudio error opening stream.");
 			return;
 		}
 
 		err = Pa_StartStream(stream);
 
 		if (err != paNoError) {
-			ax::Error("Poraudio error starting stream.");
+			ax::console::Error("Poraudio error starting stream.");
 		}
 	}
 }
@@ -137,7 +137,7 @@ void AudioCore::SetCurrentInputDevice(const std::string& name)
 	int numDevices = Pa_GetDeviceCount();
 
 	if (numDevices <= 0) {
-		ax::Error("No available audio device.");
+		ax::console::Error("No available audio device.");
 		return;
 	}
 
@@ -168,14 +168,14 @@ void AudioCore::SetCurrentInputDevice(const std::string& name)
 			myPaCallback, this);
 
 		if (err != paNoError) {
-			ax::Error("Poraudio error opening stream.");
+			ax::console::Error("Poraudio error opening stream.");
 			return;
 		}
 
 		err = Pa_StartStream(stream);
 
 		if (err != paNoError) {
-			ax::Error("Poraudio error starting stream.");
+			ax::console::Error("Poraudio error starting stream.");
 		}
 	}
 }
@@ -185,7 +185,7 @@ std::vector<std::string> AudioCore::GetInputDevices()
 	int numDevices = Pa_GetDeviceCount();
 
 	if (numDevices <= 0) {
-		ax::Error("No available audio device.");
+		ax::console::Error("No available audio device.");
 		return std::vector<std::string>();
 	}
 
@@ -206,7 +206,7 @@ std::vector<std::string> AudioCore::GetOutputDevices()
 	int numDevices = Pa_GetDeviceCount();
 
 	if (numDevices <= 0) {
-		ax::Error("No available audio device.");
+		ax::console::Error("No available audio device.");
 		return std::vector<std::string>();
 	}
 
@@ -227,7 +227,7 @@ std::string AudioCore::GetCurrentInputDevice()
 	int numDevices = Pa_GetDeviceCount();
 
 	if (numDevices <= 0) {
-		ax::Error("No available audio device.");
+		ax::console::Error("No available audio device.");
 		return "None";
 	}
 
@@ -246,7 +246,7 @@ std::string AudioCore::GetCurrentOutputDevice()
 	int numDevices = Pa_GetDeviceCount();
 
 	if (numDevices <= 0) {
-		ax::Error("No available audio device.");
+		ax::console::Error("No available audio device.");
 		return "None";
 	}
 

@@ -8,7 +8,7 @@
 
 #include "editor/atEditorWorkspace.hpp"
 #include "editor/atEditorWorkspaceObj.hpp"
-#include <OpenAX/OSFileSystem.h>
+#include <axlib/FileSystem.hpp>
 
 namespace at {
 namespace editor {
@@ -20,39 +20,42 @@ namespace editor {
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &Workspace::OnPaint);
 		win->event.OnResize = ax::WBind<ax::Size>(this, &Workspace::OnResize);
-		win->event.OnScrollWheel = ax::WBind<ax::Size>(this, &Workspace::OnScrollWheel);
-		win->event.OnMouseEnter = ax::WBind<ax::Size>(this, &Workspace::OnMouseEnter);
-		win->event.OnMouseEnterChild = ax::WBind<ax::Size>(this, &Workspace::OnMouseEnterChild);
-		win->event.OnMouseLeave = ax::WBind<ax::Size>(this, &Workspace::OnMouseLeave);
-		win->event.OnMouseLeaveChild = ax::WBind<ax::Size>(this, &Workspace::OnMouseLeaveChild);
+		win->event.OnScrollWheel = ax::WBind<ax::Point>(this, &Workspace::OnScrollWheel);
+		win->event.OnMouseEnter = ax::WBind<ax::Point>(this, &Workspace::OnMouseEnter);
+		win->event.OnMouseEnterChild = ax::WBind<ax::Point>(this, &Workspace::OnMouseEnterChild);
+		win->event.OnMouseLeave = ax::WBind<ax::Point>(this, &Workspace::OnMouseLeave);
+		win->event.OnMouseLeaveChild = ax::WBind<ax::Point>(this, &Workspace::OnMouseLeaveChild);
 
 		// Create scrolling window.
-		_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.x, rect.size.y));
+		_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.w, rect.size.h));
 		win->node.Add(std::shared_ptr<ax::Window>(_panel));
 
-		const ax::Size size(rect.size.x, 50);
+		const ax::Size size(rect.size.w, 50);
 		ax::Point pos(0, 0);
 
-		ax::os::Directory dir;
-		dir.Goto("workspace/");
+		//		ax::os::Directory dir;
+		//		dir.Goto("workspace/");
+		//
+		//		std::vector<ax::os::File> files = dir.GetContent();
 
-		std::vector<ax::os::File> files = dir.GetContent();
+		ax::os::Path dir("workspace/");
+		std::vector<ax::os::Path> files = dir.GetDirectoryContent();
 
 		for (auto& n : files) {
-			ax::Print(n.name);
+			ax::console::Print(n.GetName());
 
 			try {
-				ax::Xml xml("workspace/" + n.name);
+				ax::Xml xml(n.GetAbsolutePath());
 
 				if (!xml.Parse()) {
-					ax::Error("parsing workspace :", n.name);
+					ax::console::Error("parsing workspace :", n.GetName());
 					continue;
 				}
 
 				ax::Xml::Node node = xml.GetNode("Widget");
 
 				if (!node.IsValid()) {
-					ax::Error("parsing workspace :", n.name);
+					ax::console::Error("parsing workspace :", n.GetName());
 					continue;
 				}
 
@@ -71,11 +74,12 @@ namespace editor {
 
 				pos = obj->GetWindow()->dimension.GetRect().GetNextPosDown(0);
 			}
-			catch (rapidxml::parse_error& err) {
-				ax::Error("Widget menu xml", err.what());
-			}
+#warning("Catch this.")
+			//			catch (rapidxml::parse_error& err) {
+			//				ax::console::Error("Widget menu xml", err.what());
+			//			}
 			catch (ax::Xml::Exception& err) {
-				ax::Error("Widget menu xml", err.what());
+				ax::console::Error("Widget menu xml", err.what());
 			}
 		}
 
@@ -88,13 +92,13 @@ namespace editor {
 		sInfo.bg_top = ax::Color(0.9, 0.2);
 		sInfo.bg_bottom = ax::Color(0.92, 0.2);
 
-		ax::Rect sRect(rect.size.x - 9, 0, 10, rect.size.y);
+		ax::Rect sRect(rect.size.w - 9, 0, 10, rect.size.h);
 		_scrollBar = ax::shared<ax::ScrollBar>(sRect, ax::ScrollBar::Events(), sInfo);
 
 		win->node.Add(_scrollBar);
 
 		_panel->property.AddProperty("BlockDrawing");
-		_panel->dimension.SetSizeNoShowRect(ax::Size(rect.size.x, pos.y));
+		_panel->dimension.SetSizeNoShowRect(ax::Size(rect.size.w, pos.y));
 
 		_scrollBar->SetWindowHandle(_panel);
 		_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
@@ -127,15 +131,15 @@ namespace editor {
 	void Workspace::OnScrollWheel(const ax::Point& delta)
 	{
 		double scroll_value
-			= (delta.y / (double)ax::App::GetInstance().GetFrameSize().y) + _scrollBar->GetZeroToOneValue();
+			= (delta.y / (double)ax::App::GetInstance().GetFrameSize().h) + _scrollBar->GetZeroToOneValue();
 		_scrollBar->SetZeroToOneValue(scroll_value);
 	}
 
 	void Workspace::OnResize(const ax::Size& size)
 	{
-		ax::Rect sRect(size.x - 9, 0, 10, size.y);
+		ax::Rect sRect(size.w - 9, 0, 10, size.h);
 		_scrollBar->GetWindow()->dimension.SetRect(sRect);
-		_panel->dimension.SetShownRect(ax::Rect(0, 0, size.x, size.y));
+		_panel->dimension.SetShownRect(ax::Rect(0, 0, size.w, size.h));
 
 		_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 	}

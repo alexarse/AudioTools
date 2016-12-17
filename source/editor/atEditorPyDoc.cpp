@@ -13,13 +13,14 @@
 
 namespace at {
 namespace editor {
-	ax::StringPairVector GetClassNameBriefs(const std::vector<std::string>& names)
+	std::vector<std::pair<std::string, std::string>> GetClassNameBriefs(const std::vector<std::string>& names)
 	{
-		ax::StringPairVector elems;
+		std::vector<std::pair<std::string, std::string>> elems;
 		elems.reserve(names.size());
 
 		for (auto& n : names) {
-			elems.push_back(ax::StringPair(n, PyoAudio::GetInstance()->GetClassBrief(n)));
+			elems.push_back(
+				std::pair<std::string, std::string>(n, PyoAudio::GetInstance()->GetClassBrief(n)));
 		}
 
 		return elems;
@@ -29,7 +30,7 @@ namespace editor {
 		const ax::Point& pos, const std::string& name, const std::vector<std::string>& args)
 	{
 		auto sep = ax::shared<PyDocSeparator>(
-			ax::Rect(pos, ax::Size(win->dimension.GetSize().x, 20)), name, GetClassNameBriefs(args));
+			ax::Rect(pos, ax::Size(win->dimension.GetSize().w, 20)), name, GetClassNameBriefs(args));
 
 		_scroll_panel->node.Add(sep);
 
@@ -45,17 +46,17 @@ namespace editor {
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &PyDoc::OnPaint);
 		win->event.OnResize = ax::WBind<ax::Size>(this, &PyDoc::OnResize);
-		win->event.OnScrollWheel = ax::WBind<ax::Size>(this, &PyDoc::OnScrollWheel);
-		win->event.OnMouseEnter = ax::WBind<ax::Size>(this, &PyDoc::OnMouseEnter);
-		win->event.OnMouseEnterChild = ax::WBind<ax::Size>(this, &PyDoc::OnMouseEnterChild);
-		win->event.OnMouseLeave = ax::WBind<ax::Size>(this, &PyDoc::OnMouseLeave);
-		win->event.OnMouseLeaveChild = ax::WBind<ax::Size>(this, &PyDoc::OnMouseLeaveChild);
+		win->event.OnScrollWheel = ax::WBind<ax::Point>(this, &PyDoc::OnScrollWheel);
+		win->event.OnMouseEnter = ax::WBind<ax::Point>(this, &PyDoc::OnMouseEnter);
+		win->event.OnMouseEnterChild = ax::WBind<ax::Point>(this, &PyDoc::OnMouseEnterChild);
+		win->event.OnMouseLeave = ax::WBind<ax::Point>(this, &PyDoc::OnMouseLeave);
+		win->event.OnMouseLeaveChild = ax::WBind<ax::Point>(this, &PyDoc::OnMouseLeaveChild);
 
 		_scroll_panel = ax::Window::Create(ax::Rect(ax::Point(0, 0), rect.size));
 		win->node.Add(std::shared_ptr<ax::Window>(_scroll_panel));
 
 		ax::Point pos(0, 0);
-		ax::Size size(rect.size.x, 40);
+		ax::Size size(rect.size.w, 40);
 
 		pos = AddSeparator(
 			pos, "Audio Signal Analysis", { "Follower", "Follower2", "ZCross", "Yin", "Centroid",
@@ -92,7 +93,7 @@ namespace editor {
 				"RCOsc", "Rossler", "Sine", "SineLoop", "SumOsc", "SuperSaw" });
 
 		_scroll_panel->property.AddProperty("BlockDrawing");
-		_scroll_panel->dimension.SetSizeNoShowRect(ax::Size(rect.size.x, pos.y));
+		_scroll_panel->dimension.SetSizeNoShowRect(ax::Size(rect.size.w, pos.y));
 
 		ax::ScrollBar::Info sInfo;
 		sInfo.normal = ax::Color(0.80, 0.3);
@@ -103,7 +104,7 @@ namespace editor {
 		sInfo.bg_top = ax::Color(0.9, 0.2);
 		sInfo.bg_bottom = ax::Color(0.92, 0.2);
 
-		const ax::Rect sRect(rect.size.x - 9, 0, 10, rect.size.y);
+		const ax::Rect sRect(rect.size.w - 9, 0, 10, rect.size.h);
 		_scrollBar = ax::shared<ax::ScrollBar>(sRect, ax::ScrollBar::Events(), sInfo);
 		win->node.Add(_scrollBar);
 
@@ -111,16 +112,16 @@ namespace editor {
 		_scrollBar->UpdateWindowSize(_scroll_panel->dimension.GetSize());
 	}
 
-	void PyDoc::OnNeedResize(const ax::Event::EmptyMsg& msg)
+	void PyDoc::OnNeedResize(const ax::event::EmptyMsg& msg)
 	{
-		ax::Print("PyDoc need resize");
+		ax::console::Print("PyDoc need resize");
 		ax::Point pos(0, 0);
 		for (auto& n : _separators) {
 			n->GetWindow()->dimension.SetPosition(ax::Point(pos));
 			pos = n->GetWindow()->dimension.GetRect().GetNextPosDown(0);
 		}
 
-		const ax::Size size(_scroll_panel->dimension.GetSize().x, pos.y);
+		const ax::Size size(_scroll_panel->dimension.GetSize().w, pos.y);
 		_scroll_panel->dimension.SetSizeNoShowRect(size);
 		_scrollBar->UpdateWindowSize(size);
 	}
@@ -153,16 +154,16 @@ namespace editor {
 	{
 		//		ax::Size size = _scroll_panel->dimension.GetShownRect().size;
 		double scroll_value
-			= (delta.y / (double)ax::App::GetInstance().GetFrameSize().y) + _scrollBar->GetZeroToOneValue();
+			= (delta.y / (double)ax::App::GetInstance().GetFrameSize().h) + _scrollBar->GetZeroToOneValue();
 
 		_scrollBar->SetZeroToOneValue(scroll_value);
 	}
 
 	void PyDoc::OnResize(const ax::Size& size)
 	{
-		ax::Rect sRect(size.x - 9, 0, 10, size.y);
+		ax::Rect sRect(size.w - 9, 0, 10, size.h);
 		_scrollBar->GetWindow()->dimension.SetRect(sRect);
-		_scroll_panel->dimension.SetShownRect(ax::Rect(0, 0, size.x, size.y));
+		_scroll_panel->dimension.SetShownRect(ax::Rect(0, 0, size.w, size.h));
 
 		_scrollBar->UpdateWindowSize(_scroll_panel->dimension.GetSize());
 	}

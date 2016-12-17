@@ -1,7 +1,7 @@
 #include "editor/atEditorRightSideMenu.hpp"
 #include "atHelpBar.h"
 
-#include <OpenAX/Button.h>
+#include <axlib/Button.hpp>
 
 namespace at {
 namespace editor {
@@ -27,27 +27,27 @@ namespace editor {
 		win->event.OnResize = ax::WBind<ax::Size>(this, &RightSideMenu::OnResize);
 
 		auto inspector = ax::shared<InspectorMenu>(
-			ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
+			ax::Rect(0, TOP_BAR_HEIGHT, rect.size.w, rect.size.h - TOP_BAR_HEIGHT));
 		win->node.Add(inspector);
 		_inspector = inspector.get();
 
 		// Account panel.
 		auto proj_info
-			= ax::shared<ProjectInfo>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
+			= ax::shared<ProjectInfo>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.w, rect.size.h - TOP_BAR_HEIGHT));
 		win->node.Add(proj_info);
 		_project_info = proj_info.get();
 		_project_info->GetWindow()->Hide();
 
 		// Documentation panel.
 		auto pydoc
-			= ax::shared<PyDoc>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
+			= ax::shared<PyDoc>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.w, rect.size.h - TOP_BAR_HEIGHT));
 		win->node.Add(pydoc);
 		_pydoc = pydoc.get();
 		_pydoc->GetWindow()->Hide();
 
 		// Account panel.
 		auto account
-			= ax::shared<Account>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.x, rect.size.y - TOP_BAR_HEIGHT));
+			= ax::shared<Account>(ax::Rect(0, TOP_BAR_HEIGHT, rect.size.w, rect.size.h - TOP_BAR_HEIGHT));
 		win->node.Add(account);
 		_account = account.get();
 		_account->GetWindow()->Hide();

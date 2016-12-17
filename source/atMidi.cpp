@@ -38,19 +38,19 @@ Midi* Midi::GetInstance()
 }
 
 Midi::Midi()
-	: ax::Event::Object(ax::App::GetInstance().GetEventManager())
+	: ax::event::Object(ax::App::GetInstance().GetEventManager())
 {
 }
 
 void Midi::OnMidiNoteOn(const atk::MidiNote& msg)
 {
 	PyoAudio::GetInstance()->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
-	ax::Print("ON", msg.GetNote(), msg.GetVelocity());
+	ax::console::Print("ON", msg.GetNote(), msg.GetVelocity());
 }
 
 void Midi::OnMidiNoteOff(const atk::MidiNote& msg)
 {
 	PyoAudio::GetInstance()->ProcessMidi(144, msg.GetNote(), msg.GetVelocity());
-	ax::Print("OFF", msg.GetNote(), msg.GetVelocity());
+	ax::console::Print("OFF", msg.GetNote(), msg.GetVelocity());
 }
 }

@@ -9,7 +9,7 @@
 #ifndef atMainWindowProjectHandler_hpp
 #define atMainWindowProjectHandler_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {
@@ -22,10 +22,10 @@ namespace editor {
 
 		void SaveCurrentProject();
 
-		axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveProject);
-		axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveAsProject);
-		axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenProject);
-		axEVENT_DECLARATION(ax::Event::StringMsg, OnCreateNewProject);
+		axEVENT_DECLARATION(ax::event::StringMsg, OnSaveProject);
+		axEVENT_DECLARATION(ax::event::StringMsg, OnSaveAsProject);
+		axEVENT_DECLARATION(ax::event::StringMsg, OnOpenProject);
+		axEVENT_DECLARATION(ax::event::StringMsg, OnCreateNewProject);
 
 	private:
 		MainWindow* _main_window;

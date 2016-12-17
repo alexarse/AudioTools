@@ -26,7 +26,7 @@
 
 #include "atk/AudioCore.hpp"
 #include "python/m_pyo.h"
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 class PyoAudio : public atk::AudioCore {
 public:
@@ -34,7 +34,7 @@ public:
 
 	~PyoAudio();
 
-	enum Events : ax::Event::Id { RMS_VALUE_CHANGE = 89831 };
+	enum Events : ax::event::Id { RMS_VALUE_CHANGE = 89831 };
 
 	void ProcessString(const std::string& script);
 	bool IsServerStarted();
@@ -48,7 +48,7 @@ public:
 
 	void ReloadScript(const std::string& path);
 
-	void SetConnectedObject(ax::Event::Object* obj)
+	void SetConnectedObject(ax::event::Object* obj)
 	{
 		_connected_obj = obj;
 	}
@@ -65,7 +65,7 @@ protected:
 	void CreateServer(float sr, int bufsize, int chnls);
 
 private:
-	ax::Event::Object* _connected_obj;
+	ax::event::Object* _connected_obj;
 	PyThreadState* _pyo;
 	int _rms_count;
 	std::pair<double, double> _rms_values;

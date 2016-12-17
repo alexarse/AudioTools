@@ -24,8 +24,8 @@
 
 #include "atSaveDialog.hpp"
 
-#include <OpenAX/Core.h>
-#include <OpenAX/Toggle.h>
+#include <axlib/Core.hpp>
+#include <axlib/Toggle.hpp>
 
 namespace at {
 namespace editor {
@@ -72,14 +72,14 @@ namespace editor {
 	void SaveDialog::OnSave(const ax::Button::Msg& msg)
 	{
 		std::string label = _txtBox->GetLabel();
-		ax::Print(label);
-		win->PushEvent(SAVE, new ax::Event::StringMsg(label));
+		ax::console::Print(label);
+		win->PushEvent(SAVE, new ax::event::StringMsg(label));
 		DeleteDialog();
 	}
 
 	void SaveDialog::OnCancel(const ax::Button::Msg& msg)
 	{
-		win->PushEvent(CANCEL, new ax::Event::StringMsg(""));
+		win->PushEvent(CANCEL, new ax::event::StringMsg(""));
 		DeleteDialog();
 	}
 
@@ -97,7 +97,7 @@ namespace editor {
 		win->backbone = nullptr;
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
 		ax::App::GetInstance().GetPopupManager()->SetPastWindow(nullptr);
-		ax::Print("Delete window.");
+		ax::console::Print("Delete window.");
 	}
 
 	void SaveDialog::OnPaint(ax::GC gc)

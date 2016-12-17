@@ -34,7 +34,7 @@
 #include "editor/atEditorInspectorMenu.hpp"
 #include "python/PyoComponent.hpp"
 
-#include <OpenAX/WindowManager.h>
+#include <axlib/WindowManager.hpp>
 
 namespace at {
 namespace editor {
@@ -83,10 +83,10 @@ namespace editor {
 		if (_selected_handle) {
 			ax::Rect rect(win->dimension.GetRect());
 
-			ax::Size separator_size(rect.size.x, 20);
+			ax::Size separator_size(rect.size.w, 20);
 
 			ax::Point att_pos(0, 0);
-			ax::Size att_size(rect.size.x, 20);
+			ax::Size att_size(rect.size.w, 20);
 
 			win->node.Add(ax::shared<MenuSeparator>(ax::Rect(att_pos, separator_size), "Unique Name"));
 
@@ -95,7 +95,7 @@ namespace editor {
 				at::UniqueNameComponent::Ptr comp
 					= _selected_handle->component.Get<at::UniqueNameComponent>("unique_name");
 
-				att_pos.y += separator_size.y;
+				att_pos.y += separator_size.h;
 
 				std::string name = comp->GetName();
 
@@ -103,18 +103,18 @@ namespace editor {
 					ax::Rect(att_pos, att_size), "name", name, GetOnUniqueName());
 
 				win->node.Add(menu);
-				att_pos.y += att_size.y;
+				att_pos.y += att_size.h;
 			}
 
 			// Add widget separator.
 			win->node.Add(ax::shared<MenuSeparator>(ax::Rect(att_pos, separator_size), "Widget"));
-			att_pos.y += separator_size.y;
+			att_pos.y += separator_size.h;
 
 			ax::widget::Component::Ptr widget
 				= _selected_handle->component.Get<ax::widget::Component>("Widget");
 
 			// Builder attributes.
-			ax::StringPairVector atts_pair = widget->GetBuilderAttributes();
+			std::vector<std::pair<std::string, std::string>> atts_pair = widget->GetBuilderAttributes();
 			std::map<std::string, std::string> atts_map;
 
 			for (auto& n : atts_pair) {
@@ -156,12 +156,12 @@ namespace editor {
 						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
 				}
 
-				att_pos.y += att_size.y;
+				att_pos.y += att_size.h;
 			}
 
 			win->node.Add(ax::shared<MenuSeparator>(ax::Rect(att_pos, separator_size), "Info"));
 
-			att_pos.y += separator_size.y;
+			att_pos.y += separator_size.h;
 
 			// Widget info attributes.
 			ax::widget::Info* info = widget->GetInfo();
@@ -199,7 +199,7 @@ namespace editor {
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
 				}
 
-				att_pos.y += att_size.y;
+				att_pos.y += att_size.h;
 			}
 
 			// Python attributes.
@@ -208,7 +208,7 @@ namespace editor {
 
 				win->node.Add(ax::shared<MenuSeparator>(ax::Rect(att_pos, separator_size), "Pyo"));
 
-				att_pos.y += separator_size.y;
+				att_pos.y += separator_size.h;
 
 				std::string fct_name = pyo_comp->GetFunctionName();
 
@@ -216,7 +216,7 @@ namespace editor {
 					ax::Rect(att_pos, att_size), "callback", fct_name, GetOnPyoCallback());
 				win->node.Add(menu);
 
-				att_pos.y += att_size.y;
+				att_pos.y += att_size.h;
 			}
 		}
 		win->Update();
@@ -234,9 +234,9 @@ namespace editor {
 		win->Update();
 	}
 
-	void InspectorMenu::OnPyoCallback(const ax::Event::SimpleMsg<ax::StringPair>& msg)
+	void InspectorMenu::OnPyoCallback(const ax::event::SimpleMsg<std::pair<std::string, std::string>>& msg)
 	{
-		ax::Print("Pyocallback");
+		ax::console::Print("Pyocallback");
 		if (_selected_handle == nullptr) {
 			return;
 		}
@@ -253,9 +253,9 @@ namespace editor {
 		}
 	}
 
-	void InspectorMenu::OnUniqueName(const ax::Event::SimpleMsg<ax::StringPair>& msg)
+	void InspectorMenu::OnUniqueName(const ax::event::SimpleMsg<std::pair<std::string, std::string>>& msg)
 	{
-		ax::Print("Unique name change");
+		ax::console::Print("Unique name change");
 		if (_selected_handle == nullptr) {
 			return;
 		}
@@ -273,9 +273,9 @@ namespace editor {
 		}
 	}
 
-	void InspectorMenu::OnWidgetUpdate(const ax::Event::SimpleMsg<ax::StringPair>& msg)
+	void InspectorMenu::OnWidgetUpdate(const ax::event::SimpleMsg<std::pair<std::string, std::string>>& msg)
 	{
-		ax::Print("Pyocallback");
+		ax::console::Print("Pyocallback");
 		if (_selected_handle == nullptr) {
 			return;
 		}
@@ -284,19 +284,19 @@ namespace editor {
 			ax::widget::Component::Ptr widget
 				= _selected_handle->component.Get<ax::widget::Component>("Widget");
 
-			widget->SetBuilderAttributes(ax::StringPairVector{ msg.GetMsg() });
+			widget->SetBuilderAttributes(std::vector<std::pair<std::string, std::string>>{ msg.GetMsg() });
 		}
 	}
 
-	void InspectorMenu::OnInfoUpdate(const ax::Event::SimpleMsg<ax::StringPair>& msg)
+	void InspectorMenu::OnInfoUpdate(const ax::event::SimpleMsg<std::pair<std::string, std::string>>& msg)
 	{
-		ax::Print("Pyocallback");
+		ax::console::Print("Pyocallback");
 		if (_selected_handle == nullptr) {
 			return;
 		}
 		ax::widget::Component::Ptr widget = _selected_handle->component.Get<ax::widget::Component>("Widget");
 
-		widget->SetInfo(ax::StringPairVector{ msg.GetMsg() });
+		widget->SetInfo(std::vector<std::pair<std::string, std::string>>{ msg.GetMsg() });
 		widget->ReloadInfo();
 	}
 

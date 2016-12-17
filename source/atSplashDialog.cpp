@@ -24,8 +24,8 @@
 
 #include "atSplashDialog.hpp"
 
-#include <OpenAX/Button.h>
-#include <OpenAX/WindowManager.h>
+#include <axlib/Button.hpp>
+#include <axlib/WindowManager.hpp>
 
 #include "editor/atEditorMainWindow.hpp"
 
@@ -41,9 +41,9 @@ SplashDialog::SplashDialog(const ax::Rect& rect)
 	win->event.OnPaint = ax::WBind<ax::GC>(this, &SplashDialog::OnPaint);
 }
 
-void SplashDialog::OnLoadingPercent(const ax::Event::SimpleMsg<LoadInfoMsg>& msg)
+void SplashDialog::OnLoadingPercent(const ax::event::SimpleMsg<LoadInfoMsg>& msg)
 {
-	ax::Print(msg.GetMsg().first);
+	ax::console::Print(msg.GetMsg().first);
 	_load_percent = msg.GetMsg().first;
 	_load_info = msg.GetMsg().second;
 
@@ -77,17 +77,17 @@ void SplashDialog::OnPaint(ax::GC gc)
 
 	if (_logo_img.IsImageReady()) {
 		ax::Size logo_size(_logo_img.GetSize());
-		gc.DrawImage(&_logo_img, ax::Point((rect.size.x - logo_size.x) * 0.5, 140));
+		gc.DrawImage(&_logo_img, ax::Point((rect.size.w - logo_size.w) * 0.5, 140));
 	}
 
 	// App name.
 	gc.SetColor(ax::Color(1.0));
-	gc.DrawStringAlignedCenter(_font_app_name, "Audio Tools", ax::Rect(0, 30, rect.size.x, 50));
+	gc.DrawStringAlignedCenter(_font_app_name, "Audio Tools", ax::Rect(0, 30, rect.size.w, 50));
 
 	// Process bar.
-	gc.DrawRectangle(ax::Rect(0, rect.size.y - 100, rect.size.x * _load_percent, 4));
+	gc.DrawRectangle(ax::Rect(0, rect.size.h - 100, rect.size.w * _load_percent, 4));
 
 	// Current loading info.
-	gc.DrawString(_font, _load_info, ax::Point(20, rect.size.y - 90));
+	gc.DrawString(_font, _load_info, ax::Point(20, rect.size.h - 90));
 }
 }

@@ -9,8 +9,8 @@
 #ifndef atEditorRightSideMenu_hpp
 #define atEditorRightSideMenu_hpp
 
-#include <OpenAX/Button.h>
-#include <OpenAX/OpenAX.h>
+#include <axlib/Button.hpp>
+#include <axlib/axlib.hpp>
 
 #include "atColorButton.h"
 #include "editor/atEditorAccount.hpp"

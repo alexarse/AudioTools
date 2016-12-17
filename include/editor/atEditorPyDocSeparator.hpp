@@ -9,8 +9,8 @@
 #ifndef atEditorPyDocSeparator_hpp
 #define atEditorPyDocSeparator_hpp
 
-#include <OpenAX/OpenAX.h>
-#include <OpenAX/Toggle.h>
+#include <axlib/Toggle.hpp>
+#include <axlib/axlib.hpp>
 
 #include "editor/atEditorPyDocElement.hpp"
 
@@ -18,9 +18,10 @@ namespace at {
 namespace editor {
 	class PyDocSeparator : public ax::Window::Backbone {
 	public:
-		PyDocSeparator(const ax::Rect& rect, const std::string& name, const ax::StringPairVector& elements);
+		PyDocSeparator(const ax::Rect& rect, const std::string& name,
+			const std::vector<std::pair<std::string, std::string>>& elements);
 
-		enum Events : ax::Event::Id { NEED_RESIZE };
+		enum Events : ax::event::Id { NEED_RESIZE };
 
 	private:
 		ax::Font _font;

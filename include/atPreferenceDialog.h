@@ -25,9 +25,9 @@
 #ifndef atPreferenceDialog_hpp
 #define atPreferenceDialog_hpp
 
-#include <OpenAX/Button.h>
-#include <OpenAX/DropMenu.h>
-#include <OpenAX/OpenAX.h>
+#include <axlib/Button.hpp>
+#include <axlib/DropMenu.hpp>
+#include <axlib/axlib.hpp>
 
 #include "DropMenuBox.h"
 
@@ -77,7 +77,7 @@ namespace editor {
 		{
 		}
 
-		//			enum : ax::Event::Id { OPEN, CANCEL };
+		//			enum : ax::event::Id { OPEN, CANCEL };
 
 	private:
 		PreferencePanel* _pref_panel;

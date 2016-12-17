@@ -9,8 +9,8 @@
 #ifndef atEditorWorkspace_hpp
 #define atEditorWorkspace_hpp
 
-#include <OpenAX/OpenAX.h>
-#include <OpenAX/ScrollBar.h>
+#include <axlib/ScrollBar.hpp>
+#include <axlib/axlib.hpp>
 
 #include "editor/atEditorWorkspaceObj.hpp"
 

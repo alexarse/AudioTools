@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {
@@ -32,7 +32,7 @@ namespace editor {
 
 	class App {
 	public:
-		enum Events : ax::Event::Id { LOADING_EVT_ID };
+		enum Events : ax::event::Id { LOADING_EVT_ID };
 
 		static App* Create();
 
@@ -41,7 +41,7 @@ namespace editor {
 			return _instance.get();
 		}
 
-		static ax::Event::Object* GetMainEvtObj();
+		static ax::event::Object* GetMainEvtObj();
 
 		MainWindow* GetMainWindow();
 
@@ -49,7 +49,7 @@ namespace editor {
 
 	private:
 		static std::unique_ptr<App> _instance;
-		ax::Event::Object _obj;
+		ax::event::Object _obj;
 		std::thread _loading_thread;
 
 		App();

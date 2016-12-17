@@ -1,6 +1,6 @@
 #include "atProjectFile.h"
-#include <OpenAX/OSFileSystem.h>
-#include <OpenAX/Utils.h>
+#include <axlib/FileSystem.hpp>
+#include <axlib/Util.hpp>
 #include <boost/filesystem.hpp>
 
 namespace at {
@@ -11,18 +11,18 @@ ProjectFile::ProjectFile(const std::string& filename)
 	boost::filesystem::path f_path(filename);
 
 	if (!boost::filesystem::exists(f_path)) {
-		ax::Error("Project name :", filename, "doesn't exist.");
+		ax::console::Error("Project name :", filename, "doesn't exist.");
 		return;
 	}
 
 	if (f_path.extension() != ".atproj") {
-		ax::Error("Project name :", filename, "doesn't proper extension.");
+		ax::console::Error("Project name :", filename, "doesn't proper extension.");
 		return;
 	}
 
 	_project_name = f_path.stem().string();
 
-	ax::Print("Project name :", _project_name);
+	ax::console::Print("Project name :", _project_name);
 
 	if (_archive.Open(filename)) {
 		_is_valid = true;
@@ -62,12 +62,12 @@ std::string ProjectFile::GetScriptContent()
 ProjectFile::ProjectError ProjectFile::CreateTempFolder(const std::string& folder_path)
 {
 	if (!_is_valid) {
-		ax::Error("Archive not valid.");
+		ax::console::Error("Archive not valid.");
 		return ProjectError::ARCHIVE_NOT_VALID;
 	}
 
 	if (_project_name.empty()) {
-		ax::Error("Project name empty.");
+		ax::console::Error("Project name empty.");
 		return ProjectError::EMPTY_PROJECT_NAME;
 	}
 
@@ -103,7 +103,7 @@ bool ProjectFile::SaveProject()
 
 		for (boost::filesystem::recursive_directory_iterator i(tmp_dir); i != end; ++i) {
 			const boost::filesystem::path cp = (*i);
-			ax::Print(cp.filename().string());
+			ax::console::Print(cp.filename().string());
 			proj_files.push_back(cp.filename().string());
 		}
 
@@ -145,7 +145,7 @@ bool ProjectFile::SaveAsProject(const std::string& filepath)
 
 		for (boost::filesystem::recursive_directory_iterator i(tmp_dir); i != end; ++i) {
 			const boost::filesystem::path cp = (*i);
-			ax::Print(cp.filename().string());
+			ax::console::Print(cp.filename().string());
 			proj_files.push_back(cp.filename().string());
 		}
 

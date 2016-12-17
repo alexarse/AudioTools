@@ -27,8 +27,8 @@
 #include <boost/python.hpp>
 #include <cstdio>
 
-#include <OpenAX/OpenAX.h>
-#include <OpenAX/Panel.h>
+#include <axlib/Panel.hpp>
+#include <axlib/axlib.hpp>
 
 using namespace boost::python;
 

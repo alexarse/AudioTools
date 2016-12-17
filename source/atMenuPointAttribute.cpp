@@ -23,18 +23,18 @@
  */
 
 #include "atMenuPointAttribute.hpp"
-#include <OpenAX/Button.h>
-#include <OpenAX/ColorPicker.h>
-#include <OpenAX/Label.h>
-#include <OpenAX/TextBox.h>
-#include <OpenAX/Toggle.h>
-#include <OpenAX/WindowManager.h>
-#include <OpenAX/Xml.h>
+#include <axlib/Button.hpp>
+#include <axlib/ColorPicker.hpp>
+#include <axlib/Label.hpp>
+#include <axlib/TextBox.hpp>
+#include <axlib/Toggle.hpp>
+#include <axlib/WindowManager.hpp>
+#include <axlib/Xml.hpp>
 
 namespace at {
 namespace inspector {
 	PointAttribute::PointAttribute(
-		const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct)
+		const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct)
 		: _name(name)
 		, _font("fonts/Lato.ttf")
 	{
@@ -51,7 +51,7 @@ namespace inspector {
 		labelInfo.font_color = ax::Color(0.0);
 		labelInfo.font_size = 12;
 		labelInfo.font_name = "fonts/Lato.ttf";
-		labelInfo.alignement = ax::Utils::Alignement::axALIGN_LEFT;
+		labelInfo.alignement = ax::util::Alignement::axALIGN_LEFT;
 
 		ax::Point pos(0, 0);
 		win->node.Add(ax::shared<ax::Label>(ax::Rect(pos, ax::Size(90, 25)), labelInfo, _name));
@@ -88,20 +88,20 @@ namespace inspector {
 		scroll_info.btn_info.contour = ax::Color(0.88);
 		scroll_info.btn_info.font_color = ax::Color(0.0, 0.0);
 
-		auto size_values = ax::Utils::String::Split(value, ",");
+		auto size_values = ax::util::String::Split(value, ",");
 		int w_value = std::stoi(size_values[0]);
 		int h_value = std::stoi(size_values[1]);
 
-		auto w_scroll = ax::shared<ax::NumberScroll>(ax::Rect(110, 0, 60, rect.size.y + 1),
-			GetOnWidthChange(), scroll_info, w_value, ax::Utils::Control::Type::INTEGER,
-			ax::Utils::Range<double>(0.0, 10000.0), 1.0);
+		auto w_scroll = ax::shared<ax::NumberScroll>(ax::Rect(110, 0, 60, rect.size.h + 1),
+			GetOnWidthChange(), scroll_info, w_value, ax::util::Control::Type::INTEGER,
+			ax::util::Range2D<double>(0.0, 10000.0), 1.0);
 
 		_width_scroll = w_scroll.get();
 		win->node.Add(w_scroll);
 
-		auto h_scroll = ax::shared<ax::NumberScroll>(ax::Rect(190, 0, 60, rect.size.y + 1),
-			GetOnHeightChange(), scroll_info, h_value, ax::Utils::Control::Type::INTEGER,
-			ax::Utils::Range<double>(0.0, 10000.0), 1.0);
+		auto h_scroll = ax::shared<ax::NumberScroll>(ax::Rect(190, 0, 60, rect.size.h + 1),
+			GetOnHeightChange(), scroll_info, h_value, ax::util::Control::Type::INTEGER,
+			ax::util::Range2D<double>(0.0, 10000.0), 1.0);
 
 		_height_scroll = h_scroll.get();
 		win->node.Add(h_scroll);
@@ -113,8 +113,8 @@ namespace inspector {
 		std::string h_str = std::to_string((int)_height_scroll->GetValue());
 		std::string out_str(w_str + ", " + h_str);
 
-		win->PushEvent(
-			Events::ASSIGN_VALUE, new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, out_str)));
+		win->PushEvent(Events::ASSIGN_VALUE, new ax::event::SimpleMsg<std::pair<std::string, std::string>>(
+												 std::pair<std::string, std::string>(_name, out_str)));
 	}
 
 	void PointAttribute::OnHeightChange(const ax::NumberScroll::Msg& msg)
@@ -123,8 +123,8 @@ namespace inspector {
 		std::string h_str = std::to_string((int)msg.GetValue());
 		std::string out_str(w_str + ", " + h_str);
 
-		win->PushEvent(
-			Events::ASSIGN_VALUE, new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, out_str)));
+		win->PushEvent(Events::ASSIGN_VALUE, new ax::event::SimpleMsg<std::pair<std::string, std::string>>(
+												 std::pair<std::string, std::string>(_name, out_str)));
 	}
 
 	void PointAttribute::OnPaint(ax::GC gc)
@@ -140,10 +140,10 @@ namespace inspector {
 		gc.DrawString(_font, "y :", ax::Point(175, 3));
 
 		gc.SetColor(ax::Color(0.88));
-		gc.DrawRectangleContour(ax::Rect(rect.position, ax::Size(rect.size.x, rect.size.y + 1)));
+		gc.DrawRectangleContour(ax::Rect(rect.position, ax::Size(rect.size.w, rect.size.h + 1)));
 
 		gc.SetColor(ax::Color(0.88));
-		gc.DrawLine(ax::Point(91, 0), ax::Point(91, rect.size.y + 1));
+		gc.DrawLine(ax::Point(91, 0), ax::Point(91, rect.size.h + 1));
 	}
 }
 }

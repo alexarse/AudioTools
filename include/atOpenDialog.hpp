@@ -25,9 +25,9 @@
 #ifndef __MDI_OPEN_DIALOG_H__
 #define __MDI_OPEN_DIALOG_H__
 
-#include <OpenAX/Button.h>
-#include <OpenAX/DropMenu.h>
-#include <OpenAX/OpenAX.h>
+#include <axlib/Button.hpp>
+#include <axlib/DropMenu.hpp>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {
@@ -42,7 +42,7 @@ namespace editor {
 		{
 		}
 
-		enum : ax::Event::Id { OPEN, CANCEL };
+		enum : ax::event::Id { OPEN, CANCEL };
 
 	private:
 		std::shared_ptr<ax::DropMenu> _menu;

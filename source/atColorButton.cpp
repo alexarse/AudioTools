@@ -26,7 +26,7 @@
 
 namespace at {
 ColorButton::ColorButton(const ax::Rect& rect, const ax::Button::Events& events, const ax::Button::Info& info,
-	std::string img_path, std::string label, ax::Flag flags, std::string msg)
+	std::string img_path, std::string label, ax::util::Flag flags, std::string msg)
 	: ax::Button(rect, events, info, img_path, label, flags, msg)
 {
 
@@ -35,7 +35,7 @@ ColorButton::ColorButton(const ax::Rect& rect, const ax::Button::Events& events,
 
 void ColorButton::OnCustomPaint(ax::GC gc)
 {
-	//	ax::Print("Draw ButtonColor");
+	//	ax::console::Print("Draw ButtonColor");
 	//	ax::Rect rect(win->dimension.GetRect());
 	ax::Rect rect0(win->dimension.GetDrawingRect());
 

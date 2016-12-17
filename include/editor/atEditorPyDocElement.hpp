@@ -9,7 +9,7 @@
 #ifndef atEditorPyDocElement_hpp
 #define atEditorPyDocElement_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {

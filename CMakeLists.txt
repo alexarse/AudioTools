@@ -105,6 +105,8 @@ target_link_libraries(${PROJECT_NAME} /usr/local/lib/libboost_filesystem.a)
 target_link_libraries(${PROJECT_NAME} /usr/local/lib/libboost_chrono.a)
 target_link_libraries(${PROJECT_NAME} /usr/local/lib/libboost_thread.a )
 target_link_libraries(${PROJECT_NAME} /usr/local/lib/libboost_random.a)
+
+target_link_libraries(${PROJECT_NAME} /usr/local/lib/libaxlib.a)
 # target_link_libraries(${PROJECT_NAME} /usr/local/lib/libboost_chrono.a)
 
 # /usr/local/lib/libaxAudio.a 
@@ -121,7 +123,7 @@ target_link_libraries(${PROJECT_NAME} /usr/local/lib/libboost_random.a)
 # /usr/local/lib/libboost_thread.a 
 # /usr/local/lib/libboost_random.a 
 # /usr/local/lib/libzip.a /usr/local/opt/openssl/lib/libcrypto.a /usr/local/opt/openssl/lib/libssl.a
-target_link_libraries(${PROJECT_NAME} /usr/local/lib/libOpenAX.a)
+# target_link_libraries(${PROJECT_NAME} /usr/local/lib/libOpenAX.a)
 # target_link_libraries(${PROJECT_NAME} /usr/local/lib/libaxMidi.a)
 # target_link_libraries(${PROJECT_NAME} /usr/local/lib/libaxAudio.a)
 

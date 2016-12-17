@@ -9,7 +9,7 @@
 #ifndef atMainWindowWidgetHandler_hpp
 #define atMainWindowWidgetHandler_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {
@@ -22,19 +22,19 @@ namespace editor {
 
 		void DeleteCurrentWidgets();
 
-		typedef std::pair<ax::StringPair, ax::Point> ObjMsg;
+		typedef std::pair<std::pair<std::string, std::string>, ax::Point> ObjMsg;
 
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<ObjMsg>, OnCreateDraggingWidget);
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::Point>, OnDraggingWidget);
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::Point>, OnReleaseObjWidget);
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::Window*>, OnSelectWidget);
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnUnSelectAllWidget);
-		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDeleteSelectedWidget);
-		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDuplicateSelectedWidget);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<ObjMsg>, OnCreateDraggingWidget);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<ax::Point>, OnDraggingWidget);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<ax::Point>, OnReleaseObjWidget);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<ax::Window*>, OnSelectWidget);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<int>, OnUnSelectAllWidget);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnDeleteSelectedWidget);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnDuplicateSelectedWidget);
 
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::Utils::Direction>, OnArrowMoveSelectedWidget);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<ax::util::Direction>, OnArrowMoveSelectedWidget);
 
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<std::vector<ax::Window*>>, OnSelectMultipleWidget);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<std::vector<ax::Window*>>, OnSelectMultipleWidget);
 
 	private:
 		MainWindow* _main_window;

@@ -23,7 +23,7 @@ namespace editor {
 	void MainWindowProjectHandler::SaveCurrentProject()
 	{
 		if (!_main_window->_project.IsProjectOpen()) {
-			ax::Error("No project is currently open.");
+			ax::console::Error("No project is currently open.");
 			return;
 		}
 
@@ -35,12 +35,12 @@ namespace editor {
 		_main_window->_project.Save();
 	}
 
-	void MainWindowProjectHandler::OnSaveProject(const ax::Event::StringMsg& msg)
+	void MainWindowProjectHandler::OnSaveProject(const ax::event::StringMsg& msg)
 	{
 		SaveCurrentProject();
 	}
 
-	void MainWindowProjectHandler::OnSaveAsProject(const ax::Event::StringMsg& msg)
+	void MainWindowProjectHandler::OnSaveAsProject(const ax::event::StringMsg& msg)
 	{
 		std::string project_path(msg.GetMsg());
 		boost::filesystem::path filepath(project_path);
@@ -49,17 +49,17 @@ namespace editor {
 		std::string ext = filepath.extension().string();
 
 		if (ext.empty()) {
-			ax::Print("Empty extension");
+			ax::console::Print("Empty extension");
 			// project_path;// += ".atproj";
 		}
 		else if (ext == ".atproj") {
 			/// @todo Remove extension.
-			ax::Print("atproj extension");
+			ax::console::Print("atproj extension");
 			return;
 		}
 		else {
-			ax::Print("extension :", ext);
-			ax::Error("incorrect file extension :", ext);
+			ax::console::Print("extension :", ext);
+			ax::console::Error("incorrect file extension :", ext);
 			return;
 		}
 
@@ -70,13 +70,13 @@ namespace editor {
 		// Check if file exist.
 		if (boost::filesystem::exists(filepath)) {
 			/// @todo Manage this case with message box.
-			ax::Error("File", filepath.string(), "already exist.");
+			ax::console::Error("File", filepath.string(), "already exist.");
 			return;
 		}
 
 		// Check is a project is already open.
 		if (!_main_window->_project.IsProjectOpen()) {
-			ax::Error("No project is currently open.");
+			ax::console::Error("No project is currently open.");
 			return;
 		}
 
@@ -100,25 +100,25 @@ namespace editor {
 		_main_window->_statusBar->SetLayoutFilePath(_main_window->_project.GetProjectName());
 	}
 
-	void MainWindowProjectHandler::OnOpenProject(const ax::Event::StringMsg& msg)
+	void MainWindowProjectHandler::OnOpenProject(const ax::event::StringMsg& msg)
 	{
 		const std::string project_path(msg.GetMsg());
 		boost::filesystem::path filepath(project_path);
 
 		// Check is empty.
 		if (project_path.empty()) {
-			ax::Error("Project path is empty.");
+			ax::console::Error("Project path is empty.");
 		}
 
 		// Check if file exist.
 		if (!boost::filesystem::exists(filepath)) {
-			ax::Error("File", filepath.string(), "doesn't exist.");
+			ax::console::Error("File", filepath.string(), "doesn't exist.");
 			return;
 		}
 
 		// Check file extension.
 		if (filepath.extension() != ".atproj") {
-			ax::Error("Wrong project file format.");
+			ax::console::Error("Wrong project file format.");
 			return;
 		}
 
@@ -135,7 +135,7 @@ namespace editor {
 
 		// Check is project is valid.
 		if (!_main_window->_project.IsProjectOpen()) {
-			ax::Error("Can't open project :", project_path);
+			ax::console::Error("Can't open project :", project_path);
 
 			/// @todo Load empty project.
 			return;
@@ -163,7 +163,7 @@ namespace editor {
 		}
 	}
 
-	void MainWindowProjectHandler::OnCreateNewProject(const ax::Event::StringMsg& msg)
+	void MainWindowProjectHandler::OnCreateNewProject(const ax::event::StringMsg& msg)
 	{
 		std::string project_path(msg.GetMsg());
 		boost::filesystem::path filepath(project_path);
@@ -172,16 +172,16 @@ namespace editor {
 		std::string ext = filepath.extension().string();
 
 		if (ext.empty()) {
-			//			ax::Print("Empty extension");
+			//			ax::console::Print("Empty extension");
 		}
 		else if (ext == ".atproj") {
 			/// @todo Remove extension.
-			ax::Print("atproj extension");
+			ax::console::Print("atproj extension");
 			return;
 		}
 		else {
-			ax::Print("extension :", ext);
-			ax::Error("incorrect file extension :", ext);
+			ax::console::Print("extension :", ext);
+			ax::console::Error("incorrect file extension :", ext);
 			return;
 		}
 
@@ -192,14 +192,14 @@ namespace editor {
 		// Check if file exist.
 		if (boost::filesystem::exists(filepath)) {
 			/// @todo Manage this case with message box.
-			ax::Error("File", filepath.string(), "already exist.");
+			ax::console::Error("File", filepath.string(), "already exist.");
 			return;
 		}
 
 		// Check is a project is already open.
 		if (_main_window->_project.IsProjectOpen()) {
 			_main_window->_project.Close();
-			//			ax::Error("No project is currently open.");
+			//			ax::console::Error("No project is currently open.");
 			//			return;
 		}
 
@@ -234,7 +234,7 @@ namespace editor {
 
 		// Check is project is valid.
 		if (!_main_window->_project.IsProjectOpen()) {
-			ax::Error("Can't open project :", project_path);
+			ax::console::Error("Can't open project :", project_path);
 
 			/// @todo Load empty project.
 			return;

@@ -24,14 +24,14 @@
 
 #include "editor/atEditorMainWindow.hpp"
 
-#include <OpenAX/Knob.h>
-#include <OpenAX/Label.h>
-#include <OpenAX/Panel.h>
-#include <OpenAX/ScrollBar.h>
-#include <OpenAX/Slider.h>
-#include <OpenAX/WidgetLoader.h>
-#include <OpenAX/WindowManager.h>
-#include <OpenAX/WindowTree.h>
+#include <axlib/Knob.hpp>
+#include <axlib/Label.hpp>
+#include <axlib/Panel.hpp>
+#include <axlib/ScrollBar.hpp>
+#include <axlib/Slider.hpp>
+#include <axlib/WidgetLoader.hpp>
+#include <axlib/WindowManager.hpp>
+#include <axlib/WindowTree.hpp>
 
 #include <boost/filesystem.hpp>
 
@@ -62,7 +62,7 @@ namespace editor {
 		_font.SetFontSize(10);
 
 		// Create top menu.
-		ax::Rect top_menu_rect(0, 0, rect.size.x, STATUS_BAR_HEIGHT);
+		ax::Rect top_menu_rect(0, 0, rect.size.w, STATUS_BAR_HEIGHT);
 		_statusBar = new StatusBar(top_menu_rect);
 		win->node.Add(std::shared_ptr<ax::Window::Backbone>(_statusBar));
 
@@ -91,8 +91,8 @@ namespace editor {
 
 		// Create grid window.
 		ax::Rect grid_rect(WIDGET_MENU_WIDTH, STATUS_BAR_HEIGHT,
-			rect.size.x - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH,
-			rect.size.y - STATUS_BAR_HEIGHT - 200 - BOTTOM_BAR_HEIGHT);
+			rect.size.w - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH,
+			rect.size.h - STATUS_BAR_HEIGHT - 200 - BOTTOM_BAR_HEIGHT);
 		win->node.Add(_gridWindow = ax::shared<GridWindow>(grid_rect));
 
 		_gridWindow->GetWindow()->AddConnection(
@@ -129,7 +129,7 @@ namespace editor {
 
 		// Create widget menu.
 		ax::Rect widget_menu_rect(
-			0, STATUS_BAR_HEIGHT, WIDGET_MENU_WIDTH, rect.size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
+			0, STATUS_BAR_HEIGHT, WIDGET_MENU_WIDTH, rect.size.h - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
 
 		auto l_side_menu = ax::shared<LeftSideMenu>(widget_menu_rect);
 		win->node.Add(l_side_menu);
@@ -139,8 +139,8 @@ namespace editor {
 			WidgetMenu::SMALLER_MENU, _view_handler.GetOnSmallerLeftMenu());
 
 		// Create info menu.
-		ax::Rect info_rect(rect.size.x - INSPECTOR_MENU_WIDTH, STATUS_BAR_HEIGHT, INSPECTOR_MENU_WIDTH,
-			rect.size.y - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
+		ax::Rect info_rect(rect.size.w - INSPECTOR_MENU_WIDTH, STATUS_BAR_HEIGHT, INSPECTOR_MENU_WIDTH,
+			rect.size.h - STATUS_BAR_HEIGHT - BOTTOM_BAR_HEIGHT);
 
 		auto right_menu = ax::shared<RightSideMenu>(info_rect);
 		win->node.Add(right_menu);
@@ -154,8 +154,8 @@ namespace editor {
 		txt_info.line_number_color = ax::Color(0.4);
 		txt_info.text_color = ax::Color(0.0);
 
-		ax::Rect bottom_rect(WIDGET_MENU_WIDTH + 1, rect.size.y - 200 - BOTTOM_BAR_HEIGHT,
-			rect.size.x - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH, 200);
+		ax::Rect bottom_rect(WIDGET_MENU_WIDTH + 1, rect.size.h - 200 - BOTTOM_BAR_HEIGHT,
+			rect.size.w - WIDGET_MENU_WIDTH - INSPECTOR_MENU_WIDTH, 200);
 
 		std::string script_path;
 
@@ -172,8 +172,8 @@ namespace editor {
 		_bottom_section->GetWindow()->AddConnection(
 			BottomSection::RESIZE, _view_handler.GetOnResizeCodeEditor());
 
-		_bottom_section->GetWindow()->AddConnection(10020, ax::Event::Function([&](ax::Event::Msg* msg) {
-			ax::Print("Save");
+		_bottom_section->GetWindow()->AddConnection(10020, ax::event::Function([&](ax::event::Msg* msg) {
+			ax::console::Print("Save");
 			std::vector<std::shared_ptr<ax::Window>>& children = _gridWindow->GetWindow()->node.GetChildren();
 
 			for (auto& n : children) {
@@ -188,7 +188,7 @@ namespace editor {
 
 		// Midi feedback.
 		auto midi_feedback = ax::shared<at::MidiFeedback>(
-			ax::Rect(ax::Point(rect.size.x - 17, rect.size.y - 15), ax::Size(10, 10)));
+			ax::Rect(ax::Point(rect.size.w - 17, rect.size.h - 15), ax::Size(10, 10)));
 		_midi_feedback = midi_feedback.get();
 
 		win->node.Add(midi_feedback);
@@ -243,7 +243,7 @@ namespace editor {
 	//		}
 	//	}
 
-	void MainWindow::OnSavePanelToWorkspace(const ax::Event::EmptyMsg& msg)
+	void MainWindow::OnSavePanelToWorkspace(const ax::event::EmptyMsg& msg)
 	{
 		// Empty popup window tree.
 		ax::App& app(ax::App::GetInstance());
@@ -256,7 +256,7 @@ namespace editor {
 		ax::Point pos(0, STATUS_BAR_HEIGHT - 1);
 
 		ax::Size size = ax::App::GetInstance().GetFrameSize();
-		size.y -= (STATUS_BAR_HEIGHT + BOTTOM_BAR_HEIGHT - 1);
+		size.h -= (STATUS_BAR_HEIGHT + BOTTOM_BAR_HEIGHT - 1);
 
 		auto pref_dialog = ax::shared<at::SaveWorkDialog>(ax::Rect(pos, size));
 		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
@@ -272,11 +272,11 @@ namespace editor {
 	{
 	}
 
-	void MainWindow::OnCancelSavePanelToWorkpace(const ax::Event::EmptyMsg& msg)
+	void MainWindow::OnCancelSavePanelToWorkpace(const ax::event::EmptyMsg& msg)
 	{
 	}
 
-	void MainWindow::OnRemoveWidgetFromRightClickMenu(const ax::Event::EmptyMsg& msg)
+	void MainWindow::OnRemoveWidgetFromRightClickMenu(const ax::event::EmptyMsg& msg)
 	{
 		// Empty popup window tree.
 		//		ax::App& app(ax::App::GetInstance());
@@ -291,7 +291,7 @@ namespace editor {
 		_widget_handler.DeleteCurrentWidgets();
 	}
 
-	void MainWindow::OnDuplicateWidgetFromRightClickMenu(const ax::Event::EmptyMsg& msg)
+	void MainWindow::OnDuplicateWidgetFromRightClickMenu(const ax::event::EmptyMsg& msg)
 	{
 		// Empty popup window tree.
 		//		ax::App& app(ax::App::GetInstance());
@@ -306,15 +306,15 @@ namespace editor {
 		_widget_handler.OnDuplicateSelectedWidget(msg);
 	}
 
-	void MainWindow::OnHelpBar(const ax::Event::StringMsg& msg)
+	void MainWindow::OnHelpBar(const ax::event::StringMsg& msg)
 	{
 		_help_bar_str = msg.GetMsg();
 		win->Update();
 	}
 
-	void MainWindow::OnReloadScript(const ax::Event::SimpleMsg<int>& msg)
+	void MainWindow::OnReloadScript(const ax::event::SimpleMsg<int>& msg)
 	{
-		ax::Print("Reload script");
+		ax::console::Print("Reload script");
 
 		/// @todo Do this in another thread and add a feedback to user somehow.
 		//----------------------------------------------------------------------
@@ -324,14 +324,14 @@ namespace editor {
 		//----------------------------------------------------------------------
 	}
 
-	void MainWindow::OnStopScript(const ax::Event::SimpleMsg<int>& msg)
+	void MainWindow::OnStopScript(const ax::event::SimpleMsg<int>& msg)
 	{
 		PyoAudio::GetInstance()->StopServer();
 	}
 
 	void MainWindow::OnGlobalKey(const char& c)
 	{
-		ax::Print("MainWindow global key");
+		ax::console::Print("MainWindow global key");
 
 		if (!ax::App::GetInstance().GetWindowManager()->IsCmdDown()) {
 			return;
@@ -352,7 +352,7 @@ namespace editor {
 		gc.DrawRectangleContour(rect);
 
 		gc.SetColor(ax::Color(1.0));
-		gc.DrawString(_font, _help_bar_str, ax::Point(5, rect.size.y - 16));
+		gc.DrawString(_font, _help_bar_str, ax::Point(5, rect.size.h - 16));
 	}
 }
 }

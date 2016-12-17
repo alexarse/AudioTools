@@ -32,21 +32,21 @@ Console::Console(const ax::Rect& rect)
 	win = ax::Window::Create(rect);
 	win->event.OnPaint = ax::WBind<ax::GC>(this, &Console::OnPaint);
 	win->event.OnResize = ax::WBind<ax::Size>(this, &Console::OnResize);
-	win->event.OnScrollWheel = ax::WBind<ax::Size>(this, &Console::OnScrollWheel);
-	win->event.OnMouseEnter = ax::WBind<ax::Size>(this, &Console::OnMouseEnter);
-	win->event.OnMouseEnterChild = ax::WBind<ax::Size>(this, &Console::OnMouseEnterChild);
-	win->event.OnMouseLeave = ax::WBind<ax::Size>(this, &Console::OnMouseLeave);
-	win->event.OnMouseLeaveChild = ax::WBind<ax::Size>(this, &Console::OnMouseLeaveChild);
+	win->event.OnScrollWheel = ax::WBind<ax::Point>(this, &Console::OnScrollWheel);
+	win->event.OnMouseEnter = ax::WBind<ax::Point>(this, &Console::OnMouseEnter);
+	win->event.OnMouseEnterChild = ax::WBind<ax::Point>(this, &Console::OnMouseEnterChild);
+	win->event.OnMouseLeave = ax::WBind<ax::Point>(this, &Console::OnMouseLeave);
+	win->event.OnMouseLeaveChild = ax::WBind<ax::Point>(this, &Console::OnMouseLeaveChild);
 
 	at::ConsoleStream::GetInstance()->AddConnection(at::ConsoleStream::WRITE_NEW_LINE, GetOnConsoleUpdate());
 	at::ConsoleStream::GetInstance()->AddConnection(
 		at::ConsoleStream::WRITE_ERROR, GetOnConsoleErrorUpdate());
 	at::ConsoleStream::GetInstance()->Write("Console init.");
 
-	_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.x, rect.size.y));
+	_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.w, rect.size.h));
 	win->node.Add(std::shared_ptr<ax::Window>(_panel));
 
-	_txt_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.x, rect.size.y));
+	_txt_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.w, rect.size.h));
 	_panel->node.Add(std::shared_ptr<ax::Window>(_txt_panel));
 
 	_txt_panel->event.OnPaint = ax::WBind<ax::GC>(this, &Console::OnPanelPaint);
@@ -60,21 +60,21 @@ Console::Console(const ax::Rect& rect)
 	sInfo.bg_top = ax::Color(0.9, 0.2);
 	sInfo.bg_bottom = ax::Color(0.92, 0.2);
 
-	ax::Rect sRect(rect.size.x - 9, 0, 10, rect.size.y);
+	ax::Rect sRect(rect.size.w - 9, 0, 10, rect.size.h);
 	_scrollBar = ax::shared<ax::ScrollBar>(sRect, ax::ScrollBar::Events(), sInfo);
 
 	win->node.Add(_scrollBar);
 
 	_panel->property.AddProperty("BlockDrawing");
-	_panel->dimension.SetSizeNoShowRect(ax::Size(rect.size.x, rect.size.y));
+	_panel->dimension.SetSizeNoShowRect(ax::Size(rect.size.w, rect.size.h));
 
 	_scrollBar->SetWindowHandle(_panel);
 	_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 }
 
-void Console::OnConsoleUpdate(const ax::Event::StringMsg& msg)
+void Console::OnConsoleUpdate(const ax::event::StringMsg& msg)
 {
-	std::vector<std::string> lines = ax::Utils::String::Split(msg.GetMsg(), "\n");
+	std::vector<std::string> lines = ax::util::String::Split(msg.GetMsg(), "\n");
 
 	for (int i = 0; i < lines.size(); i++) {
 		bool new_block = false;
@@ -90,25 +90,25 @@ void Console::OnConsoleUpdate(const ax::Event::StringMsg& msg)
 	}
 
 	int panel_height = 10 + int(_lines.size()) * 15;
-	_txt_panel->dimension.SetSize(ax::Size(_panel->dimension.GetSize().x, panel_height));
-	_panel->dimension.SetSizeNoShowRect(ax::Size(_panel->dimension.GetSize().x, panel_height));
-	//	ax::Print("Panel height", panel_height);
+	_txt_panel->dimension.SetSize(ax::Size(_panel->dimension.GetSize().w, panel_height));
+	_panel->dimension.SetSizeNoShowRect(ax::Size(_panel->dimension.GetSize().w, panel_height));
+	//	ax::console::Print("Panel height", panel_height);
 
 	_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 
-	if (_txt_panel->dimension.GetSize().y > _panel->dimension.GetShownRect().size.y) {
+	if (_txt_panel->dimension.GetSize().h > _panel->dimension.GetShownRect().size.h) {
 		_scrollBar->SetZeroToOneValue(1.0);
 	}
 	//	_panel->Update();
 	_txt_panel->Update();
 }
 
-void Console::OnConsoleErrorUpdate(const ax::Event::StringMsg& msg)
+void Console::OnConsoleErrorUpdate(const ax::event::StringMsg& msg)
 {
 	// Set event to bottom section to flip to console on error.
-	win->PushEvent(WRITE_ERROR, new ax::Event::EmptyMsg());
+	win->PushEvent(WRITE_ERROR, new ax::event::EmptyMsg());
 
-	std::vector<std::string> lines = ax::Utils::String::Split(msg.GetMsg(), "\n");
+	std::vector<std::string> lines = ax::util::String::Split(msg.GetMsg(), "\n");
 
 	for (int i = 0; i < lines.size(); i++) {
 		bool new_block = false;
@@ -120,13 +120,13 @@ void Console::OnConsoleErrorUpdate(const ax::Event::StringMsg& msg)
 	}
 
 	int panel_height = 10 + int(_lines.size()) * 15;
-	_txt_panel->dimension.SetSize(ax::Size(_panel->dimension.GetSize().x, panel_height));
-	_panel->dimension.SetSizeNoShowRect(ax::Size(_panel->dimension.GetSize().x, panel_height));
-	//	ax::Print("Panel height", panel_height);
+	_txt_panel->dimension.SetSize(ax::Size(_panel->dimension.GetSize().w, panel_height));
+	_panel->dimension.SetSizeNoShowRect(ax::Size(_panel->dimension.GetSize().w, panel_height));
+	//	ax::console::Print("Panel height", panel_height);
 
 	_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 
-	if (_txt_panel->dimension.GetSize().y > _panel->dimension.GetShownRect().size.y) {
+	if (_txt_panel->dimension.GetSize().h > _panel->dimension.GetShownRect().size.h) {
 		_scrollBar->SetZeroToOneValue(1.0);
 	}
 	//	_panel->Update();
@@ -160,17 +160,17 @@ void Console::OnMouseLeaveChild(const ax::Point& pos)
 void Console::OnScrollWheel(const ax::Point& delta)
 {
 	double scroll_value
-		= (delta.y / (double)ax::App::GetInstance().GetFrameSize().y) + _scrollBar->GetZeroToOneValue();
+		= (delta.y / (double)ax::App::GetInstance().GetFrameSize().h) + _scrollBar->GetZeroToOneValue();
 
 	_scrollBar->SetZeroToOneValue(scroll_value);
 }
 
 void Console::OnResize(const ax::Size& size)
 {
-	ax::Rect sRect(size.x - 9, 0, 10, size.y);
+	ax::Rect sRect(size.w - 9, 0, 10, size.h);
 	_scrollBar->GetWindow()->dimension.SetRect(sRect);
-	_panel->dimension.SetShownRect(ax::Rect(0, 0, size.x, size.y));
-	_txt_panel->dimension.SetSize(ax::Size(size.x, _txt_panel->dimension.GetSize().y));
+	_panel->dimension.SetShownRect(ax::Rect(0, 0, size.w, size.h));
+	_txt_panel->dimension.SetSize(ax::Size(size.w, _txt_panel->dimension.GetSize().h));
 	_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 }
 
@@ -200,7 +200,7 @@ void Console::OnPanelPaint(ax::GC gc)
 			block_flip = !block_flip;
 		}
 
-		ax::Rect line_rect(rect.position.x, pos.y, rect.size.x, 15);
+		ax::Rect line_rect(rect.position.x, pos.y, rect.size.w, 15);
 
 		// Draw bg.
 		if (block_flip) {

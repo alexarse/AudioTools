@@ -25,11 +25,11 @@
 #ifndef PyoComponent_hpp
 #define PyoComponent_hpp
 
-#include <OpenAX/Utils.h>
-#include <OpenAX/Window.h>
+#include <axlib/Util.hpp>
+#include <axlib/Window.hpp>
 
 namespace pyo {
-class Component : public ax::Component {
+class Component : public ax::util::Component {
 public:
 	/// Shared pointer.
 	typedef std::shared_ptr<Component> Ptr;

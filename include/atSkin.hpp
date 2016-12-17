@@ -25,7 +25,7 @@
 #ifndef atSkin_hpp
 #define atSkin_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 

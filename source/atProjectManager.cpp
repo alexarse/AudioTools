@@ -27,11 +27,11 @@ bool ProjectManager::Open(const std::string& path)
 	at::ProjectFile::ProjectError p_err = _p_file->CreateTempFolder("tmp/");
 
 	if (p_err == at::ProjectFile::DIRECTORY_ALREADY_EXIST) {
-		ax::Error("Directory already exist.");
+		ax::console::Error("Directory already exist.");
 		return -1;
 	}
 	else if (p_err != at::ProjectFile::NO_ERROR) {
-		ax::Error("Can't create directory");
+		ax::console::Error("Can't create directory");
 		return -1;
 	}
 

@@ -9,9 +9,9 @@
 #ifndef atMainWindowViewHandler_hpp
 #define atMainWindowViewHandler_hpp
 
-#include <OpenAX/Button.h>
-#include <OpenAX/OpenAX.h>
-#include <OpenAX/Toggle.h>
+#include <axlib/Button.hpp>
+#include <axlib/Toggle.hpp>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {
@@ -22,10 +22,10 @@ namespace editor {
 	public:
 		MainWindowViewHandler(MainWindow* main_window);
 
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnViewLayout);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<int>, OnViewLayout);
 		axEVENT_DECLARATION(ax::Button::Msg, OnBackToEditor);
 
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<int>, OnResizeCodeEditor);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<int>, OnResizeCodeEditor);
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleLeftPanel);
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleBottomPanel);
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleRightPanel);

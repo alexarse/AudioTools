@@ -26,7 +26,7 @@
 #include <Python/Python.h>
 #include <cstdio>
 
-#include <OpenAX/Utils.h>
+#include <axlib/Util.hpp>
 #include <boost/python.hpp>
 
 using namespace boost::python;

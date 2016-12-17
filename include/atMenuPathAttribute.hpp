@@ -9,17 +9,17 @@
 #ifndef atMenuPathAttribute_hpp
 #define atMenuPathAttribute_hpp
 
-#include <OpenAX/Button.h>
-#include <OpenAX/OpenAX.h>
+#include <axlib/Button.hpp>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace inspector {
 	class PathAttribute : public ax::Window::Backbone {
 	public:
-		enum Events : ax::Event::Id { ASSIGN_VALUE };
+		enum Events : ax::event::Id { ASSIGN_VALUE };
 
 		PathAttribute(
-			const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct);
+			const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct);
 
 	private:
 		std::string _name;

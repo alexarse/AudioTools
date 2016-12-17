@@ -6,7 +6,7 @@
 
 namespace at {
 namespace editor {
-	OnlineStore::OnlineStore(ax::Event::Object* obj)
+	OnlineStore::OnlineStore(ax::event::Object* obj)
 		: _obj(obj)
 	{
 	}
@@ -18,14 +18,14 @@ namespace editor {
 	//		// Path already exist.
 	//		if (boost::filesystem::exists(file_path)) {
 	//			// Check date of some shit before downloading.
-	//			ax::Print("File :", file_path, "alredy exist.");
-	//			ax::Print("Need to check for file validity and check date before redownload.");
+	//			ax::console::Print("File :", file_path, "alredy exist.");
+	//			ax::console::Print("Need to check for file validity and check date before redownload.");
 	//			return;
 	//		}
 	//
 	//		auto fileStream = std::make_shared<concurrency::streams::ostream>();
 	//
-	//		ax::Event::Object* obj = _obj;
+	//		ax::event::Object* obj = _obj;
 	//
 	//		// Open stream to output file.
 	//		pplx::task<void> requestTask
@@ -54,7 +54,7 @@ namespace editor {
 	//
 	//				  // Close the file stream.
 	//				  .then([=](size_t) {
-	//					  obj->PushEvent(10, new ax::Event::EmptyMsg());
+	//					  obj->PushEvent(10, new ax::event::EmptyMsg());
 	//					  return fileStream->close();
 	//				  });
 	//	}
@@ -130,9 +130,9 @@ namespace editor {
 		// RequestJSONValueAsync();
 	}
 
-	void OnlineStoreMenu::OnDoneDownloadingWidgetList(const ax::Event::EmptyMsg& msg)
+	void OnlineStoreMenu::OnDoneDownloadingWidgetList(const ax::event::EmptyMsg& msg)
 	{
-		ax::Print("Done downloading data.");
+		ax::console::Print("Done downloading data.");
 	}
 
 	void OnlineStoreMenu::OnPaint(ax::GC gc)

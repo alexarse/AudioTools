@@ -37,12 +37,12 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 
 {
 	_line_num_font.SetFontSize(10);
-	_n_line_shown = (rect.size.y - 1) / _line_height;
+	_n_line_shown = (rect.size.h - 1) / _line_height;
 
 	win = ax::Window::Create(rect);
 	win->event.OnResize = ax::WBind<ax::Size>(this, &TextEditor::OnResize);
 
-	_scrollPanel = ax::Window::Create(ax::Rect(0, 0, rect.size.x, rect.size.y));
+	_scrollPanel = ax::Window::Create(ax::Rect(0, 0, rect.size.w, rect.size.h));
 
 	_scrollPanel->property.AddProperty("BlockDrawing");
 
@@ -50,9 +50,9 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 
 	// Mouse events.
 	_scrollPanel->event.OnMouseEnter = ax::WBind<ax::Point>(this, &TextEditor::OnMouseEnter);
-	_scrollPanel->event.OnMouseEnterChild = ax::WBind<ax::Size>(this, &TextEditor::OnMouseEnterChild);
-	_scrollPanel->event.OnMouseLeave = ax::WBind<ax::Size>(this, &TextEditor::OnMouseLeave);
-	_scrollPanel->event.OnMouseLeaveChild = ax::WBind<ax::Size>(this, &TextEditor::OnMouseLeaveChild);
+	_scrollPanel->event.OnMouseEnterChild = ax::WBind<ax::Point>(this, &TextEditor::OnMouseEnterChild);
+	_scrollPanel->event.OnMouseLeave = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeave);
+	_scrollPanel->event.OnMouseLeaveChild = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeaveChild);
 	_scrollPanel->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftDown);
 	_scrollPanel->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftUp);
 	_scrollPanel->event.OnScrollWheel = ax::WBind<ax::Point>(this, &TextEditor::OnScrollWheel);
@@ -82,7 +82,7 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	scrollEvents.value_change = GetOnScroll();
 
 	auto scroll_bar
-		= ax::shared<ax::ScrollBar>(ax::Rect(rect.size.x - 9, 0, 10, rect.size.y), scrollEvents, sInfo);
+		= ax::shared<ax::ScrollBar>(ax::Rect(rect.size.w - 9, 0, 10, rect.size.h), scrollEvents, sInfo);
 
 	_scrollBar = scroll_bar.get();
 
@@ -90,7 +90,7 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 
 	// Scrollbar is use without window handle, it behave just like a slider.
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
-	_scrollBar->UpdateWindowSize(ax::Size(rect.size.x, h_size));
+	_scrollBar->UpdateWindowSize(ax::Size(rect.size.w, h_size));
 }
 
 void TextEditor::SaveFile(const std::string& path)
@@ -111,7 +111,7 @@ bool TextEditor::OpenFile(const std::string& path)
 
 	// Scrollbar is use without window handle, it behave just like a slider.
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
-	_scrollBar->UpdateWindowSize(ax::Size(rect.size.x, h_size));
+	_scrollBar->UpdateWindowSize(ax::Size(rect.size.w, h_size));
 	win->Update();
 	_scrollPanel->Update();
 
@@ -160,7 +160,7 @@ void TextEditor::MoveToCursorPosition()
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		// Possible problem when file size is smaller than _n_line_shown.
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//		ax::Print("Problme");
+		//		ax::console::Print("Problme");
 		_file_start_index = cur_pos.y - _n_line_shown + 1;
 
 		if (_file_start_index < 0) {
@@ -179,7 +179,7 @@ void TextEditor::MoveToCursorPosition()
 		return;
 	}
 
-	//	ax::Print("F start :", _file_start_index);
+	//	ax::console::Print("F start :", _file_start_index);
 	double scroll_ratio = _file_start_index / double(diff);
 	_scrollBar->SetZeroToOneValue(scroll_ratio);
 }
@@ -189,21 +189,21 @@ void TextEditor::OnResize(const ax::Size& size)
 	const int file_size((int)_logic.GetFileData().size());
 	//	double r = (_file_start_index / double(file_size));
 
-	_n_line_shown = size.y / _line_height;
+	_n_line_shown = size.h / _line_height;
 	_scrollPanel->dimension.SetSize(size);
 
-	_scrollBar->GetWindow()->dimension.SetRect(ax::Rect(size.x - 9, 0, 10, size.y));
+	_scrollBar->GetWindow()->dimension.SetRect(ax::Rect(size.w - 9, 0, 10, size.h));
 
 	int h_size = file_size * _line_height;
 
-	if (h_size < size.y) {
-		h_size = size.y;
-		ax::Print("bb");
+	if (h_size < size.h) {
+		h_size = size.h;
+		ax::console::Print("bb");
 		_file_start_index = 0;
-		_scrollBar->UpdateWindowSize(ax::Size(size.x, size.y));
+		_scrollBar->UpdateWindowSize(ax::Size(size.w, size.h));
 	}
 	else {
-		_scrollBar->UpdateWindowSize(ax::Size(size.x, h_size));
+		_scrollBar->UpdateWindowSize(ax::Size(size.w, h_size));
 	}
 
 	// Move scroll bar.
@@ -290,13 +290,13 @@ void TextEditor::OnKeyDown(const char& key)
 
 		if (key == 'v' || key == 'V') {
 			std::string content = ax::App::GetInstance().GetPasteboardConent();
-			ax::Utils::String::ReplaceCharWithString(content, '\t', "    ");
+			ax::util::String::ReplaceCharWithString(content, '\t', "    ");
 
 			if (!content.empty()) {
 				std::vector<std::string>& file_data = _logic.GetFileData();
 				ax::Point cur_pos(_logic.GetCursorPosition());
 
-				std::vector<std::string> paste_content(ax::Utils::String::Split(content, "\n"));
+				std::vector<std::string> paste_content(ax::util::String::Split(content, "\n"));
 
 				file_data[cur_pos.y].insert(cur_pos.x, paste_content[0]);
 
@@ -305,7 +305,7 @@ void TextEditor::OnKeyDown(const char& key)
 				}
 
 				_scrollPanel->Update();
-				//				ax::Print("Pasteboard content :", content);
+				//				ax::console::Print("Pasteboard content :", content);
 			}
 		}
 	}
@@ -321,7 +321,7 @@ void TextEditor::OnEnterDown(const char& key)
 	_logic.Enter();
 
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
-	_scrollBar->UpdateWindowSize(ax::Size(_scrollPanel->dimension.GetRect().size.x, h_size));
+	_scrollBar->UpdateWindowSize(ax::Size(_scrollPanel->dimension.GetRect().size.w, h_size));
 	MoveToCursorPosition();
 
 	_scrollPanel->Update();
@@ -331,7 +331,7 @@ void TextEditor::OnBackSpaceDown(const char& key)
 {
 	_logic.BackSpace();
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
-	_scrollBar->UpdateWindowSize(ax::Size(_scrollPanel->dimension.GetRect().size.x, h_size));
+	_scrollBar->UpdateWindowSize(ax::Size(_scrollPanel->dimension.GetRect().size.w, h_size));
 	MoveToCursorPosition();
 
 	_scrollPanel->Update();
@@ -341,7 +341,7 @@ void TextEditor::OnKeyDeleteDown(const char& key)
 {
 	_logic.Delete();
 	int h_size = (int)_logic.GetFileData().size() * _line_height;
-	_scrollBar->UpdateWindowSize(ax::Size(_scrollPanel->dimension.GetRect().size.x, h_size));
+	_scrollBar->UpdateWindowSize(ax::Size(_scrollPanel->dimension.GetRect().size.w, h_size));
 	MoveToCursorPosition();
 
 	_scrollPanel->Update();
@@ -350,8 +350,8 @@ void TextEditor::OnKeyDeleteDown(const char& key)
 void TextEditor::OnScrollWheel(const ax::Point& delta)
 {
 	ax::Size size = _scrollPanel->dimension.GetShownRect().size;
-	double scroll_value = (2.0 * delta.y) / double(size.y) + _scrollBar->GetZeroToOneValue();
-	scroll_value = ax::Utils::Clamp(scroll_value, 0.0, 1.0);
+	double scroll_value = (2.0 * delta.y) / double(size.h) + _scrollBar->GetZeroToOneValue();
+	scroll_value = ax::util::Clamp(scroll_value, 0.0, 1.0);
 	_scrollBar->SetZeroToOneValue(scroll_value);
 }
 
@@ -367,11 +367,11 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 	// Find new cursor line.
 	int line_index = _file_start_index + mouse_pos.y / _line_height;
 
-	//	ax::Print(line_index);
+	//	ax::console::Print(line_index);
 	const std::vector<std::string>& data = _logic.GetFileData();
 
 	if (line_index >= data.size()) {
-		ax::Print("go to last char");
+		ax::console::Print("go to last char");
 		_logic.SetCursorPosition(ax::Point((int)data[data.size() - 1].size(), (int)data.size() - 1));
 		_scrollPanel->Update();
 		return;
@@ -440,9 +440,9 @@ void TextEditor::OnMouseLeftUp(const ax::Point& mouse_pos)
 	//        ax::Point pos = mouse_pos - GetAbsoluteRect().position;
 	//        ax::Size w_size(GetSize());
 	//
-	//        int n_shown = w_size.y / 15;
+	//        int n_shown = w_size.h / 15;
 	//
-	//        _selected_index = (pos.y / (double)w_size.y) * n_shown;
+	//        _selected_index = (pos.y / (double)w_size.h) * n_shown;
 	//
 	//        int index = _file_start_index + _selected_index;
 	//
@@ -503,7 +503,7 @@ void TextEditor::OnPaint(ax::GC gc)
 
 	// Draw line number background.
 	gc.SetColor(_info.line_number_bg_color);
-	gc.DrawRectangle(ax::Rect(0, 0, 25, rect.size.y));
+	gc.DrawRectangle(ax::Rect(0, 0, 25, rect.size.h));
 
 	ax::Point num_pos(4, 2);
 

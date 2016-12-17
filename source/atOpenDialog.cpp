@@ -25,9 +25,9 @@
 #include "atOpenDialog.hpp"
 #include "editor/atEditorMainWindow.hpp"
 
-#include <OpenAX/Core.h>
-#include <OpenAX/OSFileSystem.h>
-#include <OpenAX/Toggle.h>
+#include <axlib/Core.hpp>
+#include <axlib/FileSystem.hpp>
+#include <axlib/Toggle.hpp>
 
 namespace at {
 namespace editor {
@@ -57,26 +57,29 @@ namespace editor {
 		menu_info.right_arrow = ax::Color(0.70);
 		menu_info.item_height = 35;
 
-		ax::os::Directory dir;
-		dir.Goto("layouts/");
+		ax::os::Path dir("layouts/");
+		//		ax::os::Directory dir;
+		//		dir.Goto("layouts/");
 
-		std::vector<ax::os::File> files = dir.GetContent();
+		//		std::vector<ax::os::File> files = dir.GetContent();
+		std::vector<ax::os::Path> files = dir.GetDirectoryContent();
 
 		std::vector<std::string> layout_files;
 
 		for (auto& n : files) {
-			//		ax::Print(n.name);
-			if (n.ext == "xml") {
-				layout_files.push_back(n.name);
+			//		ax::console::Print(n.name);
+			//			if (n.ext == "xml") {
+			if (n.GetExtension() == "xml") {
+				layout_files.push_back(n.GetAbsolutePath());
 			}
 		}
 
 		for (auto& n : layout_files) {
-			ax::Print(n);
+			ax::console::Print(n);
 		}
 
 		//	ax::Size fsize(ax::App::GetInstance().GetFrameSize());
-		ax::Size size(at::editor::MainWindow::WIDGET_MENU_WIDTH, rect.size.y);
+		ax::Size size(at::editor::MainWindow::WIDGET_MENU_WIDTH, rect.size.h);
 
 		_menu = ax::shared<ax::DropMenu>(
 			ax::Rect(ax::Point(0, 0), size), GetOnMenuSelection(), menu_info, layout_files);
@@ -85,11 +88,11 @@ namespace editor {
 
 		ax::Size menu_size(_menu->GetWindow()->dimension.GetSize());
 
-		auto open = ax::shared<ax::Button>(ax::Rect(rect.position.x, menu_size.y, size.x * 0.5, 30),
+		auto open = ax::shared<ax::Button>(ax::Rect(rect.position.x, menu_size.h, size.w * 0.5, 30),
 			GetOnOpen(), ax::Button::Info(), "", "Open");
 
 		auto cancel = ax::shared<ax::Button>(
-			ax::Rect(ax::Point(size.x * 0.5, menu_size.y), ax::Size(size.x * 0.5, 30)), GetOnCancel(),
+			ax::Rect(ax::Point(size.w * 0.5, menu_size.h), ax::Size(size.w * 0.5, 30)), GetOnCancel(),
 			ax::Button::Info(), "", "Cancel");
 
 		win->node.Add(open);
@@ -97,7 +100,7 @@ namespace editor {
 
 		win->dimension.SetPosition(ax::Point(0, rect.position.y));
 
-		//	win->dimension.SetSize(ax::Size(menu_size.x, menu_size.y + 30));
+		//	win->dimension.SetSize(ax::Size(menu_size.w, menu_size.h + 30));
 
 		//
 		//		std::string font_path;
@@ -144,20 +147,20 @@ namespace editor {
 	void OpenDialog::OnOpen(const ax::Button::Msg& msg)
 	{
 		//		std::string label = _txtBox->GetLabel();
-		//		ax::Print(label);
-		win->PushEvent(OPEN, new ax::Event::StringMsg(_menu->GetSelectedItem()));
+		//		ax::console::Print(label);
+		win->PushEvent(OPEN, new ax::event::StringMsg(_menu->GetSelectedItem()));
 		DeleteDialog();
 	}
 
 	void OpenDialog::OnCancel(const ax::Button::Msg& msg)
 	{
-		win->PushEvent(CANCEL, new ax::Event::StringMsg(""));
+		win->PushEvent(CANCEL, new ax::event::StringMsg(""));
 		DeleteDialog();
 	}
 
 	void OpenDialog::OnMenuSelection(const ax::DropMenu::Msg& msg)
 	{
-		win->PushEvent(OPEN, new ax::Event::StringMsg(msg.GetItem()));
+		win->PushEvent(OPEN, new ax::event::StringMsg(msg.GetItem()));
 		DeleteDialog();
 	}
 

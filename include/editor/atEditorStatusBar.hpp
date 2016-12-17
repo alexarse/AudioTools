@@ -25,10 +25,10 @@
 #ifndef mdiStatusBar_hpp
 #define mdiStatusBar_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
-#include <OpenAX/Button.h>
-#include <OpenAX/Toggle.h>
+#include <axlib/Button.hpp>
+#include <axlib/Toggle.hpp>
 
 #include "atVolumeMeter.hpp"
 //#include "atMidiFeedback.h"
@@ -42,7 +42,7 @@ namespace editor {
 	public:
 		StatusBar(const ax::Rect& rect);
 
-		enum : ax::Event::Id {
+		enum : ax::event::Id {
 			CREATE_NEW_LAYOUT,
 			SAVE_LAYOUT,
 			SAVE_AS_LAYOUT,
@@ -84,14 +84,14 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleBottomPanel);
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleRightPanel);
 
-		axEVENT_DECLARATION(ax::Event::StringMsg, OnSaveDialog);
-		axEVENT_DECLARATION(ax::Event::StringMsg, OnCancelDialog);
+		axEVENT_DECLARATION(ax::event::StringMsg, OnSaveDialog);
+		axEVENT_DECLARATION(ax::event::StringMsg, OnCancelDialog);
 
-		axEVENT_DECLARATION(ax::Event::StringMsg, OnOpenDialog);
+		axEVENT_DECLARATION(ax::event::StringMsg, OnOpenDialog);
 
 		typedef std::pair<double, double> StereoRmsValue;
 
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<StereoRmsValue>, OnAudioRmsValue);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<StereoRmsValue>, OnAudioRmsValue);
 
 		void OnResize(const ax::Size& size);
 		void OnPaint(ax::GC gc);

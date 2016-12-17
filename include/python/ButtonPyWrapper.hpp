@@ -26,8 +26,8 @@
 #define ButtonPyWrapper_hpp
 
 #include "python/WindowPyWrapper.hpp"
-#include <OpenAX/Button.h>
-#include <OpenAX/OpenAX.h>
+#include <axlib/Button.hpp>
+#include <axlib/axlib.hpp>
 
 namespace ax {
 namespace python {

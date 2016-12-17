@@ -25,9 +25,9 @@
 #ifndef __MDI_SAVE_DIALOG_H__
 #define __MDI_SAVE_DIALOG_H__
 
-#include <OpenAX/Button.h>
-#include <OpenAX/OpenAX.h>
-#include <OpenAX/TextBox.h>
+#include <axlib/Button.hpp>
+#include <axlib/TextBox.hpp>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {
@@ -42,7 +42,7 @@ namespace editor {
 		{
 		}
 
-		enum : ax::Event::Id { SAVE, CANCEL };
+		enum : ax::event::Id { SAVE, CANCEL };
 
 	private:
 		std::shared_ptr<ax::TextBox> _txtBox;

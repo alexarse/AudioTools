@@ -25,12 +25,12 @@
 #ifndef atMidi_hpp
 #define atMidi_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 //#include <OpenAX/axMidiCore.h>
 #include "atk/MidiCore.hpp"
 
 namespace at {
-class Midi : public atk::MidiCore, public ax::Event::Object {
+class Midi : public atk::MidiCore, public ax::event::Object {
 public:
 	static Midi* GetInstance();
 

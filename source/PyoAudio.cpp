@@ -23,7 +23,7 @@
  */
 
 #include "PyoAudio.h"
-#include <OpenAX/Utils.h>
+#include <axlib/Util.hpp>
 
 PyoAudio* PyoAudio::_global_audio = nullptr;
 
@@ -48,7 +48,7 @@ PyoAudio::PyoAudio()
 	//	int err = pyo_exec_file(_pyo, "scripts/default.py", msg, 1);
 	//
 	//	if (err) {
-	//		ax::Error("Load python script.");
+	//		ax::console::Error("Load python script.");
 	//	}
 }
 
@@ -59,7 +59,7 @@ PyoAudio::~PyoAudio()
 
 void PyoAudio::ReloadScript(const std::string& path)
 {
-	ax::Print("Debug reload");
+	ax::console::Print("Debug reload");
 	StopAudio();
 
 	if (_pyo != nullptr) {
@@ -72,7 +72,7 @@ void PyoAudio::ReloadScript(const std::string& path)
 	pyo_exec_file(_pyo, path.c_str(), msg, 1);
 
 	StartAudio();
-	ax::Print("Done reset pyo server.");
+	ax::console::Print("Done reset pyo server.");
 }
 
 void PyoAudio::StopServer()
@@ -140,7 +140,7 @@ int PyoAudio::CoreCallbackAudio(const float* input, float* output, unsigned long
 
 	//	if (_rms_count >= 5000 && _connected_obj) {
 	//		_connected_obj->PushEvent(
-	//			Events::RMS_VALUE_CHANGE, new ax::Event::SimpleMsg<std::pair<double, double>>(_rms_values));
+	//			Events::RMS_VALUE_CHANGE, new ax::event::SimpleMsg<std::pair<double, double>>(_rms_values));
 	//
 	//		_rms_count = 0;
 	//	}

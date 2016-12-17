@@ -9,11 +9,11 @@
 #ifndef atUniqueNameComponent_hpp
 #define atUniqueNameComponent_hpp
 
-#include <OpenAX/Utils.h>
-#include <OpenAX/Window.h>
+#include <axlib/Util.hpp>
+#include <axlib/Window.hpp>
 
 namespace at {
-class UniqueNameComponent : public ax::Component {
+class UniqueNameComponent : public ax::util::Component {
 public:
 	/// Shared pointer.
 	typedef std::shared_ptr<UniqueNameComponent> Ptr;

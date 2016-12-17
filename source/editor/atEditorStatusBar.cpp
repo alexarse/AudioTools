@@ -33,9 +33,9 @@
 #include "editor/atEditor.hpp"
 #include "editor/atEditorMainWindow.hpp"
 
-#include <OpenAX/Core.h>
-#include <OpenAX/Toggle.h>
-#include <OpenAX/WindowManager.h>
+#include <axlib/Core.hpp>
+#include <axlib/Toggle.hpp>
+#include <axlib/WindowManager.hpp>
 
 namespace at {
 namespace editor {
@@ -66,10 +66,10 @@ namespace editor {
 		tog_info.img = "resources/top_menu_toggle_left.png";
 		tog_info.single_img = false;
 
-		ax::Point pos(rect.size.x - 95, 2);
+		ax::Point pos(rect.size.w - 95, 2);
 
 		// Volume meter left.
-		ax::Rect volume_rect(rect.size.x - 165, 8, 50, 7);
+		ax::Rect volume_rect(rect.size.w - 165, 8, 50, 7);
 		auto v_meter_l = ax::shared<at::VolumeMeter>(volume_rect);
 		win->node.Add(v_meter_l);
 		_volumeMeterLeft = v_meter_l.get();
@@ -195,48 +195,48 @@ namespace editor {
 
 	void StatusBar::OnSaveLayout(const ax::Button::Msg& msg)
 	{
-		win->PushEvent(SAVE_LAYOUT, new ax::Event::StringMsg(_layout_file_path));
+		win->PushEvent(SAVE_LAYOUT, new ax::event::StringMsg(_layout_file_path));
 	}
 
 	void StatusBar::OnSaveAsLayout(const ax::Button::Msg& msg)
 	{
 		std::string filepath = ax::App::GetInstance().SaveFileDialog();
-		ax::Print("filepath :", filepath);
-		win->PushEvent(SAVE_AS_LAYOUT, new ax::Event::StringMsg(filepath));
+		ax::console::Print("filepath :", filepath);
+		win->PushEvent(SAVE_AS_LAYOUT, new ax::event::StringMsg(filepath));
 	}
 
 	void StatusBar::OnOpenLayout(const ax::Button::Msg& msg)
 	{
 		std::string filepath = ax::App::GetInstance().OpenFileDialog();
-		ax::Print("File :", filepath);
+		ax::console::Print("File :", filepath);
 
-		win->PushEvent(OPEN_LAYOUT, new ax::Event::StringMsg(filepath));
+		win->PushEvent(OPEN_LAYOUT, new ax::event::StringMsg(filepath));
 	}
 
 	void StatusBar::OnCreateNewLayout(const ax::Button::Msg& msg)
 	{
 		std::string filepath = ax::App::GetInstance().SaveFileDialog();
-		ax::Print("File :", filepath);
+		ax::console::Print("File :", filepath);
 
-		win->PushEvent(CREATE_NEW_LAYOUT, new ax::Event::StringMsg(filepath));
+		win->PushEvent(CREATE_NEW_LAYOUT, new ax::event::StringMsg(filepath));
 	}
 
 	void StatusBar::OnViewLayout(const ax::Button::Msg& msg)
 	{
-		ax::Print("On view layout.");
-		win->PushEvent(VIEW_LAYOUT, new ax::Event::SimpleMsg<int>(0));
+		ax::console::Print("On view layout.");
+		win->PushEvent(VIEW_LAYOUT, new ax::event::SimpleMsg<int>(0));
 	}
 
 	void StatusBar::OnReload(const ax::Button::Msg& msg)
 	{
-		ax::Print("On reload script.");
-		win->PushEvent(RELOAD_SCRIPT, new ax::Event::SimpleMsg<int>(0));
+		ax::console::Print("On reload script.");
+		win->PushEvent(RELOAD_SCRIPT, new ax::event::SimpleMsg<int>(0));
 	}
 
 	void StatusBar::OnStop(const ax::Button::Msg& msg)
 	{
-		ax::Print("On stop script.");
-		win->PushEvent(STOP_SCRIPT, new ax::Event::SimpleMsg<int>(0));
+		ax::console::Print("On stop script.");
+		win->PushEvent(STOP_SCRIPT, new ax::event::SimpleMsg<int>(0));
 	}
 
 	void StatusBar::OnSettings(const ax::Button::Msg& msg)
@@ -245,9 +245,9 @@ namespace editor {
 		app.GetPopupManager()->Clear();
 
 		const ax::Rect rect = msg.GetSender()->GetWindow()->dimension.GetAbsoluteRect();
-		ax::Point pos(0, rect.position.y + rect.size.y);
+		ax::Point pos(0, rect.position.y + rect.size.h);
 		ax::Size size = app.GetFrameSize();
-		size.y -= rect.size.y;
+		size.h -= rect.size.h;
 
 		auto pref_dialog = ax::shared<PreferenceDialog>(ax::Rect(pos, size));
 		app.AddPopupTopLevel(pref_dialog);
@@ -274,21 +274,21 @@ namespace editor {
 		win->PushEvent(TOGGLE_RIGHT_PANEL, new ax::Toggle::Msg(msg));
 	}
 
-	void StatusBar::OnSaveDialog(const ax::Event::StringMsg& msg)
+	void StatusBar::OnSaveDialog(const ax::event::StringMsg& msg)
 	{
-		win->PushEvent(SAVE_LAYOUT, new ax::Event::StringMsg(msg));
+		win->PushEvent(SAVE_LAYOUT, new ax::event::StringMsg(msg));
 	}
 
-	void StatusBar::OnOpenDialog(const ax::Event::StringMsg& msg)
+	void StatusBar::OnOpenDialog(const ax::event::StringMsg& msg)
 	{
-		win->PushEvent(OPEN_LAYOUT, new ax::Event::StringMsg(msg));
+		win->PushEvent(OPEN_LAYOUT, new ax::event::StringMsg(msg));
 	}
 
-	void StatusBar::OnCancelDialog(const ax::Event::StringMsg& msg)
+	void StatusBar::OnCancelDialog(const ax::event::StringMsg& msg)
 	{
 	}
 
-	void StatusBar::OnAudioRmsValue(const ax::Event::SimpleMsg<StereoRmsValue>& msg)
+	void StatusBar::OnAudioRmsValue(const ax::event::SimpleMsg<StereoRmsValue>& msg)
 	{
 		_volumeMeterLeft->SetValue(msg.GetMsg().first);
 		_volumeMeterRight->SetValue(msg.GetMsg().second);
@@ -297,14 +297,14 @@ namespace editor {
 	void StatusBar::OnResize(const ax::Size& size)
 	{
 		// Repos left volume meter.
-		_volumeMeterLeft->GetWindow()->dimension.SetPosition(ax::Point(size.x - 165, 8));
+		_volumeMeterLeft->GetWindow()->dimension.SetPosition(ax::Point(size.w - 165, 8));
 
 		// Repos right volume meter.
 		_volumeMeterRight->GetWindow()->dimension.SetPosition(
 			_volumeMeterLeft->GetWindow()->dimension.GetRect().GetNextPosDown(0));
 
 		// Left toggle.
-		ax::Point pos(size.x - 95, 2);
+		ax::Point pos(size.w - 95, 2);
 		_toggle_left->GetWindow()->dimension.SetPosition(pos);
 		pos = _toggle_left->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 

@@ -9,18 +9,18 @@
 #ifndef atEditorStore_hpp
 #define atEditorStore_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {
 	class OnlineStore {
 	public:
-		OnlineStore(ax::Event::Object* obj);
+		OnlineStore(ax::event::Object* obj);
 
 		//		void DownloadWidgetData();
 
 	private:
-		ax::Event::Object* _obj;
+		ax::event::Object* _obj;
 	};
 
 	class OnlineStoreMenu : public ax::Window::Backbone {
@@ -32,7 +32,7 @@ namespace editor {
 		ax::Font _font_bold;
 		std::shared_ptr<OnlineStore> _store;
 
-		axEVENT_DECLARATION(ax::Event::EmptyMsg, OnDoneDownloadingWidgetList);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnDoneDownloadingWidgetList);
 
 		void OnPaint(ax::GC gc);
 	};

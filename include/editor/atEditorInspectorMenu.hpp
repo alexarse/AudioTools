@@ -25,7 +25,7 @@
 #ifndef mdiInspectorMenu_hpp
 #define mdiInspectorMenu_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {
@@ -56,10 +56,11 @@ namespace editor {
 		ax::Font _font_bold;
 		bool _has_multiple_widget_selected;
 
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnPyoCallback);
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnWidgetUpdate);
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnInfoUpdate);
-		axEVENT_DECLARATION(ax::Event::SimpleMsg<ax::StringPair>, OnUniqueName);
+		using StrPairMsg = ax::event::SimpleMsg<std::pair<std::string, std::string>>;
+		axEVENT_DECLARATION(StrPairMsg, OnPyoCallback);
+		axEVENT_DECLARATION(StrPairMsg, OnWidgetUpdate);
+		axEVENT_DECLARATION(StrPairMsg, OnInfoUpdate);
+		axEVENT_DECLARATION(StrPairMsg, OnUniqueName);
 
 		void OnPaint(ax::GC gc);
 	};

@@ -23,7 +23,7 @@ void VolumeMeter::OnPaint(ax::GC gc)
 
 	int n_square = 10;
 	int w_between_square = 2;
-	int w_square = (rect.size.x - (n_square - 1) * 2) / double(n_square);
+	int w_square = (rect.size.w - (n_square - 1) * 2) / double(n_square);
 
 	//	gc.SetColor(ax::Color(255, 0, 0));
 	//	gc.DrawRectangle(rect);
@@ -33,7 +33,7 @@ void VolumeMeter::OnPaint(ax::GC gc)
 
 	gc.SetColor(ax::Color(0, 0, 0));
 	for (int i = 0; i < n_square; i++) {
-		ax::Rect sq_rect(ax::Rect(pos, ax::Size(w_square, rect.size.y)));
+		ax::Rect sq_rect(ax::Rect(pos, ax::Size(w_square, rect.size.h)));
 		gc.DrawRectangleContour(sq_rect);
 		gc.DrawRectangleColorFade(sq_rect, ax::Color(0.5, 0.5), ax::Color(0.6, 0.5));
 		pos.x += w_between_square + w_square;
@@ -44,7 +44,7 @@ void VolumeMeter::OnPaint(ax::GC gc)
 	gc.SetColor(ax::Color(0.0f, 1.0f, 0.0f, 0.3f));
 	int n_green_square = _value * n_square;
 	for (int i = 0; i < n_green_square; i++) {
-		ax::Rect sq_rect(ax::Rect(pos, ax::Size(w_square, rect.size.y)));
+		ax::Rect sq_rect(ax::Rect(pos, ax::Size(w_square, rect.size.h)));
 		ax::Color c0;
 		ax::Color c1;
 
@@ -69,6 +69,6 @@ void VolumeMeter::OnPaint(ax::GC gc)
 	//	gc.
 	//
 	//	gc.SetColor(ax::Color(0.30));
-	//	gc.DrawRectangle(ax::Rect(0, rect.size.y - 18, rect.size.x, 18));
+	//	gc.DrawRectangle(ax::Rect(0, rect.size.h - 18, rect.size.w, 18));
 }
 }

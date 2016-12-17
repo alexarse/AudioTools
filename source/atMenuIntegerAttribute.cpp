@@ -23,18 +23,18 @@
  */
 
 #include "atMenuIntegerAttribute.hpp"
-#include <OpenAX/Button.h>
-#include <OpenAX/ColorPicker.h>
-#include <OpenAX/Label.h>
-#include <OpenAX/TextBox.h>
-#include <OpenAX/Toggle.h>
-#include <OpenAX/WindowManager.h>
-#include <OpenAX/Xml.h>
+#include <axlib/Button.hpp>
+#include <axlib/ColorPicker.hpp>
+#include <axlib/Label.hpp>
+#include <axlib/TextBox.hpp>
+#include <axlib/Toggle.hpp>
+#include <axlib/WindowManager.hpp>
+#include <axlib/Xml.hpp>
 
 namespace at {
 namespace inspector {
 	IntegerAttribute::IntegerAttribute(
-		const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct)
+		const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct)
 		: _name(name)
 	{
 		win = ax::Window::Create(rect);
@@ -50,10 +50,10 @@ namespace inspector {
 		labelInfo.font_color = ax::Color(0.0);
 		labelInfo.font_size = 12;
 		labelInfo.font_name = "fonts/Lato.ttf";
-		labelInfo.alignement = ax::Utils::Alignement::axALIGN_LEFT;
+		labelInfo.alignement = ax::util::Alignement::axALIGN_LEFT;
 
 		ax::Point pos(0, 0);
-		win->node.Add(ax::shared<ax::Label>(ax::Rect(pos, ax::Size(90, rect.size.y + 1)), labelInfo, _name));
+		win->node.Add(ax::shared<ax::Label>(ax::Rect(pos, ax::Size(90, rect.size.h + 1)), labelInfo, _name));
 
 		ax::TextBox::Info txtInfo;
 		txtInfo.normal = ax::Color(1.0);
@@ -94,8 +94,8 @@ namespace inspector {
 		}
 
 		auto w_scroll = ax::shared<ax::NumberScroll>(
-			ax::Rect(ax::Point(90, 0), ax::Size(rect.size.x - 90, rect.size.y + 1)), GetOnValueChange(),
-			scroll_info, v, ax::Utils::Control::Type::INTEGER, ax::Utils::Range<double>(0.0, 10000.0), 1.0);
+			ax::Rect(ax::Point(90, 0), ax::Size(rect.size.w - 90, rect.size.h + 1)), GetOnValueChange(),
+			scroll_info, v, ax::util::Control::Type::INTEGER, ax::util::Range2D<double>(0.0, 10000.0), 1.0);
 
 		win->node.Add(w_scroll);
 	}
@@ -103,8 +103,9 @@ namespace inspector {
 	void IntegerAttribute::OnValueChange(const ax::NumberScroll::Msg& msg)
 	{
 		double v = msg.GetValue();
-		win->PushEvent(Events::ASSIGN_VALUE,
-			new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, std::to_string(v))));
+		win->PushEvent(
+			Events::ASSIGN_VALUE, new ax::event::SimpleMsg<std::pair<std::string, std::string>>(
+									  std::pair<std::string, std::string>(_name, std::to_string(v))));
 	}
 
 	void IntegerAttribute::OnPaint(ax::GC gc)
@@ -115,10 +116,10 @@ namespace inspector {
 		gc.DrawRectangle(rect);
 
 		gc.SetColor(ax::Color(0.88));
-		gc.DrawRectangleContour(ax::Rect(rect.position, ax::Size(rect.size.x, rect.size.y + 1)));
+		gc.DrawRectangleContour(ax::Rect(rect.position, ax::Size(rect.size.w, rect.size.h + 1)));
 
 		gc.SetColor(ax::Color(0.88));
-		gc.DrawLine(ax::Point(91, 0), ax::Point(91, rect.size.y + 1));
+		gc.DrawLine(ax::Point(91, 0), ax::Point(91, rect.size.h + 1));
 	}
 }
 }

@@ -22,7 +22,7 @@
 
 #include "DropMenuBox.h"
 
-#include <OpenAX/WindowManager.h>
+#include <axlib/WindowManager.hpp>
 
 namespace ax {
 DropMenuBox::DropMenuBox(
@@ -44,7 +44,7 @@ DropMenuBox::DropMenuBox(
 	btn_info.font_color = ax::Color(0.0);
 
 	auto btn = ax::shared<ax::Button>(
-		ax::Rect(0, 0, rect.size.x, rect.size.y), GetOnButtonClick(), btn_info, "", current_value);
+		ax::Rect(0, 0, rect.size.w, rect.size.h), GetOnButtonClick(), btn_info, "", current_value);
 	_drop_btn = btn.get();
 	win->node.Add(btn);
 }
@@ -166,7 +166,7 @@ void DropMenuBox::RemoveMenu()
 
 void DropMenuBox::OnMenuChoice(const ax::DropMenu::Msg& msg)
 {
-	ax::Print(msg.GetItem());
+	ax::console::Print(msg.GetItem());
 	_drop_btn->SetLabel(msg.GetItem());
 	RemoveMenu();
 	_is_droped = false;

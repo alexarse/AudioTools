@@ -22,7 +22,7 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#include <OpenAX/Core.h>
+#include <axlib/Core.hpp>
 
 #include "atCommon.h"
 #include "editor/atEditor.hpp"
@@ -50,7 +50,7 @@ namespace editor {
 		return _instance.get();
 	}
 
-	ax::Event::Object* App::GetMainEvtObj()
+	ax::event::Object* App::GetMainEvtObj()
 	{
 		return ax::App::GetInstance().GetTopLevel().get();
 	}
@@ -81,9 +81,9 @@ namespace editor {
 
 			// Start loading thread (audio and data).
 			_loading_thread = std::thread(
-				[](ax::Event::Object& obj) {
+				[](ax::event::Object& obj) {
 
-					using MsgType = ax::Event::SimpleMsg<at::SplashDialog::LoadInfoMsg>;
+					using MsgType = ax::event::SimpleMsg<at::SplashDialog::LoadInfoMsg>;
 					obj.PushEvent(Events::LOADING_EVT_ID,
 						new MsgType(at::SplashDialog::LoadInfoMsg(0.2, "Loading audio ...")));
 
@@ -119,21 +119,21 @@ namespace editor {
 		int err = getlogin_r(usr_name, 200);
 
 		if (err != 0) {
-			ax::Error("Can't get unser name.");
+			ax::console::Error("Can't get unser name.");
 		}
 
-		ax::Print("User name :", usr_name);
+		ax::console::Print("User name :", usr_name);
 
 		struct passwd* pw = getpwuid(getuid());
 		const char* homedir = pw->pw_dir;
-		ax::Print("Home dir :", homedir);
+		ax::console::Print("Home dir :", homedir);
 
 		//		std::string path(homedir + std::string("/Library/Application Support/AudioTools"));
 		//		std::string path("/Users/Shared/Library/Application Support/AudioTools");
 		std::string path("/Users/Shared/AudioTools");
 
 		if (chdir(path.c_str()) == -1) {
-			ax::Error("Could not set current directory : ", path, ".");
+			ax::console::Error("Could not set current directory : ", path, ".");
 		}
 
 		ax::App::GetInstance().MainLoop();

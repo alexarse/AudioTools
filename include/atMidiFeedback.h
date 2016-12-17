@@ -1,7 +1,7 @@
 #ifndef __AT_MIDI_FEEDBACK_H__
 #define __AT_MIDI_FEEDBACK_H__
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
 /*

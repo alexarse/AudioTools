@@ -9,10 +9,10 @@
 #ifndef atEditorLeftSideMenu_hpp
 #define atEditorLeftSideMenu_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
-#include <OpenAX/Button.h>
-#include <OpenAX/ScrollBar.h>
+#include <axlib/Button.hpp>
+#include <axlib/ScrollBar.hpp>
 
 #include "atColorButton.h"
 #include "editor/atEditorOnlineStoreMenu.hpp"
@@ -27,7 +27,7 @@ namespace editor {
 	public:
 		LeftSideMenu(const ax::Rect& rect);
 
-		enum : ax::Event::Id { SMALLER_MENU };
+		enum : ax::event::Id { SMALLER_MENU };
 
 		void SetOnlyMainWindowWidgetSelectable();
 		void SetAllSelectable();

@@ -25,8 +25,8 @@
 #ifndef PanelPyWrapper_hpp
 #define PanelPyWrapper_hpp
 
-#include <OpenAX/OpenAX.h>
-#include <OpenAX/Panel.h>
+#include <axlib/Panel.hpp>
+#include <axlib/axlib.hpp>
 
 namespace ax {
 namespace python {

@@ -25,9 +25,9 @@
 #ifndef __TEXT_EDITOR_H__
 #define __TEXT_EDITOR_H__
 
-#include <OpenAX/OpenAX.h>
-#include <OpenAX/ScrollBar.h>
-#include <OpenAX/Timer.h>
+#include <axlib/ScrollBar.hpp>
+#include <axlib/Timer.hpp>
+#include <axlib/axlib.hpp>
 
 #include "editor/TextEditorLogic.hpp"
 #include <fstream>

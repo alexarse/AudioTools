@@ -23,13 +23,13 @@
  */
 
 #include "atMenuAttribute.h"
-#include <OpenAX/Label.h>
-#include <OpenAX/TextBox.h>
+#include <axlib/Label.hpp>
+#include <axlib/TextBox.hpp>
 
 namespace at {
 namespace inspector {
 	MenuAttribute::MenuAttribute(
-		const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct)
+		const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct)
 		: _name(name)
 		, _value(value)
 		, _font("fonts/Lato.ttf")
@@ -57,22 +57,23 @@ namespace inspector {
 		labelInfo.font_color = ax::Color(0.0);
 		labelInfo.font_size = 12;
 		labelInfo.font_name = "fonts/Lato.ttf";
-		labelInfo.alignement = ax::Utils::Alignement::axALIGN_LEFT;
+		labelInfo.alignement = ax::util::Alignement::axALIGN_LEFT;
 
 		ax::Point pos(0, 0);
-		win->node.Add(ax::shared<ax::Label>(ax::Rect(pos, ax::Size(90, rect.size.y + 1)), labelInfo, _name));
+		win->node.Add(ax::shared<ax::Label>(ax::Rect(pos, ax::Size(90, rect.size.h + 1)), labelInfo, _name));
 
 		ax::TextBox::Events txt_evts;
-		txt_evts.enter_click = ax::Event::Function([&](ax::Event::Msg* msg) {
+		txt_evts.enter_click = ax::event::Function([&](ax::event::Msg* msg) {
 			ax::TextBox::Msg* tmsg = static_cast<ax::TextBox::Msg*>(msg);
 			std::string msg_str = tmsg->GetMsg();
 
-			win->PushEvent(Events::ASSIGN_VALUE,
-				new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, msg_str)));
+			win->PushEvent(
+				Events::ASSIGN_VALUE, new ax::event::SimpleMsg<std::pair<std::string, std::string>>(
+										  std::pair<std::string, std::string>(_name, msg_str)));
 		});
 
 		win->node.Add(
-			ax::shared<ax::TextBox>(ax::Rect(ax::Point(90, 0), ax::Size(rect.size.x - 90, rect.size.y + 1)),
+			ax::shared<ax::TextBox>(ax::Rect(ax::Point(90, 0), ax::Size(rect.size.w - 90, rect.size.h + 1)),
 				txt_evts, txtInfo, "", _value));
 	}
 

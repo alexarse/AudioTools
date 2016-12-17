@@ -43,9 +43,9 @@ bool TextEditorLogic::OpenFile(const std::string& file_path)
 	std::string file_str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 
 	// Remove all tab for string.
-	ax::Utils::String::ReplaceCharWithString(file_str, '\t', "    ");
+	ax::util::String::ReplaceCharWithString(file_str, '\t', "    ");
 
-	_file_data = ax::Utils::String::Split(file_str, "\n");
+	_file_data = ax::util::String::Split(file_str, "\n");
 
 	_cursor_pos = ax::Point(0, 0);
 
@@ -151,7 +151,7 @@ void TextEditorLogic::MoveCursorDown()
 	if (y_pos > (int)_file_data.size() - 1) {
 		y_pos = (int)_file_data.size() - 1;
 
-		// ax::Print("Logic :: Cursor last line");
+		// ax::console::Print("Logic :: Cursor last line");
 
 		// Set cursor at the last char of last line.
 		x_pos = (int)_file_data[y_pos].size();
@@ -174,7 +174,7 @@ void TextEditorLogic::AddChar(const char& c)
 {
 	const char TAB = 9;
 
-	//	ax::Print("AddChar :", (int)c);
+	//	ax::console::Print("AddChar :", (int)c);
 
 	// Insert char.
 	if (c == TAB) {
@@ -271,7 +271,7 @@ void TextEditorLogic::BackSpace()
 
 	// Remove at the end of the line.
 	if (_cursor_pos.x == _file_data[_cursor_pos.y].size()) {
-		//        ax::Print("POP");
+		//        ax::console::Print("POP");
 		_file_data[_cursor_pos.y].pop_back();
 		_cursor_pos.x--;
 

@@ -25,13 +25,13 @@
 #ifndef atColorButton_hpp
 #define atColorButton_hpp
 
-#include <OpenAX/Button.h>
+#include <axlib/Button.hpp>
 
 namespace at {
 class ColorButton : public ax::Button {
 public:
 	ColorButton(const ax::Rect& rect, const ax::Button::Events& events, const ax::Button::Info& info,
-		std::string img_path = "", std::string label = "", ax::Flag flags = 0, std::string msg = "");
+		std::string img_path = "", std::string label = "", ax::util::Flag flags = 0, std::string msg = "");
 
 	inline void SetSelected(bool sel)
 	{

@@ -9,12 +9,12 @@
 #ifndef atConsoleStream_hpp
 #define atConsoleStream_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
 namespace at {
-class ConsoleStream : public ax::Event::Object {
+class ConsoleStream : public ax::event::Object {
 public:
-	enum Events : ax::Event::Id { WRITE_NEW_LINE, WRITE_ERROR };
+	enum Events : ax::event::Id { WRITE_NEW_LINE, WRITE_ERROR };
 
 	static inline ConsoleStream* GetInstance()
 	{
@@ -60,12 +60,12 @@ public:
 	//
 	//	ax::StringVector GetStreamLines()
 	//	{
-	//		return ax::Utils::String::Split(_stream.str(), "\n");
+	//		return ax::util::String::Split(_stream.str(), "\n");
 	//	}
 
 	//	ax::StringVector GetStreamNLastLines(int n_lines)
 	//	{
-	//		ax::StringVector lines(ax::Utils::String::Split(_stream.str(), "\n"));
+	//		ax::StringVector lines(ax::util::String::Split(_stream.str(), "\n"));
 	//
 	//		if(lines.size() > n_lines) {
 	//

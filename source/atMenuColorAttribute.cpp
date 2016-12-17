@@ -24,19 +24,19 @@
 
 #include "atMenuColorAttribute.hpp"
 #include "atMenuAttribute.h"
-#include <OpenAX/Button.h>
-#include <OpenAX/ColorPicker.h>
-#include <OpenAX/Label.h>
-#include <OpenAX/TextBox.h>
-#include <OpenAX/WindowManager.h>
-#include <OpenAX/Xml.h>
+#include <axlib/Button.hpp>
+#include <axlib/ColorPicker.hpp>
+#include <axlib/Label.hpp>
+#include <axlib/TextBox.hpp>
+#include <axlib/WindowManager.hpp>
+#include <axlib/Xml.hpp>
 
 namespace at {
 namespace inspector {
 	ColorAttribute::ColorAttribute(
-		const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct)
+		const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct)
 		: _name(name)
-		, _color(ax::Xml::StringToColor(value))
+		, _color(ax::Color::FromString(value))
 		, _font("fonts/Lato.ttf")
 	{
 		win = ax::Window::Create(rect);
@@ -53,7 +53,7 @@ namespace inspector {
 		labelInfo.font_color = ax::Color(0.0);
 		labelInfo.font_size = 12;
 		labelInfo.font_name = "fonts/Lato.ttf";
-		labelInfo.alignement = ax::Utils::Alignement::axALIGN_LEFT;
+		labelInfo.alignement = ax::util::Alignement::axALIGN_LEFT;
 
 		ax::Point pos(0, 0);
 		win->node.Add(ax::shared<ax::Label>(ax::Rect(pos, ax::Size(90, 25)), labelInfo, _name));
@@ -61,8 +61,9 @@ namespace inspector {
 
 	void ColorAttribute::OnColorSelect(const ax::ColorPicker::Msg& msg)
 	{
-		win->PushEvent(Events::ASSIGN_VALUE,
-			new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, msg.GetMsg().ToString())));
+		win->PushEvent(
+			Events::ASSIGN_VALUE, new ax::event::SimpleMsg<std::pair<std::string, std::string>>(
+									  std::pair<std::string, std::string>(_name, msg.GetMsg().ToString())));
 
 		_color = msg.GetMsg();
 		win->Update();
@@ -167,8 +168,8 @@ namespace inspector {
 
 		// Draw color rectangle background.
 		int line_index = 0;
-		for (int y = color_rect.position.y; y < color_rect.position.y + color_rect.size.y; y += 5) {
-			for (int x = color_rect.position.x; x < color_rect.position.x + color_rect.size.x - 5; x += 10) {
+		for (int y = color_rect.position.y; y < color_rect.position.y + color_rect.size.h; y += 5) {
+			for (int x = color_rect.position.x; x < color_rect.position.x + color_rect.size.w - 5; x += 10) {
 				int xx = x;
 				int sx = 5;
 
@@ -190,13 +191,13 @@ namespace inspector {
 		}
 
 		gc.SetColor(_color);
-		gc.DrawRectangle(ax::Rect(rect.position, ax::Size(rect.size.x, rect.size.y + 1)));
+		gc.DrawRectangle(ax::Rect(rect.position, ax::Size(rect.size.w, rect.size.h + 1)));
 
 		gc.SetColor(ax::Color(0.88));
-		gc.DrawRectangleContour(ax::Rect(rect.position, ax::Size(rect.size.x, rect.size.y + 1)));
+		gc.DrawRectangleContour(ax::Rect(rect.position, ax::Size(rect.size.w, rect.size.h + 1)));
 
 		gc.SetColor(ax::Color(0.88));
-		gc.DrawLine(ax::Point(91, 0), ax::Point(91, rect.size.y + 1));
+		gc.DrawLine(ax::Point(91, 0), ax::Point(91, rect.size.h + 1));
 	}
 }
 }

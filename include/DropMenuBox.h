@@ -23,10 +23,10 @@
 #ifndef DropMenuBox_hpp
 #define DropMenuBox_hpp
 
-#include <OpenAX/OpenAX.h>
+#include <axlib/axlib.hpp>
 
-#include <OpenAX/Button.h>
-#include <OpenAX/DropMenu.h>
+#include <axlib/Button.hpp>
+#include <axlib/DropMenu.hpp>
 
 namespace ax {
 class DropMenuBox : public ax::Window::Backbone {
@@ -34,9 +34,9 @@ public:
 	DropMenuBox(
 		const ax::Rect& rect, const std::string& current_value, const std::vector<std::string>& menu_options);
 
-	enum : ax::Event::Id { VALUE_CHANGE };
+	enum : ax::event::Id { VALUE_CHANGE };
 
-	typedef ax::Event::SimpleMsg<std::string> Msg;
+	typedef ax::event::SimpleMsg<std::string> Msg;
 
 	bool IsDropped() const
 	{

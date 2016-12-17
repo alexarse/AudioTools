@@ -30,16 +30,16 @@
 #include "editor/atEditorMainWindow.hpp"
 #include "python/PyoComponent.hpp"
 
-#include <OpenAX/Button.h>
-#include <OpenAX/Core.h>
-#include <OpenAX/DropMenu.h>
-#include <OpenAX/Knob.h>
-#include <OpenAX/Label.h>
-#include <OpenAX/Panel.h>
-#include <OpenAX/Slider.h>
-#include <OpenAX/Toggle.h>
-#include <OpenAX/WidgetLoader.h>
-#include <OpenAX/WindowManager.h>
+#include <axlib/Button.hpp>
+#include <axlib/Core.hpp>
+#include <axlib/DropMenu.hpp>
+#include <axlib/Knob.hpp>
+#include <axlib/Label.hpp>
+#include <axlib/Panel.hpp>
+#include <axlib/Slider.hpp>
+#include <axlib/Toggle.hpp>
+#include <axlib/WidgetLoader.hpp>
+#include <axlib/WindowManager.hpp>
 
 namespace at {
 namespace editor {
@@ -53,7 +53,7 @@ namespace editor {
 		ax::Xml::Node top_node = xml.GetNode("Layout");
 
 		if (!top_node.IsValid()) {
-			ax::Error("Loader not layout node.");
+			ax::console::Error("Loader not layout node.");
 			return "";
 		}
 
@@ -63,7 +63,7 @@ namespace editor {
 			script_path = top_node.GetAttribute("script");
 		}
 		catch (ax::Xml::Exception& err) {
-			//						ax::Error("No pyo node.", err.what());
+			//						ax::console::Error("No pyo node.", err.what());
 		}
 
 		ax::Xml::Node node = top_node.GetFirstNode();
@@ -93,7 +93,7 @@ namespace editor {
 		try {
 			while (node.IsValid()) {
 				std::string node_name = node.GetName();
-				//				ax::Print("Node name :", node_name);
+				//				ax::console::Print("Node name :", node_name);
 
 				if (node_name == "Widget") {
 					std::string buider_name = node.GetAttribute("builder");
@@ -115,7 +115,7 @@ namespace editor {
 					ax::widget::Builder* builder = loader->GetBuilder(buider_name);
 
 					if (builder == nullptr) {
-						ax::Error("Builder", buider_name, "doesn't exist.");
+						ax::console::Error("Builder", buider_name, "doesn't exist.");
 						node = node.GetNextSibling();
 						continue;
 					}
@@ -128,11 +128,12 @@ namespace editor {
 				node = node.GetNextSibling();
 			}
 		}
-		catch (rapidxml::parse_error& err) {
-			ax::Error("Widget menu xml", err.what());
-		}
+#warning("Catch this.")
+		//		catch (rapidxml::parse_error& err) {
+		//			ax::console::Error("Widget menu xml", err.what());
+		//		}
 		catch (ax::Xml::Exception& err) {
-			ax::Error("Widget menu xml", err.what());
+			ax::console::Error("Widget menu xml", err.what());
 		}
 
 		return script_path;
@@ -151,7 +152,7 @@ namespace editor {
 		ax::Xml xml;
 
 		if (!xml.Parse(content)) {
-			ax::Error("parsing widget menu.");
+			ax::console::Error("parsing widget menu.");
 			return "";
 		}
 
@@ -171,7 +172,7 @@ namespace editor {
 		ax::Xml xml(path.c_str());
 
 		if (!xml.Parse()) {
-			ax::Error("parsing widget menu.");
+			ax::console::Error("parsing widget menu.");
 			return "";
 		}
 
@@ -246,7 +247,7 @@ namespace editor {
 				win->property.AddProperty("edit_click");
 
 				gwin->PushEvent(
-					at::editor::GridWindow::SELECT_WIDGET, new ax::Event::SimpleMsg<ax::Window*>(win));
+					at::editor::GridWindow::SELECT_WIDGET, new ax::event::SimpleMsg<ax::Window*>(win));
 
 				return;
 			}
@@ -255,8 +256,8 @@ namespace editor {
 				&& win->property.HasProperty("Resizable")) {
 
 				bool top = c_delta.y < 4;
-				bool bottom = c_delta.y > win->dimension.GetShownRect().size.y - 4;
-				bool right = c_delta.x > win->dimension.GetShownRect().size.x - 4;
+				bool bottom = c_delta.y > win->dimension.GetShownRect().size.h - 4;
+				bool right = c_delta.x > win->dimension.GetShownRect().size.w - 4;
 				bool left = c_delta.x < 4;
 
 				if (right && bottom) {
@@ -288,7 +289,7 @@ namespace editor {
 				win->event.GrabMouse();
 				win->property.AddProperty("edit_click");
 				gwin->PushEvent(
-					at::editor::GridWindow::SELECT_WIDGET, new ax::Event::SimpleMsg<ax::Window*>(win));
+					at::editor::GridWindow::SELECT_WIDGET, new ax::event::SimpleMsg<ax::Window*>(win));
 			}
 			else {
 				if (m_down_fct) {
@@ -308,7 +309,7 @@ namespace editor {
 
 					// Right resize.
 					if (win->property.HasProperty("ResizeRight")) {
-						int size_y = win->dimension.GetSize().y;
+						int size_y = win->dimension.GetSize().h;
 						int size_x = pos.x - win->dimension.GetAbsoluteRect().position.x;
 						win->dimension.SetSize(ax::Size(size_x, size_y));
 					}
@@ -320,7 +321,7 @@ namespace editor {
 					else if (win->property.HasProperty("ResizeTopRight")) {
 						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
 						int size_x = pos.x - win->dimension.GetAbsoluteRect().position.x;
-						int size_y = abs_rect.position.y + abs_rect.size.y - pos.y;
+						int size_y = abs_rect.position.y + abs_rect.size.h - pos.y;
 						int pos_y = pos.y - win->node.GetParent()->dimension.GetAbsoluteRect().position.y;
 						int pos_x = win->dimension.GetRect().position.x;
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
@@ -334,15 +335,15 @@ namespace editor {
 					}
 					// Bottom resize.
 					else if (win->property.HasProperty("ResizeBottom")) {
-						int size_x = win->dimension.GetSize().x;
+						int size_x = win->dimension.GetSize().w;
 						int size_y = pos.y - win->dimension.GetAbsoluteRect().position.y;
 						win->dimension.SetSize(ax::Size(size_x, size_y));
 					}
 					// Left resize.
 					else if (win->property.HasProperty("ResizeLeft")) {
 						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
-						int size_x = abs_rect.position.x + abs_rect.size.x - pos.x;
-						int size_y = abs_rect.size.y;
+						int size_x = abs_rect.position.x + abs_rect.size.w - pos.x;
+						int size_y = abs_rect.size.h;
 						int pos_y = win->dimension.GetRect().position.y;
 						int pos_x = pos.x - win->node.GetParent()->dimension.GetAbsoluteRect().position.x;
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
@@ -356,7 +357,7 @@ namespace editor {
 					}
 					else if (win->property.HasProperty("ResizeBottomLeft")) {
 						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
-						int size_x = abs_rect.position.x + abs_rect.size.x - pos.x;
+						int size_x = abs_rect.position.x + abs_rect.size.w - pos.x;
 						int size_y = pos.y - win->dimension.GetAbsoluteRect().position.y;
 						int pos_y = win->dimension.GetRect().position.y;
 						int pos_x = pos.x - win->node.GetParent()->dimension.GetAbsoluteRect().position.x;
@@ -372,8 +373,8 @@ namespace editor {
 					// Top resize.
 					else if (win->property.HasProperty("ResizeTop")) {
 						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
-						int size_x = abs_rect.size.x;
-						int size_y = abs_rect.position.y + abs_rect.size.y - pos.y;
+						int size_x = abs_rect.size.w;
+						int size_y = abs_rect.position.y + abs_rect.size.h - pos.y;
 						int pos_y = pos.y - win->node.GetParent()->dimension.GetAbsoluteRect().position.y;
 						int pos_x = win->dimension.GetRect().position.x;
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
@@ -387,8 +388,8 @@ namespace editor {
 					}
 					else if (win->property.HasProperty("ResizeTopLeft")) {
 						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
-						int size_x = abs_rect.position.x + abs_rect.size.x - pos.x;
-						int size_y = abs_rect.position.y + abs_rect.size.y - pos.y;
+						int size_x = abs_rect.position.x + abs_rect.size.w - pos.x;
+						int size_y = abs_rect.position.y + abs_rect.size.h - pos.y;
 						int pos_y = pos.y - win->node.GetParent()->dimension.GetAbsoluteRect().position.y;
 						int pos_x = pos.x - win->node.GetParent()->dimension.GetAbsoluteRect().position.x;
 						win->dimension.SetRect(ax::Rect(pos_x, pos_y, size_x, size_y));
@@ -407,7 +408,7 @@ namespace editor {
 					}
 
 					/// @todo Don't send this at every mouse move.
-					gwin->PushEvent(at::editor::GridWindow::BEGIN_DRAGGING_WIDGET, new ax::Event::EmptyMsg());
+					gwin->PushEvent(at::editor::GridWindow::BEGIN_DRAGGING_WIDGET, new ax::event::EmptyMsg());
 				}
 			}
 
@@ -440,7 +441,7 @@ namespace editor {
 					win->event.UnGrabMouse();
 				}
 
-				gwin->PushEvent(at::editor::GridWindow::DONE_DRAGGING_WIDGET, new ax::Event::EmptyMsg());
+				gwin->PushEvent(at::editor::GridWindow::DONE_DRAGGING_WIDGET, new ax::event::EmptyMsg());
 			}
 
 			// Call widget callback.
@@ -460,7 +461,7 @@ namespace editor {
 				ax::App::GetInstance().GetCore()->SetCursor(ax::core::Core::Cursor::NORMAL);
 
 				gwin->PushEvent(at::editor::GridWindow::DROP_WIDGET_MENU,
-					new ax::Event::SimpleMsg<std::pair<ax::Point, ax::Window*>>(
+					new ax::event::SimpleMsg<std::pair<ax::Point, ax::Window*>>(
 						std::pair<ax::Point, ax::Window*>(pos, win)));
 
 				return;
@@ -489,8 +490,8 @@ namespace editor {
 				if (win->property.HasProperty("Resizable")) {
 
 					bool top = c_delta.y < 4;
-					bool bottom = c_delta.y > win->dimension.GetShownRect().size.y - 4;
-					bool right = c_delta.x > win->dimension.GetShownRect().size.x - 4;
+					bool bottom = c_delta.y > win->dimension.GetShownRect().size.h - 4;
+					bool right = c_delta.x > win->dimension.GetShownRect().size.w - 4;
 					bool left = c_delta.x < 4;
 
 					if ((right && bottom) || (top && left)) {
@@ -528,10 +529,10 @@ namespace editor {
 		auto m_leave = win->event.OnMouseLeave.GetFunction();
 		win->event.OnMouseLeave = ax::WFunc<ax::Point>([gwin, win, m_leave](const ax::Point& pos) {
 
-			//			ax::Print("Mouse leave");
+			//			ax::console::Print("Mouse leave");
 
 			if (win->property.HasProperty("edit_click")) {
-				//				ax::Print("Mouse leave has -> edit click");
+				//				ax::console::Print("Mouse leave has -> edit click");
 			}
 			else {
 				// Set normal cursor.
@@ -613,7 +614,7 @@ namespace editor {
 
 	void Loader::SetupButtonPyoEvent(ax::Window* win)
 	{
-		win->AddConnection(ax::Button::Events::BUTTON_CLICK, ax::Event::Function([win](ax::Event::Msg* msg) {
+		win->AddConnection(ax::Button::Events::BUTTON_CLICK, ax::event::Function([win](ax::event::Msg* msg) {
 			if (win->component.Has("pyo")) {
 				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
 				const std::string fct_name = comp->GetFunctionName();
@@ -627,7 +628,7 @@ namespace editor {
 
 	void Loader::SetupTogglePyoEvent(ax::Window* win)
 	{
-		win->AddConnection(ax::Toggle::Events::BUTTON_CLICK, ax::Event::Function([win](ax::Event::Msg* msg) {
+		win->AddConnection(ax::Toggle::Events::BUTTON_CLICK, ax::event::Function([win](ax::event::Msg* msg) {
 			if (win->component.Has("pyo")) {
 				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
 				const std::string fct_name = comp->GetFunctionName();
@@ -641,7 +642,7 @@ namespace editor {
 
 	void Loader::SetupKnobPyoEvent(ax::Window* win)
 	{
-		win->AddConnection(0, ax::Event::Function([win](ax::Event::Msg* msg) {
+		win->AddConnection(0, ax::event::Function([win](ax::event::Msg* msg) {
 			if (win->component.Has("pyo")) {
 				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
 				const std::string fct_name = comp->GetFunctionName();
@@ -656,7 +657,7 @@ namespace editor {
 
 	void Loader::SetupSliderPyoEvent(ax::Window* win)
 	{
-		win->AddConnection(0, ax::Event::Function([win](ax::Event::Msg* msg) {
+		win->AddConnection(0, ax::event::Function([win](ax::event::Msg* msg) {
 			if (win->component.Has("pyo")) {
 				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
 				const std::string fct_name = comp->GetFunctionName();

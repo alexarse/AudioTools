@@ -23,18 +23,18 @@
  */
 
 #include "atMenuBoolAttribute.hpp"
-#include <OpenAX/Button.h>
-#include <OpenAX/ColorPicker.h>
-#include <OpenAX/Label.h>
-#include <OpenAX/TextBox.h>
-#include <OpenAX/Toggle.h>
-#include <OpenAX/WindowManager.h>
-#include <OpenAX/Xml.h>
+#include <axlib/Button.hpp>
+#include <axlib/ColorPicker.hpp>
+#include <axlib/Label.hpp>
+#include <axlib/TextBox.hpp>
+#include <axlib/Toggle.hpp>
+#include <axlib/WindowManager.hpp>
+#include <axlib/Xml.hpp>
 
 namespace at {
 namespace inspector {
 	BoolAttribute::BoolAttribute(
-		const ax::Rect& rect, const std::string& name, const std::string& value, ax::Event::Function fct)
+		const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct)
 		: _name(name)
 	{
 		win = ax::Window::Create(rect);
@@ -50,7 +50,7 @@ namespace inspector {
 		labelInfo.font_color = ax::Color(0.0);
 		labelInfo.font_size = 12;
 		labelInfo.font_name = "fonts/Lato.ttf";
-		labelInfo.alignement = ax::Utils::Alignement::axALIGN_LEFT;
+		labelInfo.alignement = ax::util::Alignement::axALIGN_LEFT;
 
 		ax::Point pos(0, 0);
 		win->node.Add(ax::shared<ax::Label>(ax::Rect(pos, ax::Size(90, 25)), labelInfo, _name));
@@ -78,9 +78,10 @@ namespace inspector {
 	void BoolAttribute::OnToggleClick(const ax::Toggle::Msg& msg)
 	{
 		int selected = (int)msg.GetSelected();
-		ax::Print("selected :", selected);
-		win->PushEvent(Events::ASSIGN_VALUE,
-			new ax::Event::SimpleMsg<ax::StringPair>(ax::StringPair(_name, std::to_string(selected))));
+		ax::console::Print("selected :", selected);
+		win->PushEvent(
+			Events::ASSIGN_VALUE, new ax::event::SimpleMsg<std::pair<std::string, std::string>>(
+									  std::pair<std::string, std::string>(_name, std::to_string(selected))));
 	}
 
 	void BoolAttribute::OnPaint(ax::GC gc)

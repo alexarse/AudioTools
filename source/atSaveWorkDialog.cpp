@@ -16,7 +16,7 @@ SaveWorkPanel::Msg::Msg(const std::string& name, const std::string& description,
 {
 }
 
-ax::Event::Msg* SaveWorkPanel::Msg::GetCopy()
+ax::event::Msg* SaveWorkPanel::Msg::GetCopy()
 {
 	return new SaveWorkPanel::Msg(*this);
 }
@@ -73,12 +73,12 @@ SaveWorkPanel::SaveWorkPanel(const ax::Rect& rect)
 	btn_info.font_color = ax::Color(0.0);
 	btn_info.corner_radius = 0;
 
-	ax::Point btn_pos(10, rect.size.y - 32);
+	ax::Point btn_pos(10, rect.size.h - 32);
 	const ax::Size btn_size(88, 25);
 	auto ok_btn = ax::shared<ax::Button>(ax::Rect(btn_pos, btn_size), GetOnSave(), btn_info, "", "Save");
 	win->node.Add(ok_btn);
 
-	btn_pos.x = rect.size.x - btn_size.x - 10;
+	btn_pos.x = rect.size.w - btn_size.w - 10;
 	auto cancel_btn
 		= ax::shared<ax::Button>(ax::Rect(btn_pos, btn_size), GetOnCancel(), btn_info, "", "Cancel");
 	win->node.Add(cancel_btn);
@@ -116,13 +116,13 @@ void SaveWorkPanel::OnSave(const ax::Button::Msg& msg)
 		return;
 	}
 
-	ax::Print(name, description, author);
+	ax::console::Print(name, description, author);
 	win->PushEvent(SAVE, new Msg(name, description, author));
 }
 
 void SaveWorkPanel::OnCancel(const ax::Button::Msg& msg)
 {
-	win->PushEvent(CANCEL, new ax::Event::EmptyMsg());
+	win->PushEvent(CANCEL, new ax::event::EmptyMsg());
 }
 
 void SaveWorkPanel::OnPaint(ax::GC gc)
@@ -133,7 +133,7 @@ void SaveWorkPanel::OnPaint(ax::GC gc)
 
 	// Label.
 	gc.SetColor(ax::Color(0.80));
-	ax::Rect label_rect(0, 0, rect.size.x, 23);
+	ax::Rect label_rect(0, 0, rect.size.w, 23);
 	gc.DrawRectangle(label_rect);
 
 	gc.SetColor(ax::Color(0.0));
@@ -186,7 +186,7 @@ SaveWorkDialog::SaveWorkDialog(const ax::Rect& rect)
 	win->event.GrabGlobalMouse();
 
 	ax::Size pref_size(300, 170);
-	ax::Point pos((rect.size.x - pref_size.x) / 2, (rect.size.y - pref_size.y) / 2);
+	ax::Point pos((rect.size.w - pref_size.w) / 2, (rect.size.h - pref_size.h) / 2);
 
 	auto save_work = ax::shared<SaveWorkPanel>(ax::Rect(pos, pref_size));
 	win->node.Add(save_work);
@@ -232,15 +232,15 @@ void SaveWorkDialog::OnAcceptSavePanelToWorkpace(const at::SaveWorkPanel::Msg& m
 	DeleteDialog();
 }
 
-void SaveWorkDialog::OnCancelSavePanelToWorkpace(const ax::Event::EmptyMsg& msg)
+void SaveWorkDialog::OnCancelSavePanelToWorkpace(const ax::event::EmptyMsg& msg)
 {
-	win->PushEvent(at::SaveWorkPanel::CANCEL, new ax::Event::EmptyMsg());
+	win->PushEvent(at::SaveWorkPanel::CANCEL, new ax::event::EmptyMsg());
 	DeleteDialog();
 }
 
 void SaveWorkDialog::OnMouseLeftDown(const ax::Point& pos)
 {
-	//	win->PushEvent(CANCEL, new ax::Event::StringMsg(""));
+	//	win->PushEvent(CANCEL, new ax::event::StringMsg(""));
 	DeleteDialog();
 }
 
