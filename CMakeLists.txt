@@ -19,7 +19,7 @@ set(TOP_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 file(GLOB_RECURSE AT_INCLUDE_FILES ${TOP_DIR} ${TOP_DIR}/include/*.hpp)
 file(GLOB_RECURSE AT_INCLUDE_H_FILES ${TOP_DIR} ${TOP_DIR}/include/*.h)
 file(GLOB_RECURSE AT_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/*.cpp)
-file(GLOB_RECURSE AT_XIB_FILES ${TOP_DIR} ${TOP_DIR}/resources/*.xib)
+# file(GLOB_RECURSE AT_XIB_FILES ${TOP_DIR} ${TOP_DIR}/resources/*.xib)
 
 # Python.
 file(GLOB ATK_INCLUDE_FILES ${TOP_DIR} ${TOP_DIR}/include/atk/*.hpp)
@@ -43,13 +43,13 @@ source_group("source\\editor" FILES ${AT_EDITOR_SOURCE_FILES})
 # source_group("core\\include" FILES ${CORE_OSX_OBJC_INCLUDE_FILES})
 
 # Widget objects library.
-add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${AT_SOURCE_FILES} ${AT_INCLUDE_FILES} ${AT_INCLUDE_H_FILES} ${AT_XIB_FILES})
+add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${AT_SOURCE_FILES} ${AT_INCLUDE_FILES} ${AT_INCLUDE_H_FILES})# ${AT_XIB_FILES})
 
 # Target properties.
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 set(CMAKE_CXX_FLAGS "-fPIC -std=c++14 ${CMAKE_CXX_FLAGS}")
 
-set_source_files_properties(${AT_XIB_FILES} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+#set_source_files_properties(${AT_XIB_FILES} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 
 # Set the OS X Bundle specific CMake variables which will be used to populate the plist for
 # the application bundle

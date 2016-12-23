@@ -210,6 +210,8 @@ namespace editor {
 			}
 		}
 
+		ax::util::console::Print("Save path............", path);
+		ax::util::console::Print(xml.GetString());
 		xml.Save(path);
 	}
 

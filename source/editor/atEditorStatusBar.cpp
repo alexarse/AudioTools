@@ -201,7 +201,7 @@ namespace editor {
 	void StatusBar::OnSaveAsLayout(const ax::Button::Msg& msg)
 	{
 		std::string filepath = ax::App::GetInstance().SaveFileDialog();
-		ax::console::Print("filepath :", filepath);
+		ax::console::Print("Save layout filepath :", filepath);
 		win->PushEvent(SAVE_AS_LAYOUT, new ax::event::StringMsg(filepath));
 	}
 

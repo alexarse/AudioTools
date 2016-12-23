@@ -275,7 +275,7 @@ namespace editor {
 
 	void InspectorMenu::OnWidgetUpdate(const ax::event::SimpleMsg<std::pair<std::string, std::string>>& msg)
 	{
-		ax::console::Print("Pyocallback");
+		// ax::console::Print("Pyocallback");
 		if (_selected_handle == nullptr) {
 			return;
 		}
@@ -284,6 +284,7 @@ namespace editor {
 			ax::widget::Component::Ptr widget
 				= _selected_handle->component.Get<ax::widget::Component>("Widget");
 
+			// ax::console::Print("WidgetUpdate :", msg.GetMsg().first, msg.GetMsg().second);
 			widget->SetBuilderAttributes(std::vector<std::pair<std::string, std::string>>{ msg.GetMsg() });
 		}
 	}

@@ -42,20 +42,25 @@ namespace editor {
 		std::vector<ax::os::Path> files = dir.GetDirectoryContent();
 
 		for (auto& n : files) {
-			ax::console::Print(n.GetName());
+
+			if (n.GetExtension() != "xml") {
+				continue;
+			}
+
+			ax::console::Print(n.GetAbsolutePath());
 
 			try {
 				ax::Xml xml(n.GetAbsolutePath());
 
 				if (!xml.Parse()) {
-					ax::console::Error("parsing workspace :", n.GetName());
+					ax::console::Error("parsing workspace :", n.GetAbsolutePath());
 					continue;
 				}
 
 				ax::Xml::Node node = xml.GetNode("Widget");
 
 				if (!node.IsValid()) {
-					ax::console::Error("parsing workspace :", n.GetName());
+					ax::console::Error("No widget node in parsing workspace :", n.GetAbsolutePath());
 					continue;
 				}
 
