@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PyoDocumentation>
+	<section name="Filters">
+
+		<module name="Biquad">
+			<description>A sweepable general purpose biquadratic digital filter.</description>
+			<constructor>Biquad(input, freq=1000, q=1, type=0, mul=1, add=0)</constructor>
+		</module>
+
+		<module name="Biquadx">
+			<description>A sweepable general purpose biquadratic digital filter.</description>
+			<constructor>Biquad(input, freq=1000, q=1, type=0, mul=1, add=0)</constructor>
+		</module>
+
+		<module name="Biquada">
+			<description>A sweepable general purpose biquadratic digital filter.</description>
+			<constructor>Biquad(input, freq=1000, q=1, type=0, mul=1, add=0)</constructor>
+		</module>
+
+		<module name="EQ">
+			<description> </description>
+		</module>
+
+		<module name="Tone">
+			<description> </description>
+		</module>
+
+		<module name="Atone">
+			<description> </description>
+		</module>
+
+		<module name="Port">
+			<description> </description>
+		</module>
+
+		<module name="DCBlock">
+			<description> </description>
+		</module>
+
+		<module name="BandSplit">
+			<description> </description>
+		</module>
+
+		<module name="FourBand">
+			<description> </description>
+		</module>
+
+		<module name="Hilbert">
+			<description> </description>
+		</module>
+
+		<module name="Allpass">
+			<description> </description>
+		</module>
+
+		<module name="Allpass2">
+			<description> </description>
+		</module>
+
+		<module name="Phaser">
+			<description> </description>
+		</module>
+
+		<module name="Vocoder">
+			<description> </description>
+		</module>
+
+		<module name="IRWinSinc">
+			<description> </description>
+		</module>
+
+		<module name="IRAverage">
+			<description> </description>
+		</module>
+
+		<module name="IRPulse">
+			<description> </description>
+		</module>
+
+		<module name="IRFM">
+			<description> </description>
+		</module>
+
+		<module name="SVF">
+			<description> </description>
+		</module>
+
+		<module name="Average">
+			<description> </description>
+		</module>
+
+		<module name="Reson">
+			<description> </description>
+		</module>
+
+		<module name="Resonx">
+			<description> </description>
+		</module>
+
+		<module name="ButLP">
+			<description> </description>
+		</module>
+
+		<module name="ButHP">
+			<description> </description>
+		</module>
+
+		<module name="ButBR">
+			<description> </description>
+		</module>
+
+		<module name="ComplexRes">
+			<description> </description>
+		</module>
+	</section>
+</PyoDocumentation>	

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Widget builder="Slider" name="Slider" 
+		label="Slider" 
+		description="Vertical slider." 
+		size="(12 x 180)" 
+		img="widget_menu_images/edit_slider_default.png">
+	<size>12, 180</size>
+	
+	<info 
+		bgColorNormal="255, 255, 255"
+		bgColorHover="250, 250, 250"
+		bgColorClicked="250, 250, 250"
+		sliderColorNormal="250, 172, 0"
+		sliderColorHover="250, 177, 0"
+		sliderColorClicked="245, 172, 0"
+		sliderContourColor="250, 172, 0"
+		contourColor="190, 190, 190" 
+		backSliderColor="204, 204, 204" 
+		backSliderContourColor="190, 190, 190"
+		contour_round_radius="0" 
+		slider_width="4" 
+		img_path="widget_resources/sliderPlain.png"
+		btn_size="12, 12"> 
+	</info>
+	
+	<flags>CLICK_ANYWHERE,VERTICAL,RIGHT_ALIGN</flags>
+</Widget>

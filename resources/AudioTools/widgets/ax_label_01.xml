@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Widget builder="Label" name="TextButton" label="Label" 
+		description="Text label" 
+		size="(60 x 25)" 
+		img="widget_menu_images/edit_label.png">
+	<size>60, 25</size>
+	<info 
+		normal="255, 255, 255, 255"
+		contour="255, 255, 255, 255" 
+		font_color="0, 0, 0, 255" 
+		font_size="14"
+		font_name="fonts/FreeSansBold.ttf"
+		alignement="center"> 
+	</info>
+	<label>Label</label>
+</Widget>

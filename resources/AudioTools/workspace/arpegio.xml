@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<Widget builder="Panel" name="Panel" file="workspace/arpegio.xml" label="Arpeggiator" description="8 toggles arpeggiator." 
+	size="(352 x 628)" img="widget_menu_images/ax_panel_01.png">
+		<position>46, 95</position>
+		<size>352, 62</size>
+		<bg_img/>
+		<info background="212, 214, 214, 103" contour="184, 184, 186, 255" round_corner_radius="0"/>
+		<flags>0</flags>
+		<Children>
+			<Widget builder="Toggle">
+				<position>9, 12</position>
+				<size>40, 40</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/seq_toggle.png" single_img="0"/>
+				<label>1</label>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Toggle">
+				<position>51, 12</position>
+				<size>40, 40</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/seq_toggle.png" single_img="0"/>
+				<label>2</label>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Toggle">
+				<position>93, 12</position>
+				<size>40, 40</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/seq_toggle.png" single_img="0"/>
+				<label>3</label>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Toggle">
+				<position>135, 12</position>
+				<size>40, 40</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/seq_toggle.png" single_img="0"/>
+				<label>4</label>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Toggle">
+				<position>177, 12</position>
+				<size>40, 40</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/seq_toggle.png" single_img="0"/>
+				<label>5</label>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Toggle">
+				<position>219, 12</position>
+				<size>40, 40</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/seq_toggle.png" single_img="0"/>
+				<label>6</label>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Toggle">
+				<position>261, 12</position>
+				<size>40, 40</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/seq_toggle.png" single_img="0"/>
+				<label>7</label>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Toggle">
+				<position>303, 12</position>
+				<size>40, 40</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/seq_toggle.png" single_img="0"/>
+				<label>8</label>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+				<unique_name/>
+			</Widget>
+		</Children>
+		<unique_name/>
+	</Widget>
+

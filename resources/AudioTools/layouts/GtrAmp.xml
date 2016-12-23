@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Layout script="scripts/GtrAmp.py">
+	<Widget builder="Panel" name="MainWindow">
+		<position>0, 0</position>
+		<size>500, 150</size>
+		<bg_img/>
+		<info background="55, 55, 55, 255" contour="0, 0, 0, 255" round_corner_radius="0"/>
+		<flags>0</flags>
+		<Children>
+			<Widget builder="Toggle">
+				<position>11, 52</position>
+				<size>65, 65</size>
+				<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/switch_toggle.png" single_img="0"/>
+				<label/>
+				<flags/>
+				<msg>bing</msg>
+				<pyo/>
+			</Widget>
+			<Widget builder="Label">
+				<position>6, 105</position>
+				<size>80, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Distorsion</label>
+			</Widget>
+			<Widget builder="Knob">
+				<position>79, 40</position>
+				<size>100, 100</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/knob_old_amp_100x100x101.png" selected_img_path="widget_resources/knob_old_amp_100x100x101.png" knob_size="100, 100" n_knob="101"/>
+				<msg>bing</msg>
+				<flags>0</flags>
+				<pyo>OnSetDrive</pyo>
+			</Widget>
+			<Widget builder="Label">
+				<position>95, 10</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Amount</label>
+			</Widget>
+			<Widget builder="Knob">
+				<position>157, 40</position>
+				<size>100, 100</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/knob_old_amp_100x100x101.png" selected_img_path="widget_resources/knob_old_amp_100x100x101.png" knob_size="100, 100" n_knob="101"/>
+				<msg>bing</msg>
+				<flags>24947</flags>
+				<pyo/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>237, 40</position>
+				<size>100, 100</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/knob_old_amp_100x100x101.png" selected_img_path="widget_resources/knob_old_amp_100x100x101.png" knob_size="100, 100" n_knob="101"/>
+				<msg>bing</msg>
+				<flags>24947</flags>
+				<pyo/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>316, 40</position>
+				<size>100, 100</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/knob_old_amp_100x100x101.png" selected_img_path="widget_resources/knob_old_amp_100x100x101.png" knob_size="100, 100" n_knob="101"/>
+				<msg>bing</msg>
+				<flags>1652</flags>
+				<pyo/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>393, 40</position>
+				<size>100, 100</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/knob_old_amp_100x100x101.png" selected_img_path="widget_resources/knob_old_amp_100x100x101.png" knob_size="100, 100" n_knob="101"/>
+				<msg>bing</msg>
+				<flags>31744</flags>
+				<pyo/>
+			</Widget>
+			<Widget builder="Label">
+				<position>171, 9</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Low</label>
+			</Widget>
+			<Widget builder="Label">
+				<position>250, 9</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Mid</label>
+			</Widget>
+			<Widget builder="Label">
+				<position>329, 9</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>High</label>
+			</Widget>
+			<Widget builder="Label">
+				<position>412, 9</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Volume</label>
+			</Widget>
+			<Widget builder="Label">
+				<position>12, 28</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="200, 200, 200, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Clean</label>
+			</Widget>
+		</Children>
+	</Widget>
+</Layout>
+

@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Layout script="scripts/default.py">
+	<Widget builder="Panel" name="MainWindow">
+		<position>1, 3</position>
+		<size>671, 491</size>
+		<bg_img>widget_resources/synth_bg.png</bg_img>
+		<info background="55, 55, 55, 255" contour="0, 0, 0, 255" round_corner_radius="0"/>
+		<flags>0</flags>
+		<Children>
+			<Widget builder="Panel" name="Panel">
+				<position>418, 334</position>
+				<size>159, 122</size>
+				<bg_img/>
+				<info background="70, 70, 70, 50" contour="100, 100, 100, 255" round_corner_radius="0"/>
+				<flags>0</flags>
+				<Children>
+					<Widget builder="Label">
+						<position>1, 1</position>
+						<size>157, 25</size>
+						<info normal="70, 70, 70, 255" contour="70, 70, 70, 255" font_color="150, 150, 150, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Filter Freq Lfo</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>10, 48</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>24947</flags>
+						<pyo>SetLfoFreq</pyo>
+					</Widget>
+					<Widget builder="Knob">
+						<position>85, 48</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>211</flags>
+						<pyo>SetLfoAmount</pyo>
+					</Widget>
+					<Widget builder="Label">
+						<position>12, 24</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Freq</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>88, 24</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Amount</label>
+					</Widget>
+				</Children>
+			</Widget>
+			<Widget builder="Panel" name="Panel">
+				<position>10, 332</position>
+				<size>247, 122</size>
+				<bg_img/>
+				<info background="70, 70, 70, 50" contour="100, 100, 100, 255" round_corner_radius="0"/>
+				<flags>0</flags>
+				<Children>
+					<Widget builder="Label">
+						<position>1, 1</position>
+						<size>245, 25</size>
+						<info normal="70, 70, 70, 255" contour="70, 70, 70, 255" font_color="150, 150, 150, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Filter Freq Lfo</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>10, 48</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>33792</flags>
+						<pyo>SetLfoFreq</pyo>
+					</Widget>
+					<Widget builder="Knob">
+						<position>85, 48</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>1652</flags>
+						<pyo>SetLfoAmount</pyo>
+					</Widget>
+					<Widget builder="Label">
+						<position>12, 24</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Freq</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>88, 24</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Amount</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>168, 48</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>24947</flags>
+						<pyo/>
+					</Widget>
+				</Children>
+			</Widget>
+			<Widget builder="Panel" name="Panel">
+				<position>263, 40</position>
+				<size>147, 156</size>
+				<bg_img/>
+				<info background="70, 70, 70, 50" contour="100, 100, 100, 255" round_corner_radius="0"/>
+				<flags>0</flags>
+				<Children>
+					<Widget builder="Slider">
+						<position>9, 49</position>
+						<size>32, 100</size>
+						<info img_path="widget_resources/slider.png" btn_size="30, 16" slider_width="4" contour_round_radius="0" bgColorNormal="200, 200, 200, 0" bgColorHover="200, 200, 200, 0" bgColorClicked="200, 200, 200, 0" sliderColorNormal="200, 10, 10, 255" sliderColorHover="200, 10, 10, 255" sliderColorClicked="200, 10, 10, 255" sliderContourColor="200, 10, 10, 255" contourColor="200, 200, 200, 20" backSliderColor="204, 204, 204, 10" backSliderContourColor="190, 190, 190, 10"/>
+						<value>0.000000</value>
+						<flags>VERTICAL,CLICK_ANYWHERE,RIGHT_ALIGN,BACK_SLIDER</flags>
+						<pyo>OnSetAttack</pyo>
+					</Widget>
+					<Widget builder="Slider">
+						<position>40, 49</position>
+						<size>32, 100</size>
+						<info img_path="widget_resources/slider.png" btn_size="30, 16" slider_width="4" contour_round_radius="0" bgColorNormal="200, 200, 200, 0" bgColorHover="200, 200, 200, 0" bgColorClicked="200, 200, 200, 0" sliderColorNormal="200, 10, 10, 255" sliderColorHover="200, 10, 10, 255" sliderColorClicked="200, 10, 10, 255" sliderContourColor="200, 10, 10, 255" contourColor="200, 200, 200, 20" backSliderColor="204, 204, 204, 10" backSliderContourColor="190, 190, 190, 10"/>
+						<value>0.000000</value>
+						<flags>VERTICAL,CLICK_ANYWHERE,RIGHT_ALIGN,BACK_SLIDER</flags>
+						<pyo>OnSetDecay</pyo>
+					</Widget>
+					<Widget builder="Slider">
+						<position>73, 49</position>
+						<size>32, 100</size>
+						<info img_path="widget_resources/slider.png" btn_size="30, 16" slider_width="4" contour_round_radius="0" bgColorNormal="200, 200, 200, 0" bgColorHover="200, 200, 200, 0" bgColorClicked="200, 200, 200, 0" sliderColorNormal="200, 10, 10, 255" sliderColorHover="200, 10, 10, 255" sliderColorClicked="200, 10, 10, 255" sliderContourColor="200, 10, 10, 255" contourColor="200, 200, 200, 20" backSliderColor="204, 204, 204, 10" backSliderContourColor="190, 190, 190, 10"/>
+						<value>0.000000</value>
+						<flags>VERTICAL,CLICK_ANYWHERE,RIGHT_ALIGN,BACK_SLIDER</flags>
+						<pyo>OnSetSustain</pyo>
+					</Widget>
+					<Widget builder="Slider">
+						<position>106, 49</position>
+						<size>32, 100</size>
+						<info img_path="widget_resources/slider.png" btn_size="30, 16" slider_width="4" contour_round_radius="0" bgColorNormal="200, 200, 200, 0" bgColorHover="200, 200, 200, 0" bgColorClicked="200, 200, 200, 0" sliderColorNormal="200, 10, 10, 255" sliderColorHover="200, 10, 10, 255" sliderColorClicked="200, 10, 10, 255" sliderContourColor="200, 10, 10, 255" contourColor="200, 200, 200, 20" backSliderColor="204, 204, 204, 10" backSliderContourColor="190, 190, 190, 10"/>
+						<value>0.000000</value>
+						<flags>VERTICAL,CLICK_ANYWHERE,RIGHT_ALIGN,BACK_SLIDER</flags>
+						<pyo>OnSetRelease</pyo>
+					</Widget>
+					<Widget builder="Label">
+						<position>1, 1</position>
+						<size>145, 25</size>
+						<info normal="70, 70, 70, 255" contour="70, 70, 70, 255" font_color="150, 150, 150, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Amp enveloppe</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>12, 26</position>
+						<size>25, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>A</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>44, 27</position>
+						<size>25, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>D</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>76, 27</position>
+						<size>25, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>S</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>109, 28</position>
+						<size>25, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>R</label>
+					</Widget>
+				</Children>
+			</Widget>
+			<Widget builder="Panel" name="Panel">
+				<position>9, 39</position>
+				<size>77, 283</size>
+				<bg_img/>
+				<info background="70, 70, 70, 50" contour="100, 100, 100, 255" round_corner_radius="0"/>
+				<flags>0</flags>
+				<Children>
+					<Widget builder="Label">
+						<position>1, 1</position>
+						<size>75, 25</size>
+						<info normal="70, 70, 70, 255" contour="70, 70, 70, 255" font_color="150, 150, 150, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Osc 1</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>4, 207</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>0</flags>
+						<pyo>OnSetDetuneOsc1</pyo>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 121</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>0</flags>
+						<pyo>SetBalance</pyo>
+					</Widget>
+					<Widget builder="Label">
+						<position>5, 95</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Balance</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>28, 27</position>
+						<size>20, 20</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="10" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>on</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>28, 82</position>
+						<size>20, 20</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="10" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>off</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>4, 184</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Detune</label>
+					</Widget>
+					<Widget builder="Toggle">
+						<position>5, 35</position>
+						<size>65, 65</size>
+						<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/switch_toggle.png" single_img="0"/>
+						<label/>
+						<flags/>
+						<msg>bing</msg>
+						<pyo/>
+					</Widget>
+				</Children>
+			</Widget>
+			<Widget builder="Panel" name="Panel">
+				<position>93, 39</position>
+				<size>78, 284</size>
+				<bg_img/>
+				<info background="70, 70, 70, 50" contour="100, 100, 100, 255" round_corner_radius="0"/>
+				<flags>0</flags>
+				<Children>
+					<Widget builder="Label">
+						<position>1, 1</position>
+						<size>75, 25</size>
+						<info normal="70, 70, 70, 255" contour="70, 70, 70, 255" font_color="150, 150, 150, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Osc 2</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 207</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>0</flags>
+						<pyo/>
+					</Widget>
+					<Widget builder="Knob">
+						<position>7, 120</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>0</flags>
+						<pyo/>
+					</Widget>
+					<Widget builder="Label">
+						<position>7, 94</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Oct</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>8, 184</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Detune</label>
+					</Widget>
+					<Widget builder="Toggle">
+						<position>7, 35</position>
+						<size>65, 65</size>
+						<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/switch_toggle.png" single_img="0"/>
+						<label/>
+						<flags/>
+						<msg>bing</msg>
+						<pyo/>
+					</Widget>
+				</Children>
+			</Widget>
+			<Widget builder="Panel" name="Panel">
+				<position>417, 41</position>
+				<size>77, 284</size>
+				<bg_img/>
+				<info background="70, 70, 70, 50" contour="100, 100, 100, 255" round_corner_radius="0"/>
+				<flags>0</flags>
+				<Children>
+					<Widget builder="Label">
+						<position>1, 1</position>
+						<size>75, 25</size>
+						<info normal="70, 70, 70, 255" contour="70, 70, 70, 255" font_color="150, 150, 150, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Filter</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 120</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>0</flags>
+						<pyo>SetFilterFreq</pyo>
+					</Widget>
+					<Widget builder="Label">
+						<position>9, 95</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Freq</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>8, 182</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Q</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 205</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>1</flags>
+						<pyo>SetFilterRes</pyo>
+					</Widget>
+				</Children>
+			</Widget>
+			<Widget builder="Panel" name="Panel">
+				<position>584, 41</position>
+				<size>77, 415</size>
+				<bg_img/>
+				<info background="70, 70, 70, 50" contour="100, 100, 100, 255" round_corner_radius="0"/>
+				<flags>0</flags>
+				<Children>
+					<Widget builder="Label">
+						<position>1, 1</position>
+						<size>75, 25</size>
+						<info normal="70, 70, 70, 255" contour="70, 70, 70, 255" font_color="150, 150, 150, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Master</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 147</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>1</flags>
+						<pyo>SetOsc1Volume</pyo>
+					</Widget>
+					<Widget builder="Label">
+						<position>8, 28</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Osc1</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>9, 118</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Osc2</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 238</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>0</flags>
+						<pyo>OnOsc2Volume</pyo>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 332</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>1652</flags>
+						<pyo/>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 55</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>1</flags>
+						<pyo/>
+					</Widget>
+				</Children>
+			</Widget>
+			<Widget builder="Panel" name="Panel">
+				<position>179, 39</position>
+				<size>77, 286</size>
+				<bg_img/>
+				<info background="70, 70, 70, 50" contour="100, 100, 100, 255" round_corner_radius="0"/>
+				<flags>0</flags>
+				<Children>
+					<Widget builder="Label">
+						<position>1, 1</position>
+						<size>75, 25</size>
+						<info normal="70, 70, 70, 255" contour="70, 70, 70, 255" font_color="150, 150, 150, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Osc 3</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 120</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>24947</flags>
+						<pyo/>
+					</Widget>
+					<Widget builder="Label">
+						<position>9, 95</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Osc1</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>8, 182</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Osc2</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 205</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>24947</flags>
+						<pyo/>
+					</Widget>
+					<Widget builder="Toggle">
+						<position>5, 36</position>
+						<size>65, 65</size>
+						<info normal="0, 0, 0, 0" hover="0, 0, 0, 0" clicking="0, 0, 0, 0" selected="0, 0, 0, 0" selected_hover="0, 0, 0, 0" selected_clicking="0, 0, 0, 0" selected_font_color="204, 204, 204, 255" selected="0, 0, 0, 0" contour="0, 0, 0, 0" font_color="77, 77, 77, 255" font_size="12" img="widget_resources/switch_toggle.png" single_img="0"/>
+						<label/>
+						<flags/>
+						<msg>bing</msg>
+						<pyo/>
+					</Widget>
+				</Children>
+			</Widget>
+			<Widget builder="Panel" name="Panel">
+				<position>500, 41</position>
+				<size>77, 285</size>
+				<bg_img/>
+				<info background="70, 70, 70, 50" contour="100, 100, 100, 255" round_corner_radius="0"/>
+				<flags>0</flags>
+				<Children>
+					<Widget builder="Label">
+						<position>1, 1</position>
+						<size>75, 25</size>
+						<info normal="70, 70, 70, 255" contour="70, 70, 70, 255" font_color="150, 150, 150, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Osc 3</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 120</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>33792</flags>
+						<pyo/>
+					</Widget>
+					<Widget builder="Label">
+						<position>9, 95</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Osc1</label>
+					</Widget>
+					<Widget builder="Label">
+						<position>8, 182</position>
+						<size>60, 25</size>
+						<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+						<label>Osc2</label>
+					</Widget>
+					<Widget builder="Knob">
+						<position>6, 205</position>
+						<size>64, 64</size>
+						<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+						<msg>bing</msg>
+						<flags>21776</flags>
+						<pyo/>
+					</Widget>
+				</Children>
+			</Widget>
+			<Widget builder="Label">
+				<position>555, 2</position>
+				<size>100, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="230, 230, 230, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>SimpleSynth</label>
+			</Widget>
+			<Widget builder="Knob">
+				<position>268, 222</position>
+				<size>64, 64</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+				<msg>bing</msg>
+				<flags>21584</flags>
+				<pyo/>
+			</Widget>
+			<Widget builder="Knob">
+				<position>343, 224</position>
+				<size>64, 64</size>
+				<info bgColorNormal="0, 0, 0, 0" bgColorHover="0, 0, 0, 0" bgColorClicked="0, 0, 0, 0" img_path="widget_resources/JP8000.png" selected_img_path="widget_resources/JP8000.png" knob_size="64, 64" n_knob="101"/>
+				<msg>bing</msg>
+				<flags>21392</flags>
+				<pyo/>
+			</Widget>
+			<Widget builder="Label">
+				<position>268, 197</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Drive</label>
+			</Widget>
+			<Widget builder="Label">
+				<position>344, 197</position>
+				<size>60, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Slope</label>
+			</Widget>
+		</Children>
+	</Widget>
+	<Widget builder="Panel" name="Panel">
+		<position>264, 302</position>
+		<size>147, 156</size>
+		<bg_img/>
+		<info background="70, 70, 70, 50" contour="100, 100, 100, 255" round_corner_radius="0"/>
+		<flags>0</flags>
+		<Children>
+			<Widget builder="Slider">
+				<position>9, 49</position>
+				<size>32, 100</size>
+				<info img_path="widget_resources/slider.png" btn_size="30, 16" slider_width="4" contour_round_radius="0" bgColorNormal="200, 200, 200, 0" bgColorHover="200, 200, 200, 0" bgColorClicked="200, 200, 200, 0" sliderColorNormal="200, 10, 10, 255" sliderColorHover="200, 10, 10, 255" sliderColorClicked="200, 10, 10, 255" sliderContourColor="200, 10, 10, 255" contourColor="200, 200, 200, 20" backSliderColor="204, 204, 204, 10" backSliderContourColor="190, 190, 190, 10"/>
+				<value>0.000000</value>
+				<flags>VERTICAL,CLICK_ANYWHERE,RIGHT_ALIGN,BACK_SLIDER</flags>
+				<pyo>OnSetAttack</pyo>
+			</Widget>
+			<Widget builder="Slider">
+				<position>40, 49</position>
+				<size>32, 100</size>
+				<info img_path="widget_resources/slider.png" btn_size="30, 16" slider_width="4" contour_round_radius="0" bgColorNormal="200, 200, 200, 0" bgColorHover="200, 200, 200, 0" bgColorClicked="200, 200, 200, 0" sliderColorNormal="200, 10, 10, 255" sliderColorHover="200, 10, 10, 255" sliderColorClicked="200, 10, 10, 255" sliderContourColor="200, 10, 10, 255" contourColor="200, 200, 200, 20" backSliderColor="204, 204, 204, 10" backSliderContourColor="190, 190, 190, 10"/>
+				<value>0.000000</value>
+				<flags>VERTICAL,CLICK_ANYWHERE,RIGHT_ALIGN,BACK_SLIDER</flags>
+				<pyo>OnSetDecay</pyo>
+			</Widget>
+			<Widget builder="Slider">
+				<position>73, 49</position>
+				<size>32, 100</size>
+				<info img_path="widget_resources/slider.png" btn_size="30, 16" slider_width="4" contour_round_radius="0" bgColorNormal="200, 200, 200, 0" bgColorHover="200, 200, 200, 0" bgColorClicked="200, 200, 200, 0" sliderColorNormal="200, 10, 10, 255" sliderColorHover="200, 10, 10, 255" sliderColorClicked="200, 10, 10, 255" sliderContourColor="200, 10, 10, 255" contourColor="200, 200, 200, 20" backSliderColor="204, 204, 204, 10" backSliderContourColor="190, 190, 190, 10"/>
+				<value>0.000000</value>
+				<flags>VERTICAL,CLICK_ANYWHERE,RIGHT_ALIGN,BACK_SLIDER</flags>
+				<pyo>OnSetSustain</pyo>
+			</Widget>
+			<Widget builder="Slider">
+				<position>106, 49</position>
+				<size>32, 100</size>
+				<info img_path="widget_resources/slider.png" btn_size="30, 16" slider_width="4" contour_round_radius="0" bgColorNormal="200, 200, 200, 0" bgColorHover="200, 200, 200, 0" bgColorClicked="200, 200, 200, 0" sliderColorNormal="200, 10, 10, 255" sliderColorHover="200, 10, 10, 255" sliderColorClicked="200, 10, 10, 255" sliderContourColor="200, 10, 10, 255" contourColor="200, 200, 200, 20" backSliderColor="204, 204, 204, 10" backSliderContourColor="190, 190, 190, 10"/>
+				<value>0.000000</value>
+				<flags>VERTICAL,CLICK_ANYWHERE,RIGHT_ALIGN,BACK_SLIDER</flags>
+				<pyo>OnSetRelease</pyo>
+			</Widget>
+			<Widget builder="Label">
+				<position>1, 1</position>
+				<size>145, 25</size>
+				<info normal="70, 70, 70, 255" contour="70, 70, 70, 255" font_color="150, 150, 150, 255" font_size="14" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>Filter enveloppe</label>
+			</Widget>
+			<Widget builder="Label">
+				<position>12, 26</position>
+				<size>25, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>A</label>
+			</Widget>
+			<Widget builder="Label">
+				<position>44, 27</position>
+				<size>25, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>D</label>
+			</Widget>
+			<Widget builder="Label">
+				<position>76, 27</position>
+				<size>25, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>S</label>
+			</Widget>
+			<Widget builder="Label">
+				<position>109, 28</position>
+				<size>25, 25</size>
+				<info normal="255, 255, 255, 0" contour="255, 255, 255, 0" font_color="100, 100, 100, 255" font_size="12" font_name="fonts/FreeSansBold.ttf" alignement="center"/>
+				<label>R</label>
+			</Widget>
+		</Children>
+	</Widget>
+</Layout>
+

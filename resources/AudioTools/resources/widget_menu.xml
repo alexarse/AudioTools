@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<WidgetMenu>
+	<!------------------------------------------------------->
+	<!-- PANEL -->
+	<!------------------------------------------------------->
+	<separator name="Panel"> </separator>
+	<widget builder="Panel"
+		file="widgets/ax_panel_01.xml"
+		label="Panel"
+		description="Default panel." 
+		size="(200 x 200)"
+		img="widget_menu_images/ax_panel_01.png">
+	</widget>
+
+	<!------------------------------------------------------->
+	<!-- BUTTON -->
+	<!------------------------------------------------------->
+	<separator name="Button"> </separator>
+	
+	<!-- Text button -->
+	<widget builder="Button"
+		file="widgets/ctrlButton_Text.xml"
+		label="Text Button"
+		description="Default button." 
+		size="(60 x 25)"
+		img="widget_menu_images/btn01.png">
+	</widget>
+
+	<!-- Image button -->
+	<widget 
+		builder="Button"
+		file="widgets/ctrlButton_Image.xml"
+		label="Image Button" 
+		description="Button with background image." 
+		size="(60 x 25)" 
+		img="widget_menu_images/btn02.png"> 
+	</widget>
+
+	<!-- Rounded button -->
+	<widget 
+		builder="Button"
+		file="widgets/ctrlButton_Rounded.xml"
+		label="Rounded Button" 
+		description="Rounded corner button." 
+		size="(60 x 25)" 
+		img="widget_menu_images/btn03.png"> 
+	</widget>
+
+	<widget 
+		builder="Button"
+		file="widgets/ctrlButton_Trigger.xml"
+		label="Rounded Button" 
+		description="Rounded corner button." 
+		size="(75 x 75)" 
+		img="widget_menu_images/btn03.png"> 
+	</widget>
+
+	<!------------------------------------------------------->
+	<!-- TOGGLE -->
+	<!------------------------------------------------------->
+	<separator name="Toggle"> </separator>
+	<widget 
+		builder="Toggle" 
+		file="widgets/ctrlToggle.xml"
+		label="Toggle" 
+		description="Default toggle." 
+		size="(60 x 25)" 
+		img="widget_menu_images/edit_toggle.png"> 
+	</widget>
+
+	<widget 
+		builder="Toggle" 
+		file="widgets/ctrlToggle_Image.xml" 
+		label="Toggle" 
+		description="Sequencer toggle." 
+		size="(55 x 55)" 
+		img="widget_menu_images/edit_toggle_seq.png"> 
+	</widget>
+	
+	<widget 
+		builder="Toggle" 
+		file="widgets/ctrlToggle_switch.xml" 
+		label="Toggle" 
+		description="Sequencer toggle." 
+		size="(55 x 55)" 
+		img="widget_menu_images/edit_toggle_switch.png"> 
+	</widget>
+
+	<widget 
+		builder="Toggle" 
+		file="widgets/ctrlToggle_small_switch.xml" 
+		label="Toggle" 
+		description="Sequencer toggle." 
+		size="(50 x 50)" 
+		img="widget_menu_images/edit_toggle_small_switch.png"> 
+	</widget>
+
+	<widget 
+		builder="Toggle" 
+		file="widgets/ctrlToggle_ob.xml" 
+		label="Toggle" 
+		description="Sequencer toggle." 
+		size="(35 x 35)" 
+		img="widget_menu_images/edit_toggle_ob.png"> 
+	</widget>
+
+	<!------------------------------------------------------->
+	<!-- KNOBS -->
+	<!------------------------------------------------------->
+	<separator name="Knob"> </separator>
+
+	<!-- Moog knob -->
+	<widget 
+		builder="Knob" 
+		file="widgets/ctrlKnob.xml" 
+		label="Knob" 
+		description="Moog Little Phatty style." 
+		size="(64 x 64)" 
+		img="widget_menu_images/edit_knob_LittlePhatty.png"> 
+	</widget>
+
+	<!-- JP800 knob -->
+	<widget 
+		builder="Knob" 
+		file="widgets/ctrlKnob_JP8000.xml" 
+		label="Knob" 
+		description="JP8000 style." 
+		size="(64 x 64)" 
+		img="widget_menu_images/edit_knob_JP8000.png"> 
+	</widget>
+
+	<!-- Black angle knob -->
+	<widget 
+		builder="Knob" 
+		file="widgets/ax_knob_black_angle.xml" 
+		label="Knob" 
+		description="Default knob." 
+		size="(100 x 100)" 
+		img="widget_menu_images/ax_knob_black_angle.png"> 
+	</widget>
+
+	<!-- Console knob -->
+	<widget 
+		builder="Knob" 
+		file="widgets/ctrlKnob_Dark.xml"  
+		label="Knob" 
+		description="Console knob." 
+		size="(46 x 46)" 
+		img="widget_menu_images/edit_knob_dark.png"> 
+	</widget>
+
+	<!-- Small blue knob -->
+	<widget 
+		builder="Knob" 
+		file="widgets/ctrlKnob_Blue.xml"  
+		label="Knob"  
+		description="Small console knob." 
+		size="(36 x 36)" 
+		img="widget_menu_images/edit_knob_blue_36x36.png"> 
+	</widget>
+
+	<!-- TB303 knob -->
+	<widget 
+		builder="Knob" 
+		file="widgets/ctrlKnob_TB303.xml" 
+		label="Knob" 
+		description="TB303 style." 
+		size="(64 x 64)" 
+		img="widget_menu_images/edit_knob_axKnobTB303_64x64.png"> 
+	</widget>
+
+	<!-- Reakor knob -->
+	<widget 
+		builder="Knob" 
+		file="widgets/ctrlKnob_Reakor.xml"  
+		label="Knob" 
+		description="Reakor style." 
+		size="(46 x 46)" 
+		img="widget_menu_images/edit_knob_axKnobReaktor.png"> 
+	</widget>
+
+	<!-- Regular knob -->
+	<widget 
+		builder="Knob" 
+		file="widgets/ctrlKnob_Regular.xml"  
+		label="Knob" 
+		description="Regular style." 
+		size="(70 x 70)" 
+		img="widget_menu_images/edit_knob_standard.png"> 
+	</widget>
+
+	<!-- Amp knob -->
+	<widget 
+		builder="Knob" 
+		file="widgets/ctrlKnob_Amp.xml"  
+		label="Knob" 
+		description="Amp style." 
+		size="(70 x 70)" 
+		img="widget_menu_images/edit_knob_amp.png"> 
+	</widget>
+
+	<!-- Vintage knob -->
+	<widget 
+		builder="Knob" 
+		file="widgets/ctrlKnob_Vintage.xml"  
+		label="Knob" 
+		description="Vintage style." 
+		size="(85 x 85)" 
+		img="widget_menu_images/edit_knob_vintage.png"> 
+	</widget>
+
+	<!-- Old amp knob -->
+	<widget 
+		builder="Knob" 
+		file="widgets/ctrlKnob_OldAmp.xml"  
+		label="Knob" 
+		description="Old Amp style." 
+		size="(100 x 100)" 
+		img="widget_menu_images/edit_knob_old_amp.png"> 
+	</widget>
+
+	<!------------------------------------------------------->
+	<!-- SLIDER -->
+	<!------------------------------------------------------->
+	<separator name="Slider"> </separator>
+
+	<widget 
+		builder="Slider" 
+		file="widgets/ctrlSlider_Vertical.xml"  
+		label="Slider" 
+		description="Vertical slider." 
+		size="(35 x 180)" 
+		img="widget_menu_images/edit_slider_default.png"> 
+	</widget>
+
+	<widget 
+		builder="Slider" 
+		file="widgets/ctrlSlider_Vertical2.xml"  
+		label="Slider" 
+		description="Vertical slider." 
+		size="(35 x 180)" 
+		img="widget_menu_images/edit_slider_default.png"> 
+	</widget>
+
+	<widget 
+		builder="Slider" 
+		file="widgets/ctrlSlider_Vertical2.xml"  
+		label="Slider" 
+		description="Vertical slider." 
+		size="(35 x 180)" 
+		img="widget_menu_images/edit_slider_default.png"> 
+	</widget>
+
+	<widget 
+		builder="Slider" 
+		file="widgets/ctrlSlider_Vertical_synth.xml"  
+		label="Slider" 
+		description="Vertical synth slider." 
+		size="(180 x 30)" 
+		img="widget_menu_images/edit_slider_default.png"> 
+	</widget>
+
+	<!------------------------------------------------------->
+	<!-- LABEL -->
+	<!------------------------------------------------------->
+	<separator name="Label"> </separator>
+	<widget 
+		builder="Label" 
+		file="widgets/ax_label_01.xml"  
+		label="Label" 
+		description="Text label" 
+		size="(60 x 25)" 
+		img="widget_menu_images/edit_label.png"> 
+	</widget>
+</WidgetMenu>

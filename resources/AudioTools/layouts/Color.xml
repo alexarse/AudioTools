@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Layout script="scripts/Color.py">
+	<Widget builder="Panel" name="MainWindow">
+		<position>29, 20</position>
+		<size>275, 200</size>
+		<bg_img/>
+		<info background="106, 130, 0, 255" contour="0, 0, 0, 255" round_corner_radius="0"/>
+		<flags>0</flags>
+		<Children>
+			<Widget builder="Button">
+				<position>19, 31</position>
+				<size>60, 25</size>
+				<info normal="230, 230, 230, 255" hover="235, 235, 235, 255" clicking="243, 243, 243, 255" selected="230, 230, 230, 255" contour="128, 128, 128, 255" font_color="25, 25, 25, 255" corner_radius="0"/>
+				<img_path/>
+				<label>Button</label>
+				<flags/>
+				<msg>bing</msg>
+				<pyo>OnBlack</pyo>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Slider">
+				<position>92, 11</position>
+				<size>35, 180</size>
+				<info img_path="" btn_size="0, 0" slider_width="35" contour_round_radius="0" bgColorNormal="200, 200, 200, 255" bgColorHover="200, 200, 200, 255" bgColorClicked="200, 200, 200, 255" sliderColorNormal="200, 10, 10, 255" sliderColorHover="200, 10, 10, 255" sliderColorClicked="200, 10, 10, 255" sliderContourColor="200, 10, 10, 255" contourColor="0, 0, 0, 255" backSliderColor="204, 204, 204, 255" backSliderContourColor="190, 190, 190, 255"/>
+				<value>0.000000</value>
+				<flags>VERTICAL,CLICK_ANYWHERE,RIGHT_ALIGN</flags>
+				<pyo>OnRed</pyo>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Slider">
+				<position>131, 11</position>
+				<size>35, 180</size>
+				<info img_path="" btn_size="0, 0" slider_width="35" contour_round_radius="0" bgColorNormal="200, 200, 200, 255" bgColorHover="200, 200, 200, 255" bgColorClicked="200, 200, 200, 255" sliderColorNormal="200, 10, 10, 255" sliderColorHover="200, 10, 10, 255" sliderColorClicked="200, 10, 10, 255" sliderContourColor="200, 10, 10, 255" contourColor="0, 0, 0, 255" backSliderColor="204, 204, 204, 255" backSliderContourColor="190, 190, 190, 255"/>
+				<value>0.000000</value>
+				<flags>VERTICAL,CLICK_ANYWHERE,RIGHT_ALIGN</flags>
+				<pyo>OnGreen</pyo>
+				<unique_name/>
+			</Widget>
+			<Widget builder="Slider">
+				<position>170, 11</position>
+				<size>35, 180</size>
+				<info img_path="" btn_size="0, 0" slider_width="35" contour_round_radius="0" bgColorNormal="200, 200, 200, 255" bgColorHover="200, 200, 200, 255" bgColorClicked="200, 200, 200, 255" sliderColorNormal="200, 10, 10, 255" sliderColorHover="200, 10, 10, 255" sliderColorClicked="200, 10, 10, 255" sliderContourColor="200, 10, 10, 255" contourColor="0, 0, 0, 255" backSliderColor="204, 204, 204, 255" backSliderContourColor="190, 190, 190, 255"/>
+				<value>0.000000</value>
+				<flags>VERTICAL,CLICK_ANYWHERE,RIGHT_ALIGN</flags>
+				<pyo>OnBlue</pyo>
+				<unique_name/>
+			</Widget>
+		</Children>
+		<unique_name>MainWindow</unique_name>
+	</Widget>
+</Layout>
+
