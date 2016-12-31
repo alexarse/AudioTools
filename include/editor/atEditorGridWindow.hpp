@@ -2,7 +2,7 @@
  * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
- * without prior written agreement by AutioTools.
+ * without prior written agreement by AudioTools.
  *
  * Neither the name of the AudioTools nor the names of its
  * contributors may be used to endorse or promote products derived from this
@@ -22,8 +22,7 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef __MDI_GRID_WINDOW_H__
-#define __MDI_GRID_WINDOW_H__
+#pragma once
 
 #include <axlib/DropMenu.hpp>
 #include <axlib/axlib.hpp>
@@ -104,4 +103,3 @@ namespace editor {
 	};
 }
 }
-#endif // __MDI_GRID_WINDOW_H__

@@ -27,8 +27,6 @@
 #include <axlib/NodeVisitor.hpp>
 #include <axlib/WindowManager.hpp>
 #include <axlib/Xml.hpp>
-//#include <OpenAX/rapidxml.hpp>
-//#include <OpenAX/rapidxml_print.hpp>
 #include <fstream>
 
 #include "PyoAudio.h"
@@ -40,11 +38,14 @@
 #include "editor/atEditorMainWindow.hpp"
 #include "python/PyoComponent.hpp"
 
+// Widgets.
 #include <axlib/Button.hpp>
 #include <axlib/Knob.hpp>
 #include <axlib/Label.hpp>
+#include <axlib/NumberBox.hpp>
 #include <axlib/Panel.hpp>
 #include <axlib/Slider.hpp>
+#include <axlib/Sprite.hpp>
 #include <axlib/Toggle.hpp>
 #include <axlib/WidgetLoader.hpp>
 
@@ -87,14 +88,17 @@ namespace editor {
 		win->property.AddProperty("BlockDrawing");
 		win->property.AddProperty("AcceptWidget");
 
+		/// @todo Move this somewhere else.
 		ax::widget::Loader* loader = ax::widget::Loader::GetInstance();
 		loader->AddBuilder("Button", new ax::Button::Builder());
 		loader->AddBuilder("Toggle", new ax::Toggle::Builder());
 		loader->AddBuilder("Knob", new ax::Knob::Builder());
 		loader->AddBuilder("Label", new ax::Label::Builder());
+		loader->AddBuilder("NumberBox", new ax::NumberBox::Builder());
 		loader->AddBuilder("Panel", new ax::Panel::Builder());
 		loader->AddBuilder("Slider", new ax::Slider::Builder());
-
+		loader->AddBuilder("Sprite", new ax::Sprite::Builder());
+		
 		ax::Rect d_rect(win->dimension.GetDrawingRect());
 		_lines_array.reserve(((d_rect.size.w / _grid_space) + (d_rect.size.h / _grid_space)) * 2);
 
@@ -319,7 +323,6 @@ namespace editor {
 	{
 
 		/// @todo Change this with ax::NodeVisitor.
-
 		auto& children = win->node.GetChildren();
 
 		if (children.empty()) {

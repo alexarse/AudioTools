@@ -2,7 +2,7 @@
  * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
- * without prior written agreement by AutioTools.
+ * without prior written agreement by AudioTools.
  *
  * Neither the name of the AudioTools nor the names of its
  * contributors may be used to endorse or promote products derived from this
@@ -22,7 +22,7 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#include "atSaveDialog.hpp"
+#include "dialog/atSaveDialog.hpp"
 
 #include <axlib/Core.hpp>
 #include <axlib/Toggle.hpp>

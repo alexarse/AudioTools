@@ -21,7 +21,7 @@ file(GLOB_RECURSE AT_INCLUDE_H_FILES ${TOP_DIR} ${TOP_DIR}/include/*.h)
 file(GLOB_RECURSE AT_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/*.cpp)
 # file(GLOB_RECURSE AT_XIB_FILES ${TOP_DIR} ${TOP_DIR}/resources/*.xib)
 
-# Python.
+# Atk.
 file(GLOB ATK_INCLUDE_FILES ${TOP_DIR} ${TOP_DIR}/include/atk/*.hpp)
 file(GLOB ATK_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/atk/*.cpp)
 source_group("include\\atk" FILES ${ATK_INCLUDE_FILES})
@@ -38,6 +38,36 @@ file(GLOB AT_EDITOR_INCLUDE_FILES ${TOP_DIR} ${TOP_DIR}/include/editor/*.hpp)
 file(GLOB AT_EDITOR_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/editor/*.cpp)
 source_group("include\\editor" FILES ${AT_EDITOR_INCLUDE_FILES})
 source_group("source\\editor" FILES ${AT_EDITOR_SOURCE_FILES})
+
+# Project
+file(GLOB AT_PROJECT_INCLUDE_FILES ${TOP_DIR} ${TOP_DIR}/include/project/*.hpp)
+file(GLOB AT_PROJECT_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/project/*.cpp)
+source_group("include\\project" FILES ${AT_PROJECT_INCLUDE_FILES})
+source_group("source\\project" FILES ${AT_PROJECT_SOURCE_FILES})
+
+# Dialog
+file(GLOB AT_DIALOG_INCLUDE_FILES ${TOP_DIR} ${TOP_DIR}/include/dialog/*.hpp)
+file(GLOB AT_DIALOG_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/dialog/*.cpp)
+source_group("include\\dialog" FILES ${AT_DIALOG_INCLUDE_FILES})
+source_group("source\\dialog" FILES ${AT_DIALOG_SOURCE_FILES})
+
+# Widget
+file(GLOB AT_WIDGET_INCLUDE_FILES ${TOP_DIR} ${TOP_DIR}/include/widget/*.hpp)
+file(GLOB AT_WIDGET_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/widget/*.cpp)
+source_group("include\\widget" FILES ${AT_WIDGET_INCLUDE_FILES})
+source_group("source\\widget" FILES ${AT_WIDGET_SOURCE_FILES})
+
+# Menu attribute.
+file(GLOB AT_M_ATT_INCLUDE_FILES ${TOP_DIR} ${TOP_DIR}/include/menu/attribute/*.hpp)
+file(GLOB AT_M_ATT_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/menu/attribute/*.cpp)
+source_group("include\\menu\\attribute" FILES ${AT_M_ATT_INCLUDE_FILES})
+source_group("source\\menu\\attribute" FILES ${AT_M_ATT_SOURCE_FILES})
+
+# Menu widget.
+file(GLOB AT_M_WIDGET_INCLUDE_FILES ${TOP_DIR} ${TOP_DIR}/include/menu/widget/*.hpp)
+file(GLOB AT_M_WIDGET_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/menu/widget/*.cpp)
+source_group("include\\menu\\attrwidgetibute" FILES ${AT_M_WIDGET_INCLUDE_FILES})
+source_group("source\\menu\\widget" FILES ${AT_M_WIDGET_SOURCE_FILES})
 
 # source_group("core\\include" FILES ${CORE_OSX_INCLUDE_FILES})
 # source_group("core\\include" FILES ${CORE_OSX_OBJC_INCLUDE_FILES})

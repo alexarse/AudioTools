@@ -2,7 +2,7 @@
  * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
- * without prior written agreement by AutioTools.
+ * without prior written agreement by AudioTools.
  *
  * Neither the name of the AudioTools nor the names of its
  * contributors may be used to endorse or promote products derived from this
@@ -22,15 +22,15 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef mdiStatusBar_hpp
-#define mdiStatusBar_hpp
+#pragma once
 
 #include <axlib/axlib.hpp>
 
 #include <axlib/Button.hpp>
 #include <axlib/Toggle.hpp>
 
-#include "atVolumeMeter.hpp"
+#include "widget/atColorButton.hpp"
+#include "widget/atVolumeMeter.hpp"
 //#include "atMidiFeedback.h"
 
 namespace at {
@@ -60,6 +60,8 @@ namespace editor {
 			_layout_file_path = path;
 			win->Update();
 		}
+		
+		axEVENT_DECLARATION(ax::event::SimpleMsg<bool>, OnHasWidgetOnGrid);
 
 	private:
 		ax::Font _font;
@@ -68,6 +70,8 @@ namespace editor {
 		ax::Toggle* _toggle_right;
 		at::VolumeMeter* _volumeMeterLeft;
 		at::VolumeMeter* _volumeMeterRight;
+		ColorButton* _save_btn;
+		ColorButton* _view_app_btn;
 		std::string _layout_file_path;
 		//		at::MidiFeedback* _midi_feedback;
 
@@ -98,5 +102,3 @@ namespace editor {
 	};
 }
 }
-
-#endif /* mdiStatusBar_hpp */

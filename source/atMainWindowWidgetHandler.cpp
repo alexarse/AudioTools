@@ -37,6 +37,7 @@ namespace editor {
 
 		if (_main_window->_gridWindow->GetMainWindow() == nullptr) {
 			_main_window->_left_menu->SetOnlyMainWindowWidgetSelectable();
+			_main_window->GetWindow()->PushEvent(MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(false));
 		}
 	}
 
@@ -62,6 +63,7 @@ namespace editor {
 
 		if (_main_window->_gridWindow->GetMainWindow() == nullptr) {
 			_main_window->_left_menu->SetOnlyMainWindowWidgetSelectable();
+			_main_window->GetWindow()->PushEvent(MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(false));
 		}
 	}
 
@@ -166,6 +168,7 @@ namespace editor {
 			}
 
 			_main_window->_left_menu->SetAllSelectable();
+			_main_window->GetWindow()->PushEvent(MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(true));
 
 			if (widget_win->GetId() != main_window->GetId()) {
 				bool inside_main_window = main_window->dimension.GetAbsoluteRect().IsPointInside(pos);

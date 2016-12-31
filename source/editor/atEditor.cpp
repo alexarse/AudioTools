@@ -36,7 +36,7 @@
 #include "atMidi.h"
 
 #include "atSkin.hpp"
-#include "atSplashDialog.hpp"
+#include "dialog/atSplashDialog.hpp"
 
 namespace at {
 namespace editor {
@@ -97,7 +97,8 @@ namespace editor {
 						new MsgType(at::SplashDialog::LoadInfoMsg(0.7, "Load midi ...")));
 
 					/// @todo Save this somewhere.
-					at::Midi* midi = at::Midi::GetInstance();
+//					at::Midi* midi = at::Midi::GetInstance();
+					at::Midi::GetInstance();
 
 					obj.PushEvent(
 						Events::LOADING_EVT_ID, new MsgType(at::SplashDialog::LoadInfoMsg(1.0, "Done")));

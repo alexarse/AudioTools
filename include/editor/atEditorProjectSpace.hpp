@@ -1,5 +1,4 @@
-#ifndef atEditorProjectSpace_hpp
-#define atEditorProjectSpace_hpp
+#pragma once
 
 #include <axlib/axlib.hpp>
 
@@ -17,4 +16,3 @@ namespace editor {
 }
 }
 
-#endif /* atEditorProjectSpace_hpp */

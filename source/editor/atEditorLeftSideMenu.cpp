@@ -1,7 +1,7 @@
 #include "editor/atEditorLeftSideMenu.hpp"
 #include "atHelpBar.h"
 
-#include "atColorButton.h"
+#include "widget/atColorButton.hpp"
 #include <axlib/Button.hpp>
 
 namespace at {

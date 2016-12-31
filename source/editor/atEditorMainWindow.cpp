@@ -2,7 +2,7 @@
  * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
- * without prior written agreement by AutioTools.
+ * without prior written agreement by AudioTools.
  *
  * Neither the name of the AudioTools nor the names of its
  * contributors may be used to endorse or promote products derived from this
@@ -40,7 +40,7 @@
 #include "atHelpBar.h"
 #include "editor/atEditorLoader.hpp"
 
-#include "atSaveWorkDialog.h"
+#include "dialog/atSaveWorkDialog.hpp"
 
 namespace at {
 namespace editor {
@@ -88,6 +88,9 @@ namespace editor {
 		sb_win->AddConnection(StatusBar::TOGGLE_RIGHT_PANEL, _view_handler.GetOnToggleRightPanel());
 
 		sb_win->AddConnection(StatusBar::VIEW_LAYOUT, _view_handler.GetOnViewLayout());
+
+		// Events from MainWindow to status bar.
+		win->AddConnection(HAS_WIDGET_ON_GRID, _statusBar->GetOnHasWidgetOnGrid());
 
 		// Create grid window.
 		ax::Rect grid_rect(WIDGET_MENU_WIDTH, STATUS_BAR_HEIGHT,

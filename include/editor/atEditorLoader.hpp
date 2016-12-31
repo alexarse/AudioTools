@@ -2,7 +2,7 @@
  * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
- * without prior written agreement by AutioTools.
+ * without prior written agreement by AudioTools.
  *
  * Neither the name of the AudioTools nor the names of its
  * contributors may be used to endorse or promote products derived from this
@@ -54,6 +54,7 @@ namespace editor {
 		void SetupTogglePyoEvent(ax::Window* win);
 		void SetupKnobPyoEvent(ax::Window* win);
 		void SetupSliderPyoEvent(ax::Window* win);
+		void SetupNumberBoxPyoEvent(ax::Window* win);
 	};
 }
 }

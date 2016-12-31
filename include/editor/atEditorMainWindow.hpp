@@ -2,7 +2,7 @@
  * Copyright (c) 2016 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
- * without prior written agreement by AutioTools.
+ * without prior written agreement by AudioTools.
  *
  * Neither the name of the AudioTools nor the names of its
  * contributors may be used to endorse or promote products derived from this
@@ -22,10 +22,9 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef __AX_EDITOR_MAIN_WINDOW_H__
-#define __AX_EDITOR_MAIN_WINDOW_H__
+#pragma once
 
-#include "atMidiFeedback.h"
+#include "widget/atMidiFeedback.hpp"
 #include "editor/atEditorBottomSection.hpp"
 #include "editor/atEditorGridWindow.hpp"
 #include "editor/atEditorLeftSideMenu.hpp"
@@ -33,8 +32,8 @@
 #include "editor/atEditorStatusBar.hpp"
 #include "editor/atEditorWidgetMenu.hpp"
 
-#include "atProjectManager.h"
-#include "atSaveWorkDialog.h"
+#include "project/atProjectManager.hpp"
+#include "dialog/atSaveWorkDialog.hpp"
 
 #include "atMainWindowProjectHandler.h"
 #include "atMainWindowViewHandler.h"
@@ -57,6 +56,10 @@ namespace editor {
 		static const int WIDGET_MENU_DROPPED_WIDTH = 85;
 		static const int WIDGET_MENU_WIDTH = 250;
 		static const int BOTTOM_BAR_HEIGHT = 18;
+		
+		enum MainWindowEvents : ax::event::Id {
+			HAS_WIDGET_ON_GRID = 38923
+		};
 
 	private:
 		ax::Font _font;
@@ -104,5 +107,3 @@ namespace editor {
 	};
 }
 }
-
-#endif // __AX_EDITOR_MAIN_WINDOW_H__

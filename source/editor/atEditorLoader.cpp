@@ -35,6 +35,7 @@
 #include <axlib/DropMenu.hpp>
 #include <axlib/Knob.hpp>
 #include <axlib/Label.hpp>
+#include <axlib/NumberBox.hpp>
 #include <axlib/Panel.hpp>
 #include <axlib/Slider.hpp>
 #include <axlib/Toggle.hpp>
@@ -92,8 +93,7 @@ namespace editor {
 
 		try {
 			while (node.IsValid()) {
-				std::string node_name = node.GetName();
-				//				ax::console::Print("Node name :", node_name);
+				const std::string node_name = node.GetName();
 
 				if (node_name == "Widget") {
 					std::string buider_name = node.GetAttribute("builder");
@@ -182,6 +182,8 @@ namespace editor {
 	void Loader::SetupExistingWidget(ax::Window* widget, const std::string& builder_name,
 		const std::string& pyo_fct, const std::string& unique_name)
 	{
+		/// @todo Do this dynamically (with a map or something). Ready for widget plugins.
+
 		if (builder_name == "Button") {
 			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
@@ -224,6 +226,18 @@ namespace editor {
 			SetupUniqueNameComponent(widget, unique_name);
 		}
 		else if (builder_name == "Label") {
+			widget->property.AddProperty("Resizable");
+			SetupEditWidget(widget);
+			SetupUniqueNameComponent(widget, unique_name);
+		}
+		else if (builder_name == "NumberBox") {
+			widget->property.AddProperty("Resizable");
+			SetupEditWidget(widget);
+			SetupPyoComponent(widget, pyo_fct);
+			SetupNumberBoxPyoEvent(widget);
+			SetupUniqueNameComponent(widget, unique_name);
+		}
+		else if (builder_name == "Sprite") {
 			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 			SetupUniqueNameComponent(widget, unique_name);
@@ -590,7 +604,20 @@ namespace editor {
 		std::string fct_call = fct_name + "();\n";
 		PyoAudio::GetInstance()->ProcessString(fct_call);
 	}
-
+	
+	void PythonCallString(const std::string& fct_name, const std::string& msg)
+	{
+		std::string fct_call = fct_name + "('" +  msg + "');\n";
+		PyoAudio::GetInstance()->ProcessString(fct_call);
+	}
+	
+	void PythonCallInt(const std::string& fct_name, int value)
+	{
+		std::string fct_call = fct_name + "(";
+		fct_call += std::to_string(value) + ");\n";
+		PyoAudio::GetInstance()->ProcessString(fct_call);
+	}
+	
 	void PythonCallReal(const std::string& fct_name, double value)
 	{
 		std::string fct_call = fct_name + "(";
@@ -620,7 +647,8 @@ namespace editor {
 				const std::string fct_name = comp->GetFunctionName();
 
 				if (!fct_name.empty()) {
-					PythonCallEmpty(fct_name);
+					ax::Button* btn = static_cast<ax::Button*>(win->backbone.get());
+					PythonCallString(fct_name, btn->GetMsg());
 				}
 			}
 		}));
@@ -665,6 +693,21 @@ namespace editor {
 				if (!fct_name.empty()) {
 					ax::Slider::Msg* kmsg = static_cast<ax::Slider::Msg*>(msg);
 					PythonCallReal(fct_name, 1.0 - kmsg->GetValue());
+				}
+			}
+		}));
+	}
+	
+	void Loader::SetupNumberBoxPyoEvent(ax::Window* win)
+	{
+		win->AddConnection(0, ax::event::Function([win](ax::event::Msg* msg) {
+			if (win->component.Has("pyo")) {
+				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
+				const std::string fct_name = comp->GetFunctionName();
+				
+				if (!fct_name.empty()) {
+					ax::NumberBox::Msg* kmsg = static_cast<ax::NumberBox::Msg*>(msg);
+					PythonCallReal(fct_name, kmsg->GetValue());
 				}
 			}
 		}));

@@ -27,6 +27,7 @@
 #include "editor/atEditorMainWindow.hpp"
 #include "python/ButtonPyWrapper.hpp"
 #include "python/PanelPyWrapper.hpp"
+#include "python/SpritePyWrapper.hpp"
 #include "python/WindowPyWrapper.hpp"
 
 BOOST_PYTHON_MODULE(ax)
@@ -41,6 +42,8 @@ BOOST_PYTHON_MODULE(ax)
 
 	// Create ax::Button python wrapper.
 	ax::python::export_python_wrapper_button();
+	
+	ax::python::export_python_wrapper_sprite();
 
 	boost::python::class_<ax::python::Widgets>("Widgets").def("Get", &ax::python::Widgets::Get);
 }
@@ -82,6 +85,10 @@ namespace python {
 		else if (builder_name == "Button") {
 			ax::Button* btn = static_cast<ax::Button*>(win->backbone.get());
 			return boost::python::object(ax::python::Button(btn));
+		}
+		else if (builder_name == "Sprite") {
+			ax::Sprite* sprite = static_cast<ax::Sprite*>(win->backbone.get());
+			return boost::python::object(ax::python::Sprite(sprite));
 		}
 
 		return boost::python::object(boost::python::ptr(_pt.get()));

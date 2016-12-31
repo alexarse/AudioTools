@@ -23,12 +23,13 @@
  */
 
 #include "editor/atEditorStatusBar.hpp"
+
 #include "PyoAudio.h"
 #include "atCommon.h"
 #include "atHelpBar.h"
-#include "atOpenDialog.hpp"
-#include "atPreferenceDialog.h"
-#include "atSaveDialog.hpp"
+#include "dialog/atOpenDialog.hpp"
+#include "dialog/atPreferenceDialog.hpp"
+#include "dialog/atSaveDialog.hpp"
 #include "atSkin.hpp"
 #include "editor/atEditor.hpp"
 #include "editor/atEditorMainWindow.hpp"
@@ -146,9 +147,13 @@ namespace editor {
 
 		// Save button.
 		pos = open_menu->GetWindow()->dimension.GetRect().GetNextPosRight(5);
-		auto save_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveLayout(), btn_info,
+		auto save_btn = ax::shared<ColorButton>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveLayout(), btn_info,
 			"resources/save.png", "", ax::Button::Flags::SINGLE_IMG);
+		save_btn->SetSelected(true);
+		save_btn->SetColor(ax::Color(0.7, 0.4));
+		_save_btn = save_btn.get();
 		win->node.Add(save_btn);
+		
 
 		AttachHelpInfo(save_btn->GetWindow(), "Save current layout file.");
 
@@ -162,8 +167,11 @@ namespace editor {
 
 		// View button.
 		pos = save_as_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
-		auto view_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnViewLayout(), btn_info,
+		auto view_btn = ax::shared<ColorButton>(ax::Rect(pos, ax::Size(25, 25)), GetOnViewLayout(), btn_info,
 			"resources/view.png", "", ax::Button::Flags::SINGLE_IMG);
+		_view_app_btn = view_btn.get();
+		_view_app_btn->SetSelected(true);
+		_view_app_btn->SetColor(ax::Color(0.7, 0.4));
 		win->node.Add(view_btn);
 
 		AttachHelpInfo(view_btn->GetWindow(), "Switch layout to view mode.");
@@ -292,6 +300,20 @@ namespace editor {
 	{
 		_volumeMeterLeft->SetValue(msg.GetMsg().first);
 		_volumeMeterRight->SetValue(msg.GetMsg().second);
+	}
+	
+	void StatusBar::OnHasWidgetOnGrid(const ax::event::SimpleMsg<bool>& evt)
+	{
+		
+		ax::console::Print("LeftSideMenu::OnHasWidgetOnGrid");
+		const bool has_w_on_grid = evt.GetMsg();
+		
+		if(has_w_on_grid) {
+			_view_app_btn->SetSelected(false);
+		}
+		else {
+			_view_app_btn->SetSelected(true);
+		}
 	}
 
 	void StatusBar::OnResize(const ax::Size& size)
