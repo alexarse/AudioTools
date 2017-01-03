@@ -466,7 +466,6 @@ namespace editor {
 
 			// Editing.
 			if (win->property.HasProperty("edit_click")) {
-
 				win->property.RemoveProperty("edit_click");
 				win->property.RemoveProperty("ResizeLeft");
 				win->property.RemoveProperty("ResizeRight");

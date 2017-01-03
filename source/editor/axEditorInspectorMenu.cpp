@@ -328,7 +328,6 @@ namespace editor {
 
 	void InspectorMenu::OnDraggingWidget(const ax::event::EmptyMsg& msg)
 	{
-		fst::print(ptrace);
 		if (_selected_handle == nullptr) {
 			return;
 		}

@@ -42,6 +42,8 @@
 
 #include "dialog/atSaveWorkDialog.hpp"
 
+#include <time.h>
+
 namespace at {
 namespace editor {
 	MainWindow::MainWindow(const ax::Rect& rect, const std::string& proj_path)
@@ -53,6 +55,7 @@ namespace editor {
 		// Create window.
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &MainWindow::OnPaint);
+		win->event.OnPaintOverChildren = ax::WBind<ax::GC>(this, &MainWindow::OnPaintOverChildren);
 		win->event.OnResize = ax::WBind<ax::Size>(&_view_handler, &MainWindowViewHandler::OnResize);
 		win->event.OnKeyDown = ax::WBind<char>(this, &MainWindow::OnGlobalKey);
 		win->event.OnAssignToWindowManager = ax::WBind<int>(this, &MainWindow::OnAssignToWindowManager);
@@ -248,27 +251,43 @@ namespace editor {
 
 	void MainWindow::OnSavePanelToWorkspace(const ax::event::EmptyMsg& msg)
 	{
-		// Empty popup window tree.
-		ax::App& app(ax::App::GetInstance());
-		app.GetPopupManager()->Clear();
-		//		app.GetPopupManager()->SetPastKeyWindow(nullptr);
-		//		app.GetPopupManager()->SetPastWindow(nullptr);
-		//		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
-		//		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		ax::App::GetInstance().GetPopupManager()->Clear();
+		_need_to_save_widget_img_on_paint = true;
+		win->Update();
 
-		ax::Point pos(0, STATUS_BAR_HEIGHT - 1);
+		//		if(_selected_windows.size() == 1) {
+		//			ax::Window* w = _selected_windows[0];
+		//			unsigned char* pdata = nullptr;
+		//			ax::Rect rect = w->GetWindowPixelData(pdata);
+		//
+		//			ax::Image img((void*)pdata, rect.size);
+		//			img.SaveImage("/Users/alexarse/Desktop/test.png");
+		//			delete[] pdata;
+		//		}
 
-		ax::Size size = ax::App::GetInstance().GetFrameSize();
-		size.h -= (STATUS_BAR_HEIGHT + BOTTOM_BAR_HEIGHT - 1);
-
-		auto pref_dialog = ax::shared<at::SaveWorkDialog>(ax::Rect(pos, size));
-		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
-			std::shared_ptr<ax::Window>(pref_dialog->GetWindow()));
-
-		pref_dialog->GetWindow()->backbone = pref_dialog;
-
-		pref_dialog->GetWindow()->AddConnection(at::SaveWorkPanel::SAVE, GetOnAcceptSavePanelToWorkpace());
-		pref_dialog->GetWindow()->AddConnection(at::SaveWorkPanel::CANCEL, GetOnCancelSavePanelToWorkpace());
+		//		// Empty popup window tree.
+		//		ax::App& app(ax::App::GetInstance());
+		//		app.GetPopupManager()->Clear();
+		//		//		app.GetPopupManager()->SetPastKeyWindow(nullptr);
+		//		//		app.GetPopupManager()->SetPastWindow(nullptr);
+		//		//		app.GetPopupManager()->SetScrollCaptureWindow(nullptr);
+		//		//		app.GetPopupManager()->GetWindowTree()->GetNodeVector().clear();
+		//
+		//		ax::Point pos(0, STATUS_BAR_HEIGHT - 1);
+		//
+		//		ax::Size size = ax::App::GetInstance().GetFrameSize();
+		//		size.h -= (STATUS_BAR_HEIGHT + BOTTOM_BAR_HEIGHT - 1);
+		//
+		//		auto pref_dialog = ax::shared<at::SaveWorkDialog>(ax::Rect(pos, size));
+		//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+		//			std::shared_ptr<ax::Window>(pref_dialog->GetWindow()));
+		//
+		//		pref_dialog->GetWindow()->backbone = pref_dialog;
+		//
+		//		pref_dialog->GetWindow()->AddConnection(at::SaveWorkPanel::SAVE,
+		// GetOnAcceptSavePanelToWorkpace());
+		//		pref_dialog->GetWindow()->AddConnection(at::SaveWorkPanel::CANCEL,
+		// GetOnCancelSavePanelToWorkpace());
 	}
 
 	void MainWindow::OnAcceptSavePanelToWorkpace(const at::SaveWorkPanel::Msg& msg)
@@ -344,6 +363,68 @@ namespace editor {
 			// Save current project.
 			_project_handler.SaveCurrentProject();
 		}
+	}
+
+	void MainWindow::OnPaintOverChildren(ax::GC gc)
+	{
+		if (_need_to_save_widget_img_on_paint == false) {
+			return;
+		}
+
+		_need_to_save_widget_img_on_paint = false;
+
+		if (_selected_windows.size() != 1) {
+			return;
+		}
+		ax::Window* w = _selected_windows[0];
+
+		if (!w->component.Has("Widget")) {
+			return;
+		}
+
+		unsigned char* pdata = nullptr;
+		ax::Rect rect = w->GetWindowPixelData(pdata);
+		ax::Image img((void*)pdata, rect.size);
+
+		time_t rawtime;
+		struct tm* timeinfo;
+		char buffer[80];
+		time(&rawtime);
+		timeinfo = localtime(&rawtime);
+		strftime(buffer, 80, "%Y_%m_%d_%H_%M_%S", timeinfo);
+		const std::string time_str(buffer, strlen(buffer));
+
+		const std::string img_path("custom_widgets_menu_images/" + time_str + ".png");
+		img.SaveImage(img_path);
+		delete[] pdata;
+
+		// Callback for saving widget with child widgets in them.
+		std::function<void(ax::Xml&, ax::Xml::Node&, ax::Window*)> panel_save_child
+			= [&](ax::Xml& xml, ax::Xml::Node& node, ax::Window* child_win) {
+
+				  ax::widget::Component::Ptr opt = child_win->component.Get<ax::widget::Component>("Widget");
+
+				  if (opt) {
+					  if (child_win->property.HasProperty("AcceptWidget")) {
+						  opt->SetSaveChildCallback(panel_save_child);
+					  }
+					  // Save ax::Object.
+					  opt->Save(xml, node);
+				  }
+			  };
+		ax::widget::Component::Ptr wcomp = w->component.Get<ax::widget::Component>("Widget");
+		if (w->property.HasProperty("AcceptWidget")) {
+			wcomp->SetSaveChildCallback(panel_save_child);
+		}
+
+		ax::Xml xml;
+		ax::Xml::Node custom_widget_node = xml.CreateNode("CustomWidget");
+		xml.AddMainNode(custom_widget_node);
+
+		custom_widget_node.AddAttribute("img", img_path);
+		ax::Xml::Node wnode = wcomp->Save(xml, custom_widget_node);
+		wnode.RemoveChildNode("position");
+		xml.Save("custom_widgets/" + time_str + ".xml");
 	}
 
 	void MainWindow::OnPaint(ax::GC gc)

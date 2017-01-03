@@ -73,6 +73,7 @@ namespace editor {
 		RightSideMenu* _right_menu;
 		BottomSection* _bottom_section;
 		at::MidiFeedback* _midi_feedback;
+		bool _need_to_save_widget_img_on_paint = false;
 
 		std::vector<ax::Window*> _selected_windows;
 
@@ -107,6 +108,7 @@ namespace editor {
 		void OnAssignToWindowManager(const int& v);
 
 		void OnPaint(ax::GC gc);
+		void OnPaintOverChildren(ax::GC gc);
 	};
 }
 }
