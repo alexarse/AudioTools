@@ -36,6 +36,8 @@ namespace inspector {
 		PointAttribute(
 			const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct);
 
+		void SetValue(const std::string& value);
+
 	private:
 		std::string _name;
 		ax::Font _font;

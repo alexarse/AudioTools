@@ -326,11 +326,15 @@ namespace editor {
 						int size_y = win->dimension.GetSize().h;
 						int size_x = pos.x - win->dimension.GetAbsoluteRect().position.x;
 						win->dimension.SetSize(ax::Size(size_x, size_y));
+
+						gwin->PushEvent(at::editor::GridWindow::WIDGET_RESIZE, new ax::event::EmptyMsg());
 					}
 					else if (win->property.HasProperty("ResizeBottomRight")) {
 						int size_y = pos.y - win->dimension.GetAbsoluteRect().position.y;
 						int size_x = pos.x - win->dimension.GetAbsoluteRect().position.x;
 						win->dimension.SetSize(ax::Size(size_x, size_y));
+
+						gwin->PushEvent(at::editor::GridWindow::WIDGET_RESIZE, new ax::event::EmptyMsg());
 					}
 					else if (win->property.HasProperty("ResizeTopRight")) {
 						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
@@ -346,12 +350,16 @@ namespace editor {
 							ax::Point w_pos = n->dimension.GetRect().position;
 							n->dimension.SetPosition(w_pos + dd);
 						}
+
+						gwin->PushEvent(at::editor::GridWindow::WIDGET_RESIZE, new ax::event::EmptyMsg());
 					}
 					// Bottom resize.
 					else if (win->property.HasProperty("ResizeBottom")) {
 						int size_x = win->dimension.GetSize().w;
 						int size_y = pos.y - win->dimension.GetAbsoluteRect().position.y;
 						win->dimension.SetSize(ax::Size(size_x, size_y));
+
+						gwin->PushEvent(at::editor::GridWindow::WIDGET_RESIZE, new ax::event::EmptyMsg());
 					}
 					// Left resize.
 					else if (win->property.HasProperty("ResizeLeft")) {
@@ -368,6 +376,8 @@ namespace editor {
 							ax::Point w_pos = n->dimension.GetRect().position;
 							n->dimension.SetPosition(w_pos + dd);
 						}
+
+						gwin->PushEvent(at::editor::GridWindow::WIDGET_RESIZE, new ax::event::EmptyMsg());
 					}
 					else if (win->property.HasProperty("ResizeBottomLeft")) {
 						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
@@ -383,6 +393,8 @@ namespace editor {
 							ax::Point w_pos = n->dimension.GetRect().position;
 							n->dimension.SetPosition(w_pos + dd);
 						}
+
+						gwin->PushEvent(at::editor::GridWindow::WIDGET_RESIZE, new ax::event::EmptyMsg());
 					}
 					// Top resize.
 					else if (win->property.HasProperty("ResizeTop")) {
@@ -399,6 +411,8 @@ namespace editor {
 							ax::Point w_pos = n->dimension.GetRect().position;
 							n->dimension.SetPosition(w_pos + dd);
 						}
+
+						gwin->PushEvent(at::editor::GridWindow::WIDGET_RESIZE, new ax::event::EmptyMsg());
 					}
 					else if (win->property.HasProperty("ResizeTopLeft")) {
 						ax::Rect abs_rect(win->dimension.GetAbsoluteRect());
@@ -414,15 +428,28 @@ namespace editor {
 							ax::Point w_pos = n->dimension.GetRect().position;
 							n->dimension.SetPosition(w_pos + dd);
 						}
+
+						gwin->PushEvent(at::editor::GridWindow::WIDGET_RESIZE, new ax::event::EmptyMsg());
 					}
 					// Moving widget.
 					else {
 						win->dimension.SetPosition(
 							pos - win->node.GetParent()->dimension.GetAbsoluteRect().position - c_delta);
+
+						if (!win->property.HasProperty("first_time_dragging")) {
+							win->property.AddProperty("first_time_dragging");
+							gwin->PushEvent(
+								at::editor::GridWindow::BEGIN_DRAGGING_WIDGET, new ax::event::EmptyMsg());
+						}
+						else {
+							gwin->PushEvent(
+								at::editor::GridWindow::DRAGGING_WIDGET, new ax::event::EmptyMsg());
+						}
 					}
 
 					/// @todo Don't send this at every mouse move.
-					gwin->PushEvent(at::editor::GridWindow::BEGIN_DRAGGING_WIDGET, new ax::event::EmptyMsg());
+					// gwin->PushEvent(at::editor::GridWindow::BEGIN_DRAGGING_WIDGET, new
+					// ax::event::EmptyMsg());
 				}
 			}
 
@@ -450,6 +477,8 @@ namespace editor {
 				win->property.RemoveProperty("ResizeTopRight");
 				win->property.RemoveProperty("ResizeBottomLeft");
 				win->property.RemoveProperty("ResizeBottomRight");
+
+				win->property.RemoveProperty("first_time_dragging");
 
 				if (win->event.IsGrabbed()) {
 					win->event.UnGrabMouse();

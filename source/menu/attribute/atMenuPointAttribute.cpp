@@ -107,6 +107,13 @@ namespace inspector {
 		win->node.Add(h_scroll);
 	}
 
+	void PointAttribute::SetValue(const std::string& value)
+	{
+		auto size_values = ax::util::String::Split(value, ",");
+		_width_scroll->SetValue(std::stoi(size_values[0]));
+		_height_scroll->SetValue(std::stoi(size_values[1]));
+	}
+
 	void PointAttribute::OnWidthChange(const ax::NumberScroll::Msg& msg)
 	{
 		std::string w_str = std::to_string((int)msg.GetValue());

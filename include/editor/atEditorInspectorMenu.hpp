@@ -22,10 +22,10 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef mdiInspectorMenu_hpp
-#define mdiInspectorMenu_hpp
+#pragma once
 
 #include <axlib/axlib.hpp>
+#include <map>
 
 namespace at {
 namespace editor {
@@ -55,6 +55,14 @@ namespace editor {
 		ax::Font _font;
 		ax::Font _font_bold;
 		bool _has_multiple_widget_selected;
+		bool _has_grid_window_connection = false;
+
+		ax::Window::Backbone* _widget_build_pos_att = nullptr;
+		ax::Window::Backbone* _widget_build_size_att = nullptr;
+
+		using BuilderFct = std::function<std::shared_ptr<ax::Window::Backbone>(const ax::Rect& rect,
+			const std::string& name, const std::string& value, ax::event::Function fct)>;
+		std::map<ax::widget::ParamType, BuilderFct> _att_builder_map;
 
 		using StrPairMsg = ax::event::SimpleMsg<std::pair<std::string, std::string>>;
 		axEVENT_DECLARATION(StrPairMsg, OnPyoCallback);
@@ -62,9 +70,12 @@ namespace editor {
 		axEVENT_DECLARATION(StrPairMsg, OnInfoUpdate);
 		axEVENT_DECLARATION(StrPairMsg, OnUniqueName);
 
+		// From grid window.
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnDraggingWidget);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnWidgetResize);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<ax::util::Direction>, OnArrowMoveSelectedWidget);
+
 		void OnPaint(ax::GC gc);
 	};
 }
 }
-
-#endif /* mdiInspectorMenu_hpp */
