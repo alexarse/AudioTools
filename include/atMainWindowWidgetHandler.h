@@ -25,6 +25,7 @@ namespace editor {
 		typedef std::pair<std::pair<std::string, std::string>, ax::Point> ObjMsg;
 
 		axEVENT_DECLARATION(ax::event::SimpleMsg<ObjMsg>, OnCreateDraggingWidget);
+		axEVENT_DECLARATION(ax::event::SimpleMsg<ObjMsg>, OnCreateCustomDraggingWidget);
 		axEVENT_DECLARATION(ax::event::SimpleMsg<ax::Point>, OnDraggingWidget);
 		axEVENT_DECLARATION(ax::event::SimpleMsg<ax::Point>, OnReleaseObjWidget);
 		axEVENT_DECLARATION(ax::event::SimpleMsg<ax::Window*>, OnSelectWidget);

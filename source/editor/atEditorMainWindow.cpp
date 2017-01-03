@@ -191,6 +191,7 @@ namespace editor {
 		win->AddConnection(8000, _widget_handler.GetOnCreateDraggingWidget());
 		win->AddConnection(8001, _widget_handler.GetOnDraggingWidget());
 		win->AddConnection(8002, _widget_handler.GetOnReleaseObjWidget());
+		win->AddConnection(8003, _widget_handler.GetOnCreateCustomDraggingWidget());
 
 		// Midi feedback.
 		auto midi_feedback = ax::shared<at::MidiFeedback>(
@@ -412,6 +413,7 @@ namespace editor {
 					  opt->Save(xml, node);
 				  }
 			  };
+
 		ax::widget::Component::Ptr wcomp = w->component.Get<ax::widget::Component>("Widget");
 		if (w->property.HasProperty("AcceptWidget")) {
 			wcomp->SetSaveChildCallback(panel_save_child);
@@ -421,7 +423,16 @@ namespace editor {
 		ax::Xml::Node custom_widget_node = xml.CreateNode("CustomWidget");
 		xml.AddMainNode(custom_widget_node);
 
+		// Add size attribute.
+		const ax::Size wsize = w->dimension.GetSize();
+		custom_widget_node.AddAttribute(
+			"size", "(" + std::to_string(wsize.w) + " x " + std::to_string(wsize.h) + ")");
+
+		// Add menu img path.
 		custom_widget_node.AddAttribute("img", img_path);
+		custom_widget_node.AddAttribute("name", "No name");
+		custom_widget_node.AddAttribute("description", "No description");
+
 		ax::Xml::Node wnode = wcomp->Save(xml, custom_widget_node);
 		wnode.RemoveChildNode("position");
 		xml.Save("custom_widgets/" + time_str + ".xml");

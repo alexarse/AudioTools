@@ -15,6 +15,10 @@
 #include <axlib/WidgetLoader.hpp>
 #include <fst/print.h>
 
+#include "editor/atEditor.hpp"
+#include "editor/atEditorGridWindow.hpp"
+//#include "editor/atEditorMainWindow.hpp"
+
 namespace at {
 namespace editor {
 	MainWindowWidgetHandler::MainWindowWidgetHandler(MainWindow* main_window)
@@ -92,12 +96,87 @@ namespace editor {
 
 		if (builder == nullptr) {
 			ax::console::Error("Builder", builder_name, "doesn't exist.");
+			return;
 		}
 
 		ax::App& app(ax::App::GetInstance());
 		app.GetPopupManager()->Clear();
 
 		auto obj(builder->Create(pos, file_path));
+
+		if (obj != nullptr) {
+
+			app.AddPopupTopLevel(obj);
+
+			obj->GetWindow()->property.RemoveProperty("Selectable");
+			_has_tmp_widget = true;
+			_tmp_widget_builder_name = builder_name;
+		}
+		//		ax::App::GetInstance().GetPopupManager()->GetWindowTree()->AddTopLevel(
+		//			std::shared_ptr<ax::Window>(obj->GetWindow()));
+		//		obj->GetWindow()->backbone = obj;
+
+		//		_has_tmp_widget = true;
+		//		_tmp_widget_builder_name = builder_name;
+	}
+
+	void MainWindowWidgetHandler::OnCreateCustomDraggingWidget(const ax::event::SimpleMsg<ObjMsg>& msg)
+	{
+		ax::console::Print("OnCreateCustomDraggingWidget object.");
+
+		std::pair<std::string, std::string> obj_info = msg.GetMsg().first;
+		//		std::string builder_name = obj_info.first;
+		std::string file_path = obj_info.second;
+		ax::Point pos(msg.GetMsg().second);
+
+		ax::widget::Loader* loader = ax::widget::Loader::GetInstance();
+		ax::Xml xml(file_path);
+
+		if (xml.Parse() == false) {
+			return;
+		}
+
+		ax::Xml::Node cwidget = xml.GetNode("CustomWidget");
+		ax::Xml::Node wnode = cwidget.GetNode("Widget");
+		wnode.AddNode(xml.CreateNode("position", pos.ToString()));
+		std::string builder_name = wnode.GetAttribute("builder");
+		ax::widget::Builder* builder = loader->GetBuilder(builder_name);
+
+		fst::print(ptrace, "Builder name :", builder_name);
+
+		if (builder == nullptr) {
+			ax::console::Error("Builder", builder_name, "doesn't exist.");
+			return;
+		}
+
+		ax::App& app(ax::App::GetInstance());
+		app.GetPopupManager()->Clear();
+
+		builder->SetCreateCallback([](ax::Window* wwin, ax::Xml::Node& node) {
+
+			std::string builder_name = node.GetAttribute("builder");
+			std::string pyo_fct_name;
+			ax::console::Print("Create callback", builder_name);
+
+			ax::Xml::Node pyo_node = node.GetNode("pyo");
+
+			if (pyo_node.IsValid()) {
+				pyo_fct_name = pyo_node.GetValue();
+			}
+
+			std::string unique_name;
+			ax::Xml::Node unique_name_node = node.GetNode("unique_name");
+
+			if (unique_name_node.IsValid()) {
+				unique_name = unique_name_node.GetValue();
+			}
+
+			Loader loader(at::editor::App::GetInstance()->GetMainWindow()->GetGridWindow()->GetWindow());
+			loader.SetupExistingWidget(wwin, builder_name, pyo_fct_name, unique_name);
+			wwin->property.AddProperty("Selectable");
+		});
+
+		auto obj(builder->Create(wnode));
 
 		if (obj != nullptr) {
 

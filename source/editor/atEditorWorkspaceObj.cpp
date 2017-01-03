@@ -66,7 +66,7 @@ namespace editor {
 			win->event.GrabMouse();
 
 			App::GetMainEvtObj()->PushEvent(
-				8000, new ax::event::SimpleMsg<std::pair<std::pair<std::string, std::string>, ax::Point>>(
+				8003, new ax::event::SimpleMsg<std::pair<std::pair<std::string, std::string>, ax::Point>>(
 						  std::pair<std::pair<std::string, std::string>, ax::Point>(
 							  std::pair<std::string, std::string>(_builder_name, _file_path), pos)));
 
@@ -95,9 +95,11 @@ namespace editor {
 		gc.DrawRectangleColorFade(rect, at::Skin::GetInstance()->data.w_menu_obj_bg_0,
 			at::Skin::GetInstance()->data.w_menu_obj_bg_1);
 
-		ax::Size img_size(_img->GetSize());
+		ax::Size img_size(40, 40);
 		ax::Point img_pos(5 + (65 - img_size.w) / 2, 5 + (rect.size.h - 8 - img_size.h) / 2);
-		gc.DrawImage(_img.get(), img_pos);
+		gc.DrawImageResize(_img.get(), img_pos, img_size);
+		gc.SetColor(ax::Color(0.3));
+		gc.DrawRectangleContour(ax::Rect(img_pos, img_size));
 
 		if (_show_text) {
 			gc.SetColor(at::Skin::GetInstance()->data.w_menu_title_txt);

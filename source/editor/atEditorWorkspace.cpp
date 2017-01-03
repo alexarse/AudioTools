@@ -33,12 +33,8 @@ namespace editor {
 		const ax::Size size(rect.size.w, 50);
 		ax::Point pos(0, 0);
 
-		//		ax::os::Directory dir;
-		//		dir.Goto("workspace/");
-		//
-		//		std::vector<ax::os::File> files = dir.GetContent();
-
-		ax::os::Path dir("workspace/");
+		//		ax::os::Path dir("workspace/");
+		ax::os::Path dir("custom_widgets/");
 		std::vector<ax::os::Path> files = dir.GetDirectoryContent();
 
 		for (auto& n : files) {
@@ -57,22 +53,26 @@ namespace editor {
 					continue;
 				}
 
-				ax::Xml::Node node = xml.GetNode("Widget");
+				//				ax::Xml::Node node = xml.GetNode("Widget");
+				ax::Xml::Node node = xml.GetNode("CustomWidget");
 
 				if (!node.IsValid()) {
 					ax::console::Error("No widget node in parsing workspace :", n.GetAbsolutePath());
 					continue;
 				}
 
-				std::string buider_name = node.GetAttribute("builder");
-				std::string file_path = node.GetAttribute("file");
-				std::string widget_label = node.GetAttribute("label");
+				//				std::string buider_name = node.GetAttribute("builder");
+				//				std::string file_path = node.GetAttribute("file");
+				std::string buider_name = "none";
+				//				std::string file_path = "none";
+
+				std::string widget_label = node.GetAttribute("name");
 				std::string widget_desc = node.GetAttribute("description");
 				std::string widget_size = node.GetAttribute("size");
 				std::string widget_img = node.GetAttribute("img");
 
-				auto obj = ax::shared<WorkspaceObj>(ax::Rect(pos, size), buider_name, file_path, widget_label,
-					widget_desc, widget_size, widget_img);
+				auto obj = ax::shared<WorkspaceObj>(ax::Rect(pos, size), buider_name, n.GetAbsolutePath(),
+					widget_label, widget_desc, widget_size, widget_img);
 				win->node.Add(obj);
 
 				_objs.push_back(obj);
