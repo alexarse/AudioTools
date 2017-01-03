@@ -98,7 +98,7 @@ namespace editor {
 		loader->AddBuilder("Panel", new ax::Panel::Builder());
 		loader->AddBuilder("Slider", new ax::Slider::Builder());
 		loader->AddBuilder("Sprite", new ax::Sprite::Builder());
-		
+
 		ax::Rect d_rect(win->dimension.GetDrawingRect());
 		_lines_array.reserve(((d_rect.size.w / _grid_space) + (d_rect.size.h / _grid_space)) * 2);
 

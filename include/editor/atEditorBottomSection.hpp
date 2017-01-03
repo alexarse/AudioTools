@@ -31,9 +31,9 @@
 #include <axlib/ScrollBar.hpp>
 #include <axlib/Timer.hpp>
 
-#include "widget/atColorButton.hpp"
 #include "atConsole.h"
 #include "editor/TextEditor.hpp"
+#include "widget/atColorButton.hpp"
 
 namespace at {
 namespace editor {

@@ -22,12 +22,10 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef atMidi_hpp
-#define atMidi_hpp
+#pragma once
 
-#include <axlib/axlib.hpp>
-//#include <OpenAX/axMidiCore.h>
 #include "atk/MidiCore.hpp"
+#include <axlib/axlib.hpp>
 
 namespace at {
 class Midi : public atk::MidiCore, public ax::event::Object {
@@ -43,5 +41,3 @@ private:
 	static Midi* _global_midi;
 };
 }
-
-#endif /* atMidi_hpp */

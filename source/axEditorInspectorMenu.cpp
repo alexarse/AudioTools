@@ -23,18 +23,20 @@
  */
 
 #include "atCommon.h"
+#include "atUniqueNameComponent.h"
+#include "editor/atEditorInspectorMenu.hpp"
 #include "menu/attribute/atMenuAttribute.hpp"
 #include "menu/attribute/atMenuBoolAttribute.hpp"
 #include "menu/attribute/atMenuColorAttribute.hpp"
 #include "menu/attribute/atMenuIntegerAttribute.hpp"
 #include "menu/attribute/atMenuPathAttribute.hpp"
 #include "menu/attribute/atMenuPointAttribute.hpp"
+#include "menu/attribute/atMenuRangeAttribute.hpp"
 #include "menu/attribute/atMenuSizeAttribute.hpp"
-#include "atUniqueNameComponent.h"
-#include "editor/atEditorInspectorMenu.hpp"
 #include "python/PyoComponent.hpp"
 
 #include <axlib/WindowManager.hpp>
+#include <fst/print.h>
 
 namespace at {
 namespace editor {
@@ -76,11 +78,14 @@ namespace editor {
 
 	void InspectorMenu::SetWidgetHandle(ax::Window* handle)
 	{
+		fst::print(ptrace);
+
 		// Clear old content.
 		RemoveHandle();
 		_selected_handle = handle;
 
 		if (_selected_handle) {
+			fst::print(ptrace, "Has selected handle");
 			ax::Rect rect(win->dimension.GetRect());
 
 			ax::Size separator_size(rect.size.w, 20);
@@ -115,15 +120,19 @@ namespace editor {
 
 			// Builder attributes.
 			std::vector<std::pair<std::string, std::string>> atts_pair = widget->GetBuilderAttributes();
+			fst::print("Builder attributes size :", (int)atts_pair.size());
+
 			std::map<std::string, std::string> atts_map;
 
 			for (auto& n : atts_pair) {
 				atts_map.insert(n);
+				fst::print("att pair :", n.first, n.second);
 			}
 
 			std::vector<ax::widget::ParamInfo> builder_atts_info = widget->GetBuilderAttributesInfo();
 
 			for (auto& n : builder_atts_info) {
+				fst::print("widget param type :", (int)n.first);
 				std::string value = atts_map[n.second];
 
 				if (n.first == ax::widget::ParamType::COLOR) {
@@ -140,6 +149,10 @@ namespace editor {
 				}
 				else if (n.first == ax::widget::ParamType::SIZE) {
 					win->node.Add(ax::shared<at::inspector::SizeAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
+				}
+				else if (n.first == ax::widget::ParamType::RANGE) {
+					win->node.Add(ax::shared<at::inspector::RangeAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnWidgetUpdate()));
 				}
 				else if (n.first == ax::widget::ParamType::INTEGER) {
@@ -186,6 +199,10 @@ namespace editor {
 					win->node.Add(ax::shared<at::inspector::SizeAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
 				}
+				else if (n.first == ax::widget::ParamType::RANGE) {
+					win->node.Add(ax::shared<at::inspector::RangeAttribute>(
+						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
+				}
 				else if (n.first == ax::widget::ParamType::INTEGER) {
 					win->node.Add(ax::shared<at::inspector::IntegerAttribute>(
 						ax::Rect(att_pos, att_size), n.second, value, GetOnInfoUpdate()));
@@ -219,6 +236,7 @@ namespace editor {
 				att_pos.y += att_size.h;
 			}
 		}
+
 		win->Update();
 	}
 

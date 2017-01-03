@@ -97,7 +97,7 @@ namespace editor {
 						new MsgType(at::SplashDialog::LoadInfoMsg(0.7, "Load midi ...")));
 
 					/// @todo Save this somewhere.
-//					at::Midi* midi = at::Midi::GetInstance();
+					//					at::Midi* midi = at::Midi::GetInstance();
 					at::Midi::GetInstance();
 
 					obj.PushEvent(
@@ -112,7 +112,6 @@ namespace editor {
 	MainWindow* App::GetMainWindow()
 	{
 		auto w = ax::App::GetInstance().GetWindowManager()->GetWindowTree()->GetTopLevel();
-		;
 		return static_cast<MainWindow*>(w->backbone.get());
 	}
 

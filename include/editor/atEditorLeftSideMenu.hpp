@@ -14,11 +14,11 @@
 #include <axlib/Button.hpp>
 #include <axlib/ScrollBar.hpp>
 
-#include "widget/atColorButton.hpp"
 #include "editor/atEditorOnlineStoreMenu.hpp"
 #include "editor/atEditorProjectSpace.hpp"
 #include "editor/atEditorWidgetMenu.hpp"
 #include "editor/atEditorWorkspace.hpp"
+#include "widget/atColorButton.hpp"
 
 namespace at {
 namespace editor {
@@ -49,8 +49,6 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Button::Msg, OnWorkspace);
 		axEVENT_DECLARATION(ax::Button::Msg, OnProjectSpace);
 		axEVENT_DECLARATION(ax::Button::Msg, OnOnlineStoreMenu);
-
-		
 
 		ax::Point AddButton(const ax::Point& pos, ax::Window* win, const ax::Button::Events& evts,
 			const ax::Button::Info& info, const std::string& img, const std::string& description);

@@ -291,6 +291,8 @@ int pyo_exec_file(PyThreadState* interp, const char* file, char* msg, int add);
 **              statement. If 0, there will be no error checking, which is
 **              much faster.
 */
+
+/// @todo Chnage char* msg to std::string.
 int pyo_exec_statement(PyThreadState* interp, char* msg, int debug);
 
 //#define __m_pyo_h_

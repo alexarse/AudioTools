@@ -6,8 +6,7 @@
 //  Copyright © 2016 Alexandre Arsenault. All rights reserved.
 //
 
-#ifndef atConsoleStream_hpp
-#define atConsoleStream_hpp
+#pragma once
 
 #include <axlib/axlib.hpp>
 
@@ -88,5 +87,3 @@ private:
 	ConsoleStream();
 };
 }
-
-#endif /* atConsoleStream_hpp */

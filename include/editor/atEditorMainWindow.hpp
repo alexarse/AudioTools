@@ -24,16 +24,16 @@
 
 #pragma once
 
-#include "widget/atMidiFeedback.hpp"
 #include "editor/atEditorBottomSection.hpp"
 #include "editor/atEditorGridWindow.hpp"
 #include "editor/atEditorLeftSideMenu.hpp"
 #include "editor/atEditorRightSideMenu.hpp"
 #include "editor/atEditorStatusBar.hpp"
 #include "editor/atEditorWidgetMenu.hpp"
+#include "widget/atMidiFeedback.hpp"
 
-#include "project/atProjectManager.hpp"
 #include "dialog/atSaveWorkDialog.hpp"
+#include "project/atProjectManager.hpp"
 
 #include "atMainWindowProjectHandler.h"
 #include "atMainWindowViewHandler.h"
@@ -56,10 +56,13 @@ namespace editor {
 		static const int WIDGET_MENU_DROPPED_WIDTH = 85;
 		static const int WIDGET_MENU_WIDTH = 250;
 		static const int BOTTOM_BAR_HEIGHT = 18;
-		
-		enum MainWindowEvents : ax::event::Id {
-			HAS_WIDGET_ON_GRID = 38923
-		};
+
+		enum MainWindowEvents : ax::event::Id { HAS_WIDGET_ON_GRID = 38923 };
+
+		GridWindow* GetGridWindow()
+		{
+			return _gridWindow.get();
+		}
 
 	private:
 		ax::Font _font;

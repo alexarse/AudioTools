@@ -27,10 +27,10 @@
 #include "PyoAudio.h"
 #include "atCommon.h"
 #include "atHelpBar.h"
+#include "atSkin.hpp"
 #include "dialog/atOpenDialog.hpp"
 #include "dialog/atPreferenceDialog.hpp"
 #include "dialog/atSaveDialog.hpp"
-#include "atSkin.hpp"
 #include "editor/atEditor.hpp"
 #include "editor/atEditorMainWindow.hpp"
 
@@ -153,7 +153,6 @@ namespace editor {
 		save_btn->SetColor(ax::Color(0.7, 0.4));
 		_save_btn = save_btn.get();
 		win->node.Add(save_btn);
-		
 
 		AttachHelpInfo(save_btn->GetWindow(), "Save current layout file.");
 
@@ -186,10 +185,10 @@ namespace editor {
 
 		// Play / Refresh button.
 		pos = settings_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
-		auto refresh_btn = ax::shared<ax::Button>(ax::Rect(pos, ax::Size(25, 25)), GetOnReload(), btn_info,
+		auto refresh_btn = ax::shared<ColorButton>(ax::Rect(pos, ax::Size(25, 25)), GetOnReload(), btn_info,
 			"resources/play.png", "", ax::Button::Flags::SINGLE_IMG);
+		_play_btn = refresh_btn.get();
 		win->node.Add(refresh_btn);
-
 		AttachHelpInfo(refresh_btn->GetWindow(), "Start script interpreter.");
 
 		// Stop button.
@@ -232,18 +231,22 @@ namespace editor {
 	void StatusBar::OnViewLayout(const ax::Button::Msg& msg)
 	{
 		ax::console::Print("On view layout.");
+		_play_btn->SetSelected(true);
+		win->PushEvent(RELOAD_SCRIPT, new ax::event::SimpleMsg<int>(0));
 		win->PushEvent(VIEW_LAYOUT, new ax::event::SimpleMsg<int>(0));
 	}
 
 	void StatusBar::OnReload(const ax::Button::Msg& msg)
 	{
 		ax::console::Print("On reload script.");
+		_play_btn->SetSelected(true);
 		win->PushEvent(RELOAD_SCRIPT, new ax::event::SimpleMsg<int>(0));
 	}
 
 	void StatusBar::OnStop(const ax::Button::Msg& msg)
 	{
 		ax::console::Print("On stop script.");
+		_play_btn->SetSelected(false);
 		win->PushEvent(STOP_SCRIPT, new ax::event::SimpleMsg<int>(0));
 	}
 
@@ -301,14 +304,14 @@ namespace editor {
 		_volumeMeterLeft->SetValue(msg.GetMsg().first);
 		_volumeMeterRight->SetValue(msg.GetMsg().second);
 	}
-	
+
 	void StatusBar::OnHasWidgetOnGrid(const ax::event::SimpleMsg<bool>& evt)
 	{
-		
+
 		ax::console::Print("LeftSideMenu::OnHasWidgetOnGrid");
 		const bool has_w_on_grid = evt.GetMsg();
-		
-		if(has_w_on_grid) {
+
+		if (has_w_on_grid) {
 			_view_app_btn->SetSelected(false);
 		}
 		else {

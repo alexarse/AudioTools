@@ -180,6 +180,7 @@ namespace editor {
 		_widget_menu->GetWindow()->Hide();
 		_workspace->GetWindow()->Hide();
 		_project_space->GetWindow()->Show();
+		_project_space->UpdateTree();
 		_online_store_menu->GetWindow()->Hide();
 
 		SetWide();

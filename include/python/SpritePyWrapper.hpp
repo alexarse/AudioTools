@@ -34,9 +34,9 @@ namespace python {
 	class Sprite : public ax::python::Window {
 	public:
 		Sprite(ax::Sprite* sprite);
-		
+
 		void SetIndex(int index);
-		
+
 		int GetIndex() const;
 
 	private:

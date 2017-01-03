@@ -12,11 +12,11 @@
 #include <axlib/Button.hpp>
 #include <axlib/axlib.hpp>
 
-#include "widget/atColorButton.hpp"
 #include "editor/atEditorAccount.hpp"
 #include "editor/atEditorInspectorMenu.hpp"
 #include "editor/atEditorProjectInfo.hpp"
 #include "editor/atEditorPyDoc.hpp"
+#include "widget/atColorButton.hpp"
 
 namespace at {
 namespace editor {

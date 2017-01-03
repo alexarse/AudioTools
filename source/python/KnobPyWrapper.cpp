@@ -22,7 +22,7 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#include "python/SpritePyWrapper.hpp"
+#include "python/KnobPyWrapper.hpp"
 #include <Python/Python.h>
 #include <boost/python.hpp>
 #include <cstdio>
@@ -32,27 +32,27 @@ using namespace boost::python;
 namespace ax {
 namespace python {
 
-	Sprite::Sprite(ax::Sprite* sprite)
-		: ax::python::Window(sprite->GetWindow())
-		, _sprite(sprite)
+	Knob::Knob(ax::Knob* knob)
+		: ax::python::Window(knob->GetWindow())
+		, _knob(knob)
 	{
 	}
 
-	void Sprite::SetIndex(int index)
+	double Knob::GetValue() const
 	{
-		_sprite->SetCurrentIndex(index);
+		return _knob->GetValue();
 	}
 
-	int Sprite::GetIndex() const
+	void Knob::SetValue(double value)
 	{
-		return _sprite->GetCurrentIndex();
+		_knob->SetValue(value);
 	}
 
-	void export_python_wrapper_sprite()
+	void export_python_wrapper_knob()
 	{
-		class_<ax::python::Sprite, boost::python::bases<ax::python::Window>>("Sprite", init<ax::Sprite*>())
-			.def("SetIndex", &ax::python::Sprite::SetIndex)
-			.def("GetIndex", &ax::python::Sprite::GetIndex);
+		class_<ax::python::Knob, boost::python::bases<ax::python::Window>>("Knob", init<ax::Knob*>())
+			.def("SetValue", &ax::python::Knob::SetValue)
+			.def("GetValue", &ax::python::Knob::GetValue);
 	}
 }
 }

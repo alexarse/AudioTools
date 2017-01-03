@@ -13,6 +13,7 @@
 
 #include <axlib/Panel.hpp>
 #include <axlib/WidgetLoader.hpp>
+#include <fst/print.h>
 
 namespace at {
 namespace editor {
@@ -37,7 +38,8 @@ namespace editor {
 
 		if (_main_window->_gridWindow->GetMainWindow() == nullptr) {
 			_main_window->_left_menu->SetOnlyMainWindowWidgetSelectable();
-			_main_window->GetWindow()->PushEvent(MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(false));
+			_main_window->GetWindow()->PushEvent(
+				MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(false));
 		}
 	}
 
@@ -63,7 +65,8 @@ namespace editor {
 
 		if (_main_window->_gridWindow->GetMainWindow() == nullptr) {
 			_main_window->_left_menu->SetOnlyMainWindowWidgetSelectable();
-			_main_window->GetWindow()->PushEvent(MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(false));
+			_main_window->GetWindow()->PushEvent(
+				MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(false));
 		}
 	}
 
@@ -84,6 +87,8 @@ namespace editor {
 
 		ax::widget::Loader* loader = ax::widget::Loader::GetInstance();
 		ax::widget::Builder* builder = loader->GetBuilder(builder_name);
+
+		fst::print(ptrace, "Builder name :", builder_name);
 
 		if (builder == nullptr) {
 			ax::console::Error("Builder", builder_name, "doesn't exist.");
@@ -168,7 +173,8 @@ namespace editor {
 			}
 
 			_main_window->_left_menu->SetAllSelectable();
-			_main_window->GetWindow()->PushEvent(MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(true));
+			_main_window->GetWindow()->PushEvent(
+				MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(true));
 
 			if (widget_win->GetId() != main_window->GetId()) {
 				bool inside_main_window = main_window->dimension.GetAbsoluteRect().IsPointInside(pos);

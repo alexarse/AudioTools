@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- 
+
 #include "project/atProjectFile.hpp"
 #include <axlib/FileSystem.hpp>
 #include <axlib/Util.hpp>

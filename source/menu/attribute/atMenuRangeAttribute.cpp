@@ -22,7 +22,7 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#include "menu/attribute/atMenuPointAttribute.hpp"
+#include "menu/attribute/atMenuRangeAttribute.hpp"
 #include <axlib/Button.hpp>
 #include <axlib/ColorPicker.hpp>
 #include <axlib/Label.hpp>
@@ -33,13 +33,13 @@
 
 namespace at {
 namespace inspector {
-	PointAttribute::PointAttribute(
+	RangeAttribute::RangeAttribute(
 		const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct)
 		: _name(name)
 		, _font("fonts/Lato.ttf")
 	{
 		win = ax::Window::Create(rect);
-		win->event.OnPaint = ax::WBind<ax::GC>(this, &PointAttribute::OnPaint);
+		win->event.OnPaint = ax::WBind<ax::GC>(this, &RangeAttribute::OnPaint);
 
 		if (fct) {
 			win->AddConnection(Events::ASSIGN_VALUE, fct);
@@ -92,34 +92,34 @@ namespace inspector {
 		int w_value = std::stoi(size_values[0]);
 		int h_value = std::stoi(size_values[1]);
 
-		auto w_scroll = ax::shared<ax::NumberScroll>(ax::Rect(110, 0, 60, rect.size.h + 1),
-			GetOnWidthChange(), scroll_info, w_value, ax::util::Control::Type::INTEGER,
-			ax::util::Range2D<double>(0.0, 10000.0), 1.0);
+		auto w_scroll = ax::shared<ax::NumberScroll>(ax::Rect(110, 0, 60, rect.size.h + 1), GetOnLeftChange(),
+			scroll_info, w_value, ax::util::Control::Type::INTEGER, ax::util::Range2D<double>(0.0, 10000.0),
+			1.0);
 
-		_width_scroll = w_scroll.get();
+		_left_scroll = w_scroll.get();
 		win->node.Add(w_scroll);
 
 		auto h_scroll = ax::shared<ax::NumberScroll>(ax::Rect(190, 0, 60, rect.size.h + 1),
-			GetOnHeightChange(), scroll_info, h_value, ax::util::Control::Type::INTEGER,
+			GetOnRightChange(), scroll_info, h_value, ax::util::Control::Type::INTEGER,
 			ax::util::Range2D<double>(0.0, 10000.0), 1.0);
 
-		_height_scroll = h_scroll.get();
+		_right_scroll = h_scroll.get();
 		win->node.Add(h_scroll);
 	}
 
-	void PointAttribute::OnWidthChange(const ax::NumberScroll::Msg& msg)
+	void RangeAttribute::OnLeftChange(const ax::NumberScroll::Msg& msg)
 	{
 		std::string w_str = std::to_string((int)msg.GetValue());
-		std::string h_str = std::to_string((int)_height_scroll->GetValue());
+		std::string h_str = std::to_string((int)_right_scroll->GetValue());
 		std::string out_str(w_str + ", " + h_str);
 
 		win->PushEvent(Events::ASSIGN_VALUE, new ax::event::SimpleMsg<std::pair<std::string, std::string>>(
 												 std::pair<std::string, std::string>(_name, out_str)));
 	}
 
-	void PointAttribute::OnHeightChange(const ax::NumberScroll::Msg& msg)
+	void RangeAttribute::OnRightChange(const ax::NumberScroll::Msg& msg)
 	{
-		std::string w_str = std::to_string((int)_width_scroll->GetValue());
+		std::string w_str = std::to_string((int)_left_scroll->GetValue());
 		std::string h_str = std::to_string((int)msg.GetValue());
 		std::string out_str(w_str + ", " + h_str);
 
@@ -127,7 +127,7 @@ namespace inspector {
 												 std::pair<std::string, std::string>(_name, out_str)));
 	}
 
-	void PointAttribute::OnPaint(ax::GC gc)
+	void RangeAttribute::OnPaint(ax::GC gc)
 	{
 		const ax::Rect rect(win->dimension.GetDrawingRect());
 
@@ -135,9 +135,9 @@ namespace inspector {
 		gc.DrawRectangle(rect);
 
 		gc.SetColor(ax::Color(0.0));
-		gc.DrawString(_font, "x :", ax::Point(93, 3));
+		gc.DrawString(_font, "l :", ax::Point(93, 3));
 
-		gc.DrawString(_font, "y :", ax::Point(175, 3));
+		gc.DrawString(_font, "r :", ax::Point(175, 3));
 
 		gc.SetColor(ax::Color(0.88));
 		gc.DrawRectangleContour(ax::Rect(rect.position, ax::Size(rect.size.w, rect.size.h + 1)));

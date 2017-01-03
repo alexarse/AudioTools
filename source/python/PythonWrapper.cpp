@@ -26,6 +26,8 @@
 #include "editor/atEditor.hpp"
 #include "editor/atEditorMainWindow.hpp"
 #include "python/ButtonPyWrapper.hpp"
+#include "python/KnobPyWrapper.hpp"
+#include "python/NumberBoxPyWrapper.hpp"
 #include "python/PanelPyWrapper.hpp"
 #include "python/SpritePyWrapper.hpp"
 #include "python/WindowPyWrapper.hpp"
@@ -42,8 +44,12 @@ BOOST_PYTHON_MODULE(ax)
 
 	// Create ax::Button python wrapper.
 	ax::python::export_python_wrapper_button();
-	
+
 	ax::python::export_python_wrapper_sprite();
+
+	ax::python::export_python_wrapper_number_box();
+
+	ax::python::export_python_wrapper_knob();
 
 	boost::python::class_<ax::python::Widgets>("Widgets").def("Get", &ax::python::Widgets::Get);
 }
@@ -78,6 +84,8 @@ namespace python {
 
 		const std::string builder_name(widget->GetBuilderName());
 
+		/// @todo Do this dynamically.
+
 		if (builder_name == "Panel") {
 			ax::Panel* panel = static_cast<ax::Panel*>(win->backbone.get());
 			return boost::python::object(ax::python::Panel(panel));
@@ -85,6 +93,14 @@ namespace python {
 		else if (builder_name == "Button") {
 			ax::Button* btn = static_cast<ax::Button*>(win->backbone.get());
 			return boost::python::object(ax::python::Button(btn));
+		}
+		else if (builder_name == "NumberBox") {
+			ax::NumberBox* nbox = static_cast<ax::NumberBox*>(win->backbone.get());
+			return boost::python::object(ax::python::NumberBox(nbox));
+		}
+		else if (builder_name == "Knob") {
+			ax::Knob* knob = static_cast<ax::Knob*>(win->backbone.get());
+			return boost::python::object(ax::python::Knob(knob));
 		}
 		else if (builder_name == "Sprite") {
 			ax::Sprite* sprite = static_cast<ax::Sprite*>(win->backbone.get());

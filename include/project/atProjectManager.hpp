@@ -21,7 +21,7 @@
  *
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
- #pragma once
+#pragma once
 
 #include "project/atProjectFile.hpp"
 #include <axlib/Util.hpp>

@@ -157,11 +157,13 @@ namespace editor {
 		// Check if layout has a MainWindow panel.ed
 		if (_main_window->_gridWindow->GetMainWindow() == nullptr) {
 			_main_window->_left_menu->SetOnlyMainWindowWidgetSelectable();
-			_main_window->GetWindow()->PushEvent(MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(false));
+			_main_window->GetWindow()->PushEvent(
+				MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(false));
 		}
 		else {
 			_main_window->_left_menu->SetAllSelectable();
-			_main_window->GetWindow()->PushEvent(MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(true));
+			_main_window->GetWindow()->PushEvent(
+				MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(true));
 		}
 	}
 
@@ -258,11 +260,13 @@ namespace editor {
 		// Check if layout has a MainWindow panel.
 		if (_main_window->_gridWindow->GetMainWindow() == nullptr) {
 			_main_window->_left_menu->SetOnlyMainWindowWidgetSelectable();
-			_main_window->GetWindow()->PushEvent(MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(false));
+			_main_window->GetWindow()->PushEvent(
+				MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(false));
 		}
 		else {
 			_main_window->_left_menu->SetAllSelectable();
-			_main_window->GetWindow()->PushEvent(MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(true));
+			_main_window->GetWindow()->PushEvent(
+				MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(true));
 		}
 	}
 }

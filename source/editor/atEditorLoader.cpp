@@ -604,20 +604,20 @@ namespace editor {
 		std::string fct_call = fct_name + "();\n";
 		PyoAudio::GetInstance()->ProcessString(fct_call);
 	}
-	
+
 	void PythonCallString(const std::string& fct_name, const std::string& msg)
 	{
-		std::string fct_call = fct_name + "('" +  msg + "');\n";
+		std::string fct_call = fct_name + "('" + msg + "');\n";
 		PyoAudio::GetInstance()->ProcessString(fct_call);
 	}
-	
+
 	void PythonCallInt(const std::string& fct_name, int value)
 	{
 		std::string fct_call = fct_name + "(";
 		fct_call += std::to_string(value) + ");\n";
 		PyoAudio::GetInstance()->ProcessString(fct_call);
 	}
-	
+
 	void PythonCallReal(const std::string& fct_name, double value)
 	{
 		std::string fct_call = fct_name + "(";
@@ -697,14 +697,14 @@ namespace editor {
 			}
 		}));
 	}
-	
+
 	void Loader::SetupNumberBoxPyoEvent(ax::Window* win)
 	{
 		win->AddConnection(0, ax::event::Function([win](ax::event::Msg* msg) {
 			if (win->component.Has("pyo")) {
 				pyo::Component::Ptr comp = win->component.Get<pyo::Component>("pyo");
 				const std::string fct_name = comp->GetFunctionName();
-				
+
 				if (!fct_name.empty()) {
 					ax::NumberBox::Msg* kmsg = static_cast<ax::NumberBox::Msg*>(msg);
 					PythonCallReal(fct_name, kmsg->GetValue());

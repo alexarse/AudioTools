@@ -22,33 +22,30 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef atMenuSizeAttribute_hpp
-#define atMenuSizeAttribute_hpp
+#pragma once
 
 #include <axlib/NumberScroll.hpp>
 #include <axlib/axlib.hpp>
 
 namespace at {
 namespace inspector {
-	class SizeAttribute : public ax::Window::Backbone {
+	class RangeAttribute : public ax::Window::Backbone {
 	public:
 		enum Events : ax::event::Id { ASSIGN_VALUE };
 
-		SizeAttribute(
+		RangeAttribute(
 			const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct);
 
 	private:
 		std::string _name;
 		ax::Font _font;
-		ax::NumberScroll* _width_scroll;
-		ax::NumberScroll* _height_scroll;
+		ax::NumberScroll* _left_scroll;
+		ax::NumberScroll* _right_scroll;
 
-		axEVENT_DECLARATION(ax::NumberScroll::Msg, OnWidthChange);
-		axEVENT_DECLARATION(ax::NumberScroll::Msg, OnHeightChange);
+		axEVENT_DECLARATION(ax::NumberScroll::Msg, OnLeftChange);
+		axEVENT_DECLARATION(ax::NumberScroll::Msg, OnRightChange);
 
 		void OnPaint(ax::GC gc);
 	};
 }
 }
-
-#endif /* atMenuSizeAttribute_hpp */

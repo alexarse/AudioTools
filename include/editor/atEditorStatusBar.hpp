@@ -60,7 +60,7 @@ namespace editor {
 			_layout_file_path = path;
 			win->Update();
 		}
-		
+
 		axEVENT_DECLARATION(ax::event::SimpleMsg<bool>, OnHasWidgetOnGrid);
 
 	private:
@@ -72,6 +72,7 @@ namespace editor {
 		at::VolumeMeter* _volumeMeterRight;
 		ColorButton* _save_btn;
 		ColorButton* _view_app_btn;
+		ColorButton* _play_btn;
 		std::string _layout_file_path;
 		//		at::MidiFeedback* _midi_feedback;
 

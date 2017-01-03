@@ -22,37 +22,27 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#include "python/SpritePyWrapper.hpp"
-#include <Python/Python.h>
-#include <boost/python.hpp>
-#include <cstdio>
+#pragma once
 
-using namespace boost::python;
+#include "python/WindowPyWrapper.hpp"
+#include <axlib/NumberBox.hpp>
+#include <axlib/axlib.hpp>
 
 namespace ax {
 namespace python {
 
-	Sprite::Sprite(ax::Sprite* sprite)
-		: ax::python::Window(sprite->GetWindow())
-		, _sprite(sprite)
-	{
-	}
+	class NumberBox : public ax::python::Window {
+	public:
+		NumberBox(ax::NumberBox* nbox);
 
-	void Sprite::SetIndex(int index)
-	{
-		_sprite->SetCurrentIndex(index);
-	}
+		double GetValue() const;
 
-	int Sprite::GetIndex() const
-	{
-		return _sprite->GetCurrentIndex();
-	}
+		void SetValue(double value);
 
-	void export_python_wrapper_sprite()
-	{
-		class_<ax::python::Sprite, boost::python::bases<ax::python::Window>>("Sprite", init<ax::Sprite*>())
-			.def("SetIndex", &ax::python::Sprite::SetIndex)
-			.def("GetIndex", &ax::python::Sprite::GetIndex);
-	}
+	private:
+		ax::NumberBox* _number_box;
+	};
+
+	void export_python_wrapper_number_box();
 }
 }
