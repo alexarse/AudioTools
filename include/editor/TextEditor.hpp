@@ -22,8 +22,7 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef __TEXT_EDITOR_H__
-#define __TEXT_EDITOR_H__
+#pragma once
 
 #include <axlib/ScrollBar.hpp>
 #include <axlib/Timer.hpp>
@@ -130,10 +129,11 @@ private:
 	void OnMouseEnter(const ax::Point& mouse);
 
 	void OnMouseLeftDown(const ax::Point& mouse);
+	void OnMouseLeftDoubleClick(const ax::Point& mouse);
 
 	void OnMouseLeftUp(const ax::Point& mouse);
 
 	void OnPaint(ax::GC gc);
-};
 
-#endif // __TEXT_EDITOR_H__
+	ax::Point GetCursorPositionFromMousePos(const ax::Point& m_pos);
+};

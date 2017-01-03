@@ -38,17 +38,18 @@ namespace editor {
 		axEVENT_DECLARATION(ax::event::SimpleMsg<ax::Window*>, OnSelectWidget);
 		axEVENT_DECLARATION(ax::event::SimpleMsg<int>, OnUnSelectAllWidget);
 		axEVENT_DECLARATION(ax::event::SimpleMsg<std::vector<ax::Window*>>, OnSelectMultipleWidget);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnWidgetAddedOrRemoved);
 
 	private:
 		ax::Font _font;
 		ax::Font _font_bold;
+		bool _has_objects = false;
 
 		ax::Window* _panel;
 		ax::ScrollBar* _scroll_bar;
 		bool _has_grid_window_connection = false;
 
 		void OnResize(const ax::Size& size);
-		void OnMouseLeftDown(const ax::Point& pos);
 		void OnPaint(ax::GC gc);
 	};
 }

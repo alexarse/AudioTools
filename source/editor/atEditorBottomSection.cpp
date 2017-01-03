@@ -77,6 +77,7 @@ namespace editor {
 		btn_info.contour = ax::Color(0.0, 0.0);
 		btn_info.font_color = ax::Color(0.0, 0.0);
 
+		// Text editor button.
 		auto txt_btn = ax::shared<at::ColorButton>(ax::Rect(5, 2, 20, 20), GetOnTextEditor(), btn_info,
 			"resources/txt_btn.png", "", ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
 		_txt_btn = txt_btn.get();
@@ -87,6 +88,7 @@ namespace editor {
 
 		ax::Point pos = _txt_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
+		// Console button.
 		auto console_btn = ax::shared<at::ColorButton>(ax::Rect(pos, ax::Size(20, 20)), GetOnConsole(),
 			btn_info, "resources/console_btn.png", "",
 			ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
@@ -94,6 +96,16 @@ namespace editor {
 		win->node.Add(console_btn);
 
 		AttachHelpInfo(console_btn->GetWindow(), "Switch to console.");
+
+		// Clean up console.
+		auto console_clean_btn = ax::shared<at::ColorButton>(
+			ax::Rect(ax::Point(rect.size.w - 25, 2), ax::Size(20, 20)), GetOnConsoleClean(), btn_info,
+			"resources/rubbish.png", "", ax::Button::Flags::SINGLE_IMG | ax::Button::Flags::IMG_RESIZE);
+		_console_clean_btn = console_clean_btn.get();
+		win->node.Add(console_clean_btn);
+
+		AttachHelpInfo(console_clean_btn->GetWindow(), "Erase console content.");
+		_console_clean_btn->GetWindow()->Hide();
 	}
 
 	bool BottomSection::OpenFile(const std::string& path)
@@ -118,6 +130,7 @@ namespace editor {
 	{
 		_txt_editor->GetWindow()->Show();
 		_console->GetWindow()->Hide();
+		_console_clean_btn->GetWindow()->Hide();
 
 		if (!_is_txt_edit) {
 			_is_txt_edit = true;
@@ -130,6 +143,7 @@ namespace editor {
 	void BottomSection::OnConsole(const ax::Button::Msg& msg)
 	{
 		_console->GetWindow()->Show();
+		_console_clean_btn->GetWindow()->Show();
 		_txt_editor->GetWindow()->Hide();
 
 		if (_is_txt_edit) {
@@ -140,9 +154,15 @@ namespace editor {
 		}
 	}
 
+	void BottomSection::OnConsoleClean(const ax::Button::Msg& msg)
+	{
+		_console->Clear();
+	}
+
 	void BottomSection::OnConsoleErrorUpdate(const ax::event::EmptyMsg& msg)
 	{
 		_console->GetWindow()->Show();
+		_console_clean_btn->GetWindow()->Show();
 		_txt_editor->GetWindow()->Hide();
 
 		if (_is_txt_edit) {
@@ -319,9 +339,6 @@ namespace editor {
 		else {
 			gc.DrawStringAlignedCenter(_font, "Console", top_bar_rect);
 		}
-
-		//		gc.SetColor(ax::Color(0.6));
-		//		gc.DrawRectangleContour(rect);
 	}
 }
 }

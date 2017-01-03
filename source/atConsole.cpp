@@ -72,6 +72,16 @@ Console::Console(const ax::Rect& rect)
 	_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 }
 
+void Console::Clear()
+{
+	_lines.clear();
+	_scrollBar->SetZeroToOneValue(0.0);
+	_panel->dimension.SetSizeNoShowRect(ax::Size(win->dimension.GetSize()));
+	_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
+	_txt_panel->Update();
+	_panel->Update();
+}
+
 void Console::OnConsoleUpdate(const ax::event::StringMsg& msg)
 {
 	std::vector<std::string> lines = ax::util::String::Split(msg.GetMsg(), "\n");
@@ -92,14 +102,12 @@ void Console::OnConsoleUpdate(const ax::event::StringMsg& msg)
 	int panel_height = 10 + int(_lines.size()) * 15;
 	_txt_panel->dimension.SetSize(ax::Size(_panel->dimension.GetSize().w, panel_height));
 	_panel->dimension.SetSizeNoShowRect(ax::Size(_panel->dimension.GetSize().w, panel_height));
-	//	ax::console::Print("Panel height", panel_height);
-
 	_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 
 	if (_txt_panel->dimension.GetSize().h > _panel->dimension.GetShownRect().size.h) {
 		_scrollBar->SetZeroToOneValue(1.0);
 	}
-	//	_panel->Update();
+
 	_txt_panel->Update();
 }
 
@@ -122,14 +130,13 @@ void Console::OnConsoleErrorUpdate(const ax::event::StringMsg& msg)
 	int panel_height = 10 + int(_lines.size()) * 15;
 	_txt_panel->dimension.SetSize(ax::Size(_panel->dimension.GetSize().w, panel_height));
 	_panel->dimension.SetSizeNoShowRect(ax::Size(_panel->dimension.GetSize().w, panel_height));
-	//	ax::console::Print("Panel height", panel_height);
 
 	_scrollBar->UpdateWindowSize(_panel->dimension.GetSize());
 
 	if (_txt_panel->dimension.GetSize().h > _panel->dimension.GetShownRect().size.h) {
 		_scrollBar->SetZeroToOneValue(1.0);
 	}
-	//	_panel->Update();
+
 	_txt_panel->Update();
 }
 

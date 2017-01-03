@@ -84,7 +84,6 @@ namespace editor {
 			// Start loading thread (audio and data).
 			_loading_thread = std::thread(
 				[](ax::event::Object& obj) {
-
 					using MsgType = ax::event::SimpleMsg<at::SplashDialog::LoadInfoMsg>;
 					obj.PushEvent(Events::LOADING_EVT_ID,
 						new MsgType(at::SplashDialog::LoadInfoMsg(0.2, "Loading audio ...")));
@@ -97,7 +96,7 @@ namespace editor {
 						new MsgType(at::SplashDialog::LoadInfoMsg(0.7, "Load midi ...")));
 
 					/// @todo Save this somewhere.
-					//					at::Midi* midi = at::Midi::GetInstance();
+					// at::Midi* midi = at::Midi::GetInstance();
 					at::Midi::GetInstance();
 
 					obj.PushEvent(

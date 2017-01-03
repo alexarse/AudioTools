@@ -42,6 +42,8 @@ public:
 
 	enum Events : ax::event::Id { WRITE_ERROR };
 
+	void Clear();
+
 private:
 	ax::Font _font;
 

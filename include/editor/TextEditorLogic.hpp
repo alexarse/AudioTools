@@ -22,8 +22,7 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef __TEXT_EDITOR_LOGIC_H__
-#define __TEXT_EDITOR_LOGIC_H__
+#pragma once
 
 #include <axlib/ScrollBar.hpp>
 #include <axlib/Timer.hpp>
@@ -71,5 +70,3 @@ private:
 	ax::Point _cursor_pos;
 	std::vector<std::string> _file_data;
 };
-
-#endif // __TEXT_EDITOR_LOGIC_H__

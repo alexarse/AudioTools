@@ -59,6 +59,7 @@ namespace editor {
 		bool _is_txt_edit;
 		at::ColorButton* _console_btn;
 		at::ColorButton* _txt_btn;
+		at::ColorButton* _console_clean_btn;
 
 		TextEditor* _txt_editor;
 		Console* _console;
@@ -68,6 +69,7 @@ namespace editor {
 
 		axEVENT_DECLARATION(ax::Button::Msg, OnTextEditor);
 		axEVENT_DECLARATION(ax::Button::Msg, OnConsole);
+		axEVENT_DECLARATION(ax::Button::Msg, OnConsoleClean);
 
 		axEVENT_DECLARATION(ax::event::EmptyMsg, OnConsoleErrorUpdate);
 

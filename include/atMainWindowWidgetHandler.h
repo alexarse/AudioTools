@@ -31,9 +31,7 @@ namespace editor {
 		axEVENT_DECLARATION(ax::event::SimpleMsg<int>, OnUnSelectAllWidget);
 		axEVENT_DECLARATION(ax::event::EmptyMsg, OnDeleteSelectedWidget);
 		axEVENT_DECLARATION(ax::event::EmptyMsg, OnDuplicateSelectedWidget);
-
 		axEVENT_DECLARATION(ax::event::SimpleMsg<ax::util::Direction>, OnArrowMoveSelectedWidget);
-
 		axEVENT_DECLARATION(ax::event::SimpleMsg<std::vector<ax::Window*>>, OnSelectMultipleWidget);
 
 	private:

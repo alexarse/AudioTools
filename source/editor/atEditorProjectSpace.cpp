@@ -168,7 +168,6 @@ namespace editor {
 		win = ax::Window::Create(rect);
 		win->event.OnPaint = ax::WBind<ax::GC>(this, &ProjectSpace::OnPaint);
 		win->event.OnResize = ax::WBind<ax::Size>(this, &ProjectSpace::OnResize);
-		win->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &ProjectSpace::OnMouseLeftDown);
 
 		// Create scrolling window.
 		_panel = ax::Window::Create(ax::Rect(0, 0, rect.size.w, rect.size.h));
@@ -201,13 +200,17 @@ namespace editor {
 	{
 		if (_has_grid_window_connection == false) {
 			_has_grid_window_connection = true;
-			editor::App* app = editor::App::GetInstance();
-			editor::MainWindow* main_win = app->GetMainWindow();
-			editor::GridWindow* grid_win = main_win->GetGridWindow();
-			grid_win->GetWindow()->AddConnection(GridWindow::SELECT_WIDGET, GetOnSelectWidget());
-			grid_win->GetWindow()->AddConnection(GridWindow::UNSELECT_ALL, GetOnUnSelectAllWidget());
-			grid_win->GetWindow()->AddConnection(
-				GridWindow::SELECT_MULTIPLE_WIDGET, GetOnSelectMultipleWidget());
+
+			ax::Window* gw = editor::App::GetInstance()->GetMainWindow()->GetGridWindow()->GetWindow();
+			gw->AddConnection(GridWindow::SELECT_WIDGET, GetOnSelectWidget());
+			gw->AddConnection(GridWindow::UNSELECT_ALL, GetOnUnSelectAllWidget());
+			gw->AddConnection(GridWindow::SELECT_MULTIPLE_WIDGET, GetOnSelectMultipleWidget());
+			gw->AddConnection(GridWindow::DELETE_SELECTED_WIDGET, GetOnWidgetAddedOrRemoved());
+			gw->AddConnection(GridWindow::DUPLICATE_SELECTED_WIDGET, GetOnWidgetAddedOrRemoved());
+			gw->AddConnection(
+				GridWindow::DELETE_SELECTED_WIDGET_FROM_RIGHT_CLICK, GetOnWidgetAddedOrRemoved());
+			gw->AddConnection(
+				GridWindow::DUPLICATE_SELECTED_WIDGET_FROM_RIGHT_CLICK, GetOnWidgetAddedOrRemoved());
 		}
 
 		// Remove all children.
@@ -220,6 +223,8 @@ namespace editor {
 		ax::Window* main_widget = grid_win->GetMainWindow();
 
 		if (main_widget == nullptr) {
+			_has_objects = false;
+			win->Update();
 			return;
 		}
 
@@ -233,6 +238,8 @@ namespace editor {
 		_scroll_bar->UpdateWindowSize(_panel->dimension.GetSize());
 
 		SetSelectedWidgets(editor::App::GetInstance()->GetMainWindow()->GetSelectedWindows());
+		_has_objects = true;
+		win->Update();
 	}
 
 	void ProjectSpace::UnSelectAll()
@@ -270,6 +277,13 @@ namespace editor {
 		SetSelectedWidgets(msg.GetMsg());
 	}
 
+	void ProjectSpace::OnWidgetAddedOrRemoved(const ax::event::EmptyMsg& msg)
+	{
+		if (win->IsShown()) {
+			UpdateTree();
+		}
+	}
+
 	void PrintWidgetName(ax::Window* w)
 	{
 		if (w == nullptr) {
@@ -292,33 +306,6 @@ namespace editor {
 		_scroll_bar->UpdateWindowSize(_panel->dimension.GetSize());
 	}
 
-	void ProjectSpace::OnMouseLeftDown(const ax::Point& pos)
-	{
-		//		ax::console::Print("Project space mouse left down.");
-		//		CreateTree();
-		//		ax::console::Print("Project space mouse left down.");
-		//		editor::App* app = editor::App::GetInstance();
-		//		editor::MainWindow* main_win = app->GetMainWindow();
-		//		editor::GridWindow* grid_win = main_win->GetGridWindow();
-		//
-		//		ax::Window* main_widget = grid_win->GetMainWindow();
-		//
-		//		if(main_widget == nullptr) {
-		//			ax::console::Print("No widget.");
-		//			return;
-		//		}
-		//
-		//		ax::console::Print("Has widget.");
-		//
-		//		PrintWidgetName(main_widget);
-		//
-		//		std::vector<std::shared_ptr<ax::Window>>& children = main_widget->node.GetChildren();
-		//
-		//		for(auto n : children) {
-		//			PrintWidgetName(n.get());
-		//		}
-	}
-
 	void ProjectSpace::OnPaint(ax::GC gc)
 	{
 		const ax::Rect rect(win->dimension.GetDrawingRect());
@@ -326,8 +313,10 @@ namespace editor {
 		gc.SetColor(ax::Color(1.0));
 		gc.DrawRectangle(rect);
 
-		gc.SetColor(ax::Color(0.3));
-		gc.DrawString(_font_bold, "Project space not implemented yet.", ax::Point(15, 20));
+		if (!_has_objects) {
+			gc.SetColor(ax::Color(0.3));
+			gc.DrawString(_font_bold, "No widget on grid.", ax::Point(15, 20));
+		}
 
 		gc.SetColor(ax::Color(0.7));
 		gc.DrawRectangleContour(rect);
