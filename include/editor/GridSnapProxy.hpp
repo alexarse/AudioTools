@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 AudioTools - All Rights Reserved
+ * Copyright (c) 2017 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
  * without prior written agreement by AudioTools.
@@ -24,37 +24,26 @@
 
 #pragma once
 
-#include <axlib/Button.hpp>
+#include <axlib/axlib.hpp>
 
 namespace at {
-class ColorButton : public ax::Button {
-public:
-	ColorButton(const ax::Rect& rect, const ax::Button::Events& events, const ax::Button::Info& info,
-		std::string img_path = "", std::string label = "", ax::util::Flag flags = 0, std::string msg = "");
+namespace editor {
+	class GridWindow;
 
-	inline void SetSelected(bool sel)
-	{
-		if (_selected != sel) {
-			_selected = sel;
-			win->Update();
-		}
-	}
+	class GridSnapProxy {
+	public:
+		GridSnapProxy(GridWindow* gwin);
 
-	inline bool IsSelected() const
-	{
-		return _selected;
-	}
+		int GetGridSpace() const;
 
-	inline void SetColor(const ax::Color& color)
-	{
-		_color = color;
-		win->Update();
-	}
+		bool IsSnapActive() const;
 
-private:
-	bool _selected = false;
-	ax::Color _color = ax::Color(250, 172, 0);
+		void SetSnap(bool active);
 
-	void OnCustomPaint(ax::GC gc);
-};
+		ax::Point FindClosestPosition(const ax::Point& pos) const;
+
+	private:
+		GridWindow* _gwin;
+	};
+}
 }

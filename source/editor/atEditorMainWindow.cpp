@@ -329,6 +329,10 @@ namespace editor {
 		_widget_handler.OnDuplicateSelectedWidget(msg);
 	}
 
+	void MainWindow::OnSnapToGridWidgetFromRightClickMenu(const ax::event::EmptyMsg& msg)
+	{
+	}
+
 	void MainWindow::OnHelpBar(const ax::event::StringMsg& msg)
 	{
 		_help_bar_str = msg.GetMsg();

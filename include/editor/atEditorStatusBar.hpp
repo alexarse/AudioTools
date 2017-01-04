@@ -86,6 +86,7 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Button::Msg, OnReload);
 		axEVENT_DECLARATION(ax::Button::Msg, OnStop);
 
+		axEVENT_DECLARATION(ax::Button::Msg, OnSnapToGrid);
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleLeftPanel);
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleBottomPanel);
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleRightPanel);

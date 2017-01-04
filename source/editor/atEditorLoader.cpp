@@ -475,10 +475,20 @@ namespace editor {
 	}
 
 	void Loader::AssignOnMouseLeftDragging(
-		ax::Window* gwin, ax::Window* win, std::function<void(ax::Point)> fct, const ax::Point& pos)
+		ax::Window* gwin, ax::Window* win, std::function<void(ax::Point)> fct, const ax::Point& position)
 	{
 		// Editing.
 		if (win->property.HasProperty("edit_click")) {
+			ax::Point pos = position;
+
+			at::editor::GridSnapProxy gsp
+				= at::editor::App::GetInstance()->GetMainWindow()->GetGridSnapProxy();
+
+			if (gsp.IsSnapActive()) {
+				const ax::Point gw_abs_pos(gwin->dimension.GetAbsoluteRect().position);
+				pos = gsp.FindClosestPosition(pos - gw_abs_pos) + gw_abs_pos;
+			}
+
 			if (win->event.IsGrabbed()) {
 
 				ax::Point c_delta = win->resource.GetResource("click_delta");
@@ -595,8 +605,16 @@ namespace editor {
 				}
 				// Moving widget.
 				else {
-					win->dimension.SetPosition(
-						pos - win->node.GetParent()->dimension.GetAbsoluteRect().position - c_delta);
+					ax::Point w_position
+						= position - win->node.GetParent()->dimension.GetAbsoluteRect().position - c_delta;
+
+					if (gsp.IsSnapActive()) {
+						const ax::Point gw_abs_pos(gwin->dimension.GetAbsoluteRect().position);
+						w_position = gsp.FindClosestPosition(position - c_delta - gw_abs_pos) + gw_abs_pos
+							- win->node.GetParent()->dimension.GetAbsoluteRect().position;
+					}
+
+					win->dimension.SetPosition(w_position);
 
 					if (!win->property.HasProperty("first_time_dragging")) {
 						win->property.AddProperty("first_time_dragging");
@@ -607,17 +625,13 @@ namespace editor {
 						gwin->PushEvent(at::editor::GridWindow::DRAGGING_WIDGET, new ax::event::EmptyMsg());
 					}
 				}
-
-				/// @todo Don't send this at every mouse move.
-				// gwin->PushEvent(at::editor::GridWindow::BEGIN_DRAGGING_WIDGET, new
-				// ax::event::EmptyMsg());
 			}
 		}
 
-		// Call widget callback.
 		else {
+			// Call widget callback.
 			if (fct) {
-				fct(pos);
+				fct(position);
 			}
 		}
 	}

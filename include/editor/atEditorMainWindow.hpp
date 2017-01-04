@@ -38,6 +38,7 @@
 #include "atMainWindowProjectHandler.h"
 #include "atMainWindowViewHandler.h"
 #include "atMainWindowWidgetHandler.h"
+#include "editor/GridSnapProxy.hpp"
 
 class CodeEditor;
 
@@ -59,9 +60,14 @@ namespace editor {
 
 		enum MainWindowEvents : ax::event::Id { HAS_WIDGET_ON_GRID = 38923 };
 
-		GridWindow* GetGridWindow()
+		inline GridWindow* GetGridWindow()
 		{
 			return _gridWindow.get();
+		}
+
+		GridSnapProxy GetGridSnapProxy() const
+		{
+			return GridSnapProxy(_gridWindow.get());
 		}
 
 	private:
@@ -101,6 +107,7 @@ namespace editor {
 
 		axEVENT_DECLARATION(ax::event::EmptyMsg, OnRemoveWidgetFromRightClickMenu);
 		axEVENT_DECLARATION(ax::event::EmptyMsg, OnDuplicateWidgetFromRightClickMenu);
+		axEVENT_DECLARATION(ax::event::EmptyMsg, OnSnapToGridWidgetFromRightClickMenu);
 
 		axEVENT_DECLARATION(ax::event::StringMsg, OnHelpBar);
 

@@ -29,10 +29,15 @@
 
 namespace at {
 namespace editor {
+	class GridSnapProxy;
+
 	/*
 	 * GridWindow.
 	 */
 	class GridWindow : public ax::Window::Backbone {
+	private:
+		friend class GridSnapProxy;
+
 	public:
 		GridWindow(const ax::Rect& rect);
 
@@ -78,8 +83,10 @@ namespace editor {
 		ax::Color _bg_color;
 		bool _right_click_menu;
 		bool _draw_grid_over_children;
+		bool _is_snap_active = false;
 
-		std::vector<ax::FPoint> _lines_array;
+		std::vector<ax::FPoint> _horizontal_lines_array;
+		std::vector<ax::FPoint> _vertical_lines_array;
 
 		axEVENT_DECLARATION(ax::event::SimpleMsg<PosAndWindow>, OnDropWidgetMenu);
 		axEVENT_DECLARATION(ax::DropMenu::Msg, OnMenuChoice);

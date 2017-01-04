@@ -198,10 +198,24 @@ namespace editor {
 	{
 		if (_has_tmp_widget) {
 			ax::Point pos(msg.GetMsg());
+
 			std::shared_ptr<ax::Window> wobj
 				= ax::App::GetInstance().GetPopupManager()->GetWindowTree()->GetTopLevel();
 
 			if (wobj) {
+
+				at::editor::GridSnapProxy gsp
+					= at::editor::App::GetInstance()->GetMainWindow()->GetGridSnapProxy();
+
+				if (gsp.IsSnapActive()) {
+					auto gw = at::editor::App::GetInstance()->GetMainWindow()->GetGridWindow()->GetWindow();
+					const ax::Point gw_abs_pos(gw->dimension.GetAbsoluteRect().position);
+
+					if (gw->dimension.GetAbsoluteRect().IsPointInside(pos)) {
+						pos = gsp.FindClosestPosition(pos - gw_abs_pos) + gw_abs_pos;
+					}
+				}
+
 				wobj->dimension.SetPosition(pos);
 			}
 		}
@@ -210,6 +224,17 @@ namespace editor {
 	void MainWindowWidgetHandler::OnReleaseObjWidget(const ax::event::SimpleMsg<ax::Point>& msg)
 	{
 		ax::Point pos(msg.GetMsg());
+
+		at::editor::GridSnapProxy gsp = at::editor::App::GetInstance()->GetMainWindow()->GetGridSnapProxy();
+
+		if (gsp.IsSnapActive()) {
+			auto gw = at::editor::App::GetInstance()->GetMainWindow()->GetGridWindow()->GetWindow();
+			const ax::Point gw_abs_pos(gw->dimension.GetAbsoluteRect().position);
+
+			if (gw->dimension.GetAbsoluteRect().IsPointInside(pos)) {
+				pos = gsp.FindClosestPosition(pos - gw_abs_pos) + gw_abs_pos;
+			}
+		}
 
 		ax::console::Print("Release object.");
 

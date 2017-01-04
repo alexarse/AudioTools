@@ -102,11 +102,12 @@ namespace editor {
 
 		const ax::Size tog_size(25, 25);
 
-		auto snap_btn = ax::shared<ColorButton>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveLayout(), btn_info,
+		// Snap to grid button.
+		auto snap_btn = ax::shared<ColorButton>(ax::Rect(pos, ax::Size(25, 25)), GetOnSnapToGrid(), btn_info,
 			"resources/snap.png", "", ax::Button::Flags::SINGLE_IMG);
 		_snap_btn = snap_btn.get();
 		win->node.Add(snap_btn);
-		AttachHelpInfo(_snap_btn->GetWindow(), "Activate snap to grid.");
+		AttachHelpInfo(_snap_btn->GetWindow(), "Activate / Deactivate snap to grid.");
 		pos = _snap_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
 		// Left panel toggle.
@@ -276,6 +277,24 @@ namespace editor {
 		//			std::shared_ptr<ax::Window>(pref_dialog->GetWindow()));
 
 		//		pref_dialog->GetWindow()->backbone = pref_dialog;
+	}
+
+	void StatusBar::OnSnapToGrid(const ax::Button::Msg& msg)
+	{
+		if (_snap_btn->IsSelected()) {
+			// Deactivate snap to grid.
+			_snap_btn->SetSelected(false);
+			at::editor::GridSnapProxy gsp
+				= at::editor::App::GetInstance()->GetMainWindow()->GetGridSnapProxy();
+			gsp.SetSnap(false);
+		}
+		else {
+			// Activate snap to grid.
+			_snap_btn->SetSelected(true);
+			at::editor::GridSnapProxy gsp
+				= at::editor::App::GetInstance()->GetMainWindow()->GetGridSnapProxy();
+			gsp.SetSnap(true);
+		}
 	}
 
 	void StatusBar::OnToggleLeftPanel(const ax::Toggle::Msg& msg)

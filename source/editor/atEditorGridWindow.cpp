@@ -100,18 +100,19 @@ namespace editor {
 		loader->AddBuilder("Sprite", new ax::Sprite::Builder());
 
 		ax::Rect d_rect(win->dimension.GetDrawingRect());
-		_lines_array.reserve(((d_rect.size.w / _grid_space) + (d_rect.size.h / _grid_space)) * 2);
+		_horizontal_lines_array.reserve((d_rect.size.h / _grid_space) * 2);
+		_vertical_lines_array.reserve((d_rect.size.w / _grid_space) * 2);
 
 		// Vertical lines.
 		for (int x = _grid_space; x < d_rect.size.w; x += _grid_space) {
-			_lines_array.push_back(ax::FPoint(x, 0));
-			_lines_array.push_back(ax::FPoint(x, d_rect.size.h));
+			_vertical_lines_array.push_back(ax::FPoint(x, 0));
+			_vertical_lines_array.push_back(ax::FPoint(x, d_rect.size.h));
 		}
 
 		// Horizontal lines.
 		for (int y = _grid_space; y < d_rect.size.h; y += _grid_space) {
-			_lines_array.push_back(ax::FPoint(0, y));
-			_lines_array.push_back(ax::FPoint(d_rect.size.w, y));
+			_horizontal_lines_array.push_back(ax::FPoint(0, y));
+			_horizontal_lines_array.push_back(ax::FPoint(d_rect.size.w, y));
 		}
 	}
 
@@ -498,18 +499,21 @@ namespace editor {
 	void GridWindow::OnResize(const ax::Size& size)
 	{
 		ax::Rect d_rect(win->dimension.GetDrawingRect());
-		_lines_array.reserve(((d_rect.size.w / _grid_space) + (d_rect.size.h / _grid_space)) * 2);
+		_horizontal_lines_array.clear();
+		_vertical_lines_array.clear();
+		_horizontal_lines_array.reserve((d_rect.size.h / _grid_space) * 2);
+		_vertical_lines_array.reserve((d_rect.size.w / _grid_space) * 2);
 
 		// Vertical lines.
 		for (int x = _grid_space; x < d_rect.size.w; x += _grid_space) {
-			_lines_array.push_back(ax::FPoint(x, 0));
-			_lines_array.push_back(ax::FPoint(x, d_rect.size.h));
+			_vertical_lines_array.push_back(ax::FPoint(x, 0));
+			_vertical_lines_array.push_back(ax::FPoint(x, d_rect.size.h));
 		}
 
 		// Horizontal lines.
 		for (int y = _grid_space; y < d_rect.size.h; y += _grid_space) {
-			_lines_array.push_back(ax::FPoint(0, y));
-			_lines_array.push_back(ax::FPoint(d_rect.size.w, y));
+			_horizontal_lines_array.push_back(ax::FPoint(0, y));
+			_horizontal_lines_array.push_back(ax::FPoint(d_rect.size.w, y));
 		}
 	}
 
@@ -520,7 +524,8 @@ namespace editor {
 			ax::Color line_color(at::Skin::GetInstance()->data.grid_window_lines);
 			line_color.SetAlpha(0.1);
 			gc.SetColor(line_color);
-			gc.DrawLines(_lines_array);
+			gc.DrawLines(_horizontal_lines_array);
+			gc.DrawLines(_vertical_lines_array);
 		}
 
 		// Selection rectangle.
@@ -541,7 +546,8 @@ namespace editor {
 		gc.DrawRectangle(rect);
 
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_lines);
-		gc.DrawLines(_lines_array);
+		gc.DrawLines(_horizontal_lines_array);
+		gc.DrawLines(_vertical_lines_array);
 
 		// Grid contour.
 		gc.SetColor(at::Skin::GetInstance()->data.grid_window_contour);
