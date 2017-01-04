@@ -73,6 +73,7 @@ namespace editor {
 		ColorButton* _save_btn;
 		ColorButton* _view_app_btn;
 		ColorButton* _play_btn;
+		ColorButton* _snap_btn;
 		std::string _layout_file_path;
 		//		at::MidiFeedback* _midi_feedback;
 

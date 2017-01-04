@@ -55,6 +55,24 @@ namespace editor {
 		void SetupKnobPyoEvent(ax::Window* win);
 		void SetupSliderPyoEvent(ax::Window* win);
 		void SetupNumberBoxPyoEvent(ax::Window* win);
+
+		static void AssignOnMouseLeftDown(
+			ax::Window* gwin, ax::Window* win, std::function<void(ax::Point)> fct, const ax::Point& pos);
+
+		static void AssignOnMouseLeftDragging(
+			ax::Window* gwin, ax::Window* win, std::function<void(ax::Point)> fct, const ax::Point& pos);
+
+		static void AssignOnMouseLeftUp(
+			ax::Window* gwin, ax::Window* win, std::function<void(ax::Point)> fct, const ax::Point& pos);
+
+		static void AssignOnMouseMotion(
+			ax::Window* gwin, ax::Window* win, std::function<void(ax::Point)> fct, const ax::Point& pos);
+
+		static void AssignOnMouseRightDown(
+			ax::Window* gwin, ax::Window* win, std::function<void(ax::Point)> fct, const ax::Point& pos);
+
+		static void AssignOnMouseLeave(
+			ax::Window* gwin, ax::Window* win, std::function<void(ax::Point)> fct, const ax::Point& pos);
 	};
 }
 }

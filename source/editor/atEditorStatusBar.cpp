@@ -67,31 +67,47 @@ namespace editor {
 		tog_info.img = "resources/top_menu_toggle_left.png";
 		tog_info.single_img = false;
 
-		ax::Point pos(rect.size.w - 95, 2);
+		ax::Point pos(rect.size.w - 120, 2);
 
-		// Volume meter left.
-		ax::Rect volume_rect(rect.size.w - 165, 8, 50, 7);
-		auto v_meter_l = ax::shared<at::VolumeMeter>(volume_rect);
-		win->node.Add(v_meter_l);
-		_volumeMeterLeft = v_meter_l.get();
+		//		// Volume meter left.
+		//		ax::Rect volume_rect(rect.size.w - 165, 8, 50, 7);
+		//		auto v_meter_l = ax::shared<at::VolumeMeter>(volume_rect);
+		//		win->node.Add(v_meter_l);
+		//		_volumeMeterLeft = v_meter_l.get();
+		//
+		//		// Volume meter right.
+		//		volume_rect.position = volume_rect.GetNextPosDown(0);
+		//		auto v_meter_r = ax::shared<at::VolumeMeter>(volume_rect);
+		//		win->node.Add(v_meter_r);
+		//		_volumeMeterRight = v_meter_r.get();
+		//
+		//		// Connect volume meter event.
+		//		win->AddConnection(PyoAudio::Events::RMS_VALUE_CHANGE, GetOnAudioRmsValue());
+		//		PyoAudio::GetInstance()->SetConnectedObject(win);
+		//
+		//		//		auto midi_feedback
+		//		//			= ax::shared<at::MidiFeedback>(ax::Rect(volume_rect.GetNextPosRight(5),
+		// ax::Size(12,
+		//		// 12)));
+		//		//		_midi_feedback = midi_feedback.get();
+		//		//		win->node.Add(midi_feedback);
 
-		// Volume meter right.
-		volume_rect.position = volume_rect.GetNextPosDown(0);
-		auto v_meter_r = ax::shared<at::VolumeMeter>(volume_rect);
-		win->node.Add(v_meter_r);
-		_volumeMeterRight = v_meter_r.get();
-
-		// Connect volume meter event.
-		win->AddConnection(PyoAudio::Events::RMS_VALUE_CHANGE, GetOnAudioRmsValue());
-		PyoAudio::GetInstance()->SetConnectedObject(win);
-
-		//		auto midi_feedback
-		//			= ax::shared<at::MidiFeedback>(ax::Rect(volume_rect.GetNextPosRight(5), ax::Size(12,
-		// 12)));
-		//		_midi_feedback = midi_feedback.get();
-		//		win->node.Add(midi_feedback);
+		ax::Button::Info btn_info;
+		btn_info.normal = ax::Color(0.30);
+		btn_info.hover = ax::Color(0.34);
+		btn_info.clicking = ax::Color(0.32);
+		btn_info.selected = ax::Color(0.30);
+		btn_info.contour = ax::Color(0.30);
+		btn_info.font_color = ax::Color(1.0);
 
 		const ax::Size tog_size(25, 25);
+
+		auto snap_btn = ax::shared<ColorButton>(ax::Rect(pos, ax::Size(25, 25)), GetOnSaveLayout(), btn_info,
+			"resources/snap.png", "", ax::Button::Flags::SINGLE_IMG);
+		_snap_btn = snap_btn.get();
+		win->node.Add(snap_btn);
+		AttachHelpInfo(_snap_btn->GetWindow(), "Activate snap to grid.");
+		pos = _snap_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
 		// Left panel toggle.
 		auto tog_left = ax::shared<ax::Toggle>(ax::Rect(pos, tog_size), GetOnToggleLeftPanel(), tog_info);
@@ -122,14 +138,6 @@ namespace editor {
 		_toggle_left = tog_left.get();
 		_toggle_bottom = tog_middle.get();
 		_toggle_right = tog_right.get();
-
-		ax::Button::Info btn_info;
-		btn_info.normal = ax::Color(0.30);
-		btn_info.hover = ax::Color(0.34);
-		btn_info.clicking = ax::Color(0.32);
-		btn_info.selected = ax::Color(0.30);
-		btn_info.contour = ax::Color(0.30);
-		btn_info.font_color = ax::Color(1.0);
 
 		// Open button.
 		pos = ax::Point(5, 2);
@@ -321,15 +329,19 @@ namespace editor {
 
 	void StatusBar::OnResize(const ax::Size& size)
 	{
-		// Repos left volume meter.
-		_volumeMeterLeft->GetWindow()->dimension.SetPosition(ax::Point(size.w - 165, 8));
+		//		// Repos left volume meter.
+		//		_volumeMeterLeft->GetWindow()->dimension.SetPosition(ax::Point(size.w - 165, 8));
+		//
+		//		// Repos right volume meter.
+		//		_volumeMeterRight->GetWindow()->dimension.SetPosition(
+		//			_volumeMeterLeft->GetWindow()->dimension.GetRect().GetNextPosDown(0));
 
-		// Repos right volume meter.
-		_volumeMeterRight->GetWindow()->dimension.SetPosition(
-			_volumeMeterLeft->GetWindow()->dimension.GetRect().GetNextPosDown(0));
+		ax::Point pos(size.w - 120, 2);
+
+		_snap_btn->GetWindow()->dimension.SetPosition(pos);
+		pos = _snap_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
 		// Left toggle.
-		ax::Point pos(size.w - 95, 2);
 		_toggle_left->GetWindow()->dimension.SetPosition(pos);
 		pos = _toggle_left->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 
