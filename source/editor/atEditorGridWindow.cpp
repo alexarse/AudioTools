@@ -122,14 +122,6 @@ namespace editor {
 		win->event.GrabGlobalKey();
 	}
 
-	void GridWindow::SetGridSpace(const int& space)
-	{
-		if (space > 0 && _grid_space != space) {
-			_grid_space = space;
-			win->Update();
-		}
-	}
-
 	ax::Window* GridWindow::GetMainWindow()
 	{
 		std::vector<std::shared_ptr<ax::Window>>& children = win->node.GetChildren();
@@ -239,7 +231,7 @@ namespace editor {
 		menu_info.right_arrow = ax::Color(0.70);
 		menu_info.item_height = 25;
 
-		std::vector<std::string> menu_elems = { "Save as", "Remove", "Duplicate", "", "test" };
+		std::vector<std::string> menu_elems = { "Save as", "Remove", "Duplicate", "", "Snap to grid" };
 
 		auto menu = ax::shared<ax::DropMenu>(
 			ax::Rect(msg.GetMsg().first, ax::Size(100, 200)), GetOnMenuChoice(), menu_info, menu_elems);
@@ -267,7 +259,8 @@ namespace editor {
 		else if (choice == "Duplicate") {
 			win->PushEvent(DUPLICATE_SELECTED_WIDGET_FROM_RIGHT_CLICK, new ax::event::EmptyMsg());
 		}
-		else if (choice == "test") {
+		else if (choice == "Snap to grid") {
+			win->PushEvent(SNAP_WIDGET_TO_GRID_FROM_RIGHT_CLICK, new ax::event::EmptyMsg());
 			ax::App::GetInstance().GetPopupManager()->Clear();
 		}
 	}
@@ -342,6 +335,32 @@ namespace editor {
 		}
 
 		return nullptr;
+	}
+
+	void GridWindow::SetGridSpace(int space)
+	{
+		space = ax::util::Clamp<int>(space, 5, 20);
+		_grid_space = space;
+
+		ax::Rect d_rect(win->dimension.GetDrawingRect());
+		_horizontal_lines_array.clear();
+		_vertical_lines_array.clear();
+		_horizontal_lines_array.reserve((d_rect.size.h / _grid_space) * 2);
+		_vertical_lines_array.reserve((d_rect.size.w / _grid_space) * 2);
+
+		// Vertical lines.
+		for (int x = _grid_space; x < d_rect.size.w; x += _grid_space) {
+			_vertical_lines_array.push_back(ax::FPoint(x, 0));
+			_vertical_lines_array.push_back(ax::FPoint(x, d_rect.size.h));
+		}
+
+		// Horizontal lines.
+		for (int y = _grid_space; y < d_rect.size.h; y += _grid_space) {
+			_horizontal_lines_array.push_back(ax::FPoint(0, y));
+			_horizontal_lines_array.push_back(ax::FPoint(d_rect.size.w, y));
+		}
+
+		win->Update();
 	}
 
 	void GridWindow::OnBackSpaceDown(const char& c)

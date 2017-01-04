@@ -121,6 +121,9 @@ namespace editor {
 			GridWindow::DUPLICATE_SELECTED_WIDGET_FROM_RIGHT_CLICK, GetOnDuplicateWidgetFromRightClickMenu());
 
 		_gridWindow->GetWindow()->AddConnection(
+			GridWindow::SNAP_WIDGET_TO_GRID_FROM_RIGHT_CLICK, GetOnSnapToGridWidgetFromRightClickMenu());
+
+		_gridWindow->GetWindow()->AddConnection(
 			GridWindow::SELECT_MULTIPLE_WIDGET, _widget_handler.GetOnSelectMultipleWidget());
 
 		_gridWindow->GetWindow()->AddConnection(
@@ -331,6 +334,22 @@ namespace editor {
 
 	void MainWindow::OnSnapToGridWidgetFromRightClickMenu(const ax::event::EmptyMsg& msg)
 	{
+		ax::App::GetInstance().GetPopupManager()->Clear();
+
+		if (!_selected_windows.size()) {
+			return;
+		}
+
+		for (auto& n : _selected_windows) {
+			ax::Window* wwin = n;
+			GridSnapProxy gsp = GetGridSnapProxy();
+
+			const ax::Rect gw_abs_rect(_gridWindow->GetWindow()->dimension.GetAbsoluteRect());
+			ax::Point pos
+				= gsp.FindClosestPosition(wwin->dimension.GetAbsoluteRect().position - gw_abs_rect.position);
+			pos += gw_abs_rect.position;
+			wwin->dimension.SetPosition(pos - wwin->node.GetParent()->dimension.GetAbsoluteRect().position);
+		}
 	}
 
 	void MainWindow::OnHelpBar(const ax::event::StringMsg& msg)

@@ -57,11 +57,9 @@ namespace editor {
 			WIDGET_RESIZE,
 
 			DELETE_SELECTED_WIDGET_FROM_RIGHT_CLICK,
-			DUPLICATE_SELECTED_WIDGET_FROM_RIGHT_CLICK
+			DUPLICATE_SELECTED_WIDGET_FROM_RIGHT_CLICK,
+			SNAP_WIDGET_TO_GRID_FROM_RIGHT_CLICK
 		};
-
-		/// Set number of pixels between each grid lines.
-		void SetGridSpace(const int& space);
 
 		void SaveLayout(const std::string& path, const std::string& script_path);
 
@@ -76,6 +74,9 @@ namespace editor {
 		ax::Window* GetWidgetByName(const std::string& name);
 
 		typedef std::pair<ax::Point, ax::Window*> PosAndWindow;
+
+		/// Set number of pixels between each grid lines.
+		void SetGridSpace(int space);
 
 	private:
 		int _grid_space;

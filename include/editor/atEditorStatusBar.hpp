@@ -27,6 +27,7 @@
 #include <axlib/axlib.hpp>
 
 #include <axlib/Button.hpp>
+#include <axlib/NumberScroll.hpp>
 #include <axlib/Toggle.hpp>
 
 #include "widget/atColorButton.hpp"
@@ -74,6 +75,7 @@ namespace editor {
 		ColorButton* _view_app_btn;
 		ColorButton* _play_btn;
 		ColorButton* _snap_btn;
+		ax::NumberScroll* _grid_space_scroll;
 		std::string _layout_file_path;
 		//		at::MidiFeedback* _midi_feedback;
 
@@ -86,6 +88,7 @@ namespace editor {
 		axEVENT_DECLARATION(ax::Button::Msg, OnReload);
 		axEVENT_DECLARATION(ax::Button::Msg, OnStop);
 
+		axEVENT_DECLARATION(ax::NumberScroll::Msg, OnGridSpace);
 		axEVENT_DECLARATION(ax::Button::Msg, OnSnapToGrid);
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleLeftPanel);
 		axEVENT_DECLARATION(ax::Toggle::Msg, OnToggleBottomPanel);

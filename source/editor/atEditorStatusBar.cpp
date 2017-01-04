@@ -67,8 +67,6 @@ namespace editor {
 		tog_info.img = "resources/top_menu_toggle_left.png";
 		tog_info.single_img = false;
 
-		ax::Point pos(rect.size.w - 120, 2);
-
 		//		// Volume meter left.
 		//		ax::Rect volume_rect(rect.size.w - 165, 8, 50, 7);
 		//		auto v_meter_l = ax::shared<at::VolumeMeter>(volume_rect);
@@ -101,6 +99,39 @@ namespace editor {
 		btn_info.font_color = ax::Color(1.0);
 
 		const ax::Size tog_size(25, 25);
+
+		ax::NumberScroll::Info scroll_info;
+		scroll_info.up_btn = "resources/drop_up.png";
+		scroll_info.down_btn = "resources/drop_down.png";
+
+		// Txt box.
+		const ax::Color bg_color = at::Skin::GetInstance()->data.status_bar_bg;
+		scroll_info.txt_info.normal = bg_color;
+		scroll_info.txt_info.hover = ax::Color(1.0);
+		scroll_info.txt_info.selected = ax::Color(1.0);
+		scroll_info.txt_info.highlight = ax::Color(0.4f, 0.4f, 0.6f, 0.2f);
+		scroll_info.txt_info.contour = ax::Color(0.58);
+		scroll_info.txt_info.cursor = ax::Color(1.0f, 0.0f, 0.0f);
+		scroll_info.txt_info.selected_shadow = ax::Color(0.8f, 0.8f, 0.8f);
+		scroll_info.txt_info.font_color = ax::Color(0.8);
+
+		// Button.
+		scroll_info.btn_info.normal = ax::Color(0.4);
+		scroll_info.btn_info.hover = ax::Color(0.45);
+		scroll_info.btn_info.clicking = ax::Color(0.35);
+		scroll_info.btn_info.selected = scroll_info.btn_info.normal;
+		scroll_info.btn_info.contour = ax::Color(0.58);
+		scroll_info.btn_info.font_color = ax::Color(0.0, 0.0);
+
+		ax::Point pos(rect.size.w - 120 - 50, 2);
+
+		auto g_space_scroll = ax::shared<ax::NumberScroll>(
+			ax::Rect(pos + ax::Point(0, 4), ax::Size(45, 25 - 8)), GetOnGridSpace(), scroll_info, 10,
+			ax::util::Control::Type::INTEGER, ax::util::Range2D<double>(5, 20), 1.0);
+		_grid_space_scroll = g_space_scroll.get();
+		win->node.Add(g_space_scroll);
+		AttachHelpInfo(_grid_space_scroll->GetWindow(), "Grid size.");
+		pos = _grid_space_scroll->GetWindow()->dimension.GetRect().GetNextPosRight(5) - ax::Point(0, 4);
 
 		// Snap to grid button.
 		auto snap_btn = ax::shared<ColorButton>(ax::Rect(pos, ax::Size(25, 25)), GetOnSnapToGrid(), btn_info,
@@ -279,6 +310,13 @@ namespace editor {
 		//		pref_dialog->GetWindow()->backbone = pref_dialog;
 	}
 
+	void StatusBar::OnGridSpace(const ax::NumberScroll::Msg& msg)
+	{
+		at::editor::GridSnapProxy gsp = at::editor::App::GetInstance()->GetMainWindow()->GetGridSnapProxy();
+
+		gsp.SetGridSpace((int)msg.GetValue());
+	}
+
 	void StatusBar::OnSnapToGrid(const ax::Button::Msg& msg)
 	{
 		if (_snap_btn->IsSelected()) {
@@ -355,8 +393,13 @@ namespace editor {
 		//		_volumeMeterRight->GetWindow()->dimension.SetPosition(
 		//			_volumeMeterLeft->GetWindow()->dimension.GetRect().GetNextPosDown(0));
 
-		ax::Point pos(size.w - 120, 2);
+		ax::Point pos(size.w - 120 - 50, 2);
 
+		// Grid size number scroll.
+		_grid_space_scroll->GetWindow()->dimension.SetPosition(pos + ax::Point(0, 4));
+		pos = _grid_space_scroll->GetWindow()->dimension.GetRect().GetNextPosRight(5) - ax::Point(0, 4);
+
+		// Snap grid button.
 		_snap_btn->GetWindow()->dimension.SetPosition(pos);
 		pos = _snap_btn->GetWindow()->dimension.GetRect().GetNextPosRight(5);
 

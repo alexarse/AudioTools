@@ -40,6 +40,8 @@ namespace editor {
 
 		void SetSnap(bool active);
 
+		void SetGridSpace(int space);
+
 		ax::Point FindClosestPosition(const ax::Point& pos) const;
 
 	private:

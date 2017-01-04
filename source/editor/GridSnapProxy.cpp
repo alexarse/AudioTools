@@ -91,5 +91,10 @@ namespace editor {
 
 		return ax::Point(x, y);
 	}
+
+	void GridSnapProxy::SetGridSpace(int space)
+	{
+		_gwin->SetGridSpace(space);
+	}
 }
 }
