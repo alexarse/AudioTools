@@ -95,6 +95,8 @@ private:
 	ax::ScrollBar* _scrollBar;
 
 	ax::Point FileCursorPosToNextPosIndex();
+	
+	ax::Point GetPositionFromCursorIndex(const ax::Point& indexes);
 
 	void MoveToCursorPosition();
 
@@ -130,7 +132,7 @@ private:
 
 	void OnMouseLeftDown(const ax::Point& mouse);
 	void OnMouseLeftDoubleClick(const ax::Point& mouse);
-
+	void OnMouseLeftDragging(const ax::Point& mouse);
 	void OnMouseLeftUp(const ax::Point& mouse);
 
 	void OnPaint(ax::GC gc);

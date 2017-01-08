@@ -56,6 +56,7 @@ TextEditor::TextEditor(const ax::Rect& rect, const TextEditor::Info& info)
 	_scrollPanel->event.OnMouseLeftDown = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftDown);
 	_scrollPanel->event.OnMouseLeftDoubleClick
 		= ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftDoubleClick);
+	_scrollPanel->event.OnMouseLeftDragging = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftDragging);
 	_scrollPanel->event.OnMouseLeftUp = ax::WBind<ax::Point>(this, &TextEditor::OnMouseLeftUp);
 	_scrollPanel->event.OnScrollWheel = ax::WBind<ax::Point>(this, &TextEditor::OnScrollWheel);
 
@@ -151,6 +152,20 @@ ax::Point TextEditor::FileCursorPosToNextPosIndex()
 	}
 
 	return ax::Point(file_cursor.x, file_cursor.y - _file_start_index);
+}
+
+ax::Point TextEditor::GetPositionFromCursorIndex(const ax::Point& indexes)
+{
+	// Cursor is above shown text.
+	if (indexes.y < _file_start_index) {
+		return ax::Point(-1, -1);
+	}
+	// Cursor is bellow shown text.
+	if (indexes.y > _file_start_index + _n_line_shown - 1) {
+		return ax::Point(-1, -1);
+	}
+	
+	return ax::Point(indexes.x, indexes.y - _file_start_index);
 }
 
 void TextEditor::MoveToCursorPosition()
@@ -307,8 +322,15 @@ void TextEditor::OnKeyDown(const char& key)
 				}
 
 				_scrollPanel->Update();
-				//				ax::console::Print("Pasteboard content :", content);
 			}
+		}
+		else if(key == 'a' || key == 'A') {
+			_logic.SelectAll();
+			_scrollPanel->Update();
+		}
+		else if(key == 'c' || key == 'C') {
+			std::string str = _logic.GetSelectedContent();
+			ax::App::GetInstance().SetPasteboardContent(str);
 		}
 	}
 	else {
@@ -452,19 +474,67 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 	}
 
 	_logic.SetCursorPosition(cur_position);
+	_logic.UnselectRectangle();
+	_logic.BeginSelectCursor();
+	
+	_scrollPanel->event.GrabMouse();
 	_scrollPanel->Update();
 }
 
 void TextEditor::OnMouseLeftDoubleClick(const ax::Point& mouse_pos)
 {
 	ax::console::Print("Double down");
+	//_logic.SelectCurrentLine();
+	_logic.SelectCurrentWord();
+	_scrollPanel->Update();
 }
 
-void TextEditor::OnMouseLeftUp(const ax::Point& mouse_pos)
+void TextEditor::OnMouseLeftDragging(const ax::Point& pos)
 {
+	if(_scrollPanel->event.IsGrabbed()) {
+		 ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
+		
+		if (mouse_pos.x < 25) {
+			mouse_pos.x = 25;
+		}
+		
+		const ax::Point cur_position = GetCursorPositionFromMousePos(mouse_pos);
+		
+		if (cur_position.x == -1 || cur_position.y == -1) {
+			return;
+		}
+		
+		_logic.ContinueSelectCursor(cur_position);
+		_scrollPanel->Update();
+	}
 }
 
-bool is_special(const char& x)
+void TextEditor::OnMouseLeftUp(const ax::Point& pos)
+{
+	if(_scrollPanel->event.IsGrabbed()) {
+		_scrollPanel->event.UnGrabMouse();
+		
+		const ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
+		
+		// Line number selection.
+		if (mouse_pos.x < 25) {
+			_scrollPanel->Update();
+			return;
+		}
+		
+		const ax::Point cur_position = GetCursorPositionFromMousePos(mouse_pos);
+		
+		if (cur_position.x == -1 || cur_position.y == -1) {
+			_scrollPanel->Update();
+			return;
+		}
+		
+		_logic.EndSelectCursor(cur_position);
+		_scrollPanel->Update();
+	}
+}
+
+inline bool is_special(char x)
 {
 	return x == '(' || x == ')' || x == ':' || x == '[' || x == ']' || x == ',' || x == ';' || x == '{'
 		|| x == '}' || x == '=';
@@ -478,7 +548,7 @@ std::string RemoveSpecialChar(const std::string& str)
 	return r;
 }
 
-bool is_number(const std::string& str)
+inline bool is_number(const std::string& str)
 {
 	char* p;
 	strtod(str.c_str(), &p); //, 10);
@@ -586,6 +656,7 @@ void TextEditor::OnPaint(ax::GC gc)
 					gc.SetColor(ax::Color(0.6));
 				}
 
+				// Draw char.
 				x = gc.DrawChar(_font, text[i], ax::Point(x, line_pos.y)).x;
 				next_vec[i + 1] = x;
 			}
@@ -595,7 +666,11 @@ void TextEditor::OnPaint(ax::GC gc)
 		line_pos += ax::Point(0, 15);
 	}
 
+
+	TextEditorLogic::SelectionRectangle selection_rectangle = _logic.GetSelectionRectangle();
+
 	// Line cursor.
+	if(!selection_rectangle.active) {
 	if (_scrollPanel->event.IsKeyGrab()) {
 		ax::Point cursor_index = FileCursorPosToNextPosIndex();
 
@@ -606,5 +681,85 @@ void TextEditor::OnPaint(ax::GC gc)
 			gc.SetColor(_info.cursor_color);
 			gc.DrawLine(ax::Point(x, y), ax::Point(x, y + _line_height));
 		}
+	}
+	}
+	
+	if(selection_rectangle.active) {
+		ax::Point left = GetPositionFromCursorIndex(selection_rectangle.left);
+		ax::Point right = GetPositionFromCursorIndex(selection_rectangle.right);
+
+		if(left == ax::Point(-1, -1) || right == ax::Point(-1, -1)) {
+			return;
+		}
+		
+		// Single line selection.
+		if(left.y == right.y) {
+			const int y_line_index = left.y;
+			int l_x = _next_pos_data[y_line_index][left.x];
+			int r_x = _next_pos_data[y_line_index][right.x];
+			int y = y_line_index * _line_height;
+			ax::console::Print(l_x, r_x, y);
+		
+			const ax::Rect sel_rect(ax::Point(l_x, y), ax::Size(r_x - l_x, _line_height));
+			gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
+			gc.DrawRectangle(sel_rect);
+			return;
+		}
+		
+		// Multiple lines selection.
+		const int n_selected_lines = right.y - left.y;
+		
+		if(n_selected_lines == 1) {
+			// First line.
+			int l_x_1 = _next_pos_data[left.y][left.x];
+			int r_x_1 = _next_pos_data[left.y][_next_pos_data[left.y].size() - 1];
+			int y_1 = left.y * _line_height;
+			
+			const ax::Rect sel_rect_1(ax::Point(l_x_1, y_1), ax::Size(r_x_1 - l_x_1, _line_height));
+			gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
+			gc.DrawRectangle(sel_rect_1);
+			
+			// Second line.
+			int l_x_2 = _next_pos_data[right.y][0];
+			int r_x_2 = _next_pos_data[right.y][right.x];
+			int y_2 = right.y * _line_height;
+			
+			const ax::Rect sel_rect_2(ax::Point(l_x_2, y_2), ax::Size(r_x_2 - l_x_2, _line_height));
+			gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
+			gc.DrawRectangle(sel_rect_2);
+			
+			return;
+		}
+
+		// First line.
+		int l_x_1 = _next_pos_data[left.y][left.x];
+		int r_x_1 = _next_pos_data[left.y][_next_pos_data[left.y].size() - 1];
+		int y_1 = left.y * _line_height;
+		
+		const ax::Rect sel_rect_1(ax::Point(l_x_1, y_1), ax::Size(r_x_1 - l_x_1, _line_height));
+		gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
+		gc.DrawRectangle(sel_rect_1);
+		
+		// Second line.
+		int l_x_2 = _next_pos_data[right.y][0];
+		int r_x_2 = _next_pos_data[right.y][right.x];
+		int y_2 = right.y * _line_height;
+		
+		const ax::Rect sel_rect_2(ax::Point(l_x_2, y_2), ax::Size(r_x_2 - l_x_2, _line_height));
+		gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
+		gc.DrawRectangle(sel_rect_2);
+		
+		
+		// Middle lines.
+		for(int i = left.y + 1; i < right.y; i++) {
+			int l_x = _next_pos_data[i][0];
+			int r_x = _next_pos_data[i][_next_pos_data[i].size() - 1];
+			int y = i * _line_height;
+			
+			const ax::Rect sel_rect(ax::Point(l_x, y), ax::Size(r_x - l_x, _line_height));
+			gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
+			gc.DrawRectangle(sel_rect);
+		}
+		
 	}
 }

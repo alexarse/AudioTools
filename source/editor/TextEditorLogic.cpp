@@ -24,6 +24,7 @@
 
 #include "editor/TextEditorLogic.hpp"
 #include <algorithm>
+#include <fst/ascii.h>
 
 /*******************************************************************************
  * eos::TextEditor::Logic.
@@ -31,6 +32,7 @@
 TextEditorLogic::TextEditorLogic()
 	: _file_path("")
 	, _cursor_pos(-1, -1)
+	, _selection_rectangle{false, ax::Point(-1, -1), ax::Point(-1, -1)}
 {
 }
 
@@ -101,6 +103,12 @@ void TextEditorLogic::SetCursorPosition(const ax::Point& cursor_pos)
 
 void TextEditorLogic::MoveCursorRight()
 {
+	if(_selection_rectangle.active) {
+		_cursor_pos = _selection_rectangle.right;
+		_selection_rectangle.active = false;
+		return;
+	}
+
 	int x_pos = _cursor_pos.x + 1;
 
 	// Block cursor position at the last char index + 1
@@ -114,6 +122,12 @@ void TextEditorLogic::MoveCursorRight()
 
 void TextEditorLogic::MoveCursorLeft()
 {
+	if(_selection_rectangle.active) {
+		_cursor_pos = _selection_rectangle.left;
+		_selection_rectangle.active = false;
+		return;
+	}
+	
 	int x_pos = _cursor_pos.x - 1;
 
 	if (x_pos < 0) {
@@ -125,6 +139,11 @@ void TextEditorLogic::MoveCursorLeft()
 
 void TextEditorLogic::MoveCursorUp()
 {
+	if(_selection_rectangle.active) {
+		_cursor_pos = _selection_rectangle.left;
+		_selection_rectangle.active = false;
+	}
+	
 	int x_pos = _cursor_pos.x;
 	int y_pos = _cursor_pos.y - 1;
 
@@ -144,6 +163,11 @@ void TextEditorLogic::MoveCursorUp()
 
 void TextEditorLogic::MoveCursorDown()
 {
+	if(_selection_rectangle.active) {
+		_cursor_pos = _selection_rectangle.right;
+		_selection_rectangle.active = false;
+	}
+	
 	int x_pos = _cursor_pos.x;
 	int y_pos = _cursor_pos.y + 1;
 
@@ -172,6 +196,10 @@ void TextEditorLogic::MoveCursorDown()
 
 void TextEditorLogic::AddChar(const char& c)
 {
+	if(_selection_rectangle.active) {
+		RemoveSelectedText();
+	}
+
 	const char TAB = 9;
 
 	//	ax::console::Print("AddChar :", (int)c);
@@ -197,6 +225,10 @@ void TextEditorLogic::AddChar(const char& c)
 
 void TextEditorLogic::Enter()
 {
+	if(_selection_rectangle.active) {
+		RemoveSelectedText();
+	}
+	
 	// Append at the end of the line.
 	if (_cursor_pos.x == _file_data[_cursor_pos.y].size()) {
 		_file_data.insert(_file_data.begin() + _cursor_pos.y + 1, std::string(""));
@@ -227,6 +259,11 @@ void TextEditorLogic::Enter()
 
 void TextEditorLogic::Delete()
 {
+	if(_selection_rectangle.active) {
+		RemoveSelectedText();
+		return;
+	}
+	
 	// Nothing to do when delete on last char of last line.
 	if (_cursor_pos.x == _file_data[_cursor_pos.y].size() && _cursor_pos.y == _file_data.size() - 1) {
 		return;
@@ -248,6 +285,11 @@ void TextEditorLogic::Delete()
 
 void TextEditorLogic::BackSpace()
 {
+	if(_selection_rectangle.active) {
+		RemoveSelectedText();
+		return;
+	}
+	
 	// Nothing to do when backspace at the begenning of first line.
 	if (_cursor_pos.x == 0 && _cursor_pos.y == 0) {
 		return;
@@ -284,4 +326,221 @@ void TextEditorLogic::BackSpace()
 	// Remove char in middle of line.
 	_file_data[_cursor_pos.y].erase(_file_data[_cursor_pos.y].begin() + _cursor_pos.x - 1);
 	_cursor_pos.x--;
+}
+
+void TextEditorLogic::UnselectRectangle()
+{
+	_selection_rectangle.active = false;
+}
+
+void TextEditorLogic::SelectCurrentLine()
+{
+	_selection_rectangle.active = true;
+	_selection_rectangle.left = ax::Point(0, _cursor_pos.y);
+	_selection_rectangle.right = ax::Point(_file_data[_cursor_pos.y].size(), _cursor_pos.y);
+}
+
+void TextEditorLogic::SelectCurrentWord()
+{
+	const int line_length((int)_file_data[_cursor_pos.y].size());
+	
+	if(_cursor_pos.x >= line_length) {
+		_selection_rectangle.active = false;
+		return;
+	}
+	
+	char cur_char = _file_data[_cursor_pos.y][_cursor_pos.x];
+	
+	// Clicking on special character.
+	if(fst::ascii::is_special(cur_char) || fst::ascii::is_space_or_tab(cur_char)) {
+		_selection_rectangle.left.x = _cursor_pos.x;
+		
+		// Block cursor position at the last char index + 1 to allow append at the end of line.
+		if (_selection_rectangle.left.x > line_length) {
+			_selection_rectangle.active = false;
+			return;
+		}
+		
+		_selection_rectangle.active = true;
+		_selection_rectangle.right.x = _cursor_pos.x + 1;
+		_selection_rectangle.left.y = _cursor_pos.y;
+		_selection_rectangle.right.y = _cursor_pos.y;
+		return;
+	}
+	
+	// Find word left position.
+	_selection_rectangle.left.x = 0;
+	_selection_rectangle.left.y = _cursor_pos.y;
+
+	for(int i = _cursor_pos.x; i > 0; i--) {
+		char l_char = _file_data[_cursor_pos.y][i];
+		if(fst::ascii::is_special(l_char) || fst::ascii::is_space_or_tab(l_char)) {
+			_selection_rectangle.left.x = i;
+			break;
+		}
+	}
+	
+	if(_selection_rectangle.left.x != 0 && _selection_rectangle.left.x != _cursor_pos.x) {
+		_selection_rectangle.left.x++;
+	}
+	
+	// Find word right position.
+	_selection_rectangle.right.x = _file_data[_cursor_pos.y].size();
+	_selection_rectangle.right.y = _cursor_pos.y;
+	
+	for(int i = _cursor_pos.x; i < _file_data[_cursor_pos.y].size(); i++) {
+		char r_char = _file_data[_cursor_pos.y][i];
+		if(fst::ascii::is_special(r_char) || fst::ascii::is_space_or_tab(r_char)) {
+			_selection_rectangle.right.x = i;
+			break;
+		}
+	}
+	
+	_selection_rectangle.active = true;
+}
+
+void TextEditorLogic::BeginSelectCursor()
+{
+	_selection_rectangle.active = true;
+	_selection_rectangle.left = _selection_rectangle.right  = _cursor_pos;
+}
+
+void TextEditorLogic::ContinueSelectCursor(const ax::Point& pos)
+{
+	AssignSelectionPos(pos);
+}
+
+void TextEditorLogic::EndSelectCursor(const ax::Point& pos)
+{
+	AssignSelectionPos(pos);
+
+	if(_selection_rectangle.left == _selection_rectangle.right) {
+		_selection_rectangle.active = false;
+		return;
+	}
+}
+
+void TextEditorLogic::RemoveSelectedText()
+{
+	if(!_selection_rectangle.active) {
+		return;
+	}
+	
+	// Deselect text.
+	_selection_rectangle.active = false;
+	
+	// Set cursor position to left side of selected rectangle.
+	_cursor_pos = _selection_rectangle.left;
+	
+	// One line selection.
+	if(_selection_rectangle.left.y == _selection_rectangle.right.y) {
+		std::string& line = _file_data[_selection_rectangle.left.y];
+		line.erase(line.begin() + _selection_rectangle.left.x, line.begin() + _selection_rectangle.right.x);
+		return;
+	}
+
+	// Two lines selection.
+	if(_selection_rectangle.right.y - _selection_rectangle.left.y == 1) {
+		// Delete first line completely.
+		if(_selection_rectangle.left.x == 0) {
+			// Remove line.
+			_file_data.erase(_file_data.begin() + _selection_rectangle.left.y);
+			_selection_rectangle.left = ax::Point(0, _selection_rectangle.left.y);
+			
+			// Remove second line.
+			std::string& line = _file_data[_selection_rectangle.left.y];
+			line.erase(line.begin() + _selection_rectangle.left.x, line.begin() + _selection_rectangle.right.x);
+			return;
+		}
+		
+		// Delete second line completely.
+		if(_selection_rectangle.right.x == _file_data[_selection_rectangle.right.y].size()) {
+			// Remove last line.
+			_file_data.erase(_file_data.begin() + _selection_rectangle.right.y);
+			
+			// Set selection right side to last character of first line.
+			_selection_rectangle.right = ax::Point(GetLineLength(_selection_rectangle.left.y),
+				_selection_rectangle.left.y);
+			
+			// Crop first line.
+			std::string& line = _file_data[_selection_rectangle.left.y];
+			line.erase(line.begin() + _selection_rectangle.left.x, line.begin() + _selection_rectangle.right.x);
+
+			return;
+		}
+		
+		// Copy last selected line.
+		std::string cropped_last_line = _file_data[_selection_rectangle.right.y];
+		
+		// Delete left side of second line and keep the right part.
+		cropped_last_line.erase(cropped_last_line.begin(), cropped_last_line.begin() + _selection_rectangle.right.x);
+		
+		// Remove last line.
+		_file_data.erase(_file_data.begin() + _selection_rectangle.right.y);
+		
+		// Set selection right side to last character of first line.
+		_selection_rectangle.right = ax::Point(_file_data[_selection_rectangle.left.y].size(),
+											   _selection_rectangle.left.y);
+		
+		// Crop first line.
+		std::string& first_line = _file_data[_selection_rectangle.left.y];
+		first_line.erase(first_line.begin() + _selection_rectangle.left.x, first_line.begin() + _selection_rectangle.right.x);
+
+		// Append the rest of the last line to first line.
+		first_line.append(cropped_last_line);
+		return;
+	}
+	
+	// Multiple lines selection.
+	// Copy last selected line.
+	std::string cropped_last_line = _file_data[_selection_rectangle.right.y];
+	
+	// Delete left side of second line and keep the right part.
+	cropped_last_line.erase(cropped_last_line.begin(), cropped_last_line.begin() + _selection_rectangle.right.x);
+	
+	// Remove middle lines.
+	_file_data.erase(_file_data.begin() + _selection_rectangle.left.y + 1,
+		_file_data.begin() + _selection_rectangle.right.y);
+	
+	// Set selection right side to last character of first line.
+	_selection_rectangle.right = ax::Point(_file_data[_selection_rectangle.left.y].size(),
+										   _selection_rectangle.left.y);
+	
+	// Crop first line.
+	std::string& first_line = _file_data[_selection_rectangle.left.y];
+	first_line.erase(first_line.begin() + _selection_rectangle.left.x, first_line.begin() + _selection_rectangle.right.x);
+	
+	// Append the rest of the last line to first line.
+	first_line.append(cropped_last_line);
+}
+
+void TextEditorLogic::AssignSelectionPos(const ax::Point& pos)
+{
+	ax::Point& left = _selection_rectangle.left;
+	ax::Point& right = _selection_rectangle.right;
+	
+		if(pos.y > left.y) {
+			right = pos;
+			return;
+		}
+	
+		if(pos.y == left.y && pos.x > left.x) {
+			right = pos;
+			return;
+		}
+	
+	left = pos;
+}
+
+void TextEditorLogic::SelectAll()
+{
+	_selection_rectangle.active = true;
+	_selection_rectangle.left = ax::Point(0, 0);
+	_selection_rectangle.right = ax::Point(_file_data[_file_data.size() - 1].size(), _file_data.size());
+	
+}
+
+std::string TextEditorLogic::GetSelectedContent() const
+{
+	return "Peter";
 }
