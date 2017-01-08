@@ -95,7 +95,7 @@ private:
 	ax::ScrollBar* _scrollBar;
 
 	ax::Point FileCursorPosToNextPosIndex();
-	
+
 	ax::Point GetPositionFromCursorIndex(const ax::Point& indexes);
 
 	void MoveToCursorPosition();

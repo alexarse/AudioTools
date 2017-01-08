@@ -70,35 +70,38 @@ public:
 	void Delete();
 
 	void BackSpace();
-	
-	int GetLineLength(unsigned int index) {
+
+	int GetLineLength(unsigned int index)
+	{
 		return _file_data[index].size();
 	}
-	
-	bool IsSelected() const {
+
+	bool IsSelected() const
+	{
 		return _selection_rectangle.active;
 	}
-	
-	SelectionRectangle GetSelectionRectangle() const {
+
+	SelectionRectangle GetSelectionRectangle() const
+	{
 		return _selection_rectangle;
 	}
-	
+
 	void UnselectRectangle();
-	
+
 	void SelectCurrentLine();
-	
+
 	void SelectCurrentWord();
-	
+
 	void BeginSelectCursor();
-	
+
 	void ContinueSelectCursor(const ax::Point& pos);
-	
+
 	void EndSelectCursor(const ax::Point& pos);
-	
+
 	void RemoveSelectedText();
-	
+
 	void SelectAll();
-	
+
 	std::string GetSelectedContent() const;
 
 private:
@@ -106,6 +109,6 @@ private:
 	ax::Point _cursor_pos;
 	SelectionRectangle _selection_rectangle;
 	std::vector<std::string> _file_data;
-	
+
 	void AssignSelectionPos(const ax::Point& pos);
 };

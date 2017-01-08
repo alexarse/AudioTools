@@ -164,7 +164,7 @@ ax::Point TextEditor::GetPositionFromCursorIndex(const ax::Point& indexes)
 	if (indexes.y > _file_start_index + _n_line_shown - 1) {
 		return ax::Point(-1, -1);
 	}
-	
+
 	return ax::Point(indexes.x, indexes.y - _file_start_index);
 }
 
@@ -324,11 +324,11 @@ void TextEditor::OnKeyDown(const char& key)
 				_scrollPanel->Update();
 			}
 		}
-		else if(key == 'a' || key == 'A') {
+		else if (key == 'a' || key == 'A') {
 			_logic.SelectAll();
 			_scrollPanel->Update();
 		}
-		else if(key == 'c' || key == 'C') {
+		else if (key == 'c' || key == 'C') {
 			std::string str = _logic.GetSelectedContent();
 			ax::App::GetInstance().SetPasteboardContent(str);
 		}
@@ -476,7 +476,7 @@ void TextEditor::OnMouseLeftDown(const ax::Point& pos)
 	_logic.SetCursorPosition(cur_position);
 	_logic.UnselectRectangle();
 	_logic.BeginSelectCursor();
-	
+
 	_scrollPanel->event.GrabMouse();
 	_scrollPanel->Update();
 }
@@ -491,19 +491,19 @@ void TextEditor::OnMouseLeftDoubleClick(const ax::Point& mouse_pos)
 
 void TextEditor::OnMouseLeftDragging(const ax::Point& pos)
 {
-	if(_scrollPanel->event.IsGrabbed()) {
-		 ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
-		
+	if (_scrollPanel->event.IsGrabbed()) {
+		ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
+
 		if (mouse_pos.x < 25) {
 			mouse_pos.x = 25;
 		}
-		
+
 		const ax::Point cur_position = GetCursorPositionFromMousePos(mouse_pos);
-		
+
 		if (cur_position.x == -1 || cur_position.y == -1) {
 			return;
 		}
-		
+
 		_logic.ContinueSelectCursor(cur_position);
 		_scrollPanel->Update();
 	}
@@ -511,24 +511,24 @@ void TextEditor::OnMouseLeftDragging(const ax::Point& pos)
 
 void TextEditor::OnMouseLeftUp(const ax::Point& pos)
 {
-	if(_scrollPanel->event.IsGrabbed()) {
+	if (_scrollPanel->event.IsGrabbed()) {
 		_scrollPanel->event.UnGrabMouse();
-		
+
 		const ax::Point mouse_pos = pos - win->dimension.GetAbsoluteRect().position;
-		
+
 		// Line number selection.
 		if (mouse_pos.x < 25) {
 			_scrollPanel->Update();
 			return;
 		}
-		
+
 		const ax::Point cur_position = GetCursorPositionFromMousePos(mouse_pos);
-		
+
 		if (cur_position.x == -1 || cur_position.y == -1) {
 			_scrollPanel->Update();
 			return;
 		}
-		
+
 		_logic.EndSelectCursor(cur_position);
 		_scrollPanel->Update();
 	}
@@ -666,68 +666,67 @@ void TextEditor::OnPaint(ax::GC gc)
 		line_pos += ax::Point(0, 15);
 	}
 
-
 	TextEditorLogic::SelectionRectangle selection_rectangle = _logic.GetSelectionRectangle();
 
 	// Line cursor.
-	if(!selection_rectangle.active) {
-	if (_scrollPanel->event.IsKeyGrab()) {
-		ax::Point cursor_index = FileCursorPosToNextPosIndex();
+	if (!selection_rectangle.active) {
+		if (_scrollPanel->event.IsKeyGrab()) {
+			ax::Point cursor_index = FileCursorPosToNextPosIndex();
 
-		if (cursor_index.x != -1 && cursor_index.y != -1) {
-			int x = _next_pos_data[cursor_index.y][cursor_index.x];
-			int y = cursor_index.y * _line_height;
+			if (cursor_index.x != -1 && cursor_index.y != -1) {
+				int x = _next_pos_data[cursor_index.y][cursor_index.x];
+				int y = cursor_index.y * _line_height;
 
-			gc.SetColor(_info.cursor_color);
-			gc.DrawLine(ax::Point(x, y), ax::Point(x, y + _line_height));
+				gc.SetColor(_info.cursor_color);
+				gc.DrawLine(ax::Point(x, y), ax::Point(x, y + _line_height));
+			}
 		}
 	}
-	}
-	
-	if(selection_rectangle.active) {
+
+	if (selection_rectangle.active) {
 		ax::Point left = GetPositionFromCursorIndex(selection_rectangle.left);
 		ax::Point right = GetPositionFromCursorIndex(selection_rectangle.right);
 
-		if(left == ax::Point(-1, -1) || right == ax::Point(-1, -1)) {
+		if (left == ax::Point(-1, -1) || right == ax::Point(-1, -1)) {
 			return;
 		}
-		
+
 		// Single line selection.
-		if(left.y == right.y) {
+		if (left.y == right.y) {
 			const int y_line_index = left.y;
 			int l_x = _next_pos_data[y_line_index][left.x];
 			int r_x = _next_pos_data[y_line_index][right.x];
 			int y = y_line_index * _line_height;
 			ax::console::Print(l_x, r_x, y);
-		
+
 			const ax::Rect sel_rect(ax::Point(l_x, y), ax::Size(r_x - l_x, _line_height));
 			gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
 			gc.DrawRectangle(sel_rect);
 			return;
 		}
-		
+
 		// Multiple lines selection.
 		const int n_selected_lines = right.y - left.y;
-		
-		if(n_selected_lines == 1) {
+
+		if (n_selected_lines == 1) {
 			// First line.
 			int l_x_1 = _next_pos_data[left.y][left.x];
 			int r_x_1 = _next_pos_data[left.y][_next_pos_data[left.y].size() - 1];
 			int y_1 = left.y * _line_height;
-			
+
 			const ax::Rect sel_rect_1(ax::Point(l_x_1, y_1), ax::Size(r_x_1 - l_x_1, _line_height));
 			gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
 			gc.DrawRectangle(sel_rect_1);
-			
+
 			// Second line.
 			int l_x_2 = _next_pos_data[right.y][0];
 			int r_x_2 = _next_pos_data[right.y][right.x];
 			int y_2 = right.y * _line_height;
-			
+
 			const ax::Rect sel_rect_2(ax::Point(l_x_2, y_2), ax::Size(r_x_2 - l_x_2, _line_height));
 			gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
 			gc.DrawRectangle(sel_rect_2);
-			
+
 			return;
 		}
 
@@ -735,31 +734,29 @@ void TextEditor::OnPaint(ax::GC gc)
 		int l_x_1 = _next_pos_data[left.y][left.x];
 		int r_x_1 = _next_pos_data[left.y][_next_pos_data[left.y].size() - 1];
 		int y_1 = left.y * _line_height;
-		
+
 		const ax::Rect sel_rect_1(ax::Point(l_x_1, y_1), ax::Size(r_x_1 - l_x_1, _line_height));
 		gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
 		gc.DrawRectangle(sel_rect_1);
-		
+
 		// Second line.
 		int l_x_2 = _next_pos_data[right.y][0];
 		int r_x_2 = _next_pos_data[right.y][right.x];
 		int y_2 = right.y * _line_height;
-		
+
 		const ax::Rect sel_rect_2(ax::Point(l_x_2, y_2), ax::Size(r_x_2 - l_x_2, _line_height));
 		gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
 		gc.DrawRectangle(sel_rect_2);
-		
-		
+
 		// Middle lines.
-		for(int i = left.y + 1; i < right.y; i++) {
+		for (int i = left.y + 1; i < right.y; i++) {
 			int l_x = _next_pos_data[i][0];
 			int r_x = _next_pos_data[i][_next_pos_data[i].size() - 1];
 			int y = i * _line_height;
-			
+
 			const ax::Rect sel_rect(ax::Point(l_x, y), ax::Size(r_x - l_x, _line_height));
 			gc.SetColor(ax::Color(1.0f, 0.0f, 0.0f, 0.3f));
 			gc.DrawRectangle(sel_rect);
 		}
-		
 	}
 }
