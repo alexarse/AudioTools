@@ -72,13 +72,15 @@ namespace inspector {
 		tog_info.img = "resources/bool_toggle.png";
 		tog_info.single_img = false;
 
-		win->node.Add(ax::shared<ax::Toggle>(ax::Rect(95, 4, 13, 13), GetOnToggleClick(), tog_info));
+		auto tog = ax::shared<ax::Toggle>(ax::Rect(95, 4, 13, 13), GetOnToggleClick(), tog_info);
+		win->node.Add(tog);
+
+		tog->SetSelected((bool)std::stoi(value));
 	}
 
 	void BoolAttribute::OnToggleClick(const ax::Toggle::Msg& msg)
 	{
 		int selected = (int)msg.GetSelected();
-		ax::console::Print("selected :", selected);
 		win->PushEvent(
 			Events::ASSIGN_VALUE, new ax::event::SimpleMsg<std::pair<std::string, std::string>>(
 									  std::pair<std::string, std::string>(_name, std::to_string(selected))));

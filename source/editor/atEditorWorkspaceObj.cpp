@@ -12,6 +12,12 @@
 
 namespace at {
 namespace editor {
+	ax::Size CalculateAspectRatioFit(const ax::Size& img_size, const ax::Size& max_size)
+	{
+		const float ratio = std::min(max_size.w / (float)img_size.w, max_size.h / (float)img_size.h);
+		return ax::Size(img_size.w * ratio, img_size.h * ratio);
+	}
+
 	WorkspaceObj::WorkspaceObj(const ax::Rect& rect, const std::string& builder_name,
 		const std::string& file_path, const std::string& title, const std::string& info,
 		const std::string& size, const std::string& img_path)
@@ -27,6 +33,10 @@ namespace editor {
 		_font_normal.SetFontSize(11);
 
 		_img = ax::shared<ax::Image>(img_path);
+
+		if (_img->IsImageReady()) {
+			_img_size = CalculateAspectRatioFit(_img->GetSize(), ax::Size(45, 40));
+		}
 
 		// Create window.
 		win = ax::Window::Create(rect);
@@ -95,7 +105,8 @@ namespace editor {
 		gc.DrawRectangleColorFade(rect, at::Skin::GetInstance()->data.w_menu_obj_bg_0,
 			at::Skin::GetInstance()->data.w_menu_obj_bg_1);
 
-		ax::Size img_size(40, 40);
+		//		ax::Size img_size(40, 40);
+		ax::Size img_size(_img_size);
 		ax::Point img_pos(5 + (65 - img_size.w) / 2, 5 + (rect.size.h - 8 - img_size.h) / 2);
 		gc.DrawImageResize(_img.get(), img_pos, img_size);
 		gc.SetColor(ax::Color(0.3));

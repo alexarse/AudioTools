@@ -31,6 +31,7 @@ namespace editor {
 		ax::Font _font_normal;
 		std::string _builder_name, _file_path, _title, _info, _size_str;
 		std::shared_ptr<ax::Image> _img;
+		ax::Size _img_size;
 		bool _show_text = true;
 		bool _selectable;
 
