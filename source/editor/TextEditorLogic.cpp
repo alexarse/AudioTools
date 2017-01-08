@@ -547,5 +547,29 @@ void TextEditorLogic::SelectAll()
 
 std::string TextEditorLogic::GetSelectedContent() const
 {
-	return "Peter";
+	if (!_selection_rectangle.active) {
+		return "";
+	}
+
+	const ax::Point& left = _selection_rectangle.left;
+	const ax::Point& right = _selection_rectangle.right;
+
+	// One line.
+	if (left.y == right.y) {
+		return _file_data[left.y].substr(left.x, right.x);
+	}
+
+	// Multiple lines.
+	std::string content = _file_data[left.y].substr(left.x) + "\n";
+
+	// Two lines.
+	if (right.y - left.y == 1) {
+		return content + _file_data[right.y].substr(0, right.x);
+	}
+
+	for (int i = left.y + 1; i < right.y; i++) {
+		content += _file_data[i] + "\n";
+	}
+
+	return content + _file_data[right.y].substr(0, right.x);
 }

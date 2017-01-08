@@ -73,7 +73,7 @@ source_group("source\\menu\\widget" FILES ${AT_M_WIDGET_SOURCE_FILES})
 # source_group("core\\include" FILES ${CORE_OSX_OBJC_INCLUDE_FILES})
 
 # Widget objects library.
-add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${AT_SOURCE_FILES} ${AT_INCLUDE_FILES} ${AT_INCLUDE_H_FILES})# ${AT_XIB_FILES})
+add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${AT_SOURCE_FILES} ${AT_INCLUDE_FILES} ${AT_INCLUDE_H_FILES})
 
 # Target properties.
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
