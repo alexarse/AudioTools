@@ -70,6 +70,11 @@ namespace editor {
 			return GridSnapProxy(_gridWindow.get());
 		}
 
+		MainWindowProjectHandler* GetProjectHandler()
+		{
+			return &_project_handler;
+		}
+
 	private:
 		ax::Font _font;
 

@@ -61,12 +61,24 @@ namespace editor {
 		SetupApplication();
 	}
 
-	void App::SetupApplication()
+	void App::OnSplashOpen(ax::event::Msg* msg)
 	{
 		ax::App& app(ax::App::GetInstance());
+		app.SetBorderLess();
+	}
+
+	void App::SetupApplication()
+	{
+		//		_on_splash_open = [](ax::event::Msg* msg) {
+		//			ax::App& app(ax::App::GetInstance());
+		//			app.SetBorderLess();
+		//		};
+
+		ax::App& app(ax::App::GetInstance());
+		app.GetEventManager()->AddConnection(0, 2000, ax::event::Bind(this, &App::OnSplashOpen));
 
 		at::Skin::GetInstance()->SetLightSkin();
-		//		at::Skin::GetInstance()->SetDarkSkin();
+		// at::Skin::GetInstance()->SetDarkSkin();
 
 		app.AddMainEntry([&]() {
 			app.SetFrameSize(ax::Size(400, 500));
@@ -80,6 +92,11 @@ namespace editor {
 			// app.SetResizable(false);
 			// app.SetTitleBar(false);
 			app.SetFocusAndCenter();
+			//			app.SetBorderLess();
+
+			app.GetEventManager()->PushEvent(0, 2000, new ax::event::EmptyMsg());
+			// app.GetEventManager()->AddFunction(ax::event::axBindedEvent(_on_splash_open, new
+			// ax::event::EmptyMsg()));
 
 			// Start loading thread (audio and data).
 			_loading_thread = std::thread(

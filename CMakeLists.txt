@@ -69,23 +69,21 @@ file(GLOB AT_M_WIDGET_SOURCE_FILES ${TOP_DIR} ${TOP_DIR}/source/menu/widget/*.cp
 source_group("include\\menu\\attrwidgetibute" FILES ${AT_M_WIDGET_INCLUDE_FILES})
 source_group("source\\menu\\widget" FILES ${AT_M_WIDGET_SOURCE_FILES})
 
-# source_group("core\\include" FILES ${CORE_OSX_INCLUDE_FILES})
-# source_group("core\\include" FILES ${CORE_OSX_OBJC_INCLUDE_FILES})
+# App icon path.
+set(APP_ICON ${TOP_DIR}/resources/at_icon.icns)
 
-# Widget objects library.
-add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${AT_SOURCE_FILES} ${AT_INCLUDE_FILES} ${AT_INCLUDE_H_FILES})
+# Audiotool application.
+add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${AT_SOURCE_FILES} ${AT_INCLUDE_FILES} ${AT_INCLUDE_H_FILES} ${APP_ICON})
 
 # Target properties.
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 set(CMAKE_CXX_FLAGS "-fPIC -std=c++14 ${CMAKE_CXX_FLAGS}")
 
-#set_source_files_properties(${AT_XIB_FILES} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
-
 # Set the OS X Bundle specific CMake variables which will be used to populate the plist for
 # the application bundle
 set(MACOSX_BUNDLE_INFO_STRING "${PROJECT_NAME}")
 set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.ax.AudioTool")
-set(MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_NAME} Version 0.1")
+set(MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_NAME} Version 0.3")
 set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME})
 set(MACOSX_BUNDLE_SHORT_VERSION_STRING 0.1)
 set(MACOSX_BUNDLE_BUNDLE_VERSION 0.1)
@@ -94,11 +92,13 @@ set(MACOSX_BUNDLE_COPYRIGHT "Copyright 2016. All Rights Reserved.")
 # These variables are specific to our plist and are NOT standard CMake variables
 set(MACOSX_BUNDLE_NSMAIN_NIB_FILE "MainMenu")
 set(MACOSX_BUNDLE_NSPRINCIPAL_CLASS "NSApplication")
+set(MACOSX_BUNDLE_ICON_FILE at_icon)
+
+set_source_files_properties(${APP_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 
 # set_target_properties(Widget PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/plist.in)
 # Set a custom plist file for the app bundle
 set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${TOP_DIR}/resources/Info.plist)
-# set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER AudioTools/)
 
 # Include directory.
 target_include_directories(${PROJECT_NAME} PUBLIC ${TOP_DIR}/include/)
@@ -108,19 +108,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC /usr/local/include/freetype2/)
 target_include_directories(${PROJECT_NAME} PUBLIC /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7/)
 target_include_directories(${PROJECT_NAME} PUBLIC /usr/local/lib/libzip/include)
 
-# target_include_directories(Widget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../modules/core/include)
-# target_include_directories(Widget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../modules/core/osx)
-# target_include_directories(Widget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../modules/util/include)
-# target_include_directories(Widget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../modules/event/include)
-# target_include_directories(Widget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../modules/os/include)
-# target_include_directories(Widget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../modules/attribute/include)
-# target_include_directories(Widget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../modules/graphic/include)
-# target_include_directories(Widget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../modules/widget/include)
-# target_include_directories(Widget PUBLIC ${FREETYPE2_INCLUDE_DIRS})
-# target_include_directories(Widget PUBLIC ${PNG_INCLUDE_DIRS})
-
 link_directories(/usr/local/lib/)
-# target_link_libraries(${PROJECT_NAME} /usr/local/lib/libaxlib.dylib)
 target_link_libraries(${PROJECT_NAME} /usr/local/lib/libsndfile.a)
 target_link_libraries(${PROJECT_NAME} /usr/local/lib/libfreetype.dylib)
 target_link_libraries(${PROJECT_NAME} /usr/local/lib/libpng16.dylib)
@@ -137,26 +125,6 @@ target_link_libraries(${PROJECT_NAME} /usr/local/lib/libboost_thread.a )
 target_link_libraries(${PROJECT_NAME} /usr/local/lib/libboost_random.a)
 
 target_link_libraries(${PROJECT_NAME} /usr/local/lib/libaxlib.a)
-# target_link_libraries(${PROJECT_NAME} /usr/local/lib/libboost_chrono.a)
-
-# /usr/local/lib/libaxAudio.a 
-# /usr/local/lib/libaxMidi.a 
-# /usr/local/lib/libportaudio.a 
-# /usr/local/lib/libfreetype.a 
-# /usr/local/lib/libsndfile.a 
-# /usr/local/lib/libpng16.a 
-# /usr/local/lib/libOpenAX.a 
-# /usr/local/lib/libboost_python.a 
-# /usr/local/lib/libboost_filesystem.a 
-# /usr/local/lib/libboost_system.a 
-# /usr/local/lib/libboost_chrono.a 
-# /usr/local/lib/libboost_thread.a 
-# /usr/local/lib/libboost_random.a 
-# /usr/local/lib/libzip.a /usr/local/opt/openssl/lib/libcrypto.a /usr/local/opt/openssl/lib/libssl.a
-# target_link_libraries(${PROJECT_NAME} /usr/local/lib/libOpenAX.a)
-# target_link_libraries(${PROJECT_NAME} /usr/local/lib/libaxMidi.a)
-# target_link_libraries(${PROJECT_NAME} /usr/local/lib/libaxAudio.a)
-
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework Cocoa")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework OpenGL")

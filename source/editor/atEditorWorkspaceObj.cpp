@@ -105,7 +105,6 @@ namespace editor {
 		gc.DrawRectangleColorFade(rect, at::Skin::GetInstance()->data.w_menu_obj_bg_0,
 			at::Skin::GetInstance()->data.w_menu_obj_bg_1);
 
-		//		ax::Size img_size(40, 40);
 		ax::Size img_size(_img_size);
 		ax::Point img_pos(5 + (65 - img_size.w) / 2, 5 + (rect.size.h - 8 - img_size.h) / 2);
 		gc.DrawImageResize(_img.get(), img_pos, img_size);

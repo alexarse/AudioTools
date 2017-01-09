@@ -23,6 +23,7 @@
  */
 
 #include "dialog/atSplashDialog.hpp"
+#include "dialog/atChooseProjectDialog.hpp"
 
 #include <axlib/Button.hpp>
 #include <axlib/WindowManager.hpp>
@@ -50,22 +51,21 @@ void SplashDialog::OnLoadingPercent(const ax::event::SimpleMsg<LoadInfoMsg>& msg
 	win->Update();
 
 	if (_load_percent == 1.0) {
+		// Remove mouse events.
 		auto win_manager = ax::App::GetInstance().GetWindowManager();
 		win_manager->SetPastWindow(nullptr);
 		win_manager->ReleaseMouseHover();
 
+		// Create choose project dialog.
 		ax::App& app(ax::App::GetInstance());
+		auto main_win = ax::shared<at::ChooseProjectDialog>(ax::Rect(0, 0, 400, 500));
 
-		auto main_win = ax::shared<at::editor::MainWindow>(ax::Rect(0, 0, 1000, 700), app.AppOpenFilePath());
-
+		// Clean up window manager.
 		auto this_window = win_manager->GetWindowTree()->GetNodeVector()[0];
 		win_manager->GetWindowTree()->GetNodeVector().clear();
 
-		app.SetResizable(true);
-		app.SetTitleBar(true);
-		app.SetFrameSize(ax::Size(1000, 700));
 		app.AddTopLevel(main_win);
-		app.SetFocusAndCenter();
+		main_win->GetWindow()->Update();
 	}
 }
 

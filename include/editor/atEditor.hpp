@@ -55,6 +55,10 @@ namespace editor {
 		App();
 
 		void SetupApplication();
+
+		//		ax::event::Function _on_splash_open;
+
+		void OnSplashOpen(ax::event::Msg* msg);
 	};
 }
 }

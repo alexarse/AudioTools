@@ -100,26 +100,68 @@ namespace editor {
 		_main_window->_statusBar->SetLayoutFilePath(_main_window->_project.GetProjectName());
 	}
 
-	void MainWindowProjectHandler::OnOpenProject(const ax::event::StringMsg& msg)
+	bool MainWindowProjectHandler::IsProjectPathValid(const std::string& project_path)
 	{
-		const std::string project_path(msg.GetMsg());
 		boost::filesystem::path filepath(project_path);
 
 		// Check is empty.
 		if (project_path.empty()) {
 			ax::console::Error("Project path is empty.");
+			return false;
 		}
 
 		// Check if file exist.
 		if (!boost::filesystem::exists(filepath)) {
 			ax::console::Error("File", filepath.string(), "doesn't exist.");
-			return;
+			return false;
 		}
 
 		// Check file extension.
 		if (filepath.extension() != ".atproj") {
 			ax::console::Error("Wrong project file format.");
-			return;
+			return false;
+		}
+
+		return true;
+	}
+
+	bool MainWindowProjectHandler::IsNewProjectPathValid(const std::string& project_path)
+	{
+		boost::filesystem::path filepath(project_path);
+
+		// Check file extension.
+		std::string ext = filepath.extension().string();
+
+		if (ext.empty()) {
+			//			ax::console::Print("Empty extension");
+		}
+		else if (ext == ".atproj") {
+			/// @todo Remove extension.
+			ax::console::Print("atproj extension");
+			return false;
+		}
+		else {
+			ax::console::Print("extension :", ext);
+			ax::console::Error("incorrect file extension :", ext);
+			return false;
+		}
+
+		// filepath = boost::filesystem::path(project_path);
+
+		// Check if file exist.
+		if (boost::filesystem::exists(filepath)) {
+			/// @todo Manage this case with message box.
+			ax::console::Error("File", filepath.string(), "already exist.");
+			return false;
+		}
+
+		return true;
+	}
+
+	bool MainWindowProjectHandler::OpenProject(const std::string& project_path)
+	{
+		if (!IsProjectPathValid(project_path)) {
+			return false;
 		}
 
 		// Stop audio server.
@@ -138,7 +180,7 @@ namespace editor {
 			ax::console::Error("Can't open project :", project_path);
 
 			/// @todo Load empty project.
-			return;
+			return false;
 		}
 
 		// Remove selected widget from right side menu.
@@ -165,46 +207,23 @@ namespace editor {
 			_main_window->GetWindow()->PushEvent(
 				MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(true));
 		}
+
+		return true;
 	}
 
-	void MainWindowProjectHandler::OnCreateNewProject(const ax::event::StringMsg& msg)
+	bool MainWindowProjectHandler::CreateProject(const std::string& project_path)
 	{
-		std::string project_path(msg.GetMsg());
-		boost::filesystem::path filepath(project_path);
-
-		// Check file extension.
-		std::string ext = filepath.extension().string();
-
-		if (ext.empty()) {
-			//			ax::console::Print("Empty extension");
-		}
-		else if (ext == ".atproj") {
-			/// @todo Remove extension.
-			ax::console::Print("atproj extension");
-			return;
-		}
-		else {
-			ax::console::Print("extension :", ext);
-			ax::console::Error("incorrect file extension :", ext);
-			return;
+		if (!IsNewProjectPathValid(project_path)) {
+			return false;
 		}
 
 		PyoAudio::GetInstance()->StopServer();
 
-		filepath = boost::filesystem::path(project_path);
-
-		// Check if file exist.
-		if (boost::filesystem::exists(filepath)) {
-			/// @todo Manage this case with message box.
-			ax::console::Error("File", filepath.string(), "already exist.");
-			return;
-		}
+		boost::filesystem::path filepath = boost::filesystem::path(project_path);
 
 		// Check is a project is already open.
 		if (_main_window->_project.IsProjectOpen()) {
 			_main_window->_project.Close();
-			//			ax::console::Error("No project is currently open.");
-			//			return;
 		}
 
 		at::FileArchive archive;
@@ -241,7 +260,7 @@ namespace editor {
 			ax::console::Error("Can't open project :", project_path);
 
 			/// @todo Load empty project.
-			return;
+			return false;
 		}
 
 		// Remove selected widget from right side menu.
@@ -268,6 +287,19 @@ namespace editor {
 			_main_window->GetWindow()->PushEvent(
 				MainWindow::HAS_WIDGET_ON_GRID, new ax::event::SimpleMsg<bool>(true));
 		}
+
+		return true;
+	}
+
+	void MainWindowProjectHandler::OnOpenProject(const ax::event::StringMsg& msg)
+	{
+		OpenProject(msg.GetMsg());
+	}
+
+	void MainWindowProjectHandler::OnCreateNewProject(const ax::event::StringMsg& msg)
+	{
+		const std::string project_path(msg.GetMsg());
+		CreateProject(project_path);
 	}
 }
 }
