@@ -22,33 +22,4 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef WindowPyWrapper_hpp
-#define WindowPyWrapper_hpp
-
-#include <axlib/axlib.hpp>
-
-namespace ax {
-namespace python {
-
-	class Window {
-	public:
-		Window(ax::Window* win);
-		void SetPosition(const ax::Point& position);
-		void SetSize(const ax::Size& size);
-
-		ax::Point GetPosition();
-		ax::Size GetSize();
-
-		ax::Rect GetDrawingRect();
-
-		void Update();
-
-	private:
-		ax::Window* _win;
-	};
-
-	void export_python_wrapper_window();
-}
-}
-
-#endif /* WindowPyWrapper_hpp */
+#include "python/PyFunction.hpp"

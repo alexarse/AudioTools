@@ -33,8 +33,8 @@ namespace inspector {
 	public:
 		enum Events : ax::event::Id { ASSIGN_VALUE };
 
-		MenuAttribute(
-			const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct);
+		MenuAttribute(const ax::Rect& rect, const std::string& name, const std::string& value,
+			ax::event::Function fct, int label_font_size = 12);
 
 	private:
 		std::string _name;

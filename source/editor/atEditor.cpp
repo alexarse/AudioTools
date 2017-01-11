@@ -24,7 +24,7 @@
 
 #include <axlib/Core.hpp>
 
-#include "atCommon.h"
+#include "atCommon.hpp"
 #include "editor/atEditor.hpp"
 #include "editor/atEditorMainWindow.hpp"
 

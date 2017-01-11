@@ -14,6 +14,12 @@ UniqueNameComponent::UniqueNameComponent(ax::Window* win)
 	_win = win;
 }
 
+UniqueNameComponent::UniqueNameComponent(ax::Window* win, const std::string& name)
+	: _win(win)
+	, _name(name)
+{
+}
+
 UniqueNameComponent::~UniqueNameComponent()
 {
 }

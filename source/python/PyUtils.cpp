@@ -22,33 +22,34 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef WindowPyWrapper_hpp
-#define WindowPyWrapper_hpp
-
-#include <axlib/axlib.hpp>
+#include "python/PyUtils.hpp"
+#include "PyoAudio.h"
 
 namespace ax {
 namespace python {
+	void CallFuncNoParam(const std::string& fct_name)
+	{
+		PyoAudio::GetInstance()->ProcessString(fct_name + "();\n");
+	}
 
-	class Window {
-	public:
-		Window(ax::Window* win);
-		void SetPosition(const ax::Point& position);
-		void SetSize(const ax::Size& size);
+	void CallFuncStrParam(const std::string& fct_name, const std::string& msg)
+	{
+		PyoAudio::GetInstance()->ProcessString(fct_name + "('" + msg + "');\n");
+	}
 
-		ax::Point GetPosition();
-		ax::Size GetSize();
+	void CallFuncIntParam(const std::string& fct_name, int value)
+	{
+		PyoAudio::GetInstance()->ProcessString(fct_name + "(" + std::to_string(value) + ");\n");
+	}
 
-		ax::Rect GetDrawingRect();
+	void CallFuncRealParam(const std::string& fct_name, double value)
+	{
+		PyoAudio::GetInstance()->ProcessString(fct_name + "(" + std::to_string(value) + ");\n");
+	}
 
-		void Update();
-
-	private:
-		ax::Window* _win;
-	};
-
-	void export_python_wrapper_window();
+	void CallFuncPointParam(const std::string& fct_name, const ax::Point& pos)
+	{
+		PyoAudio::GetInstance()->ProcessString(fct_name + "(ax.Point(" + pos.ToString() + "));\n");
+	}
 }
 }
-
-#endif /* WindowPyWrapper_hpp */

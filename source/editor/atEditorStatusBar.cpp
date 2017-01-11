@@ -25,7 +25,6 @@
 #include "editor/atEditorStatusBar.hpp"
 
 #include "PyoAudio.h"
-#include "atCommon.h"
 #include "atHelpBar.h"
 #include "atSkin.hpp"
 #include "dialog/atOpenDialog.hpp"

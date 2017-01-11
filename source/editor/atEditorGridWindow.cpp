@@ -30,7 +30,6 @@
 #include <fstream>
 
 #include "PyoAudio.h"
-#include "atCommon.h"
 #include "atSkin.hpp"
 #include "atUniqueNameComponent.h"
 #include "editor/atEditor.hpp"

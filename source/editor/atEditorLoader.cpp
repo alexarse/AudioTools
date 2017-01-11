@@ -24,10 +24,13 @@
 
 #include "editor/atEditorLoader.hpp"
 #include "PyoAudio.h"
+#include "atCommon.hpp"
 #include "atSkin.hpp"
 #include "atUniqueNameComponent.h"
+#include "atWindowEventsComponent.hpp"
 #include "editor/atEditor.hpp"
 #include "editor/atEditorMainWindow.hpp"
+#include "python/PyUtils.hpp"
 #include "python/PyoComponent.hpp"
 
 #include <axlib/Button.hpp>
@@ -41,6 +44,7 @@
 #include <axlib/Toggle.hpp>
 #include <axlib/WidgetLoader.hpp>
 #include <axlib/WindowManager.hpp>
+#include <axlib/axlib.hpp>
 
 namespace at {
 namespace editor {
@@ -82,13 +86,16 @@ namespace editor {
 			}
 
 			std::string unique_name;
-			ax::Xml::Node unique_name_node = node.GetNode("unique_name");
+			ax::Xml::Node unique_name_node = node.GetNode(at::component::UNIQUE_NAME);
 
 			if (unique_name_node.IsValid()) {
 				unique_name = unique_name_node.GetValue();
 			}
 
-			SetupExistingWidget(win, builder_name, pyo_fct_name, unique_name);
+			std::vector<std::pair<std::string, std::string>> window_evts_fcts
+				= at::WindowEventsComponent::ParseValuesFromWidgetNode(node);
+
+			SetupExistingWidget(win, builder_name, pyo_fct_name, unique_name, "", window_evts_fcts);
 		});
 
 		try {
@@ -106,11 +113,21 @@ namespace editor {
 					}
 
 					std::string unique_name;
-					ax::Xml::Node unique_name_node = node.GetNode("unique_name");
+					ax::Xml::Node unique_name_node = node.GetNode(at::component::UNIQUE_NAME);
 
 					if (unique_name_node.IsValid()) {
 						unique_name = unique_name_node.GetValue();
 					}
+
+					std::string class_name;
+					ax::Xml::Node class_name_node = node.GetNode(at::component::CLASS_NAME);
+
+					if (class_name_node.IsValid()) {
+						class_name = class_name_node.GetValue();
+					}
+
+					std::vector<std::pair<std::string, std::string>> window_evts_fcts
+						= at::WindowEventsComponent::ParseValuesFromWidgetNode(node);
 
 					ax::widget::Builder* builder = loader->GetBuilder(buider_name);
 
@@ -122,7 +139,8 @@ namespace editor {
 
 					auto obj(builder->Create(node));
 					_win->node.Add(obj);
-					SetupExistingWidget(obj->GetWindow(), buider_name, pyo_fct_name, unique_name);
+					SetupExistingWidget(obj->GetWindow(), buider_name, pyo_fct_name, unique_name, class_name,
+						window_evts_fcts);
 				}
 
 				node = node.GetNextSibling();
@@ -180,7 +198,8 @@ namespace editor {
 	}
 
 	void Loader::SetupExistingWidget(ax::Window* widget, const std::string& builder_name,
-		const std::string& pyo_fct, const std::string& unique_name)
+		const std::string& pyo_fct, const std::string& unique_name, const std::string& class_name,
+		const std::vector<std::pair<std::string, std::string>>& window_events)
 	{
 		/// @todo Do this dynamically (with a map or something). Ready for widget plugins.
 
@@ -190,6 +209,7 @@ namespace editor {
 			SetupPyoComponent(widget, pyo_fct);
 			SetupButtonPyoEvent(widget);
 			SetupUniqueNameComponent(widget, unique_name);
+			SetupClassNameComponent(widget, class_name);
 		}
 		else if (builder_name == "Toggle") {
 			widget->property.AddProperty("Resizable");
@@ -197,10 +217,12 @@ namespace editor {
 			SetupPyoComponent(widget, pyo_fct);
 			SetupTogglePyoEvent(widget);
 			SetupUniqueNameComponent(widget, unique_name);
+			SetupClassNameComponent(widget, class_name);
 		}
 		else if (builder_name == "Panel") {
 			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
+			SetupWindowEventsWidget(widget);
 
 			// Add MainWindow property.
 			ax::Panel* panel = static_cast<ax::Panel*>(widget->backbone.get());
@@ -210,6 +232,8 @@ namespace editor {
 
 			widget->property.AddProperty("BlockDrawing");
 			SetupUniqueNameComponent(widget, unique_name);
+			SetupClassNameComponent(widget, class_name);
+			SetupWindowEventsComponent(widget, window_events);
 		}
 		else if (builder_name == "Knob") {
 			widget->property.AddProperty("Resizable");
@@ -217,6 +241,7 @@ namespace editor {
 			SetupPyoComponent(widget, pyo_fct);
 			SetupKnobPyoEvent(widget);
 			SetupUniqueNameComponent(widget, unique_name);
+			SetupClassNameComponent(widget, class_name);
 		}
 		else if (builder_name == "Slider") {
 			widget->property.AddProperty("Resizable");
@@ -224,11 +249,13 @@ namespace editor {
 			SetupPyoComponent(widget, pyo_fct);
 			SetupSliderPyoEvent(widget);
 			SetupUniqueNameComponent(widget, unique_name);
+			SetupClassNameComponent(widget, class_name);
 		}
 		else if (builder_name == "Label") {
 			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 			SetupUniqueNameComponent(widget, unique_name);
+			SetupClassNameComponent(widget, class_name);
 		}
 		else if (builder_name == "NumberBox") {
 			widget->property.AddProperty("Resizable");
@@ -236,11 +263,13 @@ namespace editor {
 			SetupPyoComponent(widget, pyo_fct);
 			SetupNumberBoxPyoEvent(widget);
 			SetupUniqueNameComponent(widget, unique_name);
+			SetupClassNameComponent(widget, class_name);
 		}
 		else if (builder_name == "Sprite") {
 			widget->property.AddProperty("Resizable");
 			SetupEditWidget(widget);
 			SetupUniqueNameComponent(widget, unique_name);
+			SetupClassNameComponent(widget, class_name);
 		}
 	}
 
@@ -297,30 +326,57 @@ namespace editor {
 		});
 	}
 
-	void PythonCallEmpty(const std::string& fct_name)
+	ax::Window::Event::Function<ax::Point> SetupMouseEvent(
+		ax::Window* win, std::function<void(ax::Point)> mouse_fct, const std::string& fct_name)
 	{
-		std::string fct_call = fct_name + "();\n";
-		PyoAudio::GetInstance()->ProcessString(fct_call);
+		return ax::WFunc<ax::Point>([win, mouse_fct, fct_name](const ax::Point& pos) {
+			if (mouse_fct) {
+				mouse_fct(pos);
+			}
+
+			if (!win->component.Has(at::component::WINDOW_EVENTS)) {
+				return;
+			}
+
+			auto we = win->component.Get<at::WindowEventsComponent>(at::component::WINDOW_EVENTS);
+			const std::pair<std::string, std::string> fct_value = we->GetFunctionValue(fct_name);
+
+			if (fct_value.first.empty() || fct_value.second.empty()) {
+				return;
+			}
+
+			ax::python::CallFuncPointParam(fct_value.second, pos);
+		});
 	}
 
-	void PythonCallString(const std::string& fct_name, const std::string& msg)
+	void Loader::SetupWindowEventsWidget(ax::Window* win)
 	{
-		std::string fct_call = fct_name + "('" + msg + "');\n";
-		PyoAudio::GetInstance()->ProcessString(fct_call);
-	}
+		auto m_paint = win->event.OnPaint.GetFunction();
+		win->event.OnPaint = ax::WFunc<ax::GC>([win, m_paint](ax::GC gc) {
+			if (m_paint) {
+				m_paint(gc);
+			}
 
-	void PythonCallInt(const std::string& fct_name, int value)
-	{
-		std::string fct_call = fct_name + "(";
-		fct_call += std::to_string(value) + ");\n";
-		PyoAudio::GetInstance()->ProcessString(fct_call);
-	}
+			if (win->component.Has(at::component::WINDOW_EVENTS)) {
+				auto we = win->component.Get<at::WindowEventsComponent>(at::component::WINDOW_EVENTS);
+				const std::string on_paint_fct = we->GetOnPaint();
 
-	void PythonCallReal(const std::string& fct_name, double value)
-	{
-		std::string fct_call = fct_name + "(";
-		fct_call += std::to_string(value) + ");\n";
-		PyoAudio::GetInstance()->ProcessString(fct_call);
+				if (on_paint_fct.empty()) {
+					return;
+				}
+
+				ax::python::CallFuncNoParam(on_paint_fct);
+			}
+		});
+
+		win->event.OnMouseLeftDown
+			= SetupMouseEvent(win, win->event.OnMouseLeftDown.GetFunction(), "MouseLeftDown");
+		win->event.OnMouseLeftUp
+			= SetupMouseEvent(win, win->event.OnMouseLeftUp.GetFunction(), "MouseLeftUp");
+		win->event.OnMouseMotion
+			= SetupMouseEvent(win, win->event.OnMouseMotion.GetFunction(), "MouseMotion");
+		win->event.OnMouseEnter = SetupMouseEvent(win, win->event.OnMouseEnter.GetFunction(), "MouseEnter");
+		win->event.OnMouseLeave = SetupMouseEvent(win, win->event.OnMouseLeave.GetFunction(), "MouseLeave");
 	}
 
 	void Loader::SetupPyoComponent(ax::Window* win, const std::string& fct_name)
@@ -332,9 +388,20 @@ namespace editor {
 
 	void Loader::SetupUniqueNameComponent(ax::Window* win, const std::string& name)
 	{
-		auto comp = at::UniqueNameComponent::Ptr(new at::UniqueNameComponent(win));
-		comp->SetName(name);
-		win->component.Add("unique_name", comp);
+		win->component.Add(at::component::UNIQUE_NAME, std::make_shared<at::UniqueNameComponent>(win, name));
+	}
+
+	void Loader::SetupClassNameComponent(ax::Window* win, const std::string& name)
+	{
+		win->component.Add(at::component::CLASS_NAME, std::make_shared<at::UniqueNameComponent>(win, name));
+	}
+
+	void Loader::SetupWindowEventsComponent(
+		ax::Window* win, const std::vector<std::pair<std::string, std::string>>& window_events)
+	{
+		auto comp = at::WindowEventsComponent::Ptr(new at::WindowEventsComponent(win));
+		comp->SetFunctionsValue(window_events);
+		win->component.Add(at::component::WINDOW_EVENTS, comp);
 	}
 
 	void Loader::SetupButtonPyoEvent(ax::Window* win)
@@ -346,7 +413,7 @@ namespace editor {
 
 				if (!fct_name.empty()) {
 					ax::Button* btn = static_cast<ax::Button*>(win->backbone.get());
-					PythonCallString(fct_name, btn->GetMsg());
+					ax::python::CallFuncStrParam(fct_name, btn->GetMsg());
 				}
 			}
 		}));
@@ -360,7 +427,7 @@ namespace editor {
 				const std::string fct_name = comp->GetFunctionName();
 
 				if (!fct_name.empty()) {
-					PythonCallEmpty(fct_name);
+					ax::python::CallFuncNoParam(fct_name);
 				}
 			}
 		}));
@@ -375,7 +442,7 @@ namespace editor {
 
 				if (!fct_name.empty()) {
 					ax::Knob::Msg* kmsg = static_cast<ax::Knob::Msg*>(msg);
-					PythonCallReal(fct_name, kmsg->GetValue());
+					ax::python::CallFuncRealParam(fct_name, kmsg->GetValue());
 				}
 			}
 		}));
@@ -390,7 +457,7 @@ namespace editor {
 
 				if (!fct_name.empty()) {
 					ax::Slider::Msg* kmsg = static_cast<ax::Slider::Msg*>(msg);
-					PythonCallReal(fct_name, 1.0 - kmsg->GetValue());
+					ax::python::CallFuncRealParam(fct_name, 1.0 - kmsg->GetValue());
 				}
 			}
 		}));
@@ -405,7 +472,7 @@ namespace editor {
 
 				if (!fct_name.empty()) {
 					ax::NumberBox::Msg* kmsg = static_cast<ax::NumberBox::Msg*>(msg);
-					PythonCallReal(fct_name, kmsg->GetValue());
+					ax::python::CallFuncRealParam(fct_name, kmsg->GetValue());
 				}
 			}
 		}));

@@ -35,6 +35,8 @@ public:
 
 	UniqueNameComponent(ax::Window* win);
 
+	UniqueNameComponent(ax::Window* win, const std::string& name);
+
 	virtual ~UniqueNameComponent();
 
 	ax::Window* GetWindow();

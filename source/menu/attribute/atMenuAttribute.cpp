@@ -28,8 +28,8 @@
 
 namespace at {
 namespace inspector {
-	MenuAttribute::MenuAttribute(
-		const ax::Rect& rect, const std::string& name, const std::string& value, ax::event::Function fct)
+	MenuAttribute::MenuAttribute(const ax::Rect& rect, const std::string& name, const std::string& value,
+		ax::event::Function fct, int label_font_size)
 		: _name(name)
 		, _value(value)
 		, _font("fonts/Lato.ttf")
@@ -55,7 +55,7 @@ namespace inspector {
 		labelInfo.normal = ax::Color(0.98);
 		labelInfo.contour = ax::Color(0.88);
 		labelInfo.font_color = ax::Color(0.0);
-		labelInfo.font_size = 12;
+		labelInfo.font_size = label_font_size;
 		labelInfo.font_name = "fonts/Lato.ttf";
 		labelInfo.alignement = ax::util::Alignement::axALIGN_LEFT;
 

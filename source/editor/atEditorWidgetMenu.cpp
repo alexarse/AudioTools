@@ -23,7 +23,6 @@
  */
 
 #include "editor/atEditorWidgetMenu.hpp"
-#include "atCommon.h"
 #include "atHelpBar.h"
 #include "atSkin.hpp"
 #include "editor/atEditor.hpp"
@@ -31,7 +30,6 @@
 #include <axlib/Button.hpp>
 #include <axlib/FileSystem.hpp>
 #include <axlib/Xml.hpp>
-//#include <OpenAX/rapidxml.hpp>
 
 #include <set>
 

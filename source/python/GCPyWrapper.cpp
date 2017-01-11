@@ -22,33 +22,41 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef WindowPyWrapper_hpp
-#define WindowPyWrapper_hpp
+#include "python/GCPyWrapper.hpp"
+#include <Python/Python.h>
+#include <boost/python.hpp>
+#include <cstdio>
 
-#include <axlib/axlib.hpp>
+using namespace boost::python;
 
 namespace ax {
 namespace python {
 
-	class Window {
-	public:
-		Window(ax::Window* win);
-		void SetPosition(const ax::Point& position);
-		void SetSize(const ax::Size& size);
+	GC::GC()
+	{
+	}
 
-		ax::Point GetPosition();
-		ax::Size GetSize();
+	void GC::SetColor(const ax::Color& color)
+	{
+		_gc.SetColor(color);
+	}
 
-		ax::Rect GetDrawingRect();
+	void GC::DrawRectangle(const ax::Rect& rect)
+	{
+		_gc.DrawRectangle(rect);
+	}
 
-		void Update();
+	void GC::DrawRectangleContour(const ax::Rect& rect)
+	{
+		_gc.DrawRectangleContour(rect);
+	}
 
-	private:
-		ax::Window* _win;
-	};
-
-	void export_python_wrapper_window();
+	void export_python_wrapper_gc()
+	{
+		class_<ax::python::GC>("GC")
+			.def("SetColor", &GC::SetColor)
+			.def("DrawRectangle", &GC::DrawRectangle)
+			.def("DrawRectangleContour", &GC::DrawRectangleContour);
+	}
 }
 }
-
-#endif /* WindowPyWrapper_hpp */

@@ -24,10 +24,9 @@
 
 #include "python/PythonWrapperUtils.hpp"
 #include <Python/Python.h>
-#include <cstdio>
-
-#include <axlib/Util.hpp>
+#include <axlib/axlib.hpp>
 #include <boost/python.hpp>
+#include <cstdio>
 
 using namespace boost::python;
 
@@ -48,16 +47,16 @@ namespace python {
 			.def(self *= other<double>());
 
 		// ax::Size.
-		//	class_<ax::Size>("Size", init<int, int>())
-		//		.def(init<>())
-		//		.def_readwrite("x", &ax::Size::x)
-		//		.def_readwrite("y", &ax::Size::y)
-		//		.def(self + self)
-		//		.def(self - self)
-		//		.def(self * self)
-		//		.def(self += self)
-		//		.def(self -= self)
-		//		.def(self *= other<double>());
+		class_<ax::Size>("Size", init<int, int>())
+			.def(init<>())
+			.def_readwrite("w", &ax::Size::w)
+			.def_readwrite("h", &ax::Size::h)
+			.def(self + self)
+			.def(self - self)
+			.def(self * self)
+			.def(self += self)
+			.def(self -= self)
+			.def(self *= other<double>());
 
 		// ax::Rect.
 		class_<ax::Rect>("Rect", init<int, int, int, int>())
@@ -73,6 +72,11 @@ namespace python {
 			.add_property("g", &ax::Color::GetGreen, &ax::Color::SetGreen)
 			.add_property("b", &ax::Color::GetBlue, &ax::Color::SetBlue)
 			.add_property("a", &ax::Color::GetAlpha, &ax::Color::SetAlpha);
+
+		// ax::GC.
+		//		class_<ax::GC>("GC", init<>())
+		////		.def("SetColor", &ax::GC::SetColor)
+		//		.def("DrawRectangle", &ax::GC::DrawRectangle);
 	}
 }
 }

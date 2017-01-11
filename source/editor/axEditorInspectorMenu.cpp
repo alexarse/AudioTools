@@ -22,8 +22,9 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#include "atCommon.h"
+#include "atCommon.hpp"
 #include "atUniqueNameComponent.h"
+#include "atWindowEventsComponent.hpp"
 #include "editor/atEditorInspectorMenu.hpp"
 #include "menu/attribute/atMenuAttribute.hpp"
 #include "menu/attribute/atMenuBoolAttribute.hpp"
@@ -131,17 +132,28 @@ namespace editor {
 
 		ax::Point att_pos(0, 0);
 
-		win->node.Add(ax::shared<MenuSeparator>(ax::Rect(att_pos, separator_size), "Unique Name"));
+		win->node.Add(ax::shared<MenuSeparator>(ax::Rect(att_pos, separator_size), "Node"));
+		att_pos.y += separator_size.h;
 
 		// Unique name attributes.
-		if (_selected_handle->component.Has("unique_name")) {
+		if (_selected_handle->component.Has(at::component::UNIQUE_NAME)) {
 			at::UniqueNameComponent::Ptr comp
-				= _selected_handle->component.Get<at::UniqueNameComponent>("unique_name");
-
-			att_pos.y += separator_size.h;
+				= _selected_handle->component.Get<at::UniqueNameComponent>(at::component::UNIQUE_NAME);
 
 			auto menu = ax::shared<at::inspector::MenuAttribute>(
-				ax::Rect(att_pos, att_size), "name", comp->GetName(), GetOnUniqueName());
+				ax::Rect(att_pos, att_size), "unique_name", comp->GetName(), GetOnUniqueName());
+
+			win->node.Add(menu);
+			att_pos.y += att_size.h;
+		}
+
+		// Class name attributes.
+		if (_selected_handle->component.Has(at::component::CLASS_NAME)) {
+			at::UniqueNameComponent::Ptr comp
+				= _selected_handle->component.Get<at::UniqueNameComponent>(at::component::CLASS_NAME);
+
+			auto menu = ax::shared<at::inspector::MenuAttribute>(
+				ax::Rect(att_pos, att_size), "class", comp->GetName(), GetOnClassName());
 
 			win->node.Add(menu);
 			att_pos.y += att_size.h;
@@ -230,6 +242,23 @@ namespace editor {
 			att_pos.y += att_size.h;
 		}
 
+		// WindowEvents attributes.
+		if (_selected_handle->component.Has(at::component::WINDOW_EVENTS)) {
+			win->node.Add(ax::shared<MenuSeparator>(ax::Rect(att_pos, separator_size), "Window Events"));
+			att_pos.y += separator_size.h;
+
+			auto comp
+				= _selected_handle->component.Get<at::WindowEventsComponent>(at::component::WINDOW_EVENTS);
+
+			const std::vector<std::pair<std::string, std::string>> w_evt_fcts = comp->GetFunctionsValue();
+
+			for (auto& n : w_evt_fcts) {
+				win->node.Add(std::make_shared<at::inspector::MenuAttribute>(
+					ax::Rect(att_pos, att_size), n.first, n.second, GetOnWindowEvents(), 10));
+				att_pos.y += att_size.h;
+			}
+		}
+
 		win->Update();
 	}
 
@@ -273,17 +302,51 @@ namespace editor {
 			return;
 		}
 
-		if (msg.GetMsg().first == "name") {
-			if (!_selected_handle->component.Has("unique_name")) {
+		if (msg.GetMsg().first == "unique_name") {
+			if (!_selected_handle->component.Has(at::component::UNIQUE_NAME)) {
 				return;
 			}
 
 			/// @todo Check string before.
 			at::UniqueNameComponent::Ptr comp
-				= _selected_handle->component.Get<at::UniqueNameComponent>("unique_name");
+				= _selected_handle->component.Get<at::UniqueNameComponent>(at::component::UNIQUE_NAME);
 			comp->SetName(msg.GetMsg().second);
 			return;
 		}
+	}
+
+	void InspectorMenu::OnClassName(const ax::event::SimpleMsg<std::pair<std::string, std::string>>& msg)
+	{
+		if (_selected_handle == nullptr) {
+			return;
+		}
+
+		if (msg.GetMsg().first == "class") {
+			if (!_selected_handle->component.Has(at::component::CLASS_NAME)) {
+				return;
+			}
+
+			/// @todo Check string before.
+			at::UniqueNameComponent::Ptr comp
+				= _selected_handle->component.Get<at::UniqueNameComponent>(at::component::CLASS_NAME);
+			comp->SetName(msg.GetMsg().second);
+			return;
+		}
+	}
+
+	void InspectorMenu::OnWindowEvents(const ax::event::SimpleMsg<std::pair<std::string, std::string>>& msg)
+	{
+		ax::console::Print("WindowEvents change");
+		if (_selected_handle == nullptr) {
+			return;
+		}
+
+		if (!_selected_handle->component.Has(at::component::WINDOW_EVENTS)) {
+			return;
+		}
+
+		_selected_handle->component.Get<at::WindowEventsComponent>(at::component::WINDOW_EVENTS)
+			->SetFunctionValue(msg.GetMsg());
 	}
 
 	void InspectorMenu::OnWidgetUpdate(const ax::event::SimpleMsg<std::pair<std::string, std::string>>& msg)

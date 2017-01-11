@@ -23,6 +23,7 @@
  */
 
 #include "editor/atEditorMainWindow.hpp"
+#include "editor/GlobalEvents.hpp"
 
 #include <axlib/Knob.hpp>
 #include <axlib/Label.hpp>
@@ -36,7 +37,7 @@
 #include <boost/filesystem.hpp>
 
 #include "PyoAudio.h"
-#include "atCommon.h"
+#include "atCommon.hpp"
 #include "atHelpBar.h"
 #include "editor/atEditorLoader.hpp"
 
@@ -190,11 +191,11 @@ namespace editor {
 			}
 		}));
 
-		/// @todo Add enum for events.
-		win->AddConnection(8000, _widget_handler.GetOnCreateDraggingWidget());
-		win->AddConnection(8001, _widget_handler.GetOnDraggingWidget());
-		win->AddConnection(8002, _widget_handler.GetOnReleaseObjWidget());
-		win->AddConnection(8003, _widget_handler.GetOnCreateCustomDraggingWidget());
+		win->AddConnection(global::CREATE_DRAGGING_WIDGET, _widget_handler.GetOnCreateDraggingWidget());
+		win->AddConnection(global::DRAGGING_WIDGET, _widget_handler.GetOnDraggingWidget());
+		win->AddConnection(global::RELEASE_WIDGET, _widget_handler.GetOnReleaseObjWidget());
+		win->AddConnection(
+			global::CREATE_CUSTOM_DRAGGING_WIDGET, _widget_handler.GetOnCreateCustomDraggingWidget());
 
 		// Midi feedback.
 		auto midi_feedback = ax::shared<at::MidiFeedback>(

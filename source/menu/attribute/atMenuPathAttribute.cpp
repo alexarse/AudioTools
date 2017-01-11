@@ -58,24 +58,24 @@ namespace inspector {
 		});
 
 		auto txt_editor = ax::shared<ax::TextBox>(
-			ax::Rect(ax::Point(90, 0), ax::Size(rect.size.w - 90 - 20, rect.size.h + 1)), txt_evts, txtInfo,
+			ax::Rect(ax::Point(90, 0), ax::Size(rect.size.w - 90 - 19, rect.size.h + 1)), txt_evts, txtInfo,
 			"", _value);
 
 		win->node.Add(txt_editor);
 
 		ax::Button::Info btn_info;
-		btn_info.normal = ax::Color(1.0);
-		btn_info.hover = ax::Color(0.97);
-		btn_info.clicking = ax::Color(0.95);
-		btn_info.selected = ax::Color(1.0);
-		btn_info.contour = ax::Color(0.30);
-		btn_info.font_color = ax::Color(1.0);
+		btn_info.normal = ax::Color(0.0, 0.0);
+		btn_info.hover = ax::Color(0.0, 0.0);
+		btn_info.clicking = ax::Color(0.0, 0.0);
+		btn_info.selected = ax::Color(0.0, 0.0);
+		btn_info.contour = ax::Color(0.0, 0.0);
+		btn_info.font_color = ax::Color(0.0, 0.0);
 
 		// Open button.
 		auto create_btn
 			= ax::shared<ax::Button>(ax::Rect(txt_editor->GetWindow()->dimension.GetRect().GetNextPosRight(0),
-										 ax::Size(20, rect.size.h + 1)),
-				GetOnOpenPath(), btn_info, "", "", ax::Button::Flags::SINGLE_IMG);
+										 ax::Size(19, rect.size.h + 1)),
+				GetOnOpenPath(), btn_info, "resources/path_folder.png", "", ax::Button::Flags::SINGLE_IMG);
 		win->node.Add(create_btn);
 	}
 

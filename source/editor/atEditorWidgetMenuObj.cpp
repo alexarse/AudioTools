@@ -8,6 +8,7 @@
 
 #include "editor/atEditorWidgetMenuObj.hpp"
 #include "atSkin.hpp"
+#include "editor/GlobalEvents.hpp"
 #include "editor/atEditor.hpp"
 
 namespace at {
@@ -59,10 +60,10 @@ namespace editor {
 		if (_selectable) {
 			win->event.GrabMouse();
 
-			App::GetMainEvtObj()->PushEvent(
-				8000, new ax::event::SimpleMsg<std::pair<std::pair<std::string, std::string>, ax::Point>>(
-						  std::pair<std::pair<std::string, std::string>, ax::Point>(
-							  std::pair<std::string, std::string>(_info.buider_name, _info.file_path), pos)));
+			App::GetMainEvtObj()->PushEvent(global::CREATE_DRAGGING_WIDGET,
+				new ax::event::SimpleMsg<std::pair<std::pair<std::string, std::string>, ax::Point>>(
+					std::pair<std::pair<std::string, std::string>, ax::Point>(
+						std::pair<std::string, std::string>(_info.buider_name, _info.file_path), pos)));
 
 			win->Update();
 		}
@@ -70,7 +71,7 @@ namespace editor {
 
 	void WidgetMenuObj::OnMouseLeftDragging(const ax::Point& pos)
 	{
-		App::GetMainEvtObj()->PushEvent(8001, new ax::event::SimpleMsg<ax::Point>(pos));
+		App::GetMainEvtObj()->PushEvent(global::DRAGGING_WIDGET, new ax::event::SimpleMsg<ax::Point>(pos));
 	}
 
 	void WidgetMenuObj::OnMouseLeftUp(const ax::Point& pos)
@@ -78,7 +79,7 @@ namespace editor {
 		if (win->event.IsGrabbed()) {
 			win->event.UnGrabMouse();
 
-			App::GetMainEvtObj()->PushEvent(8002, new ax::event::SimpleMsg<ax::Point>(pos));
+			App::GetMainEvtObj()->PushEvent(global::RELEASE_WIDGET, new ax::event::SimpleMsg<ax::Point>(pos));
 			win->Update();
 		}
 	}

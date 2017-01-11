@@ -39,7 +39,9 @@ namespace editor {
 		std::string OpenLayoutContent(const std::string& content, bool clear = false);
 
 		void SetupExistingWidget(ax::Window* widget, const std::string& builder_name,
-			const std::string& pyo_fct = "", const std::string& unique_name = "");
+			const std::string& pyo_fct = "", const std::string& unique_name = "",
+			const std::string& class_name = "",
+			const std::vector<std::pair<std::string, std::string>>& window_events = {});
 
 	private:
 		ax::Window* _win;
@@ -47,8 +49,14 @@ namespace editor {
 		std::string OpenLayoutFromXml(ax::Xml& xml);
 
 		void SetupEditWidget(ax::Window* win);
+
+		/// Needs to be called after SetupEditWidget.
+		void SetupWindowEventsWidget(ax::Window* win);
 		void SetupPyoComponent(ax::Window* win, const std::string& fct_name);
 		void SetupUniqueNameComponent(ax::Window* win, const std::string& name);
+		void SetupClassNameComponent(ax::Window* win, const std::string& name);
+		void SetupWindowEventsComponent(
+			ax::Window* win, const std::vector<std::pair<std::string, std::string>>& window_events);
 
 		void SetupButtonPyoEvent(ax::Window* win);
 		void SetupTogglePyoEvent(ax::Window* win);

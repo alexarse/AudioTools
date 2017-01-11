@@ -22,11 +22,11 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef PanelPyWrapper_hpp
-#define PanelPyWrapper_hpp
+#pragma once
 
 #include <axlib/Panel.hpp>
 #include <axlib/axlib.hpp>
+#include <boost/python.hpp>
 
 namespace ax {
 namespace python {
@@ -39,6 +39,8 @@ namespace python {
 
 		void SetContourColor(const ax::Color& color);
 
+		boost::python::object GetWindow();
+
 	private:
 		ax::Panel* _panel;
 	};
@@ -46,5 +48,3 @@ namespace python {
 	void export_python_wrapper_panel();
 }
 }
-
-#endif /* PanelPyWrapper_hpp */

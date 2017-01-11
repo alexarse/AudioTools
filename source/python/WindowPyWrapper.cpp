@@ -42,10 +42,41 @@ namespace python {
 		_win->dimension.SetPosition(position);
 	}
 
+	void Window::SetSize(const ax::Size& size)
+	{
+		_win->dimension.SetSize(size);
+	}
+
+	ax::Point Window::GetPosition()
+	{
+		return _win->dimension.GetRect().position;
+	}
+
+	ax::Size Window::GetSize()
+	{
+		return _win->dimension.GetSize();
+	}
+
+	ax::Rect Window::GetDrawingRect()
+	{
+		// boost::python::call_method<int>();
+		return _win->dimension.GetDrawingRect();
+	}
+
+	void Window::Update()
+	{
+		_win->Update();
+	}
+
 	void export_python_wrapper_window()
 	{
 		class_<ax::python::Window>("Window", init<ax::Window*>())
-			.def("SetPosition", &ax::python::Window::SetPosition);
+			.def("SetPosition", &ax::python::Window::SetPosition, boost::python::arg("pos"))
+			.def("SetSize", &ax::python::Window::SetSize, boost::python::arg("size"))
+			.def("GetPosition", &ax::python::Window::GetPosition)
+			.def("GetSize", &ax::python::Window::GetSize)
+			.def("GetDrawingRect", &ax::python::Window::GetDrawingRect)
+			.def("Update", &ax::python::Window::Update);
 	}
 }
 }

@@ -23,6 +23,7 @@
  */
 
 #include "python/PanelPyWrapper.hpp"
+#include "python/WindowPyWrapper.hpp"
 #include <Python/Python.h>
 #include <boost/python.hpp>
 #include <cstdio>
@@ -42,9 +43,8 @@ namespace python {
 
 	void Panel::SetBackgroundColor(const ax::Color& color)
 	{
-		widget::Component* widget
-			= static_cast<widget::Component*>(_panel->GetWindow()->component.Get("Widget").get());
-		ax::Panel::Info* info = static_cast<ax::Panel::Info*>(widget->GetInfo());
+		widget::Component::Ptr widget = _panel->GetWindow()->component.Get<widget::Component>("Widget");
+		ax::Panel::Info* info = widget->GetInfo<ax::Panel::Info>();
 
 		info->background = color;
 		widget->ReloadInfo();
@@ -52,17 +52,36 @@ namespace python {
 
 	void Panel::SetContourColor(const ax::Color& color)
 	{
-		widget::Component* widget
-			= static_cast<widget::Component*>(_panel->GetWindow()->component.Get("Widget").get());
-		ax::Panel::Info* info = static_cast<ax::Panel::Info*>(widget->GetInfo());
-
+		widget::Component::Ptr widget = _panel->GetWindow()->component.Get<widget::Component>("Widget");
+		ax::Panel::Info* info = widget->GetInfo<ax::Panel::Info>();
 		info->contour = color;
 		widget->ReloadInfo();
+	}
+
+	boost::python::object Panel::GetWindow()
+	{
+		return boost::python::object(ax::python::Window(_panel->GetWindow()));
+	}
+
+	void SetPaintCallback()
+	{
+		//		boost::python::
+		//		boost::python::call_method(<#PyObject *self#>, <#const char *name#>)
+		//		auto m_right_down = win->event.OnMouseRightDown.GetFunction();
+		//		win->event.OnMouseRightDown = ax::WFunc<ax::Point>([gwin, win, m_right_down](
+		//																					 const ax::Point&
+		// pos)
+		//{
+		// AssignOnMouseRightDown(gwin,
+		// win,
+		// m_right_down, pos); });
 	}
 
 	void export_python_wrapper_panel()
 	{
 		class_<ax::python::Panel>("Panel", init<ax::Panel*>())
+			.def("GetWindow", &ax::python::Panel::GetWindow)
+			.add_property("window", &ax::python::Panel::GetWindow)
 			.def("SetBackgroundColor", &ax::python::Panel::SetBackgroundColor)
 			.def("SetContourColor", &ax::python::Panel::SetContourColor);
 	}

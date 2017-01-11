@@ -8,6 +8,7 @@
 
 #include "editor/atEditorWorkspaceObj.hpp"
 #include "atSkin.hpp"
+#include "editor/GlobalEvents.hpp"
 #include "editor/atEditor.hpp"
 
 namespace at {
@@ -75,10 +76,10 @@ namespace editor {
 		if (_selectable) {
 			win->event.GrabMouse();
 
-			App::GetMainEvtObj()->PushEvent(
-				8003, new ax::event::SimpleMsg<std::pair<std::pair<std::string, std::string>, ax::Point>>(
-						  std::pair<std::pair<std::string, std::string>, ax::Point>(
-							  std::pair<std::string, std::string>(_builder_name, _file_path), pos)));
+			App::GetMainEvtObj()->PushEvent(global::CREATE_CUSTOM_DRAGGING_WIDGET,
+				new ax::event::SimpleMsg<std::pair<std::pair<std::string, std::string>, ax::Point>>(
+					std::pair<std::pair<std::string, std::string>, ax::Point>(
+						std::pair<std::string, std::string>(_builder_name, _file_path), pos)));
 
 			win->Update();
 		}
@@ -86,7 +87,7 @@ namespace editor {
 
 	void WorkspaceObj::OnMouseLeftDragging(const ax::Point& pos)
 	{
-		App::GetMainEvtObj()->PushEvent(8001, new ax::event::SimpleMsg<ax::Point>(pos));
+		App::GetMainEvtObj()->PushEvent(global::DRAGGING_WIDGET, new ax::event::SimpleMsg<ax::Point>(pos));
 	}
 
 	void WorkspaceObj::OnMouseLeftUp(const ax::Point& pos)
@@ -94,7 +95,7 @@ namespace editor {
 		if (win->event.IsGrabbed()) {
 			win->event.UnGrabMouse();
 
-			App::GetMainEvtObj()->PushEvent(8002, new ax::event::SimpleMsg<ax::Point>(pos));
+			App::GetMainEvtObj()->PushEvent(global::RELEASE_WIDGET, new ax::event::SimpleMsg<ax::Point>(pos));
 			win->Update();
 		}
 	}

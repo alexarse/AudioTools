@@ -22,33 +22,27 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef WindowPyWrapper_hpp
-#define WindowPyWrapper_hpp
+#pragma once
 
 #include <axlib/axlib.hpp>
 
 namespace ax {
 namespace python {
 
-	class Window {
+	class GC {
 	public:
-		Window(ax::Window* win);
-		void SetPosition(const ax::Point& position);
-		void SetSize(const ax::Size& size);
+		GC();
 
-		ax::Point GetPosition();
-		ax::Size GetSize();
+		void SetColor(const ax::Color& color);
 
-		ax::Rect GetDrawingRect();
+		void DrawRectangle(const ax::Rect& rect);
 
-		void Update();
+		void DrawRectangleContour(const ax::Rect& rect);
 
 	private:
-		ax::Window* _win;
+		ax::GC _gc;
 	};
 
-	void export_python_wrapper_window();
+	void export_python_wrapper_gc();
 }
 }
-
-#endif /* WindowPyWrapper_hpp */

@@ -69,6 +69,8 @@ namespace editor {
 		axEVENT_DECLARATION(StrPairMsg, OnWidgetUpdate);
 		axEVENT_DECLARATION(StrPairMsg, OnInfoUpdate);
 		axEVENT_DECLARATION(StrPairMsg, OnUniqueName);
+		axEVENT_DECLARATION(StrPairMsg, OnClassName);
+		axEVENT_DECLARATION(StrPairMsg, OnWindowEvents);
 
 		// From grid window.
 		axEVENT_DECLARATION(ax::event::EmptyMsg, OnDraggingWidget);

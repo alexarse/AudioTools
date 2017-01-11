@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 AudioTools - All Rights Reserved
+ * Copyright (c) 2017 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
  * without prior written agreement by AudioTools.
@@ -22,33 +22,19 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef WindowPyWrapper_hpp
-#define WindowPyWrapper_hpp
+#pragma once
 
 #include <axlib/axlib.hpp>
 
-namespace ax {
-namespace python {
-
-	class Window {
-	public:
-		Window(ax::Window* win);
-		void SetPosition(const ax::Point& position);
-		void SetSize(const ax::Size& size);
-
-		ax::Point GetPosition();
-		ax::Size GetSize();
-
-		ax::Rect GetDrawingRect();
-
-		void Update();
-
-	private:
-		ax::Window* _win;
-	};
-
-	void export_python_wrapper_window();
+namespace at {
+namespace editor {
+	namespace global {
+		enum : ax::event::Id {
+			CREATE_DRAGGING_WIDGET = 8000,
+			DRAGGING_WIDGET,
+			RELEASE_WIDGET,
+			CREATE_CUSTOM_DRAGGING_WIDGET
+		};
+	}
 }
 }
-
-#endif /* WindowPyWrapper_hpp */

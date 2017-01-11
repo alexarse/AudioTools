@@ -26,12 +26,57 @@
 #include "editor/atEditor.hpp"
 #include "editor/atEditorMainWindow.hpp"
 #include "python/ButtonPyWrapper.hpp"
+#include "python/GCPyWrapper.hpp"
 #include "python/KnobPyWrapper.hpp"
 #include "python/NumberBoxPyWrapper.hpp"
 #include "python/PanelPyWrapper.hpp"
 #include "python/SpritePyWrapper.hpp"
 #include "python/WindowPyWrapper.hpp"
 
+namespace ax {
+namespace python {
+	boost::python::object GetWidgetByName(const std::string& widget_name)
+	{
+		ax::Window* win = at::editor::App::GetInstance()->GetMainWindow()->GetWidgetsByName(widget_name);
+
+		if (win == nullptr) {
+			return boost::python::object();
+		}
+
+		widget::Component::Ptr widget = win->component.Get<widget::Component>("Widget");
+		const std::string builder_name(widget->GetBuilderName());
+
+		/// @todo Do this dynamically.
+
+		if (builder_name == "Panel") {
+			ax::Panel* panel = static_cast<ax::Panel*>(win->backbone.get());
+			return boost::python::object(ax::python::Panel(panel));
+		}
+		else if (builder_name == "Button") {
+			ax::Button* btn = static_cast<ax::Button*>(win->backbone.get());
+			return boost::python::object(ax::python::Button(btn));
+		}
+		else if (builder_name == "NumberBox") {
+			return boost::python::object(ax::python::NumberBox(win->GetBackbone<ax::NumberBox>()));
+		}
+		else if (builder_name == "Knob") {
+			ax::Knob* knob = static_cast<ax::Knob*>(win->backbone.get());
+			return boost::python::object(ax::python::Knob(knob));
+		}
+		else if (builder_name == "Sprite") {
+			ax::Sprite* sprite = static_cast<ax::Sprite*>(win->backbone.get());
+			return boost::python::object(ax::python::Sprite(sprite));
+		}
+
+		return boost::python::object();
+	}
+
+	std::string OpenFileDialog()
+	{
+		return ax::App::GetInstance().OpenFileDialog();
+	}
+}
+}
 BOOST_PYTHON_MODULE(ax)
 {
 	// Create ax::Window python wrapper.
@@ -52,6 +97,12 @@ BOOST_PYTHON_MODULE(ax)
 	ax::python::export_python_wrapper_knob();
 
 	boost::python::class_<ax::python::Widgets>("Widgets").def("Get", &ax::python::Widgets::Get);
+
+	//
+	boost::python::def("OpenFileDialog", ax::python::OpenFileDialog);
+	boost::python::def("GetWidgetByName", ax::python::GetWidgetByName, boost::python::arg("name"));
+
+	ax::python::export_python_wrapper_gc();
 }
 
 namespace ax {
@@ -80,8 +131,7 @@ namespace python {
 			return boost::python::object();
 		}
 
-		widget::Component* widget = static_cast<widget::Component*>(win->component.Get("Widget").get());
-
+		widget::Component::Ptr widget = win->component.Get<widget::Component>("Widget");
 		const std::string builder_name(widget->GetBuilderName());
 
 		/// @todo Do this dynamically.
@@ -95,8 +145,7 @@ namespace python {
 			return boost::python::object(ax::python::Button(btn));
 		}
 		else if (builder_name == "NumberBox") {
-			ax::NumberBox* nbox = static_cast<ax::NumberBox*>(win->backbone.get());
-			return boost::python::object(ax::python::NumberBox(nbox));
+			return boost::python::object(ax::python::NumberBox(win->GetBackbone<ax::NumberBox>()));
 		}
 		else if (builder_name == "Knob") {
 			ax::Knob* knob = static_cast<ax::Knob*>(win->backbone.get());

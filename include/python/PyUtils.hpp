@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 AudioTools - All Rights Reserved
+ * Copyright (c) 2017 AudioTools - All Rights Reserved
  *
  * This Software may not be distributed in parts or its entirety
  * without prior written agreement by AudioTools.
@@ -22,33 +22,21 @@
  * Written by Alexandre Arsenault <alx.arsenault@gmail.com>
  */
 
-#ifndef WindowPyWrapper_hpp
-#define WindowPyWrapper_hpp
+#pragma once
 
 #include <axlib/axlib.hpp>
+#include <boost/python.hpp>
 
 namespace ax {
 namespace python {
+	void CallFuncNoParam(const std::string& fct_name);
 
-	class Window {
-	public:
-		Window(ax::Window* win);
-		void SetPosition(const ax::Point& position);
-		void SetSize(const ax::Size& size);
+	void CallFuncStrParam(const std::string& fct_name, const std::string& msg);
 
-		ax::Point GetPosition();
-		ax::Size GetSize();
+	void CallFuncIntParam(const std::string& fct_name, int value);
 
-		ax::Rect GetDrawingRect();
+	void CallFuncRealParam(const std::string& fct_name, double value);
 
-		void Update();
-
-	private:
-		ax::Window* _win;
-	};
-
-	void export_python_wrapper_window();
+	void CallFuncPointParam(const std::string& fct_name, const ax::Point& pos);
 }
 }
-
-#endif /* WindowPyWrapper_hpp */
