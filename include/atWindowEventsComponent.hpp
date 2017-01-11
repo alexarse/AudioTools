@@ -33,6 +33,7 @@ namespace at {
 class WindowEventsComponent : public ax::util::Component {
 public:
 	static std::vector<std::pair<std::string, std::string>> ParseValuesFromWidgetNode(ax::Xml::Node& node);
+	static void SetupWindowEventsWidget(ax::Window* win);
 
 	/// Shared pointer.
 	typedef std::shared_ptr<WindowEventsComponent> Ptr;

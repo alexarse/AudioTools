@@ -51,7 +51,6 @@ namespace editor {
 		void SetupEditWidget(ax::Window* win);
 
 		/// Needs to be called after SetupEditWidget.
-		void SetupWindowEventsWidget(ax::Window* win);
 		void SetupPyoComponent(ax::Window* win, const std::string& fct_name);
 		void SetupUniqueNameComponent(ax::Window* win, const std::string& name);
 		void SetupClassNameComponent(ax::Window* win, const std::string& name);
