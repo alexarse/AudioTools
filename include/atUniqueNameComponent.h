@@ -26,10 +26,13 @@
 
 #include <axlib/Util.hpp>
 #include <axlib/Window.hpp>
+#include <string>
 
 namespace at {
 class UniqueNameComponent : public ax::util::Component {
 public:
+	static void AddComponent(ax::Window* win, const std::string& name);
+
 	/// Shared pointer.
 	typedef std::shared_ptr<UniqueNameComponent> Ptr;
 
