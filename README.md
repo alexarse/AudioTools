@@ -1,3 +1,3 @@
 # AudioTools
 
-[[https://github.com/axlib/AudioTools/tree/screen_shot/empty.png|alt=octocat]]
+[[https://github.com/axlib/AudioTools/raw/screen_shot/empty.png]]
